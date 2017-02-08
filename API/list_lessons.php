@@ -2,6 +2,8 @@
 const _API_EXEC = 1;
 
 require_once(__DIR__ . '/config.php');
+require_once(__DIR__ . '/Field.php');
+require_once(__DIR__ . '/Lesson.php');
 
 $db = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
 
@@ -34,10 +36,10 @@ $field_statement->execute();
 
 $field_statement->store_result();
 $field_statement->bind_result($field_id, $field_name);
+$fields = array();
 while($field_statement->fetch())
 {
-	echo('ID: ' . $field_id . "\nName: " . $field_name . "\n");
-
+	$fields[] = new Field($field_name);
 	$lesson_statement = $db->prepare($lesson_sql);
 	if($lesson_statement === false)
 	{
@@ -50,8 +52,7 @@ while($field_statement->fetch())
 	$lesson_statement->bind_result($lesson_id, $lesson_name);
 	while($lesson_statement->fetch())
 	{
-		echo("\tID: " . $lesson_id . "\n\tName: " . $lesson_name . "\n");
-
+		end($fields)->lessons[] = new Lesson($lesson_name);
 		$competence_statement = $db->prepare($competence_sql);
 		if($competence_statement === false)
 		{
@@ -63,12 +64,14 @@ while($field_statement->fetch())
 		$competence_statement->bind_result($competence);
 		while($competence_statement->fetch())
 		{
-			echo("\t\tCompetence: " . $competence . "\n");
+			end(end($fields)->lessons)->competences[] = $competence;
 		}
 	}
 	$lesson_statement->close();
 }
 $field_statement->close();
+
+echo(json_encode($fields, JSON_UNESCAPED_UNICODE));
 
 $db->close();
 ?>
