@@ -17,7 +17,7 @@ SELECT * FROM fields;
 SQL;
 
 $lesson_sql = <<<SQL
-SELECT lessons.id, lessons.name FROM lessons
+SELECT lessons.id, lessons.name, lessons.version FROM lessons
 JOIN lessons_in_fields on lessons.id = lessons_in_fields.lesson_id
 WHERE lessons_in_fields.field_id = ?;
 SQL;
@@ -49,10 +49,10 @@ while($field_statement->fetch())
 	$lesson_statement->execute();
 
 	$lesson_statement->store_result();
-	$lesson_statement->bind_result($lesson_id, $lesson_name);
+	$lesson_statement->bind_result($lesson_id, $lesson_name, $lesson_version);
 	while($lesson_statement->fetch())
 	{
-		end($fields)->lessons[] = new Lesson($lesson_name);
+		end($fields)->lessons[] = new Lesson($lesson_name, $lesson_version);
 		$competence_statement = $db->prepare($competence_sql);
 		if($competence_statement === false)
 		{

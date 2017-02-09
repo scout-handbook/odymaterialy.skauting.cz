@@ -4,11 +4,13 @@
 class Lesson
 {
 	public $name;
+	public $version;
 	public $competences = array();
 
-	function __construct($name)
+	function __construct($name, $version)
 	{
 		$this->name = $name;
+		$this->version = $version;
 	}
 }
 ?>
