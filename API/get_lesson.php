@@ -3,7 +3,12 @@ const _API_EXEC = 1;
 
 require_once(__DIR__ . '/config.php');
 
-$NAME = "Prostředky";
+if(!isset($_POST['name']))
+{
+	throw new Exception('POST argument "name" must be provided.');
+}
+
+$name = $_POST['name'];
 
 $db = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
 
@@ -21,7 +26,7 @@ if($statement === false)
 {
 	throw new Exception('Invalid SQL: "' . $sql . '". Error: ' . $db->error);
 }
-$statement->bind_param('s', $NAME);
+$statement->bind_param('s', $name);
 $statement->execute();
 
 $statement->store_result();
@@ -30,7 +35,7 @@ $statement->fetch();
 $result = $body;
 if($statement->fetch())
 {
-	throw new Exception('More than one lesson with the name "' . $NAME . '" found. This should never happen.');
+	throw new Exception('More than one lesson with the name "' . $name . '" found. This should never happen.');
 }
 $statement->close();
 $db->close();
