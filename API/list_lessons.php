@@ -70,8 +70,7 @@ while($field_statement->fetch())
 	$lesson_statement->close();
 }
 $field_statement->close();
+$db->close();
 
 echo(json_encode($fields, JSON_UNESCAPED_UNICODE));
-
-$db->close();
 ?>
