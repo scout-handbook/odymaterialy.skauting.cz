@@ -1,4 +1,12 @@
-# Created by https://www.gitignore.io/api/vim
+# Created by https://www.gitignore.io/api/vim,composer
+
+### Composer ###
+composer.phar
+/vendor/
+
+# Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
+# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
+# composer.lock
 
 ### Vim ###
 # swap
@@ -14,6 +22,6 @@ Session.vim
 # auto-generated tag files
 tags
 
-# End of https://www.gitignore.io/api/vim
+# End of https://www.gitignore.io/api/vim,composer
 
 API/config.php
