@@ -31,7 +31,10 @@ $statement->execute();
 
 $statement->store_result();
 $statement->bind_result($body);
-$statement->fetch();
+if(!$statement->fetch())
+{
+	throw new Exception('No lesson with the name "' . $name . '" found.');
+}
 $result = $body;
 if($statement->fetch())
 {
