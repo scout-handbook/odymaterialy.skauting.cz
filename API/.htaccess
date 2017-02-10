@@ -1,0 +1,14 @@
+Order Deny,Allow
+Deny from all
+Allow from 127.0.0.1
+
+<Files list_lessons.php>
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+<Files get_lesson.php>
+    Order Allow,Deny
+    Allow from all
+</Files>
+
