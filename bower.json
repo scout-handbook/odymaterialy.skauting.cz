@@ -1,0 +1,20 @@
+{
+  "name": "odymaterialy",
+  "homepage": "https://github.com/GenaBitu/OdyMaterialy",
+  "authors": [
+    "GenaBitu <genabitu@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "showdown": "^1.6.4"
+  }
+}

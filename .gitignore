@@ -1,4 +1,10 @@
-# Created by https://www.gitignore.io/api/vim,composer
+# Created by https://www.gitignore.io/api/vim,composer,bower
+
+### Bower ###
+bower_components
+.bower-cache
+.bower-registry
+.bower-tmp
 
 ### Composer ###
 composer.phar
@@ -22,6 +28,6 @@ Session.vim
 # auto-generated tag files
 tags
 
-# End of https://www.gitignore.io/api/vim,composer
+# End of https://www.gitignore.io/api/vim,composer,bower
 
 API/config.php
