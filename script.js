@@ -1,4 +1,19 @@
-function selectLesson(lesson)
+function listLessons(callback)
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function()
+	{
+		if (this.readyState == 4 && this.status == 200)
+		{
+			callback(JSON.parse(this.responseText));
+		}
+	}
+	xhttp.open("POST", "API/list_lessons.php", true);
+	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhttp.send();
+}
+
+function getLesson(lesson)
 {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function()
@@ -15,9 +30,24 @@ function selectLesson(lesson)
 	xhttp.send("name=" + lesson);
 }
 
+function showLessonList(list)
+{
+	var html = "";
+	for(var i = 0; i < list.length; i++)
+	{
+		html += "<h5>" + list[i].name + "</h5>";
+		for(var j = 0; j < list[i].lessons.length; j++)
+		{
+			var name = list[i].lessons[j].name;
+			html += "<a id=\"navLink\" title=\"" + name + "\" href=\"enableJS.html\" onclick=\"getLesson(\'" + name + "\');return false;\">" + name + "</a><br>"; // TODO: enableJS.html
+		}
+	}
+	document.getElementById("nav_id").innerHTML = html;
+}
+
 function run()
 {
-	selectLesson("Motivace k činnosti v Junáku");
+	listLessons(showLessonList);
 }
 
 window.onload = run;
