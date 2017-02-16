@@ -1,16 +1,11 @@
 <?php
-const _API_EXEC = 1;
+const _API_EXEC = 1; // Required by includes
 
 require_once(__DIR__ . '/config.php');
 require_once(__DIR__ . '/Field.php');
 require_once(__DIR__ . '/Lesson.php');
 
-$db = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
-
-if($db->connect_error)
-{
-	throw new Exception('Failed to connect to the database. Error: ' . $db->connect_error);
-}
+// Prepared statements where ? will be replaced later
 
 $field_sql = <<<SQL
 SELECT * FROM fields;
@@ -27,6 +22,17 @@ SELECT competence FROM competences_for_lessons
 WHERE lesson_id = ?;
 SQL;
 
+// Open database connection
+
+$db = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
+
+if($db->connect_error)
+{
+	throw new Exception('Failed to connect to the database. Error: ' . $db->connect_error);
+}
+
+// Select all the fields in the database
+
 $field_statement = $db->prepare($field_sql);
 if($field_statement === false)
 {
@@ -39,7 +45,10 @@ $field_statement->bind_result($field_id, $field_name);
 $fields = array();
 while($field_statement->fetch())
 {
-	$fields[] = new Field($field_name);
+	$fields[] = new Field($field_name); // Create a new field
+
+	// Populate the newly-created Field with its lessons
+
 	$lesson_statement = $db->prepare($lesson_sql);
 	if($lesson_statement === false)
 	{
@@ -52,7 +61,10 @@ while($field_statement->fetch())
 	$lesson_statement->bind_result($lesson_id, $lesson_name, $lesson_version);
 	while($lesson_statement->fetch())
 	{
-		end($fields)->lessons[] = new Lesson($lesson_name, $lesson_version);
+		end($fields)->lessons[] = new Lesson($lesson_name, $lesson_version); // Create a new Lesson in the newly-created Field
+
+		// Find out the competences this Lesson belongs to
+
 		$competence_statement = $db->prepare($competence_sql);
 		if($competence_statement === false)
 		{
@@ -66,11 +78,15 @@ while($field_statement->fetch())
 		{
 			end(end($fields)->lessons)->competences[] = $competence;
 		}
+		$competence_statement->close();
+		sort(end(end($fields)->lessons)->competences, SORT_NUMERIC); // Sort the competence list for the newly-created Lesson low-to-high
 	}
 	$lesson_statement->close();
+	usort(end($fields)->lessons, "Lesson_cmp"); // Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high
 }
 $field_statement->close();
 $db->close();
+usort($fields, "Field_cmp"); // Sort all the Fields by lowest competence in the Field low-to-high
 
 echo(json_encode($fields, JSON_UNESCAPED_UNICODE));
 ?>
