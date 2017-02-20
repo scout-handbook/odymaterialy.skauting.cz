@@ -21,7 +21,9 @@ function getLesson(lesson)
 		if (this.readyState == 4 && this.status == 200)
 		{
 			var converter = new showdown.Converter();
+			converter.setOption("noHeaderId", "true");
 			var html = converter.makeHtml(this.responseText);
+			html = "<h1>" + lesson + "</h1>" + html;
 			document.getElementById("main_id").innerHTML = html;
 		}
 	}
@@ -39,7 +41,7 @@ function showLessonList(list)
 		for(var j = 0; j < list[i].lessons.length; j++)
 		{
 			var name = list[i].lessons[j].name;
-			html += "<a id=\"navLink\" title=\"" + name + "\" href=\"enableJS.html\" onclick=\"getLesson(\'" + name + "\');return false;\">" + name + "</a><br>"; // TODO: enableJS.html
+			html += "<a title=\"" + name + "\" href=\"enableJS.html\" onclick=\"getLesson(\'" + name + "\');return false;\">" + name + "</a><br>"; // TODO: enableJS.html
 		}
 	}
 	document.getElementById("nav_id").innerHTML = html;
