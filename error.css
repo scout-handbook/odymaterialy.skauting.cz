@@ -1,0 +1,19 @@
+html
+{
+	height: 100%;
+	display: table;
+	margin: auto;
+}
+
+body
+{
+	height: 100%;
+	background: #eaeaea;
+	color: #364149;
+	font-size: 40px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
