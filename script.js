@@ -42,14 +42,14 @@ function showLessonList(list)
 			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" onclick=\"getLesson(\'" + name + "\');return false;\">" + name + "</a><br>";
 		}
 	}
-	document.getElementById("nav_id").innerHTML = html;
+	document.getElementsByTagName("nav")[0].innerHTML = html;
 }
 
 function showLesson(name, markdown)
 {
 	var html = converter.makeHtml(markdown);
 	html = "<h1>" + name + "</h1>" + html;
-	document.getElementById("main_id").innerHTML = html;
+	document.getElementsByTagName("main")[0].innerHTML = html;
 }
 
 function run()
