@@ -35,7 +35,7 @@ function showLessonList(list)
 	var html = "";
 	for(var i = 0; i < list.length; i++)
 	{
-		html += "<h5>" + list[i].name + "</h5>";
+		html += "<h1>" + list[i].name + "</h1>";
 		for(var j = 0; j < list[i].lessons.length; j++)
 		{
 			var name = list[i].lessons[j].name;
