@@ -39,7 +39,7 @@ function showLessonList(list)
 		for(var j = 0; j < list[i].lessons.length; j++)
 		{
 			var name = list[i].lessons[j].name;
-			html += "<a title=\"" + name + "\" href=\"enableJS.html\" onclick=\"getLesson(\'" + name + "\');return false;\">" + name + "</a><br>";
+			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" onclick=\"getLesson(\'" + name + "\');return false;\">" + name + "</a><br>";
 		}
 	}
 	document.getElementById("nav_id").innerHTML = html;
