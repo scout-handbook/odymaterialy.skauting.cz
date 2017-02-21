@@ -1,3 +1,5 @@
+var converter;
+
 function listLessons(callback)
 {
 	var xhttp = new XMLHttpRequest();
@@ -20,11 +22,7 @@ function getLesson(lesson)
 	{
 		if (this.readyState == 4 && this.status == 200)
 		{
-			var converter = new showdown.Converter();
-			converter.setOption("noHeaderId", "true");
-			var html = converter.makeHtml(this.responseText);
-			html = "<h1>" + lesson + "</h1>" + html;
-			document.getElementById("main_id").innerHTML = html;
+			showLesson(lesson, this.responseText);
 		}
 	}
 	xhttp.open("POST", "API/get_lesson.php", true);
@@ -47,8 +45,17 @@ function showLessonList(list)
 	document.getElementById("nav_id").innerHTML = html;
 }
 
+function showLesson(name, markdown)
+{
+	var html = converter.makeHtml(markdown);
+	html = "<h1>" + name + "</h1>" + html;
+	document.getElementById("main_id").innerHTML = html;
+}
+
 function run()
 {
+	converter = new showdown.Converter();
+	converter.setOption("noHeaderId", "true");
 	listLessons(showLessonList);
 }
 
