@@ -50,6 +50,7 @@ function showLesson(name, markdown)
 	var html = converter.makeHtml(markdown);
 	html = "<h1>" + name + "</h1>" + html;
 	document.getElementsByTagName("main")[0].innerHTML = html;
+	document.getElementsByTagName("main")[0].scrollTop = 0;
 }
 
 function run()
