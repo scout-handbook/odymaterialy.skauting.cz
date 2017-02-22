@@ -1,4 +1,5 @@
 var converter;
+var navOpen = false;
 
 function listLessons(callback)
 {
@@ -42,15 +43,31 @@ function showLessonList(list)
 			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" onclick=\"getLesson(\'" + name + "\');return false;\">" + name + "</a><br>";
 		}
 	}
-	document.getElementsByTagName("nav")[0].innerHTML = html;
+	document.getElementById("navigation").innerHTML = html;
 }
 
 function showLesson(name, markdown)
 {
 	var html = converter.makeHtml(markdown);
 	html = "<h1>" + name + "</h1>" + html;
-	document.getElementsByTagName("main")[0].innerHTML = html;
-	document.getElementsByTagName("main")[0].scrollTop = 0;
+	document.getElementById("content").innerHTML = html;
+	document.getElementById("content").scrollTop = 0;
+}
+
+function switchNav()
+{
+	if(!navOpen)
+	{
+		document.getElementById("navigation").style.width = "300px"
+		document.getElementById("main").style.marginLeft = "300px"
+		navOpen = true;
+	}
+	else
+	{
+		document.getElementById("navigation").style.width = "0px"
+		document.getElementById("main").style.marginLeft = "0px"
+		navOpen = false;
+	}
 }
 
 function run()
