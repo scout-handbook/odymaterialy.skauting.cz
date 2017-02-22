@@ -1,5 +1,5 @@
 var converter;
-var navOpen = false;
+var navOpen = true;
 
 function listLessons(callback)
 {
@@ -58,13 +58,14 @@ function switchNav()
 {
 	if(!navOpen)
 	{
-		document.getElementById("navigation").style.width = "300px"
+		document.getElementById("navigation").style.marginLeft
+			= "0px"
 		document.getElementById("main").style.marginLeft = "300px"
 		navOpen = true;
 	}
 	else
 	{
-		document.getElementById("navigation").style.width = "0px"
+		document.getElementById("navigation").style.marginLeft = "-300px"
 		document.getElementById("main").style.marginLeft = "0px"
 		navOpen = false;
 	}

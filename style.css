@@ -19,7 +19,7 @@ body
 nav
 {
 	position: absolute;
-	width: 0px;
+	width: 300px;
 	height: 100%;
 	padding-top: 20px;
 	padding-bottom: 20px;
@@ -27,7 +27,7 @@ nav
 	overflow-y: auto;
 	background: #fafafa;
 	border-right: 1px solid rgba(0,0,0,.25);
-	transition: width 0.5s;
+	transition: margin-left 0.3s ease;
 }
 
 nav h1
@@ -59,11 +59,13 @@ nav a:hover
 
 main
 {
+	position: absolute;
 	overflow-y: auto;
 	height: 100%;
+	margin-left: 300px;
 	padding: 20px;
 	padding-left: 50px;
-	transition: margin-left 0.5s
+	transition: margin-left 0.3s ease;
 }
 
 main a
