@@ -51,7 +51,7 @@ function showLesson(name, markdown, noHistory)
 	var html = converter.makeHtml(markdown);
 	html = "<h1>" + name + "</h1>" + html;
 	document.getElementById("content").innerHTML = html;
-	document.getElementById("content").scrollTop = 0;
+	document.getElementById("main").scrollTop = 0;
 	var stateObject = { lessonName: name };
 	if(!noHistory)
 	{
