@@ -9,3 +9,8 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
+<ifModule mod_headers.c>
+	Header add Link "</style.css>;rel=preload"
+	Header add Link "</script.js>;rel=preload"
+</ifModule>
+
