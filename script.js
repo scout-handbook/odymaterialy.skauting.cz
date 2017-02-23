@@ -11,22 +11,22 @@ function listLessons(callback)
 			callback(JSON.parse(this.responseText));
 		}
 	}
-	xhttp.open("GET", "API/list_lessons.php", true);
+	xhttp.open("GET", "/API/list_lessons.php", true);
 	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xhttp.send();
 }
 
-function getLesson(lesson)
+function getLesson(lesson, noHistory)
 {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function()
 	{
 		if (this.readyState == 4 && this.status == 200)
 		{
-			showLesson(lesson, this.responseText);
+			showLesson(lesson, this.responseText, noHistory);
 		}
 	}
-	xhttp.open("POST", "API/get_lesson.php", true);
+	xhttp.open("POST", "/API/get_lesson.php", true);
 	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xhttp.send("name=" + lesson);
 }
@@ -46,20 +46,24 @@ function showLessonList(list)
 	document.getElementById("navigation").innerHTML = html;
 }
 
-function showLesson(name, markdown)
+function showLesson(name, markdown, noHistory)
 {
 	var html = converter.makeHtml(markdown);
 	html = "<h1>" + name + "</h1>" + html;
 	document.getElementById("content").innerHTML = html;
 	document.getElementById("content").scrollTop = 0;
+	var stateObject = { lessonName: name };
+	if(!noHistory)
+	{
+		history.pushState(stateObject, "title", "/lesson/" + encodeURIComponent(name));
+	}
 }
 
 function switchNav()
 {
 	if(!navOpen)
 	{
-		document.getElementById("navigation").style.marginLeft
-			= "0px"
+		document.getElementById("navigation").style.marginLeft = "0px"
 		document.getElementById("main").style.marginLeft = "300px"
 		navOpen = true;
 	}
@@ -75,8 +79,28 @@ function run()
 {
 	converter = new showdown.Converter();
 	converter.setOption("noHeaderId", "true");
+	if (window.location.pathname.substring(0, 8) == "/lesson/")
+	{
+		var lessonName = decodeURIComponent(window.location.pathname.substring(8));
+		getLesson(lessonName);
+	}
 	listLessons(showLessonList);
 }
 
+function popback()
+{
+	if (window.location.pathname.substring(0, 8) == "/lesson/")
+	{
+		var lessonName = decodeURIComponent(window.location.pathname.substring(8));
+		getLesson(lessonName, true);
+	}
+	else
+	{
+		document.getElementById("content").innerHTML = "";
+	}
+}
+
 window.onload = run;
+
+window.onpopstate = popback;
 

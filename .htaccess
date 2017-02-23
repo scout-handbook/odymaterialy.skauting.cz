@@ -7,7 +7,11 @@ ErrorDocument 500 /error/500.html
 # Force HTTPS
 RewriteEngine On
 RewriteCond %{HTTPS} off
-RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
+
+# Lessons rewrite
+RewriteCond %{REQUEST_URI} ^/lesson/
+RewriteRule (.*) / [QSA]
 
 <ifModule mod_headers.c>
 	Header add Link "</style.css>;rel=preload"
