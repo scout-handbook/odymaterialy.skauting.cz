@@ -60,6 +60,8 @@ nav a:hover
 main
 {
 	position: absolute;
+	left: 0;
+	right: 0;
 	overflow-y: auto;
 	height: 100%;
 	margin-left: 300px;
