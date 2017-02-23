@@ -11,7 +11,7 @@ function listLessons(callback)
 			callback(JSON.parse(this.responseText));
 		}
 	}
-	xhttp.open("POST", "API/list_lessons.php", true);
+	xhttp.open("GET", "API/list_lessons.php", true);
 	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xhttp.send();
 }
