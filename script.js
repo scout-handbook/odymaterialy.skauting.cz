@@ -61,18 +61,8 @@ function showLesson(name, markdown, noHistory)
 
 function switchNav()
 {
-	if(!navOpen)
-	{
-		document.getElementById("navigation").style.marginLeft = "0px"
-		document.getElementById("main").style.marginLeft = "300px"
-		navOpen = true;
-	}
-	else
-	{
-		document.getElementById("navigation").style.marginLeft = "-300px"
-		document.getElementById("main").style.marginLeft = "0px"
-		navOpen = false;
-	}
+	navOpen = !navOpen;
+	reflow();
 }
 
 function run()
@@ -100,7 +90,28 @@ function popback()
 	}
 }
 
-window.onload = run;
+function reflow()
+{
+	if(navOpen)
+	{
+		document.getElementById("navBar").style.marginLeft = "0px"
+		if(screen.width > 700)
+		{
+			document.getElementById("main").style.marginLeft = "300px"
+		}
+		else
+		{
+			document.getElementById("main").style.marginLeft = "0px"
+		}
+	}
+	else
+	{
+		document.getElementById("navBar").style.marginLeft = "-300px"
+		document.getElementById("main").style.marginLeft = "0px"
+	}
+}
 
+window.onload = run;
 window.onpopstate = popback;
+window.onresize = reflow;
 

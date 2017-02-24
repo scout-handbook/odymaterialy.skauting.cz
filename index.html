@@ -3,16 +3,22 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="author" content="Mlha">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>
 			OdyMateriály
 		</title>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700">
 		<link rel="stylesheet" type="text/css" href="/style.css">
+		<link rel="stylesheet" media="(max-width: 700px)" href="/handheld.css">
+		<link rel="stylesheet" media="(min-width: 701px)" href="/computer.css">
 		<script src="/bower_components/showdown/dist/showdown.min.js"></script>
 		<script src="/script.js"></script>
 	</head>
 	<body>
-		<nav id="navigation"></nav>
+		<nav id="navBar">
+			<span class="navCloseButton" onClick="switchNav()">Zavřít &#10006;</span>
+			<div id="navigation"></div>
+		</nav>
 		<main id="main">
 		<span class="navButton" onclick="switchNav()">&#9776; Lekce</span>
 		<div id="content"></div>

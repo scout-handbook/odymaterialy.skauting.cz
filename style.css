@@ -23,6 +23,7 @@ nav
 	background: #fafafa;
 	border-right: 1px solid rgba(0,0,0,.25);
 	transition: margin-left 0.3s ease;
+	z-index: 1;
 }
 
 nav h1
@@ -47,14 +48,14 @@ nav a:hover
 	text-decoration: underline;
 }
 
-.navButton
+.navButton, .navCloseButton
 {
 	color: #6a797d;
 	cursor: pointer;
 	transition: color ease 0.15s;
 }
 
-.navButton:hover
+.navButton:hover, .navCloseButton:hover
 {
 	color: #222222;
 }
@@ -66,7 +67,6 @@ main
 	right: 0;
 	overflow-y: auto;
 	height: 100%;
-	margin-left: 300px;
 	padding: 20px;
 	padding-left: 40px;
 	color: #222222;
@@ -82,6 +82,11 @@ main a
 main a:hover
 {
 	text-decoration: underline;
+}
+
+main h1
+{
+	line-height: 140%;
 }
 
 #content
