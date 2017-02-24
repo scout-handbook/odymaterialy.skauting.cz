@@ -18,6 +18,11 @@ function listLessons(callback)
 
 function getLesson(lesson, noHistory)
 {
+	if(screen.width < 700)
+	{
+		navOpen = false;
+		reflow();
+	}
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function()
 	{
@@ -44,6 +49,7 @@ function showLessonList(list)
 		}
 	}
 	document.getElementById("navigation").innerHTML = html;
+	document.getElementById("navBar").style.transition = "margin-left 0.3s ease";
 }
 
 function showLesson(name, markdown, noHistory)
@@ -67,6 +73,7 @@ function switchNav()
 
 function run()
 {
+	listLessons(showLessonList);
 	converter = new showdown.Converter();
 	converter.setOption("noHeaderId", "true");
 	if (window.location.pathname.substring(0, 8) == "/lesson/")
@@ -74,7 +81,6 @@ function run()
 		var lessonName = decodeURIComponent(window.location.pathname.substring(8));
 		getLesson(lessonName);
 	}
-	listLessons(showLessonList);
 }
 
 function popback()
