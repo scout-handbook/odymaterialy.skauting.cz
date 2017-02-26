@@ -1,0 +1,27 @@
+{
+	"short_name": "OdyMateriály",
+	"name": "OdyMateriály",
+	"icons": [
+		{
+			"src": "/icons/pwa48.png",
+			"type": "image/png",
+			"sizes": "48x48"
+		},
+		{
+			"src": "/icons/pwa96.png",
+			"type": "image/png",
+			"sizes": "96x96"
+		},
+		{
+			"src": "/icons/pwa192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		}
+	],
+	"start_url": "/",
+	"theme_color": "#6534AD",
+	"background_color": "#ffffff",
+	"orientation": "portrait",
+	"display": "standalone"
+}
+
