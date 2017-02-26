@@ -67,7 +67,6 @@ main
 	overflow-y: auto;
 	height: 100%;
 	padding: 20px;
-	padding-left: 40px;
 	color: #222222;
 	transition: margin-left 0.3s ease;
 }
