@@ -15,6 +15,8 @@ RewriteRule (.*) / [QSA]
 
 <ifModule mod_headers.c>
 	Header add Link "</style.css>;rel=preload"
+	Header add Link "</computer.css>;rel=preload"
+	Header add Link "</handheld.css>;rel=preload"
 	Header add Link "</script.js>;rel=preload"
 </ifModule>
 
