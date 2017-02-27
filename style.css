@@ -47,16 +47,36 @@ nav a:hover
 	text-decoration: underline;
 }
 
-.navButton, .navCloseButton
+.topButton
 {
 	color: #6a797d;
 	cursor: pointer;
 	transition: color ease 0.15s;
 }
 
-.navButton:hover, .navCloseButton:hover
+.topButton:hover
 {
 	color: #222222;
+}
+
+.navCloseButton
+{
+	margin-right: 20px;
+	float: right;
+}
+
+.fontDecrease
+{
+	margin-right: 20px;
+	float: right;
+	font-size: small;
+}
+
+.fontIncrease
+{
+	margin-right: 20px;
+	float: right;
+	font-size: x-large;
 }
 
 main
@@ -68,8 +88,7 @@ main
 	height: 100%;
 	padding: 20px;
 	color: #222222;
-	transition: margin-left 0.3s ease;
-	transition: padding-left 0.1s ease;
+	transition: margin-left 0.3s ease, padding-left 0.1s ease;
 }
 
 main a
@@ -90,6 +109,7 @@ main h1
 
 #content
 {
+	font-size: 16px;
 	margin: 0 auto;
 	max-width: 770px;
 }

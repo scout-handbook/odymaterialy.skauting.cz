@@ -24,11 +24,13 @@
 	</head>
 	<body>
 		<nav id="navBar">
-			<span class="navCloseButton" onClick="switchNav()">Zavřít &#10006;</span>
+			<span class="topButton navCloseButton" onClick="switchNav()">Zavřít &#10006;</span>
 			<div id="navigation"></div>
 		</nav>
 		<main id="main">
-		<span class="navButton" onclick="switchNav()">&#9776; Lekce</span>
+		<span class="topButton" onclick="switchNav()">&#9776; Lekce</span>
+		<span class="topButton fontIncrease" onclick="fontIncrease()">A</span>
+		<span class="topButton fontDecrease" onclick="fontDecrease()">A</span>
 		<div id="content"></div>
 		</main>
 	</body>

@@ -71,6 +71,20 @@ function switchNav()
 	reflow();
 }
 
+function fontDecrease()
+{
+	var content = document.getElementById("content");
+	var current = parseInt(window.getComputedStyle(content, null).getPropertyValue("font-size").replace("px", ""));
+	content.style.fontSize = current - 2 + "px";
+}
+
+function fontIncrease()
+{
+	var content = document.getElementById("content");
+	var current = parseInt(window.getComputedStyle(content, null).getPropertyValue("font-size").replace("px", ""));
+	content.style.fontSize = current + 2 + "px";
+}
+
 function run()
 {
 	listLessons(showLessonList);
