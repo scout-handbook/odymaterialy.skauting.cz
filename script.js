@@ -81,6 +81,10 @@ function run()
 		var lessonName = decodeURIComponent(window.location.pathname.substring(8));
 		getLesson(lessonName);
 	}
+	if("serviceWorker" in navigator)
+	{
+		navigator.serviceWorker.register("/serviceworker.js");
+	}
 }
 
 function popback()
