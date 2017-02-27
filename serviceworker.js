@@ -2,7 +2,8 @@ var CACHE = "odymaterialy-v1";
 var cacheResources = [
 	"/",
 	"/style.css",
-	"/script.js"
+	"/script.js",
+	"/API/list_lessons.php"
 ];
 
 self.addEventListener("install", function(event)
