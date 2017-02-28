@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "showdown": "^1.6.4"
+    "showdown": "^1.6.4",
+    "es6-promise": "^4.0.5"
   }
 }

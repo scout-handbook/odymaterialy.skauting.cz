@@ -14,8 +14,7 @@ var cacheNonBlocking =[
 self.addEventListener("install", function(event)
 {
 	event.waitUntil(
-		caches.open(CACHE)
-			.then(function(cache)
+		caches.open(CACHE).then(function(cache)
 			{
 				cache.addAll(cacheNonBlocking);
 				return cache.addAll(cacheBlocking);
