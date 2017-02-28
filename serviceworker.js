@@ -1,8 +1,13 @@
 var CACHE = "odymaterialy-v1";
-var cacheResources = [
+var cacheBlocking = [
 	"/",
 	"/style.css",
+	"/handheld.css",
+	"/computer.css",
 	"/script.js",
+];
+var cacheNonBlocking =[
+	"/bower_components/showdown/dist/showdown.min.js",
 	"/API/list_lessons.php"
 ];
 
@@ -12,7 +17,8 @@ self.addEventListener("install", function(event)
 		caches.open(CACHE)
 			.then(function(cache)
 			{
-				return cache.addAll(cacheResources);
+				cache.addAll(cacheNonBlocking);
+				return cache.addAll(cacheBlocking);
 			})
 	);
 });
