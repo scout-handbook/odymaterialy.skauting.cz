@@ -16,7 +16,7 @@ function getLesson(lesson, noHistory)
 		navOpen = false;
 		reflow();
 	}
-	cacheThenNetworkRequest("/API/get_lesson.php", "name=" + lesson, function(response)
+	cacheThenNetworkRequest("/API/get_lesson.php", "name=" + encodeURIComponent(lesson), function(response)
 		{
 			showLesson(lesson, response, noHistory);
 		});
@@ -85,7 +85,7 @@ function cacheThenNetworkRequest(url, query, callback)
 			{
 				callback(response);
 			}
-		});
+		}, function(reject){});
 }
 
 function request(url, query, fromCache)
@@ -107,13 +107,17 @@ function request(url, query, fromCache)
 					}
 				}
 			}
-		xhttp.open("POST", url, true);
+		if(query != undefined && query != "")
+		{
+			url += "?" + query;
+		}
+		xhttp.open("GET", url, true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		if(fromCache)
 		{
 			xhttp.setRequestHeader("Accept", "x-cache/only");
 		}
-		xhttp.send(query);
+		xhttp.send();
 	});
 }
 
