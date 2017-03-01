@@ -3,17 +3,10 @@ var navOpen = true;
 
 function listLessons(callback)
 {
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function()
-	{
-		if (this.readyState == 4 && this.status == 200)
+	cacheThenNetworkRequest("/API/list_lessons.php", "", function(response)
 		{
-			callback(JSON.parse(this.responseText));
-		}
-	}
-	xhttp.open("GET", "/API/list_lessons.php", true);
-	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	xhttp.send();
+			callback(JSON.parse(response));
+		});
 }
 
 function getLesson(lesson, noHistory)
@@ -23,17 +16,10 @@ function getLesson(lesson, noHistory)
 		navOpen = false;
 		reflow();
 	}
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function()
-	{
-		if (this.readyState == 4 && this.status == 200)
+	cacheThenNetworkRequest("/API/get_lesson.php", "name=" + lesson, function(response)
 		{
-			showLesson(lesson, this.responseText, noHistory);
-		}
-	}
-	xhttp.open("POST", "/API/get_lesson.php", true);
-	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	xhttp.send("name=" + lesson);
+			showLesson(lesson, response, noHistory);
+		});
 }
 
 function showLessonList(list)
@@ -83,6 +69,52 @@ function fontIncrease()
 	var content = document.getElementById("content");
 	var current = parseInt(window.getComputedStyle(content, null).getPropertyValue("font-size").replace("px", ""));
 	content.style.fontSize = current + 2 + "px";
+}
+
+function cacheThenNetworkRequest(url, query, callback)
+{
+	var networkDataReceived = false;
+	request(url, query, false).then(function(response)
+		{
+			networkDataReceived = true;
+			callback(response);
+		});
+	request(url, query, true).then(function(response)
+		{
+			if(!networkDataReceived)
+			{
+				callback(response);
+			}
+		});
+}
+
+function request(url, query, fromCache)
+{
+	return new Promise(function(resolve, reject)
+	{
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function()
+			{
+				if (this.readyState === 4)
+				{
+					if(this.status === 200)
+					{
+						resolve(this.responseText);
+					}
+					else
+					{
+						reject(Error(this.statusText));
+					}
+				}
+			}
+		xhttp.open("POST", url, true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		if(fromCache)
+		{
+			xhttp.setRequestHeader("Accept", "x-cache/only");
+		}
+		xhttp.send(query);
+	});
 }
 
 function run()
