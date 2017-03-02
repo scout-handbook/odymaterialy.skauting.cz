@@ -15,7 +15,7 @@
 		<link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png">
 		<link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
 		<link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
-		<link rel="mask-icon" href="/icon/safari-pinned-tab.svg" color="#6534ad">
+		<link rel="mask-icon" href="/icon/safari-pinned-tab.svg">
 		<link rel="shortcut icon" href="/icon/favicon.ico">
 		<meta name="msapplication-config" content="/icon/browserconfig.xml">
 		<meta name="theme-color" content="#ffffff">
@@ -31,10 +31,17 @@
 			</div>
 		</nav>
 		<main id="main">
-		<span class="topButton" onclick="switchNav()">&#9776; Lekce</span>
-		<span class="topButton fontIncrease" onclick="fontResize(2)">A</span>
-		<span class="topButton fontDecrease" onclick="fontResize(-2)">A</span>
-		<div id="content"></div>
+			<span class="topButton" onclick="switchNav()">&#9776; Lekce</span>
+			<span class="topButton fontIncrease" onclick="fontResize(2)">A</span>
+			<span class="topButton fontDecrease" onclick="fontResize(-2)">A</span>
+			<label class="switch">
+				<span class="switchText topButton">
+					Offline
+				</span>
+				<input type="checkbox">
+				<div class="slider"></div>
+			</label>
+			<div id="content"></div>
 		</main>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i">
 	</body>
