@@ -14,6 +14,9 @@ engines:
     enabled: true
   phpcodesniffer:
     enabled: true
+    checks:
+      Generic WhiteSpace DisallowTabIndent TabsUsed:
+        enabled: false
   phpmd:
     enabled: true
   phan:
