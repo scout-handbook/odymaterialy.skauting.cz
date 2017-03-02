@@ -1,6 +1,11 @@
 engines:
   csslint:
     enabled: true
+    checks:
+      unique-headings:
+        enabled: false
+      qualified-headings:
+        enabled: false
   duplication:
     enabled: true
     config:
