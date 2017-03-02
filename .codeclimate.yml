@@ -21,6 +21,8 @@ engines:
         enabled: false
       Squiz ControlStructures ControlSignature SpaceAfterCloseBrace:
         enabled: false
+      Squiz ControlStructures ControlSignature SpaceAfterKeyword:
+        enabled: false
   phpmd:
     enabled: true
   phan:
