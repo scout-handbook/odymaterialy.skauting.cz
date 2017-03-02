@@ -100,7 +100,7 @@ function request(url, query, fromCache)
 					}
 				}
 			}
-		if(query != undefined && query != "")
+		if(query !== undefined && query !== "")
 		{
 			url += "?" + query;
 		}
@@ -119,7 +119,7 @@ function run()
 	listLessons(showLessonList);
 	converter = new showdown.Converter();
 	converter.setOption("noHeaderId", "true");
-	if (window.location.pathname.substring(0, 8) == "/lesson/")
+	if (window.location.pathname.substring(0, 8) === "/lesson/")
 	{
 		var lessonName = decodeURIComponent(window.location.pathname.substring(8));
 		getLesson(lessonName);

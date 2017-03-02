@@ -4,15 +4,15 @@ var cacheBlocking = [
 	"/style.css",
 	"/handheld.css",
 	"/computer.css",
-	"/script.js",
+	"/script.js"
 ];
 var cacheNonBlocking = [
-	"/bower_components/showdown/dist/showdown.min.js",
+	"/bower_components/showdown/dist/showdown.min.js"
 ];
 
 var cacheUpdating = [
 	"/API/list_lessons.php",
-	"/API/get_lesson.php",
+	"/API/get_lesson.php"
 ];
 
 self.addEventListener("install", function(event)
@@ -29,7 +29,7 @@ self.addEventListener("install", function(event)
 self.addEventListener("fetch", function(event)
 	{
 		var url = new URL(event.request.url);
-		if(cacheUpdating.indexOf(url.pathname) != -1)
+		if(cacheUpdating.indexOf(url.pathname) !== -1)
 		{
 			event.respondWith(fetchCacheThenNetwork(event.request));
 		}
@@ -50,7 +50,7 @@ self.addEventListener("fetch", function(event)
 
 function fetchCacheThenNetwork(request)
 {
-	if(request.headers.get("Accept") == "x-cache/only")
+	if(request.headers.get("Accept") === "x-cache/only")
 	{
 		return caches.match(request);
 	}
