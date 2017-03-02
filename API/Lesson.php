@@ -1,5 +1,6 @@
 <?php
 namespace OdyMaterialy;
+
 @_API_EXEC == 1 or die('Restricted access.');
 
 class Lesson
@@ -8,7 +9,7 @@ class Lesson
 	public $version;
 	public $competences = array();
 
-	function __construct($name, $version)
+	public function __construct($name, $version)
 	{
 		$this->name = $name;
 		$this->version = $version;
@@ -16,13 +17,13 @@ class Lesson
 }
 
 // Lesson comparison function used in usort. Assumes that both Lessons have their competences field sorted low-to-high.
-function Lesson_cmp($a, $b)
+function Lesson_cmp($first, $second)
 {
-	if($a->competences[0] == $b->competences[0])
+	if($first->competences[0] == $second->competences[0])
 	{
 		return 0;
 	}
-	return ($a->competences[0] < $b->competences[0]) ? -1 : 1;
+	return ($first->competences[0] < $second->competences[0]) ? -1 : 1;
 }
 
 ?>
