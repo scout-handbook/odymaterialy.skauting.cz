@@ -82,7 +82,7 @@ nav a:hover
 {
 	float: right;
 	position: relative;
-	display: inline-block;
+	display: block;
 	width: 30px;
 	height: 21px;
 	margin-right: 30px;
