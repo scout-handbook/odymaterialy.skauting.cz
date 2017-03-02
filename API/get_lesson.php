@@ -51,4 +51,3 @@ $statement->close();
 $db->close();
 
 echo $result;
-

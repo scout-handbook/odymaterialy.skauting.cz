@@ -23,4 +23,3 @@ function Field_cmp($first, $second)
 	}
 	return ($first->lessons[0]->competences[0] < $second->lessons[0]->competences[0]) ? -1 : 1;
 }
-

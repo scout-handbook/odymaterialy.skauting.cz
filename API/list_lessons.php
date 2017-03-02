@@ -89,4 +89,3 @@ $db->close();
 usort($fields, "OdyMaterialy\Field_cmp"); // Sort all the Fields by lowest competence in the Field low-to-high
 
 echo(json_encode($fields, JSON_UNESCAPED_UNICODE));
-

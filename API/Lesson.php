@@ -25,4 +25,3 @@ function Lesson_cmp($first, $second)
 	}
 	return ($first->competences[0] < $second->competences[0]) ? -1 : 1;
 }
-
