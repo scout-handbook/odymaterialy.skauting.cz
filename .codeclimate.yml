@@ -1,4 +1,3 @@
----
 engines:
   csslint:
     enabled: true
@@ -23,6 +22,8 @@ engines:
         enabled: false
       Squiz ControlStructures ControlSignature SpaceAfterKeyword:
         enabled: false
+      PSR1 Files SideEffects FoundWithSymbols:
+        enabled: false
   phpmd:
     enabled: true
   phan:
@@ -35,3 +36,4 @@ ratings:
   - "**.js"
   - "**.php"
 exclude_paths: []
+

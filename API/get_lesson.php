@@ -37,6 +37,7 @@ $statement->bind_param('s', $name);
 $statement->execute();
 
 $statement->store_result();
+$body = "";
 $statement->bind_result($body);
 if (!$statement->fetch())
 {

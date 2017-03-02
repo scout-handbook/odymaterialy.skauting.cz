@@ -41,6 +41,8 @@ if ($field_statement === false)
 $field_statement->execute();
 
 $field_statement->store_result();
+$field_id = "";
+$field_name = "";
 $field_statement->bind_result($field_id, $field_name);
 $fields = array();
 while ($field_statement->fetch())
@@ -58,6 +60,9 @@ while ($field_statement->fetch())
 	$lesson_statement->execute();
 
 	$lesson_statement->store_result();
+	$lesson_id = "";
+	$lesson_name = "";
+	$lesson_version = "";
 	$lesson_statement->bind_result($lesson_id, $lesson_name, $lesson_version);
 	while ($lesson_statement->fetch())
 	{
@@ -74,6 +79,7 @@ while ($field_statement->fetch())
 		$competence_statement->bind_param('i', $lesson_id);
 		$competence_statement->execute();
 
+		$competence = "";
 		$competence_statement->bind_result($competence);
 		while ($competence_statement->fetch())
 		{
