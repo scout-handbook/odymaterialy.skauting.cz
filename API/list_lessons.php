@@ -26,7 +26,7 @@ SQL;
 
 $db = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
 
-if($db->connect_error)
+if ($db->connect_error)
 {
 	throw new Exception('Failed to connect to the database. Error: ' . $db->connect_error);
 }
@@ -34,7 +34,7 @@ if($db->connect_error)
 // Select all the fields in the database
 
 $field_statement = $db->prepare($field_sql);
-if($field_statement === false)
+if ($field_statement === false)
 {
 	throw new Exception('Invalid SQL: "' . $field_sql . '". Error: ' . $db->error);
 }
@@ -89,4 +89,4 @@ $db->close();
 usort($fields, "OdyMaterialy\Field_cmp"); // Sort all the Fields by lowest competence in the Field low-to-high
 
 echo(json_encode($fields, JSON_UNESCAPED_UNICODE));
-?>
+

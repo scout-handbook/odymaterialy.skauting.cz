@@ -19,11 +19,10 @@ class Lesson
 // Lesson comparison function used in usort. Assumes that both Lessons have their competences field sorted low-to-high.
 function Lesson_cmp($first, $second)
 {
-	if($first->competences[0] == $second->competences[0])
+	if ($first->competences[0] == $second->competences[0])
 	{
 		return 0;
 	}
 	return ($first->competences[0] < $second->competences[0]) ? -1 : 1;
 }
 
-?>
