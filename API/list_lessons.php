@@ -50,7 +50,7 @@ while($field_statement->fetch())
 	// Populate the newly-created Field with its lessons
 
 	$lesson_statement = $db->prepare($lesson_sql);
-	if($lesson_statement === false)
+	if ($lesson_statement === false)
 	{
 		throw new Exception('Invalid SQL: "' . $lesson_sql . '". Error: ' . $db->error);
 	}
@@ -66,7 +66,7 @@ while($field_statement->fetch())
 		// Find out the competences this Lesson belongs to
 
 		$competence_statement = $db->prepare($competence_sql);
-		if($competence_statement === false)
+		if ($competence_statement === false)
 		{
 			throw new Exception('Invalid SQL: "' . $competence_sql . '". Error: ' . $db->error);
 		}

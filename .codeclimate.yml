@@ -17,6 +17,10 @@ engines:
     checks:
       Generic WhiteSpace DisallowTabIndent TabsUsed:
         enabled: false
+      Squiz ControlStructures ControlSignature SpaceAfterCloseParenthesis:
+        enabled: false
+      Squiz ControlStructures ControlSignature SpaceAfterCloseBrace:
+        enabled: false
   phpmd:
     enabled: true
   phan:
