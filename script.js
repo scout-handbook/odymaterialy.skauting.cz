@@ -57,18 +57,11 @@ function switchNav()
 	reflow();
 }
 
-function fontDecrease()
+function fontResize(delta)
 {
 	var content = document.getElementById("content");
-	var current = parseInt(window.getComputedStyle(content, null).getPropertyValue("font-size").replace("px", ""));
-	content.style.fontSize = current - 2 + "px";
-}
-
-function fontIncrease()
-{
-	var content = document.getElementById("content");
-	var current = parseInt(window.getComputedStyle(content, null).getPropertyValue("font-size").replace("px", ""));
-	content.style.fontSize = current + 2 + "px";
+	var current = parseInt(window.getComputedStyle(content, null).getPropertyValue("font-size").replace("px", ""), 10);
+	content.style.fontSize = current + delta + "px";
 }
 
 function cacheThenNetworkRequest(url, query, callback)
