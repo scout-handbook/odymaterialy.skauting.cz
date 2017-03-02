@@ -11,7 +11,10 @@ var cacheNonBlocking = [
 ];
 
 var cacheUpdating = [
-	"/API/list_lessons.php",
+	"/API/list_lessons.php"
+];
+
+var cacheOnDemand = [
 	"/API/get_lesson.php"
 ];
 
@@ -31,24 +34,19 @@ self.addEventListener("fetch", function(event)
 		var url = new URL(event.request.url);
 		if(cacheUpdating.indexOf(url.pathname) !== -1)
 		{
-			event.respondWith(fetchCacheThenNetwork(event.request));
+			event.respondWith(cacheUpdatingResponse(event.request));
+		}
+		else if(cacheOnDemand.indexOf(url.pathname) !== -1)
+		{
+			event.respondWith(cacheOnDemandResponse(event.request));
 		}
 		else
 		{
-			event.respondWith(
-				caches.match(event.request).then(function(response)
-					{
-						if(response)
-						{
-							return response;
-						}
-						return fetch(event.request);
-					})
-			);
+			event.respondWith(genericResponse(event.request));
 		}
 	});
 
-function fetchCacheThenNetwork(request)
+function cacheUpdatingResponse(request)
 {
 	if(request.headers.get("Accept") === "x-cache/only")
 	{
@@ -65,5 +63,43 @@ function fetchCacheThenNetwork(request)
 					});
 			});
 	}
+}
+
+function cacheOnDemandResponse(request)
+{
+	if(request.headers.get("Accept") === "x-cache/only")
+	{
+		return caches.match(request);
+	}
+	else
+	{
+		return fetch(request).then(function(response)
+			{
+				return caches.match(request).then(function(cachedResponse)
+					{
+						if(cachedResponse === undefined)
+						{
+							return response
+						}
+						return caches.open(CACHE).then(function(cache)
+							{
+								cache.put(request, response.clone());
+								return response;
+							});
+					});
+			});
+	}
+}
+
+function genericResponse(request)
+{
+	return caches.match(request).then(function(response)
+		{
+			if(response)
+			{
+				return response;
+			}
+			return fetch(request);
+		})
 }
 

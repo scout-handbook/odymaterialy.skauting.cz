@@ -1,3 +1,4 @@
+var CACHE = "odymaterialy-v1";
 var converter;
 var navOpen = true;
 
@@ -67,12 +68,12 @@ function fontResize(delta)
 function cacheThenNetworkRequest(url, query, callback)
 {
 	var networkDataReceived = false;
-	request(url, query, false).then(function(response)
+	request(url, query, {}).then(function(response)
 		{
 			networkDataReceived = true;
 			callback(response);
 		});
-	request(url, query, true).then(function(response)
+	request(url, query, {"Accept": "x-cache/only"}).then(function(response)
 		{
 			if(!networkDataReceived)
 			{
@@ -81,7 +82,7 @@ function cacheThenNetworkRequest(url, query, callback)
 		}, function(reject){});
 }
 
-function request(url, query, fromCache)
+function request(url, query, headers)
 {
 	return new Promise(function(resolve, reject)
 	{
@@ -106,12 +107,28 @@ function request(url, query, fromCache)
 		}
 		xhttp.open("GET", url, true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		if(fromCache)
+		for(var key in headers)
 		{
-			xhttp.setRequestHeader("Accept", "x-cache/only");
+			xhttp.setRequestHeader(key, headers[key]);
 		}
 		xhttp.send();
 	});
+}
+
+function cacheOffline()
+{
+	var checked = document.getElementById("cacheOffline").checked;
+	if (window.location.pathname.substring(0, 8) === "/lesson/")
+	{
+		var lessonName = window.location.pathname.substring(8);
+		if(checked)
+		{
+			caches.open(CACHE).then(function(cache)
+				{
+					cache.add("/API/get_lesson.php?name=" + lessonName);
+				});
+		}
+	}
 }
 
 function run()
