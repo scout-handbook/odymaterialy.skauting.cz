@@ -45,7 +45,7 @@ $field_statement->bind_result($field_id, $field_name);
 $fields = array();
 while($field_statement->fetch())
 {
-	$fields[] = new Field($field_name); // Create a new field
+	$fields[] = new OdyMaterialy\Field($field_name); // Create a new field
 
 	// Populate the newly-created Field with its lessons
 
@@ -61,7 +61,7 @@ while($field_statement->fetch())
 	$lesson_statement->bind_result($lesson_id, $lesson_name, $lesson_version);
 	while($lesson_statement->fetch())
 	{
-		end($fields)->lessons[] = new Lesson($lesson_name, $lesson_version); // Create a new Lesson in the newly-created Field
+		end($fields)->lessons[] = new OdyMaterialy\Lesson($lesson_name, $lesson_version); // Create a new Lesson in the newly-created Field
 
 		// Find out the competences this Lesson belongs to
 
@@ -82,11 +82,11 @@ while($field_statement->fetch())
 		sort(end(end($fields)->lessons)->competences, SORT_NUMERIC); // Sort the competence list for the newly-created Lesson low-to-high
 	}
 	$lesson_statement->close();
-	usort(end($fields)->lessons, "Lesson_cmp"); // Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high
+	usort(end($fields)->lessons, "OdyMaterialy\Lesson_cmp"); // Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high
 }
 $field_statement->close();
 $db->close();
-usort($fields, "Field_cmp"); // Sort all the Fields by lowest competence in the Field low-to-high
+usort($fields, "OdyMaterialy\Field_cmp"); // Sort all the Fields by lowest competence in the Field low-to-high
 
 echo(json_encode($fields, JSON_UNESCAPED_UNICODE));
 ?>

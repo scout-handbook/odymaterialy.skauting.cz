@@ -1,4 +1,5 @@
 <?php
+namespace OdyMaterialy;
 @_API_EXEC == 1 or die('Restricted access.');
 
 class Field
