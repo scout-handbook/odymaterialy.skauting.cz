@@ -147,9 +147,14 @@ main
 	right: 0;
 	overflow-y: auto;
 	height: 100%;
-	padding: 20px;
 	color: #222222;
 	transition: margin-left 0.3s ease, padding-left 0.1s ease;
+}
+
+#mainContainer
+{
+	padding: 20px;
+	padding-left: 0;
 }
 
 main a
