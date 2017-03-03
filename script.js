@@ -50,6 +50,20 @@ function showLesson(name, markdown, noHistory)
 	{
 		history.pushState(stateObject, "title", "/lesson/" + encodeURIComponent(name));
 	}
+	if("serviceWorker" in navigator)
+	{
+		caches.match("/API/get_lesson.php?name=" + encodeURIComponent(name)).then(function(response)
+			{
+				if(response === undefined)
+				{
+					document.getElementById("cacheOffline").checked = false;
+				}
+				else
+				{
+					document.getElementById("cacheOffline").checked = true;
+				}
+			});
+	}
 }
 
 function switchNav()
