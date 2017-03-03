@@ -144,6 +144,7 @@ function run()
 	if("serviceWorker" in navigator)
 	{
 		navigator.serviceWorker.register("/serviceworker.js");
+		document.getElementById("offlineSwitch").style.display = "block";
 	}
 }
 
