@@ -121,13 +121,17 @@ function cacheOffline()
 	if (window.location.pathname.substring(0, 8) === "/lesson/")
 	{
 		var lessonName = window.location.pathname.substring(8);
-		if(checked)
-		{
-			caches.open(CACHE).then(function(cache)
+		caches.open(CACHE).then(function(cache)
+			{
+				if(checked)
 				{
 					cache.add("/API/get_lesson.php?name=" + lessonName);
-				});
-		}
+				}
+				else
+				{
+					cache.delete("/API/get_lesson.php?name=" + lessonName);
+				}
+		});
 	}
 }
 
