@@ -3,19 +3,12 @@ const _API_EXEC = 1;
 
 require_once(__DIR__ . '/config.php');
 
-if (!isset($_POST['name']) && !isset($_GET['name']))
+if (!isset($_GET['name']))
 {
-	throw new Exception('POST argument "name" must be provided.');
+	throw new Exception('GET argument "name" must be provided.');
 }
 
-if (isset($_POST['name']))
-{
-	$name = $_POST['name'];
-}
-else
-{
-	$name = $_GET['name'];
-}
+$name = $_GET['name'];
 
 $db = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
 
