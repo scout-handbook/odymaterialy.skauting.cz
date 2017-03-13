@@ -1,0 +1,23 @@
+{
+  "name": "OdyMaterialy",
+  "version": "0.1.0",
+  "description": "Web interface for OdyMaterialy",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GenaBitu/OdyMaterialy.git"
+  },
+  "author": "GenaBitu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GenaBitu/OdyMaterialy/issues"
+  },
+  "homepage": "https://github.com/GenaBitu/OdyMaterialy#readme",
+  "dependencies": {
+    "es6-promise": "^4.1.0",
+    "showdown": "^1.6.4"
+  }
+}
