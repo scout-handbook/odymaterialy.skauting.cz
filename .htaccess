@@ -14,9 +14,11 @@ RewriteCond %{REQUEST_URI} ^/lesson/
 RewriteRule (.*) / [QSA]
 
 <ifModule mod_headers.c>
-	Header add Link "</style.css>;rel=preload"
-	Header add Link "</computer.css>;rel=preload"
-	Header add Link "</handheld.css>;rel=preload"
-	Header add Link "</script.js>;rel=preload"
+	<FilesMatch "index.html">
+		Header add Link "</style.css>;rel=preload"
+		Header add Link "</computer.css>;rel=preload"
+		Header add Link "</handheld.css>;rel=preload"
+		Header add Link "</script.js>;rel=preload"
+	</FilesMatch>
 </ifModule>
 
