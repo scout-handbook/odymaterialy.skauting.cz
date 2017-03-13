@@ -64,6 +64,10 @@ function showLesson(name, markdown, noHistory)
 				}
 			});
 	}
+	if("serviceWorker" in navigator)
+	{
+		document.getElementById("offlineSwitch").style.display = "block";
+	}
 }
 
 function switchNav()
@@ -162,7 +166,6 @@ function run()
 	if("serviceWorker" in navigator)
 	{
 		navigator.serviceWorker.register("/serviceworker.js");
-		document.getElementById("offlineSwitch").style.display = "block";
 	}
 }
 
