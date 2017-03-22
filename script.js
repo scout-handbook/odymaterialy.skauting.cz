@@ -81,6 +81,7 @@ function fontResize(delta)
 	var content = document.getElementById("content");
 	var current = parseInt(window.getComputedStyle(content, null).getPropertyValue("font-size").replace("px", ""), 10);
 	content.style.fontSize = current + delta + "px";
+	content.style.lineHeight = "160%";
 }
 
 function cacheThenNetworkRequest(url, query, callback)
