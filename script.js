@@ -167,6 +167,7 @@ function run()
 	{
 		navigator.serviceWorker.register("/serviceworker.js");
 	}
+	reflow();
 }
 
 function popback()
