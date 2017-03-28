@@ -18,8 +18,9 @@ WHERE lessons_in_fields.field_id = ?;
 SQL;
 
 $competence_sql = <<<SQL
-SELECT competence FROM competences_for_lessons
-WHERE lesson_id = ?;
+SELECT competences.number FROM competences
+JOIN competences_for_lessons on competences.id = competences_for_lessons.competence_id
+WHERE competences_for_lessons.lesson_id = ?;
 SQL;
 
 // Open database connection
@@ -79,11 +80,11 @@ while ($field_statement->fetch())
 		$competence_statement->bind_param('i', $lesson_id);
 		$competence_statement->execute();
 
-		$competence = "";
-		$competence_statement->bind_result($competence);
+		$competence_number = "";
+		$competence_statement->bind_result($competence_number);
 		while ($competence_statement->fetch())
 		{
-			end(end($fields)->lessons)->competences[] = $competence;
+			end(end($fields)->lessons)->competences[] = $competence_number;
 		}
 		$competence_statement->close();
 		// Sort the competence list for the newly-created Lesson low-to-high
