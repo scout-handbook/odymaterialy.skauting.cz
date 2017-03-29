@@ -157,7 +157,7 @@ function cacheOffline()
 function run()
 {
 	listLessons(showLessonList);
-	converter = new showdown.Converter({extensions: ["lines"]});
+	converter = new showdown.Converter({extensions: ["notes"]});
 	converter.setOption("noHeaderId", "true");
 	if (window.location.pathname.substring(0, 8) === "/lesson/")
 	{
