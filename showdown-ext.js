@@ -43,7 +43,6 @@ function parseArguments(argumentString)
 		}
 		output[tuple[0]] = tuple[1];
 	}
-	console.log(output);
 	return output;
 }
 
