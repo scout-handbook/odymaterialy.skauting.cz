@@ -15,18 +15,22 @@ showdown.extension("notes", notes);
 function filterCommand(text, commandName, command)
 {
 	var start = text.indexOf("!" + commandName);
-	var argumentObject = {};
-	if(text.charAt(start + commandName.length + 1) == "[")
+	while(start >= 0)
 	{
-		var stop = text.indexOf("]", start + commandName.length + 2);
-		var argumentString = text.substring(start + commandName.length + 2, stop);
-		argumentObject = parseArguments(argumentString);
+		var argumentObject = {};
+		if(text.charAt(start + commandName.length + 1) == "[")
+		{
+			var stop = text.indexOf("]", start + commandName.length + 2);
+			var argumentString = text.substring(start + commandName.length + 2, stop);
+			argumentObject = parseArguments(argumentString);
+		}
+		else
+		{
+			var stop = start + commandName.length;
+		}
+		text = text.substring(0, start) + command(argumentObject) + text.substring(stop + 1, text.length)
+		start = text.indexOf("!" + commandName);
 	}
-	else
-	{
-		var stop = start + commandName.length;
-	}
-	text = text.substring(0, start) + command(argumentObject) + text.substring(stop + 1, text.length)
 	return text;
 }
 
