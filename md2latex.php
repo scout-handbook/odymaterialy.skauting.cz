@@ -1,11 +1,12 @@
 <?php
-ob_start();
+include_once("OdyMarkdown.php");
+
 $_GET['name'] = 'Zpětná vazba a Konstruktivní kritika';
+ob_start();
 include('API/get_lesson.php');
 $md = ob_get_clean();
 
-include_once("vendor/autoload.php");
-
-$parser = new \cebe\markdown\latex\Markdown();
-echo $parser->parse($md);
+$parser = new OdyMarkdown();
+$latex = nl2br($parser->parse($md));
+echo $latex;
 ?>
