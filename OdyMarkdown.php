@@ -64,7 +64,7 @@ class OdyMarkdown extends Markdown
 
 	protected function renderNotes($block)
 	{
-		if(isset($block['height']) and $block['height'] === 'eop')
+		if(isset($block['height']))
 		{
 			if($block["height"] === 'eop')
 			{
