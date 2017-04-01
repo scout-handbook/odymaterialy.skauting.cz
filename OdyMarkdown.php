@@ -26,7 +26,7 @@ class OdyMarkdown extends Markdown
 			if($stop !== false)
 			{
 				$argumentString = substr($line, $start, $stop - $start);
-				$next = $current + 1;
+				$next = $current;
 			}
 			else
 			{
@@ -37,7 +37,7 @@ class OdyMarkdown extends Markdown
 					if($stop !== false)
 					{
 						$argumentString .= substr($lines[$i], 0, $stop);
-						$next = $i + 1;
+						$next = $i;
 						break;
 					}
 					else
