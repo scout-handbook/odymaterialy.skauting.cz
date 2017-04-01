@@ -74,21 +74,30 @@ class OdyMarkdown extends Markdown
 
 	protected function renderNotes($block)
 	{
+		if(isset($block['style']) and $block['style'] === 'dotted')
+		{
+			$style = 'dotted';
+		}
+		else
+		{
+			$style = 'blank';
+		}
 		if(isset($block['height']))
 		{
 			if($block["height"] === 'eop')
 			{
-				return "\\dottedpage\n";
+				$height = 'page';
 			}
 			else
 			{
-				return "\\dottedlines[" . $block['height'] . "]\n";
+				$height = 'lines{' . $block['height'] . '}'	;
 			}
 		}
 		else
 		{
-			return "\\dottedline\n";
+			$height = 'line';
 		}
+		return "\\" . $style . $height . "\n";
 	}
 }
 ?>
