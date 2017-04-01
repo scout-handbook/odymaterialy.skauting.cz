@@ -5,22 +5,21 @@ use \cebe\markdown\latex\Markdown;
 
 class OdyMarkdown extends Markdown
 {
-	protected function identifyNotes($line, $lines, $current)
+ 	// Generic functions for command parsing
+	private function identifyCommand($line, $command)
 	{
-		if (strncmp($line, '!notes', 6) === 0)
+		if (strncmp($line, '!' . $command, strlen($command) + 1) === 0)
 		{
 			return true;
 		}
 		return false;
 	}
 
-	protected function consumeNotes($lines, $current)
+	private function consumeCommand($lines, $current, $command)
 	{
-		$block = [
-			'notes'
-		];
+		$block = [$command];
 		$line = rtrim($lines[$current]);
-		$start = strpos($line, '[', 6) + 1;
+		$start = strpos($line, '[', strlen($command) + 1) + 1;
 		if($start !== false)
 		{
 			$stop = strpos($line, ']', $start);
@@ -62,6 +61,17 @@ class OdyMarkdown extends Markdown
 		return [$block, $next];
 	}
 
+	// Notes extension
+	protected function identifyNotes($line, $lines, $current)
+	{
+		return $this->identifyCommand($line, 'notes');
+	}
+
+	protected function consumeNotes($lines, $current)
+	{
+		return $this->consumeCommand($lines, $current, 'notes');
+	}
+
 	protected function renderNotes($block)
 	{
 		if(isset($block['height']))
@@ -81,5 +91,5 @@ class OdyMarkdown extends Markdown
 		}
 	}
 }
-
 ?>
+
