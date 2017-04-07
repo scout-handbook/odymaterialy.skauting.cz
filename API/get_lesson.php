@@ -1,7 +1,7 @@
 <?php
 const _API_EXEC = 1;
 
-require_once(__DIR__ . '/config.php');
+require_once(__DIR__ . '/database.secret.php');
 
 if (!isset($_GET['name']))
 {
