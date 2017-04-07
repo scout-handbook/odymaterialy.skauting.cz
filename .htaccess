@@ -13,6 +13,9 @@ RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
 RewriteCond %{REQUEST_URI} ^/lesson/
 RewriteRule (.*) / [QSA]
 
+# Login & logout redirect uri
+RewriteRule ^log(in|out)$ /API/log$1\.php
+
 <ifModule mod_headers.c>
 	<FilesMatch "index.html">
 		Header add Link "</style.css>;rel=preload"
