@@ -16,4 +16,4 @@ tags
 
 # End of https://www.gitignore.io/api/vim
 
-API/config.php
+*.secret.php
