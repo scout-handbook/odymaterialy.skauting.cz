@@ -12,6 +12,10 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
             'cebe\\markdown\\latex\\' => 20,
             'cebe\\markdown\\' => 14,
         ),
+        'S' => 
+        array (
+            'Skautis\\' => 8,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -22,6 +26,10 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
+        'Skautis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/skautis/skautis/src',
         ),
     );
 

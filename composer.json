@@ -1,5 +1,6 @@
 {
 	"require": {
-		"cebe/markdown-latex": "*"
+		"cebe/markdown-latex": "1.*",
+		"skautis/skautis": "2.*"
 	}
 }
