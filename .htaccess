@@ -14,7 +14,7 @@ RewriteCond %{REQUEST_URI} ^/lesson/
 RewriteRule (.*) / [QSA]
 
 # Login & logout redirect uri
-RewriteRule ^log(in|out)$ /API/log$1\.php
+RewriteRule ^log(in|out)$ /log$1\.php
 
 <ifModule mod_headers.c>
 	<FilesMatch "index.html">

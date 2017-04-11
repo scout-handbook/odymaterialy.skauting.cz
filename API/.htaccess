@@ -2,16 +2,6 @@ Order Deny,Allow
 Deny from all
 Allow from 127.0.0.1
 
-<Files login.php>
-    Order Allow,Deny
-    Allow from all
-</Files>
-
-<Files logout.php>
-    Order Allow,Deny
-    Allow from all
-</Files>
-
 <Files list_lessons.php>
     Order Allow,Deny
     Allow from all
