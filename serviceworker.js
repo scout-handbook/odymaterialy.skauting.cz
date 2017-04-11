@@ -1,6 +1,6 @@
 var CACHE = "odymaterialy-v1";
 var cacheBlocking = [
-	"/",
+	"/index.html",
 	"/style.css",
 	"/handheld.css",
 	"/computer.css",

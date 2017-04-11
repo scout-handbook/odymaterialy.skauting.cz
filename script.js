@@ -2,6 +2,20 @@ var CACHE = "odymaterialy-v1";
 var converter;
 var navOpen = true;
 
+function getLoginState(callbackUser, callbackGuest)
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function()
+		{
+			if (this.readyState === 4 && this.status === 200)
+			{
+				callbackGuest(this.responseText);
+			}
+		}
+	xhttp.open("GET", "/get_login_state.php", true);
+	xhttp.send();
+}
+
 function listLessons(callback)
 {
 	cacheThenNetworkRequest("/API/list_lessons.php", "", function(response)
@@ -21,6 +35,16 @@ function getLesson(lesson, noHistory)
 		{
 			showLesson(lesson, response, noHistory);
 		});
+}
+
+function showUserAccount()
+{
+}
+
+function showLoginForm(text)
+{
+	console.log(text);
+	document.getElementById("userAccount").innerHTML = text;
 }
 
 function showLessonList(list)
@@ -156,6 +180,7 @@ function cacheOffline()
 
 function run()
 {
+	getLoginState(showUserAccount, showLoginForm);
 	listLessons(showLessonList);
 	converter = new showdown.Converter({extensions: ["notes"]});
 	converter.setOption("noHeaderId", "true");
