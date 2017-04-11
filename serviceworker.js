@@ -7,7 +7,7 @@ var cacheBlocking = [
 	"/script.js"
 ];
 var cacheNonBlocking = [
-	"/bower_components/showdown/dist/showdown.min.js"
+	"/node_modules/showdown/dist/showdown.min.js"
 ];
 
 var cacheUpdating = [
