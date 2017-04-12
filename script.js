@@ -47,7 +47,7 @@ function getLesson(lesson, noHistory)
 
 function showUserAccount(response)
 {
-	document.getElementById("userAccount").innerHTML = "ACCOUNT";
+	document.getElementById("userAccount").innerHTML = response.full_name + "<br><a href=\"/logout.php\">Logout</a>";
 }
 
 function showLoginForm(response)
