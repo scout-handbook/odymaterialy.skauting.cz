@@ -10,11 +10,11 @@ $skautis = Skautis\Skautis::getInstance(SKAUTIS_APP_ID, SKAUTIS_TEST_MODE);
 $response = array();
 if(isset($_SESSION['skautis_token']))
 {
-	$response['skautis_token'] = $_SESSION['skautis_token'];
+	$response['login_state'] = true;
 }
 else
 {
-	$response['skautis_token'] = "";
+	$response['login_state'] = false;
 	if(isset($_GET['returnUri']))
 	{
 		$response['login_uri'] = $skautis->getLoginUrl($_GET['returnUri']);

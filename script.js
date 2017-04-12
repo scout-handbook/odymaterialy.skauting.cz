@@ -10,13 +10,13 @@ function getLoginState(callbackUser, callbackGuest)
 			if (this.readyState === 4 && this.status === 200)
 			{
 				response = JSON.parse(this.responseText);
-				if(response.skautis_token == "")
+				if(response.login_state)
 				{
-					callbackGuest(response);
+					callbackUser(response);
 				}
 				else
 				{
-					callbackUser(response);
+					callbackGuest(response);
 				}
 			}
 		}
