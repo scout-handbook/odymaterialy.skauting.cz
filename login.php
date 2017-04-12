@@ -13,7 +13,12 @@ if(startsWith($redirect, 'http://'))
 }
 elseif(!startsWith($redirect, 'https://'))
 {
-	$redirect = 'https://odymaterialy.skauting.cz/' . $redirect;
+	$hostname = 'https://odymaterialy.skauting.cz';
+	if(!startsWith($redirect, '/'))
+	{
+		$hostname .= '/';
+	}
+	$redirect = $hostname . $redirect;
 }
 
 $token = $_POST['skautIS_Token'];

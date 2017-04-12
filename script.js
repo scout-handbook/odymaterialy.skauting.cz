@@ -9,10 +9,18 @@ function getLoginState(callbackUser, callbackGuest)
 		{
 			if (this.readyState === 4 && this.status === 200)
 			{
-				callbackGuest(this.responseText);
+				response = JSON.parse(this.responseText);
+				if(response.skautis_token == "")
+				{
+					callbackGuest(response);
+				}
+				else
+				{
+					callbackUser(response);
+				}
 			}
 		}
-	xhttp.open("GET", "/get_login_state.php", true);
+	xhttp.open("GET", "/get_login_state.php?returnUri=" + window.location.pathname, true);
 	xhttp.send();
 }
 
@@ -37,14 +45,14 @@ function getLesson(lesson, noHistory)
 		});
 }
 
-function showUserAccount()
+function showUserAccount(response)
 {
+	document.getElementById("userAccount").innerHTML = "ACCOUNT";
 }
 
-function showLoginForm(text)
+function showLoginForm(response)
 {
-	console.log(text);
-	document.getElementById("userAccount").innerHTML = text;
+	document.getElementById("userAccount").innerHTML = "<a href=\"" + response.login_uri + "\">Login</a>";
 }
 
 function showLessonList(list)
