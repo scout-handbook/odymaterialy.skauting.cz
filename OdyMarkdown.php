@@ -1,9 +1,9 @@
 <?php
 include_once('vendor/autoload.php');
 
-use \cebe\markdown\latex\Markdown;
+use \cebe\markdown\latex\GithubMarkdown;
 
-class OdyMarkdown extends Markdown
+class OdyMarkdown extends GithubMarkdown
 {
  	// Generic functions for command parsing
 	private function identifyCommand($line, $command)

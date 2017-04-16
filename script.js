@@ -159,6 +159,7 @@ function run()
 	listLessons(showLessonList);
 	converter = new showdown.Converter({extensions: ["notes"]});
 	converter.setOption("noHeaderId", "true");
+	converter.setOption("tables", "true");
 	if (window.location.pathname.substring(0, 8) === "/lesson/")
 	{
 		var lessonName = decodeURIComponent(window.location.pathname.substring(8));
