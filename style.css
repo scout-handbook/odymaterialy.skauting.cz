@@ -18,6 +18,17 @@ nav
 	z-index: 2;
 }
 
+nav a
+{
+	color: #6534AD;
+	text-decoration: none;
+}
+
+nav a:hover
+{
+	text-decoration: underline;
+}
+
 #userAccount
 {
 	height: 80px;
@@ -27,8 +38,8 @@ nav
 #userAvatar
 {
 	margin-top: 5px;
-	margin-left: 10px;
-	margin-right: 20px;
+	margin-left: 15px;
+	margin-right: 15px;
 	margin-bottom: 5px;
 	border: 5px solid #ffffff;
 	border-radius:50%;
@@ -46,7 +57,7 @@ nav
 
 #userName
 {
-	padding-top: 15px;
+	padding-top: 12px;
 }
 
 #logLink
@@ -65,7 +76,7 @@ nav
 	margin-left: 20px;
 	margin-right: 20px;
 	font-size: large;
-	color: #6534AD;
+	color: #364149;
 }
 
 #navContainer a
@@ -75,13 +86,6 @@ nav
 	margin-right: 20px;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	color: #364149;
-	text-decoration: none;
-}
-
-nav a:hover
-{
-	text-decoration: underline;
 }
 
 .topButton
