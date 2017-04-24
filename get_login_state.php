@@ -14,7 +14,7 @@ if(isset($_SESSION['skautis_token']))
 	$reconstructed_post = array('skautIS_Token' => $_SESSION['skautis_token'], 'skautIS_IDRole' => '', 'skautIS_IDUnit' => '', 'skautIS_DateLogout' => DateTime::createFromFormat('U', $_SESSION['skautis_timeout'])->setTimezone(new DateTimeZone('Europe/Prague'))->format('j. n. Y H:i:s'));
 	$skautis->setLoginData($reconstructed_post);
 	$id_person = $skautis->UserManagement->UserDetail()->ID_Person;
-	$response['full_name'] = $skautis->OrganizationUnit->PersonDetail(array('ID' => $id_person))->DisplayName;
+	$response['user_name'] = $skautis->OrganizationUnit->PersonDetail(array('ID' => $id_person))->DisplayName;
 }
 else
 {

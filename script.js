@@ -47,12 +47,14 @@ function getLesson(lesson, noHistory)
 
 function showUserAccount(response)
 {
-	document.getElementById("userAccount").innerHTML = response.full_name + "<br><a href=\"/logout.php\">Logout</a>";
+	document.getElementById("userName").innerHTML = response.user_name;
+	document.getElementById("logLink").innerHTML = "<a href=\"/logout.php\">Odhlásit</a>";
 }
 
 function showLoginForm(response)
 {
-	document.getElementById("userAccount").innerHTML = "<a href=\"" + response.login_uri + "\">Login</a>";
+	document.getElementById("userName").innerHTML = "Uživatel nepřihlášen";
+	document.getElementById("logLink").innerHTML = "<a href=\"" + response.login_uri + "\">Přihlásit</a>";
 }
 
 function showLessonList(list)
