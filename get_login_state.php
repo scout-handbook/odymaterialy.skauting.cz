@@ -19,14 +19,6 @@ if(isset($_SESSION['skautis_token']))
 else
 {
 	$response['login_state'] = false;
-	if(isset($_GET['returnUri']))
-	{
-		$response['login_uri'] = $skautis->getLoginUrl($_GET['returnUri']);
-	}
-	else
-	{
-		$response['login_uri'] = $skautis->getLoginUrl();
-	}
 }
 
 echo(json_encode($response));

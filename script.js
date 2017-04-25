@@ -54,7 +54,7 @@ function showUserAccount(response)
 function showLoginForm(response)
 {
 	document.getElementById("userName").innerHTML = "Uživatel nepřihlášen";
-	document.getElementById("logLink").innerHTML = "<a href=\"" + response.login_uri + "\">Přihlásit</a>";
+	document.getElementById("logLink").innerHTML = "<a href=\"/login.php\">Přihlásit</a>";
 }
 
 function showLessonList(list)
