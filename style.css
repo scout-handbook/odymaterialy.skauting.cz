@@ -49,12 +49,6 @@ nav a:hover
 	float: left;
 }
 
-#userAvatar img
-{
-	width: 60px;
-	height: 60px;
-}
-
 #userName
 {
 	padding-top: 12px;

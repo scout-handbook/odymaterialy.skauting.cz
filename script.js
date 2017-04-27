@@ -51,11 +51,11 @@ function showUserAccount(response)
 	document.getElementById("logLink").innerHTML = "<a href=\"/logout.php\">Odhlásit</a>";
 	if(response.hasOwnProperty("user_avatar"))
 	{
-		document.getElementById("userAvatar").innerHTML = "<img alt=\"Account avatar\" src=\"data:image/png;base64," + response.user_avatar + "\">";
+		document.getElementById("userAvatar").src = "data:image/png;base64," + response.user_avatar;
 	}
 	else
 	{
-		document.getElementById("userAvatar").innerHTML = "<img alt=\"Account avatar\" src=\"/images/avatar.png\">";
+		document.getElementById("userAvatar").src = "/images/avatar.png";
 	}
 }
 
@@ -63,7 +63,7 @@ function showLoginForm(response)
 {
 	document.getElementById("userName").innerHTML = "Uživatel nepřihlášen";
 	document.getElementById("logLink").innerHTML = "<a href=\"/login.php\">Přihlásit</a>";
-	document.getElementById("userAvatar").innerHTML = "<img alt=\"Account avatar\" src=\"/images/avatar.png\">";
+	document.getElementById("userAvatar").src = "/images/avatar.png";
 }
 
 function showLessonList(list)
