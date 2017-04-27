@@ -15,6 +15,7 @@ if(isset($_SESSION['skautis_token']))
 	$skautis->setLoginData($reconstructed_post);
 	$id_person = $skautis->UserManagement->UserDetail()->ID_Person;
 	$response['user_name'] = $skautis->OrganizationUnit->PersonDetail(array('ID' => $id_person))->DisplayName;
+	//$response['user_avatar'] = base64_encode($skautis->OrganizationUnit->PersonPhoto(array('ID' => $id_person, 'Size' => 'big'))->PhotoBigContent);
 }
 else
 {
