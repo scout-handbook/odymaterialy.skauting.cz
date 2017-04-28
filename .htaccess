@@ -16,12 +16,17 @@ RewriteRule (.*) / [QSA]
 # Login & logout redirect uri
 RewriteRule ^log(in|out)$ /log$1_redirect\.php
 
-<ifModule mod_headers.c>
-	<FilesMatch "index.html">
-		Header add Link "</style.css>;rel=preload;as=style"
-		Header add Link "</computer.css>;rel=preload;as=style"
-		Header add Link "</handheld.css>;rel=preload;as=style"
-		Header add Link "</script.js>;rel=preload;as=script"
-	</FilesMatch>
-</ifModule>
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+Header always set X-Frame-Options "DENY"
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Xss-Protection "1; mode=block"
+Header always set Referrer-Policy "origin-when-cross-origin"
+Header always set Content-Security-Policy "default-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:"
+
+<FilesMatch "index.html">
+	Header add Link "</style.css>;rel=preload;as=style"
+	Header add Link "</computer.css>;rel=preload;as=style"
+	Header add Link "</handheld.css>;rel=preload;as=style"
+	Header add Link "</script.js>;rel=preload;as=script"
+</FilesMatch>
 
