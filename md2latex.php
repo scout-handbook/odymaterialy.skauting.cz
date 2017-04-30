@@ -1,5 +1,5 @@
 <?php
-include_once("OdyMarkdown.php");
+require_once("server/OdyMarkdown.php");
 
 $_GET['name'] = 'Zpětná vazba a Konstruktivní kritika';
 ob_start();

@@ -20,7 +20,7 @@ function getLoginState(callbackUser, callbackGuest)
 				}
 			}
 		}
-	xhttp.open("GET", "/get_login_state.php?returnUri=" + window.location.pathname, true);
+	xhttp.open("GET", "/server/get_login_state.php?returnUri=" + window.location.pathname, true);
 	xhttp.send();
 }
 
@@ -48,7 +48,7 @@ function getLesson(lesson, noHistory)
 function showUserAccount(response)
 {
 	document.getElementById("userName").innerHTML = response.user_name;
-	document.getElementById("logLink").innerHTML = "<a href=\"/logout.php\">Odhlásit</a>";
+	document.getElementById("logLink").innerHTML = "<a href=\"/auth/logout.php\">Odhlásit</a>";
 	if(response.hasOwnProperty("user_avatar"))
 	{
 		document.getElementById("userAvatar").src = "data:image/png;base64," + response.user_avatar;
@@ -62,7 +62,7 @@ function showUserAccount(response)
 function showLoginForm(response)
 {
 	document.getElementById("userName").innerHTML = "Uživatel nepřihlášen";
-	document.getElementById("logLink").innerHTML = "<a href=\"/login.php\">Přihlásit</a>";
+	document.getElementById("logLink").innerHTML = "<a href=\"/auth/login.php\">Přihlásit</a>";
 	document.getElementById("userAvatar").src = "/images/avatar.png";
 }
 

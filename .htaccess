@@ -14,7 +14,7 @@ RewriteCond %{REQUEST_URI} ^/lesson/
 RewriteRule (.*) / [QSA]
 
 # Login & logout redirect uri
-RewriteRule ^log(in|out)$ /log$1_redirect\.php
+RewriteRule ^log(in|out)$ /auth/log$1_redirect\.php
 
 Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 Header always set X-Frame-Options "DENY"
@@ -25,9 +25,9 @@ Header always set Content-Security-Policy "default-src 'self'; script-src 'self'
 Header always set Expect-CT "max-age=0"
 
 <FilesMatch "index.html">
-	Header add Link "</style.css>;rel=preload;as=style"
-	Header add Link "</computer.css>;rel=preload;as=style"
-	Header add Link "</handheld.css>;rel=preload;as=style"
-	Header add Link "</script.js>;rel=preload;as=script"
+	Header add Link "</styles/main.css>;rel=preload;as=style"
+	Header add Link "</styles/computer.css>;rel=preload;as=style"
+	Header add Link "</styles/handheld.css>;rel=preload;as=style"
+	Header add Link "</scripts/main.js>;rel=preload;as=script"
 </FilesMatch>
 
