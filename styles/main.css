@@ -94,20 +94,20 @@ nav a:hover
 	color: #222222;
 }
 
-.navCloseButton
+#navCloseButton
 {
 	margin-right: 20px;
 	float: right;
 }
 
-.fontDecrease
+#fontDecrease
 {
 	margin-right: 20px;
 	float: right;
 	font-size: small;
 }
 
-.fontIncrease
+#fontIncrease
 {
 	margin-right: 20px;
 	float: right;

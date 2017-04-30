@@ -75,10 +75,19 @@ function showLessonList(list)
 		for(var j = 0; j < list[i].lessons.length; j++)
 		{
 			var name = list[i].lessons[j].name;
-			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" onclick=\"getLesson(\'" + name + "\');return false;\">" + name + "</a><br>";
+			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\">" + name + "</a><br>";
 		}
 	}
 	document.getElementById("navigation").innerHTML = html;
+	nodes = document.getElementById("navigation").getElementsByTagName("a");
+	for(var i = 0; i < nodes.length; i++)
+	{
+		nodes[i].onclick = function(event)
+			{
+				getLesson(event.srcElement.innerHTML);
+				return false;
+			}
+	}
 	document.getElementById("navBar").style.transition = "margin-left 0.3s ease";
 }
 
@@ -197,6 +206,22 @@ function cacheOffline()
 	}
 }
 
+function setupOnclicks()
+{
+	document.getElementById("navCloseButton").onclick = switchNav;
+	document.getElementById("overlay").onclick = switchNav;
+	document.getElementById("lessonsButton").onclick = switchNav;
+	document.getElementById("fontIncrease").onclick = function()
+		{
+			fontResize(2);
+		}
+	document.getElementById("fontDecrease").onclick = function()
+		{
+			fontResize(-2);
+		}
+	document.getElementById("cacheOffline").onclick = cacheOffline;
+}
+
 function run()
 {
 	getLoginState(showUserAccount, showLoginForm);
@@ -214,6 +239,7 @@ function run()
 		navigator.serviceWorker.register("/serviceworker.js");
 	}
 	reflow();
+	setupOnclicks();
 }
 
 function popback()
