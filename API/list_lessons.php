@@ -1,7 +1,7 @@
 <?php
 const _API_EXEC = 1; // Required by includes
 
-header("content-type:application/json");
+header('content-type:application/json; charset=utf-8');
 require_once('database.secret.php');
 require_once('Field.php');
 require_once('Lesson.php');
