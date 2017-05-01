@@ -2,13 +2,12 @@ Order Deny,Allow
 Deny from all
 Allow from 127.0.0.1
 
-<Files list_lessons.php>
-    Order Allow,Deny
-    Allow from all
-</Files>
+# Add .php automatically
+RewriteEngine On
+RewriteRule ^(list_lessons|get_lesson)$ /API/$1.php [QSA]
 
-<Files get_lesson.php>
+<FilesMatch "^(list_lessons|get_lesson)(\.php)?$">
     Order Allow,Deny
     Allow from all
-</Files>
+</FilesMatch>
 
