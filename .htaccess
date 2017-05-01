@@ -1,5 +1,6 @@
 Options -Indexes
 
+# Pretty error pages
 ErrorDocument 403 /error/403.html 
 ErrorDocument 404 /error/404.html 
 ErrorDocument 500 /error/500.html 
@@ -14,20 +15,28 @@ RewriteCond %{REQUEST_URI} ^/lesson/
 RewriteRule (.*) / [QSA]
 
 # Login & logout redirect uri
-RewriteRule ^log(in|out)$ /log$1_redirect\.php
+RewriteRule ^log(in|out)$ /auth/log$1_redirect\.php
 
+# Security headers
 Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 Header always set X-Frame-Options "DENY"
 Header always set X-Content-Type-Options "nosniff"
 Header always set X-Xss-Protection "1; mode=block"
 Header always set Referrer-Policy "origin-when-cross-origin"
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:"
 Header always set Expect-CT "max-age=0"
 
+# Server push
 <FilesMatch "index.html">
-	Header add Link "</style.css>;rel=preload;as=style"
-	Header add Link "</computer.css>;rel=preload;as=style"
-	Header add Link "</handheld.css>;rel=preload;as=style"
-	Header add Link "</script.js>;rel=preload;as=script"
+	Header add Link "</styles/main.css>;rel=preload;as=style"
+	Header add Link "</styles/computer.css>;rel=preload;as=style"
+	Header add Link "</styles/handheld.css>;rel=preload;as=style"
+	Header add Link "</scripts/auth.js>;rel=preload;as=script"
+	Header add Link "</scripts/getLesson.js>;rel=preload;as=script"
+	Header add Link "</scripts/history.js>;rel=preload;as=script"
+	Header add Link "</scripts/listLessons.js>;rel=preload;as=script"
+	Header add Link "</scripts/main.js>;rel=preload;as=script"
+	Header add Link "</scripts/nav.js>;rel=preload;as=script"
+	Header add Link "</scripts/topUI.js>;rel=preload;as=script"
 </FilesMatch>
 

@@ -1,9 +1,10 @@
 <?php
 const _API_EXEC = 1; // Required by includes
 
-require_once(__DIR__ . '/database.secret.php');
-require_once(__DIR__ . '/Field.php');
-require_once(__DIR__ . '/Lesson.php');
+header('content-type:application/json; charset=utf-8');
+require_once('database.secret.php');
+require_once('Field.php');
+require_once('Lesson.php');
 
 // Prepared statements where ? will be replaced later
 

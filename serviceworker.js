@@ -1,10 +1,10 @@
 var CACHE = "odymaterialy-v1";
 var cacheBlocking = [
 	"/index.html",
-	"/style.css",
-	"/handheld.css",
-	"/computer.css",
-	"/script.js"
+	"/styles/main.css",
+	"/styles/handheld.css",
+	"/styles/computer.css",
+	"/scripts/main.js"
 ];
 var cacheNonBlocking = [
 	"/node_modules/showdown/dist/showdown.min.js"

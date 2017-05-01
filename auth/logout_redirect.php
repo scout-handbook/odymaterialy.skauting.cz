@@ -5,4 +5,4 @@ session_destroy();
 
 header('Location: https://odymaterialy.skauting.cz/');
 die();
-?>
+

@@ -1,6 +1,7 @@
 <?php
 const _EXEC = 1;
 
+header("content-type:application/json");
 require_once('skautisTry.php');
 
 session_start();

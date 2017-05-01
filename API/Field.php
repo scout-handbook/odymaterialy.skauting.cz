@@ -17,9 +17,17 @@ class Field
 // Field comparison function used in usort. Assumes that both Fields have their lessons sorted low-to-high.
 function Field_cmp($first, $second)
 {
-	if ($first->lessons[0]->competences[0] == $second->lessons[0]->competences[0])
+	if (empty($first->lessons))
 	{
-		return 0;
+		if (empty($second->lessons))
+		{
+			return 0;
+		}
+		return -1;
 	}
-	return ($first->lessons[0]->competences[0] < $second->lessons[0]->competences[0]) ? -1 : 1;
+	if (empty($second->lessons))
+	{
+		return 1;
+	}
+	return Lesson_cmp($first->lessons[0], $second->lessons[0]);
 }

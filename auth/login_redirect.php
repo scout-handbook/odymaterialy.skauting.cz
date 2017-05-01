@@ -28,4 +28,4 @@ $_SESSION['skautis_timeout'] = $timeout;
 
 header('Location: ' . $redirect);
 die();
-?>
+
