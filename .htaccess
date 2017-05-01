@@ -28,6 +28,12 @@ Header always set Expect-CT "max-age=0"
 	Header add Link "</styles/main.css>;rel=preload;as=style"
 	Header add Link "</styles/computer.css>;rel=preload;as=style"
 	Header add Link "</styles/handheld.css>;rel=preload;as=style"
+	Header add Link "</scripts/auth.js>;rel=preload;as=script"
+	Header add Link "</scripts/getLesson.js>;rel=preload;as=script"
+	Header add Link "</scripts/history.js>;rel=preload;as=script"
+	Header add Link "</scripts/listLessons.js>;rel=preload;as=script"
 	Header add Link "</scripts/main.js>;rel=preload;as=script"
+	Header add Link "</scripts/nav.js>;rel=preload;as=script"
+	Header add Link "</scripts/topUI.js>;rel=preload;as=script"
 </FilesMatch>
 
