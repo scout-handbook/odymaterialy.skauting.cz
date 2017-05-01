@@ -12,4 +12,3 @@ header('content-type:application/x-latex; charset=utf-8');
 $parser = new OdyMarkdown();
 $latex = $parser->parse($md);
 echo $latex;
-

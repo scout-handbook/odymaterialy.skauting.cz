@@ -17,4 +17,3 @@ function redirect($skautis)
 
 skautisTry('logout', 'redirect');
 die();
-

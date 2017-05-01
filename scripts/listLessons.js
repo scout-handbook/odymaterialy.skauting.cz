@@ -25,14 +25,16 @@ function showLessonList(list)
 	}
 	document.getElementById("navigation").innerHTML = html;
 	nodes = document.getElementById("navigation").getElementsByTagName("a");
-	for(var i = 0; i < nodes.length; i++)
+	for(var j = 0; j < nodes.length; j++)
 	{
-		nodes[i].onclick = function(event)
-			{
-				getLesson(event.srcElement.innerHTML);
-				return false;
-			}
+		nodes[j].onclick = itemOnClick;
 	}
 	document.getElementById("navBar").style.transition = "margin-left 0.3s ease";
+}
+
+function itemOnClick(event)
+{
+	getLesson(event.srcElement.innerHTML);
+	return false;
 }
 

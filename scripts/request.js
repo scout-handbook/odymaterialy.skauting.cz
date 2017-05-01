@@ -42,7 +42,14 @@ function request(url, query, headers)
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		for(var key in headers)
 		{
-			xhttp.setRequestHeader(key, headers[key]);
+			if(Object.prototype.hasOwnProperty.call(headers, key))
+			{
+				xhttp.setRequestHeader(key, headers[key]);
+			}
+			if({}.hasOwnProperty.call(headers, key))
+			{
+				xhttp.setRequestHeader(key, headers[key]);
+			}
 		}
 		xhttp.send();
 	});
