@@ -10,7 +10,7 @@ function logout($skautis)
 	header('Location: ' . $skautis->getLogoutUrl());
 }
 
-function redirect($skautis)
+function redirect()
 {
 	header('Location: https://odymaterialy.skauting.cz/');
 }

@@ -25,9 +25,9 @@ function showLessonList(list)
 	}
 	document.getElementById("navigation").innerHTML = html;
 	nodes = document.getElementById("navigation").getElementsByTagName("a");
-	for(var j = 0; j < nodes.length; j++)
+	for(var k = 0; k < nodes.length; k++)
 	{
-		nodes[j].onclick = itemOnClick;
+		nodes[k].onclick = itemOnClick;
 	}
 	document.getElementById("navBar").style.transition = "margin-left 0.3s ease";
 }

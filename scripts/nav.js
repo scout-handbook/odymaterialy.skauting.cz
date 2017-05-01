@@ -16,25 +16,28 @@ function switchNav()
 
 function reflow()
 {
+	main = document.getElementById("main").style;
+	navBar = document.getElementById("navBar").style;
+	overlay = document.getElementById("overlay").style;
 	if(navOpen)
 	{
-		document.getElementById("navBar").style.marginLeft = "0px"
+		navBar.marginLeft = "0px"
 		if(screen.width > 700)
 		{
-			document.getElementById("main").style.marginLeft = "300px"
-			document.getElementById("overlay").style.display = "none";
+			main.marginLeft = "300px"
+			overlay.display = "none";
 		}
 		else
 		{
-			document.getElementById("main").style.marginLeft = "0px"
-			document.getElementById("overlay").style.display = "inline";
+			main.marginLeft = "0px"
+			overlay.display = "inline";
 		}
 	}
 	else
 	{
-		document.getElementById("navBar").style.marginLeft = "-300px"
-		document.getElementById("main").style.marginLeft = "0px"
-		document.getElementById("overlay").style.display = "none";
+		navBar.marginLeft = "-300px"
+		main.marginLeft = "0px"
+		overlay.display = "none";
 	}
 }
 

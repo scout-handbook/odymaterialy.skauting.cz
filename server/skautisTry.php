@@ -11,7 +11,11 @@ function skautisTry($success, $failure)
 	{
 		if(($_SESSION['skautis_timeout'] > time()) or $skautis->getUser()->isLoggedIn())
 		{
-			$reconstructedPost = array('skautIS_Token' => $_SESSION['skautis_token'], 'skautIS_IDRole' => '', 'skautIS_IDUnit' => '', 'skautIS_DateLogout' => DateTime::createFromFormat('U', $_SESSION['skautis_timeout'])->setTimezone(new DateTimeZone('Europe/Prague'))->format('j. n. Y H:i:s'));
+			$reconstructedPost = array(
+				'skautIS_Token' => $_SESSION['skautis_token'],
+				'skautIS_IDRole' => '',
+				'skautIS_IDUnit' => '',
+				'skautIS_DateLogout' => DateTime::createFromFormat('U', $_SESSION['skautis_timeout'])->setTimezone(new DateTimeZone('Europe/Prague'))->format('j. n. Y H:i:s'));
 			$skautis->setLoginData($reconstructedPost);
 			try
 			{

@@ -12,11 +12,13 @@ function showUserAccount($skautis)
 	$response['login_state'] = true;
 	$idPerson = $skautis->UserManagement->UserDetail()->ID_Person;
 	$response['user_name'] = $skautis->OrganizationUnit->PersonDetail(array('ID' => $idPerson))->DisplayName;
-	//$response['user_avatar'] = base64_encode($skautis->OrganizationUnit->PersonPhoto(array('ID' => $idPerson, 'Size' => 'big'))->PhotoBigContent);
+	//$response['user_avatar'] = base64_encode($skautis->OrganizationUnit->PersonPhoto(array(
+	//	'ID' => $idPerson,
+	//	'Size' => 'big'))->PhotoBigContent);
 	return $response;
 }
 
-function showLoginForm($skautis)
+function showLoginForm()
 {
 	$response = array();
 	$response['login_state'] = false;
