@@ -40,5 +40,7 @@ ratings:
   - "**.css"
   - "**.js"
   - "**.php"
-exclude_paths: []
+exclude_paths:
+  - "node_modules/"
+  - "vendor/"
 
