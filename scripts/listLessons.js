@@ -5,7 +5,7 @@ function listLessonsSetup()
 
 function listLessons()
 {
-	cacheThenNetworkRequest("/API/list_lessons.php", "", function(response)
+	cacheThenNetworkRequest("/API/list_lessons", "", function(response)
 		{
 			showLessonList(JSON.parse(response));
 		});

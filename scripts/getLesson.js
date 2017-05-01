@@ -14,7 +14,7 @@ function getLesson(lesson, noHistory)
 		navOpen = false;
 		reflow();
 	}
-	cacheThenNetworkRequest("/API/get_lesson.php", "name=" + encodeURIComponent(lesson), function(response)
+	cacheThenNetworkRequest("/API/get_lesson", "name=" + encodeURIComponent(lesson), function(response)
 		{
 			showLesson(lesson, response, noHistory);
 		});
