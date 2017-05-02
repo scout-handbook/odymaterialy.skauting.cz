@@ -1,5 +1,5 @@
 <?php
-namespace OdyMaterialy;
+namespace OdyMaterialyAPI;
 
 @_API_EXEC == 1 or die('Restricted access.');
 

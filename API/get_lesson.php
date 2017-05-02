@@ -2,7 +2,7 @@
 const _API_EXEC = 1;
 
 header('content-type:text/markdown; charset=utf-8');
-require_once('database.secret.php');
+require_once('internal/database.secret.php');
 
 if (!isset($_GET['name']))
 {
@@ -11,7 +11,7 @@ if (!isset($_GET['name']))
 
 $name = $_GET['name'];
 
-$db = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
+$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
 
 if ($db->connect_error)
 {
