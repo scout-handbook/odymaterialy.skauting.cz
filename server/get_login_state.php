@@ -4,8 +4,6 @@ const _EXEC = 1;
 header("content-type:application/json");
 require_once('skautisTry.php');
 
-session_start();
-
 function showUserAccount($skautis)
 {
 	$response = array();
@@ -14,7 +12,7 @@ function showUserAccount($skautis)
 	$response['user_name'] = $skautis->OrganizationUnit->PersonDetail(array('ID' => $idPerson))->DisplayName;
 	//$response['user_avatar'] = base64_encode($skautis->OrganizationUnit->PersonPhoto(array(
 	//	'ID' => $idPerson,
-	//	'Size' => 'big'))->PhotoBigContent);
+	//	'Size' => 'small'))->PhotoSmallContent);
 	return $response;
 }
 
