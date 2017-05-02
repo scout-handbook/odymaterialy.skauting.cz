@@ -22,8 +22,8 @@ elseif(!startsWith($redirect, 'https://'))
 
 $token = $_POST['skautIS_Token'];
 $timeout = DateTime::createFromFormat('j. n. Y H:i:s', $_POST['skautIS_DateLogout'])->format('U');
-setcookie('skautis_token', $token, $timeout, "/", "odymaterialy.skauting.cz", true, true);
-setcookie('skautis_timeout', $timeout, $timeout, "/", "odymaterialy.skauting.cz", true, true);
+setcookie('skautis_token', $token, intval($timeout), "/", "odymaterialy.skauting.cz", true, true);
+setcookie('skautis_timeout', $timeout, intval($timeout), "/", "odymaterialy.skauting.cz", true, true);
 
 header('Location: ' . $redirect);
 die();

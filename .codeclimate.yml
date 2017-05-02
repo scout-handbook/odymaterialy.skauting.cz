@@ -31,6 +31,9 @@ engines:
         enabled: false
   phpmd:
     enabled: true
+    checks:
+      Controversial/Superglobals:
+        enabled: false
   phan:
     enabled: true
     config:
