@@ -18,15 +18,16 @@ function filterCommand(text, commandName, command)
 	while(start >= 0)
 	{
 		var argumentObject = {};
-		if(text.charAt(start + commandName.length + 1) == "[")
+		var stop = 0;
+		if(text.charAt(start + commandName.length + 1) === "[")
 		{
-			var stop = text.indexOf("]", start + commandName.length + 2);
+			stop = text.indexOf("]", start + commandName.length + 2);
 			var argumentString = text.substring(start + commandName.length + 2, stop);
 			argumentObject = parseArguments(argumentString);
 		}
 		else
 		{
-			var stop = start + commandName.length;
+			stop = start + commandName.length;
 		}
 		text = text.substring(0, start) + command(argumentObject) + text.substring(stop + 1, text.length)
 		start = text.indexOf("!" + commandName);
@@ -41,7 +42,7 @@ function parseArguments(argumentString)
 	for(i = 0; i < list.length; ++i)
 	{
 		var tuple = list[i].split("=");
-		if (tuple.length != 2)
+		if (tuple.length !== 2)
 		{
 			return {};
 		}

@@ -1,7 +1,8 @@
 <?php
 const _API_EXEC = 1;
 
-require_once(__DIR__ . '/database.secret.php');
+header('content-type:text/markdown; charset=utf-8');
+require_once('database.secret.php');
 
 if (!isset($_GET['name']))
 {

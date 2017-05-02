@@ -100,5 +100,3 @@ class OdyMarkdown extends GithubMarkdown
 		return "\\" . $style . $height . "\n";
 	}
 }
-?>
-
