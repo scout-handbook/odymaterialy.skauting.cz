@@ -32,6 +32,8 @@ engines:
   phpmd:
     enabled: true
     checks:
+      CleanCode/ElseExpression:
+        enabled: false
       Controversial/Superglobals:
         enabled: false
   phan:
@@ -43,5 +45,7 @@ ratings:
   - "**.css"
   - "**.js"
   - "**.php"
-exclude_paths: []
+exclude_paths:
+  - "node_modules/"
+  - "vendor/"
 
