@@ -56,11 +56,7 @@ function cacheUpdatingResponse(request)
 	{
 		return fetch(request).then(function(response)
 			{
-				return caches.open(CACHE).then(function(cache)
-					{
-						cache.put(request, response.clone());
-						return response;
-					});
+				return cacheClone(request, response);
 			});
 	}
 }
@@ -81,11 +77,7 @@ function cacheOnDemandResponse(request)
 						{
 							return response
 						}
-						return caches.open(CACHE).then(function(cache)
-							{
-								cache.put(request, response.clone());
-								return response;
-							});
+						return cacheClone(request, response);
 					});
 			});
 	}
@@ -103,3 +95,11 @@ function genericResponse(request)
 		})
 }
 
+function cacheClone(request, response)
+{
+	return caches.open(CACHE).then(function(cache)
+		{
+			cache.put(request, response.clone());
+			return response;
+		});
+}
