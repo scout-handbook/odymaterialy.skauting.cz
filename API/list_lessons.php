@@ -2,9 +2,9 @@
 const _API_EXEC = 1; // Required by includes
 
 header('content-type:application/json; charset=utf-8');
-require_once('database.secret.php');
-require_once('Field.php');
-require_once('Lesson.php');
+require_once('internal/database.secret.php');
+require_once('internal/Field.php');
+require_once('internal/Lesson.php');
 
 // Prepared statements where ? will be replaced later
 
@@ -26,7 +26,7 @@ SQL;
 
 // Open database connection
 
-$db = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
+$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
 
 if ($db->connect_error)
 {
@@ -49,7 +49,7 @@ $field_statement->bind_result($field_id, $field_name);
 $fields = array();
 while ($field_statement->fetch())
 {
-	$fields[] = new OdyMaterialy\Field($field_name); // Create a new field
+	$fields[] = new OdyMaterialyAPI\Field($field_name); // Create a new field
 
 	// Populate the newly-created Field with its lessons
 
@@ -69,7 +69,7 @@ while ($field_statement->fetch())
 	while ($lesson_statement->fetch())
 	{
 		// Create a new Lesson in the newly-created Field
-		end($fields)->lessons[] = new OdyMaterialy\Lesson($lesson_name, $lesson_version);
+		end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_name, $lesson_version);
 
 		// Find out the competences this Lesson belongs to
 
@@ -93,10 +93,10 @@ while ($field_statement->fetch())
 	}
 	$lesson_statement->close();
 	// Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high
-	usort(end($fields)->lessons, "OdyMaterialy\Lesson_cmp");
+	usort(end($fields)->lessons, "OdyMaterialyAPI\Lesson_cmp");
 }
 $field_statement->close();
 $db->close();
-usort($fields, "OdyMaterialy\Field_cmp"); // Sort all the Fields by lowest competence in the Field low-to-high
+usort($fields, "OdyMaterialyAPI\Field_cmp"); // Sort all the Fields by lowest competence in the Field low-to-high
 
 echo(json_encode($fields, JSON_UNESCAPED_UNICODE));
