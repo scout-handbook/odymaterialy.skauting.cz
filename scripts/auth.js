@@ -21,7 +21,7 @@ function getLoginState()
 				}
 			}
 		}
-	xhttp.open("GET", "/server/get_login_state.php?returnUri=" + window.location.pathname, true);
+	xhttp.open("GET", "/API/get_login_state?returnUri=" + window.location.pathname, true);
 	xhttp.send();
 }
 

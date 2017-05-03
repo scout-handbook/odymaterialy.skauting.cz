@@ -1,7 +1,7 @@
 <?php
 const _EXEC = 1;
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/server/internal/skautisTry.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 
 function logout($skautis)
 {
