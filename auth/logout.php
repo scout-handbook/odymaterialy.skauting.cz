@@ -11,10 +11,10 @@ if(isset($_COOKIE['skautis_token']))
 		'skautIS_Token' => $_COOKIE['skautis_token'],
 		'skautIS_IDRole' => '',
 		'skautIS_IDUnit' => '',
-		'skautIS_DateLogout' => \DateTime::createFromFormat('U', time() + 60)
+		'skautIS_DateLogout' => \DateTime::createFromFormat('U', strval(time() + 60))
 			->setTimezone(new \DateTimeZone('Europe/Prague'))->format('j. n. Y H:i:s'));
 	$skautis->setLoginData($reconstructedPost);
 	header('Location: ' . $skautis->getLogoutUrl());
-} 
+}
 header('Location: https://odymaterialy.skauting.cz/');
 die();

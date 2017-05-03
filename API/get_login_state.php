@@ -5,9 +5,9 @@ header("content-type:application/json");
 require_once('internal/database.secret.php');
 require_once('internal/skautisTry.php');
 
-function get_role($idPerson)
+function getRole($idPerson)
 {
-	$get_role_sql = <<<SQL
+	$getRoleSQL = <<<SQL
 SELECT role FROM users WHERE id = ?;
 SQL;
 
@@ -16,10 +16,10 @@ SQL;
 	{
 		throw new Exception('Failed to connect to the database. Error: ' . $db->connect_error);
 	}
-	$statement = $db->prepare($get_role_sql);
+	$statement = $db->prepare($getRoleSQL);
 	if($statement === false)
 	{
-		throw new Exception('Invalid SQL: "' . $get_role_sql . '". Error: ' . $db->error);
+		throw new Exception('Invalid SQL: "' . $getRoleSQL . '". Error: ' . $db->error);
 	}
 	$statement->bind_param('i', $idPerson);
 	$statement->execute();
@@ -28,21 +28,21 @@ SQL;
 	$statement->bind_result($role);
 	if(!$statement->fetch())
 	{
-		register_user($db, $idPerson);
+		registerUser($db, $idPerson);
 		return 0;
 	}
 	return $role;
 }
 
-function register_user($db, $idPerson)
+function registerUser($db, $idPerson)
 {
-	$register_user_sql = <<<SQL
+	$registerUserSQL = <<<SQL
 INSERT INTO users (id) VALUES (?)
 SQL;
-	$statement = $db->prepare($register_user_sql);
+	$statement = $db->prepare($registerUserSQL);
 	if($statement === false)
 	{
-		throw new Exception('Invalid SQL: "' . $get_role_sql . '". Error: ' . $db->error);
+		throw new Exception('Invalid SQL: "' . $registerUserSQL . '". Error: ' . $db->error);
 	}
 	$statement->bind_param('i', $idPerson);
 	$statement->execute();
@@ -54,7 +54,7 @@ function showUserAccount($skautis)
 	$response['login_state'] = true;
 	$idPerson = $skautis->UserManagement->UserDetail()->ID_Person;
 	$response['user_name'] = $skautis->OrganizationUnit->PersonDetail(array('ID' => $idPerson))->DisplayName;
-	$response['role'] = get_role($idPerson);
+	$response['role'] = getRole($idPerson);
 	return $response;
 }
 
