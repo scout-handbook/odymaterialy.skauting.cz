@@ -2,7 +2,7 @@
 const _EXEC = 1;
 
 header("content-type:application/json");
-require_once('skautisTry.php');
+require_once('internal/skautisTry.php');
 
 function showUserAccount($skautis)
 {
