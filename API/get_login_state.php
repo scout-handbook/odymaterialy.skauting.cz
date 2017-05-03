@@ -1,5 +1,5 @@
 <?php
-const _EXEC = 1;
+const _API_EXEC = 1;
 
 header("content-type:application/json");
 require_once('internal/skautisTry.php');
@@ -20,4 +20,4 @@ function showLoginForm()
 	return $response;
 }
 
-echo(json_encode(skautisTry('showUserAccount', 'showLoginForm')));
+echo(json_encode(OdymaterialyAPI\skautisTry('showUserAccount', 'showLoginForm')));

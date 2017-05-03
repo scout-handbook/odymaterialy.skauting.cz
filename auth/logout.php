@@ -1,17 +1,20 @@
 <?php
-const _EXEC = 1;
+const _AUTH_EXEC = 1;
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautis.secret.php');
 
-function logout($skautis)
+if(isset($_COOKIE['skautis_token']))
 {
+	$skautis = Skautis\Skautis::getInstance(OdyMaterialyAPI\SKAUTIS_APP_ID, OdyMaterialyAPI\SKAUTIS_TEST_MODE);
+	$reconstructedPost = array(
+		'skautIS_Token' => $_COOKIE['skautis_token'],
+		'skautIS_IDRole' => '',
+		'skautIS_IDUnit' => '',
+		'skautIS_DateLogout' => \DateTime::createFromFormat('U', time() + 60)
+			->setTimezone(new \DateTimeZone('Europe/Prague'))->format('j. n. Y H:i:s'));
+	$skautis->setLoginData($reconstructedPost);
 	header('Location: ' . $skautis->getLogoutUrl());
-}
-
-function redirect()
-{
-	header('Location: https://odymaterialy.skauting.cz/');
-}
-
-skautisTry('logout', 'redirect');
+} 
+header('Location: https://odymaterialy.skauting.cz/');
 die();
