@@ -84,9 +84,9 @@ function showMainPage(lessonList, noHistory)
 	document.getElementById("content").innerHTML = html;
 	
 	nodes = document.getElementById("content").getElementsByTagName("h3");
-	for(var k = 0; k < nodes.length; k++)
+	for(var l = 0; l < nodes.length; l++)
 	{
-		nodes[k].firstChild.onclick = itemOnClick;
+		nodes[l].firstChild.onclick = itemOnClick;
 	}
 
 	document.getElementById("main").scrollTop = 0;
