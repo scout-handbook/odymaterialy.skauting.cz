@@ -1,21 +1,34 @@
 var CACHE = "odymaterialy-v1";
 var cacheBlocking = [
 	"/index.html",
+	"/scripts/auth.js",
+	"/scripts/getLesson.js",
+	"/scripts/history.js",
+	"/scripts/listLessons.js",
+	"/scripts/main.js",
+	"/scripts/nav.js",
+	"/scripts/OdyMarkdown.js",
+	"/scripts/request.js",
+	"/scripts/topUI.js",
+	"/styles/lesson.css",
 	"/styles/main.css",
-	"/styles/handheld.css",
+	"/styles/mainPage.css",
+	"/styles/nav.css",
+	"/styles/offlineSwitch.css",
+	"/styles/topUI.css",
 	"/styles/computer.css",
-	"/scripts/main.js"
+	"/styles/handheld.css"
 ];
 var cacheNonBlocking = [
 	"/node_modules/showdown/dist/showdown.min.js"
 ];
 
 var cacheUpdating = [
-	"/API/list_lessons.php"
+	"/API/list_lessons"
 ];
 
 var cacheOnDemand = [
-	"/API/get_lesson.php"
+	"/API/get_lesson"
 ];
 
 self.addEventListener("install", function(event)
