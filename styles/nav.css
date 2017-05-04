@@ -1,0 +1,90 @@
+nav
+{
+	position: absolute;
+	width: 300px;
+	height: 100%;
+	overflow-y: auto;
+	background: #fafafa;
+	border-right: 1px solid #bfbfbf;
+	z-index: 2;
+}
+
+nav a
+{
+	color: #6534AD;
+	text-decoration: none;
+}
+
+nav a:hover
+{
+	text-decoration: underline;
+}
+
+#userAccount
+{
+	height: 80px;
+	border-bottom: 1px solid #bfbfbf;
+}
+
+#userAvatar
+{
+	margin: 5px 15px;
+	border: 5px solid #e0e0e0;
+	border-radius:50%;
+	overflow:hidden;
+	width: 60px;
+	height: 60px;
+	float: left;
+}
+
+#userName
+{
+	padding-top: 12px;
+}
+
+#logLink
+{
+	margin-top: 5px;
+}
+
+#navContainer
+{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+#navContainer h1
+{
+	margin-left: 20px;
+	margin-right: 20px;
+	font-size: large;
+	color: #364149;
+}
+
+#navContainer a
+{
+	display: inline-block;
+	margin: 10px 20px 10px 30px;
+}
+
+#navContainer h1 a
+{
+	color: #364149;
+	margin: 0;
+}
+
+#navCloseButton
+{
+	margin-right: 20px;
+	float: right;
+}
+
+#overlay
+{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background-color: #999999;
+	background-color: rgba(0, 0, 0, 0.4);
+	z-index: 1;
+}

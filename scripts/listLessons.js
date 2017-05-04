@@ -29,7 +29,7 @@ function showLessonList(list)
 	{
 		nodes[k].onclick = itemOnClick;
 	}
-	document.getElementById("navBar").style.transition = "margin-left 0.3s ease";
+	document.getElementsByTagName("nav")[0].style.transition = "margin-left 0.3s ease";
 }
 
 function itemOnClick(event)
