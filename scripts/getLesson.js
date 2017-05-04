@@ -5,10 +5,19 @@ function getLessonSetup()
 	converter = new showdown.Converter({extensions: ["notes"]});
 	converter.setOption("noHeaderId", "true");
 	converter.setOption("tables", "true");
+	getLesson();
 }
 
 function getLesson(lesson, noHistory)
 {
+	if(lesson === undefined)
+	{
+		listLessons(function(lessonList)
+			{
+				showMainPage(lessonList, noHistory);
+			});
+		return;
+	}
 	if(screen.width < 700)
 	{
 		navOpen = false;
@@ -33,7 +42,7 @@ function showLesson(name, markdown, noHistory)
 	}
 	if("serviceWorker" in navigator)
 	{
-		caches.match("/API/get_lesson.php?name=" + encodeURIComponent(name)).then(function(response)
+		caches.match("/API/get_lesson?name=" + encodeURIComponent(name)).then(function(response)
 			{
 				if(response === undefined)
 				{
@@ -51,3 +60,7 @@ function showLesson(name, markdown, noHistory)
 	}
 }
 
+function showMainPage(lessonList, noHistory)
+{
+	document.getElementById("content").innerHTML = "Main Page";
+}

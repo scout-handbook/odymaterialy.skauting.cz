@@ -17,7 +17,7 @@ function popback()
 	}
 	else
 	{
-		document.getElementById("content").innerHTML = "";
+		getLesson(undefined, true);
 	}
 }
 
