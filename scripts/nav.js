@@ -5,6 +5,11 @@ function navSetup()
 	window.onresize = reflow;
 	document.getElementById("navCloseButton").onclick = switchNav;
 	document.getElementById("overlay").onclick = switchNav;
+	document.getElementById("lessonOverview").onclick = function()
+		{
+			getLesson();
+			return false;
+		}
 	reflow();
 }
 
