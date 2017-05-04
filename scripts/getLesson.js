@@ -69,15 +69,15 @@ function showMainPage(lessonList, noHistory)
 		for(var j = 0; j < lessonList[i].lessons.length; j++)
 		{
 			var name = lessonList[i].lessons[j].name;
-			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\">" + name + "</a></h3><br>";
+			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\">" + name + "</a></h3>";
 			if(lessonList[i].lessons[j].competences.length > 0)
 			{
-				html += "Kompetence: " + lessonList[i].lessons[j].competences[0];
+				html += "<span class=\"mainPage\">Kompetence: " + lessonList[i].lessons[j].competences[0];
 				for(var k = 1; k < lessonList[i].lessons[j].competences.length; k++)
 				{
 					html += ", " + lessonList[i].lessons[j].competences[k];
 				}
-				html += "<br>";
+				html += "</span>";
 			}
 		}
 	}
@@ -86,7 +86,6 @@ function showMainPage(lessonList, noHistory)
 	nodes = document.getElementById("content").getElementsByTagName("h3");
 	for(var k = 0; k < nodes.length; k++)
 	{
-		console.log(nodes[k].firstChild);
 		nodes[k].firstChild.onclick = itemOnClick;
 	}
 
