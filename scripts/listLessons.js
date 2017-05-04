@@ -1,13 +1,13 @@
 function listLessonsSetup()
 {
-	listLessons();
+	listLessons(showLessonList);
 }
 
-function listLessons()
+function listLessons(callback)
 {
 	cacheThenNetworkRequest("/API/list_lessons", "", function(response)
 		{
-			showLessonList(JSON.parse(response));
+			callback(JSON.parse(response));
 		});
 }
 
@@ -37,4 +37,3 @@ function itemOnClick(event)
 	getLesson(event.srcElement.innerHTML);
 	return false;
 }
-

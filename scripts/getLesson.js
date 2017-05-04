@@ -5,10 +5,19 @@ function getLessonSetup()
 	converter = new showdown.Converter({extensions: ["notes"]});
 	converter.setOption("noHeaderId", "true");
 	converter.setOption("tables", "true");
+	getLesson();
 }
 
 function getLesson(lesson, noHistory)
 {
+	if(lesson === undefined)
+	{
+		listLessons(function(lessonList)
+			{
+				showMainPage(lessonList, noHistory);
+			});
+		return;
+	}
 	if(screen.width < 700)
 	{
 		navOpen = false;
@@ -33,7 +42,7 @@ function showLesson(name, markdown, noHistory)
 	}
 	if("serviceWorker" in navigator)
 	{
-		caches.match("/API/get_lesson.php?name=" + encodeURIComponent(name)).then(function(response)
+		caches.match("/API/get_lesson?name=" + encodeURIComponent(name)).then(function(response)
 			{
 				if(response === undefined)
 				{
@@ -51,3 +60,39 @@ function showLesson(name, markdown, noHistory)
 	}
 }
 
+function showMainPage(lessonList, noHistory)
+{
+	var html = "<h1>OdyMateriály</h1>";
+	for(var i = 0; i < lessonList.length; i++)
+	{
+		html += "<h2 class=\"mainPage\">" + lessonList[i].name + "</h2>";
+		for(var j = 0; j < lessonList[i].lessons.length; j++)
+		{
+			var name = lessonList[i].lessons[j].name;
+			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\">" + name + "</a></h3>";
+			if(lessonList[i].lessons[j].competences.length > 0)
+			{
+				html += "<span class=\"mainPage\">Kompetence: " + lessonList[i].lessons[j].competences[0];
+				for(var k = 1; k < lessonList[i].lessons[j].competences.length; k++)
+				{
+					html += ", " + lessonList[i].lessons[j].competences[k];
+				}
+				html += "</span>";
+			}
+		}
+	}
+	document.getElementById("content").innerHTML = html;
+	
+	nodes = document.getElementById("content").getElementsByTagName("h3");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		nodes[l].firstChild.onclick = itemOnClick;
+	}
+
+	document.getElementById("main").scrollTop = 0;
+	if(!noHistory)
+	{
+		history.pushState({}, "title", "/");
+	}
+	document.getElementById("offlineSwitch").style.display = "none";
+}
