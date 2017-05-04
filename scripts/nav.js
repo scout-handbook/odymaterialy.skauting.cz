@@ -21,7 +21,7 @@ function switchNav()
 
 function reflow()
 {
-	main = document.getElementById("main").style;
+	main = document.getElementsByTagName("main")[0].style;
 	navBar = document.getElementsByTagName("nav")[0].style;
 	overlay = document.getElementById("overlay").style;
 	if(navOpen)
