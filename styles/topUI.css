@@ -1,0 +1,25 @@
+.topButton
+{
+	color: #6a797d;
+	cursor: pointer;
+	transition: color ease 0.15s;
+}
+
+.topButton:hover
+{
+	color: #222222;
+}
+
+#fontDecrease
+{
+	margin-right: 20px;
+	float: right;
+	font-size: small;
+}
+
+#fontIncrease
+{
+	margin-right: 20px;
+	float: right;
+	font-size: x-large;
+}
