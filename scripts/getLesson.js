@@ -94,4 +94,5 @@ function showMainPage(lessonList, noHistory)
 	{
 		history.pushState({}, "title", "/");
 	}
+	document.getElementById("offlineSwitch").style.display = "none";
 }
