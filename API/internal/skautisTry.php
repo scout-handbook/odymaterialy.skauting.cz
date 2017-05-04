@@ -18,7 +18,7 @@ function skautisTry($success, $failure)
 			'skautIS_DateLogout' => \DateTime::createFromFormat('U', $_COOKIE['skautis_timeout'])
 				->setTimezone(new \DateTimeZone('Europe/Prague'))->format('j. n. Y H:i:s'));
 		$skautis->setLoginData($reconstructedPost);
-		if($skautis->getUser()->isLoggedIn())
+		if($skautis->getUser()->isLoggedIn() || $skautis->getUser()->isLoggedIn(true))
 		{
 			try
 			{
