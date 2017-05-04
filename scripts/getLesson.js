@@ -62,5 +62,37 @@ function showLesson(name, markdown, noHistory)
 
 function showMainPage(lessonList, noHistory)
 {
-	document.getElementById("content").innerHTML = "Main Page";
+	var html = "<h1>OdyMateriály</h1>";
+	for(var i = 0; i < lessonList.length; i++)
+	{
+		html += "<h2 class=\"mainPage\">" + lessonList[i].name + "</h2>";
+		for(var j = 0; j < lessonList[i].lessons.length; j++)
+		{
+			var name = lessonList[i].lessons[j].name;
+			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\">" + name + "</a></h3><br>";
+			if(lessonList[i].lessons[j].competences.length > 0)
+			{
+				html += "Kompetence: " + lessonList[i].lessons[j].competences[0];
+				for(var k = 1; k < lessonList[i].lessons[j].competences.length; k++)
+				{
+					html += ", " + lessonList[i].lessons[j].competences[k];
+				}
+				html += "<br>";
+			}
+		}
+	}
+	document.getElementById("content").innerHTML = html;
+	
+	nodes = document.getElementById("content").getElementsByTagName("h3");
+	for(var k = 0; k < nodes.length; k++)
+	{
+		console.log(nodes[k].firstChild);
+		nodes[k].firstChild.onclick = itemOnClick;
+	}
+
+	document.getElementById("main").scrollTop = 0;
+	if(!noHistory)
+	{
+		history.pushState({}, "title", "/");
+	}
 }
