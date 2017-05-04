@@ -1,0 +1,41 @@
+main a
+{
+	color: #6534AD;
+	text-decoration: none;
+}
+
+main a:hover
+{
+	text-decoration: underline;
+}
+
+main h1
+{
+	line-height: 140%;
+}
+
+{
+	border: 1px solid #DDDDDD;
+	border-collapse: collapse;
+}
+
+td, th
+{
+	border: 1px solid #DDDDDD;
+	padding: 8px 20px;
+}
+
+th
+{
+	border-bottom-width: 2px;
+}
+
+tbody tr:nth-child(2n+1)
+{
+	background-color: #F9F9F9;
+}
+
+.notes
+{
+	display: block;
+}

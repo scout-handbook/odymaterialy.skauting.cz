@@ -28,7 +28,12 @@ Header always set Expect-CT "max-age=0"
 
 # Server push
 <FilesMatch "index.html">
+	Header add Link "</styles/lesson.css>;rel=preload;as=style"
 	Header add Link "</styles/main.css>;rel=preload;as=style"
+	Header add Link "</styles/mainPage.css>;rel=preload;as=style"
+	Header add Link "</styles/nav.css>;rel=preload;as=style"
+	Header add Link "</styles/offlineSwitch.css>;rel=preload;as=style"
+	Header add Link "</styles/topUI.css>;rel=preload;as=style"
 	Header add Link "</styles/computer.css>;rel=preload;as=style"
 	Header add Link "</styles/handheld.css>;rel=preload;as=style"
 	Header add Link "</scripts/auth.js>;rel=preload;as=script"
