@@ -34,7 +34,7 @@ function showLesson(name, markdown, noHistory)
 	var html = converter.makeHtml(markdown);
 	html = "<h1>" + name + "</h1>" + html;
 	document.getElementById("content").innerHTML = html;
-	document.getElementById("main").scrollTop = 0;
+	document.getElementsByTagName("main")[0].scrollTop = 0;
 	var stateObject = { lessonName: name };
 	if(!noHistory)
 	{
@@ -89,7 +89,7 @@ function showMainPage(lessonList, noHistory)
 		nodes[l].firstChild.onclick = itemOnClick;
 	}
 
-	document.getElementById("main").scrollTop = 0;
+	document.getElementsByTagName("main")[0].scrollTop = 0;
 	if(!noHistory)
 	{
 		history.pushState({}, "title", "/");
