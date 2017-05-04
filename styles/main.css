@@ -77,6 +77,12 @@ nav a:hover
 	margin: 10px 20px 10px 30px;
 }
 
+#navContainer h1 a
+{
+	color: #364149;
+	margin: 0;
+}
+
 .topButton
 {
 	color: #6a797d;
@@ -246,5 +252,22 @@ main tbody tr:nth-child(2n+1)
 .notes
 {
 	display: block;
+}
+
+h2.mainPage
+{
+	margin-top: 40px;
+}
+
+h3.mainPage
+{
+	margin-top: 40px;
+	margin-left: 20px;
+	margin-bottom: 10px;
+}
+
+span.mainPage
+{
+	margin-left: 20px;
 }
 
