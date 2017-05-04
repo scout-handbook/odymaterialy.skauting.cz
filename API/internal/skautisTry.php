@@ -1,7 +1,7 @@
 <?php
 namespace OdyMaterialyAPI;
 
-@_API_EXEC === 1 or die('Restricted access.');
+@_API_EXEC === 1 or @_AUTH_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once('skautis.secret.php');
