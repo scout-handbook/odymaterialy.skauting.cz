@@ -25,4 +25,3 @@ Allow from 127.0.0.1
 	#Header add Link "</scripts/nav.js>;rel=preload;as=script"
 	#Header add Link "</scripts/topUI.js>;rel=preload;as=script"
 </FilesMatch>
-

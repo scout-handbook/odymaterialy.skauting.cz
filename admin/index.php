@@ -8,6 +8,7 @@ function success($skautis)
 	ob_start();
 	include($_SERVER['DOCUMENT_ROOT'] . '/API/get_login_state.php');
 	$loginState = ob_get_clean();
+	header("content-type:text/html");
 	$role = json_decode($loginState)->role;
 	if($role !== "editor" and $role !== "administrator" and $role !== "superuser")
 	{
