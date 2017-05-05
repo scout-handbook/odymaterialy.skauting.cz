@@ -12,6 +12,7 @@ function getLesson(lesson, noHistory)
 	if(lesson === undefined || lesson === "")
 	{
 		getMainPage(noHistory);
+		return;
 	}
 	request("/API/get_lesson", "name=" + encodeURIComponent(lesson), function(response)
 		{

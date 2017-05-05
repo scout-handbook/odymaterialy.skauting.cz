@@ -13,7 +13,8 @@ function getMainPage(noHistory)
 
 function showMainPage(lessonList, noHistory)
 {
-	var html = "<h1>OdyMateriály - administrace</h1>";
+	var html = "<div id=\"mainPage\">";
+	html += "<h1>OdyMateriály - administrace</h1>";
 	for(var i = 0; i < lessonList.length; i++)
 	{
 		html += "<h2 class=\"mainPage\">" + lessonList[i].name + "</h2>";
@@ -32,6 +33,7 @@ function showMainPage(lessonList, noHistory)
 			}
 		}
 	}
+	html += "</div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	
 	nodes = document.getElementsByTagName("main")[0].getElementsByTagName("h3");
