@@ -21,7 +21,8 @@ function getLesson(lesson, noHistory)
 
 function showLesson(name, markdown, noHistory)
 {
-	var html = "<div id=\"editor\">" + markdown + "</div><div id=\"preview\">";
+	var html = "<header>HELLO</header>"
+	html += "<div id=\"editor\">" + markdown + "</div><div id=\"preview\">";
 	html += "<h1>" + name + "</h1>";
 	html += converter.makeHtml(markdown);
 	html += "</div>";
@@ -36,5 +37,4 @@ function showLesson(name, markdown, noHistory)
 	editor.setTheme("ace/theme/dreamweaver");
 	editor.getSession().setMode("ace/mode/markdown");
 	editor.getSession().setUseWrapMode(true);
-	editor.resize();
 }

@@ -1,7 +1,6 @@
 body
 {
 	margin: 0;
-	padding: 20px;
 	font-size: 16px;
 	line-height: 160%;
 	font-family: "Open Sans", sans-serif;
@@ -11,26 +10,28 @@ body
 
 main
 {
-	/*position: absolute;
-	left: 0;
-	right: 0;
-	overflow-y: auto;
-	height: 100%;*/
 	color: #222222;
+}
+
+#header
+{
+	height: 40px;
 }
 
 #editor
 {
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: 40px;
 	bottom: 0;
-	left: 0;
 	width: 47.5%;
 }
 
 #preview
 {
-	float: right;
+	position: absolute;
+	top: 40px;
+	left: 52.5%;
+	bottom: 0;
+	overflow-y: auto;
 	width: 47.5%;
 }
