@@ -1,0 +1,20 @@
+body
+{
+	margin: 0;
+	padding: 20px;
+	font-size: 16px;
+	line-height: 160%;
+	font-family: "Open Sans", sans-serif;
+	font-kerning: normal;
+	font-feature-settings: "liga" 1;
+}
+
+main
+{
+	/*position: absolute;
+	left: 0;
+	right: 0;
+	overflow-y: auto;
+	height: 100%;*/
+	color: #222222;
+}
