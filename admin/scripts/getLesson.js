@@ -21,13 +21,20 @@ function getLesson(lesson, noHistory)
 
 function showLesson(name, markdown, noHistory)
 {
-	var html = converter.makeHtml(markdown);
-	html = "<h1>" + name + "</h1>" + html;
+	var html = "<div id=\"editor\">" + markdown + "</div><div id=\"preview\">";
+	html += "<h1>" + name + "</h1>";
+	html += converter.makeHtml(markdown);
+	html += "</div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
-	document.getElementsByTagName("main")[0].scrollTop = 0;
 	var stateObject = { lessonName: name };
 	if(!noHistory)
 	{
 		history.pushState(stateObject, "title", "/admin/");
 	}
+
+	var editor = ace.edit("editor");
+	editor.setTheme("ace/theme/dreamweaver");
+	editor.getSession().setMode("ace/mode/markdown");
+	editor.getSession().setUseWrapMode(true);
+	editor.resize();
 }

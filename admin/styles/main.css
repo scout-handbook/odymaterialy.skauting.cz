@@ -18,3 +18,19 @@ main
 	height: 100%;*/
 	color: #222222;
 }
+
+#editor
+{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 47.5%;
+}
+
+#preview
+{
+	float: right;
+	width: 47.5%;
+}
