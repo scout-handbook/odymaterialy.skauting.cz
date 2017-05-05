@@ -20,7 +20,7 @@ function getMainPage()
 
 function showMainPage(lessonList, noHistory)
 {
-	var html = "<h1>OdyMateriály</h1>";
+	var html = "<h1>OdyMateriály - administrace</h1>";
 	for(var i = 0; i < lessonList.length; i++)
 	{
 		html += "<h2 class=\"mainPage\">" + lessonList[i].name + "</h2>";
@@ -50,6 +50,12 @@ function showMainPage(lessonList, noHistory)
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	if(!noHistory)
 	{
-		history.pushState({}, "title", "/");
+		history.pushState({}, "title", "/admin/");
 	}
+}
+
+function itemOnClick(event)
+{
+	getLesson(event.srcElement.innerHTML);
+	return false;
 }
