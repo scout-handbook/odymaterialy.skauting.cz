@@ -27,14 +27,31 @@ function showLesson(name, markdown, noHistory)
 	html += converter.makeHtml(markdown);
 	html += "</div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
+
 	var stateObject = { lessonName: name };
 	if(!noHistory)
 	{
 		history.pushState(stateObject, "title", "/admin/");
 	}
 
+	document.getElementById("discard").onclick = discard;
+	document.getElementById("save").onclick = save;
+
 	var editor = ace.edit("editor");
 	editor.setTheme("ace/theme/dreamweaver");
 	editor.getSession().setMode("ace/mode/markdown");
 	editor.getSession().setUseWrapMode(true);
+}
+
+function discard()
+{
+	if(confirm("Opravdu si přejete zahodit všechny změny?"))
+	{
+		history.back();
+	}
+}
+
+function save()
+{
+	console.log("SAVE");
 }
