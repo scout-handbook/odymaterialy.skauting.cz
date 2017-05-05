@@ -3,19 +3,12 @@ function mainPageSetup()
 	getMainPage();
 }
 
-function getMainPage()
+function getMainPage(noHistory)
 {
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function()
+	request("/API/list_lessons", "", function(response)
 		{
-			if(this.readyState === 4 && this.status === 200)
-			{
-				showMainPage(JSON.parse(this.responseText));
-			}
-		}
-	xhttp.open("GET", "/API/list_lessons", true);
-	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send();
+			showMainPage(JSON.parse(response), noHistory);
+		});
 }
 
 function showMainPage(lessonList, noHistory)
