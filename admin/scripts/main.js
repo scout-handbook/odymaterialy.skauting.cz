@@ -1,7 +1,8 @@
 function main()
 {
-	mainPageSetup();
 	getLessonSetup();
+	historySetup();
+	mainPageSetup();
 }
 
 window.onload = main;

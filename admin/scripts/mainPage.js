@@ -41,9 +41,10 @@ function showMainPage(lessonList, noHistory)
 	}
 
 	document.getElementsByTagName("main")[0].scrollTop = 0;
+	var stateObject = { lessonName: "" };
 	if(!noHistory)
 	{
-		history.pushState({}, "title", "/admin/");
+		history.pushState(stateObject, "title", "/admin/");
 	}
 }
 

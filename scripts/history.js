@@ -10,7 +10,6 @@ function historySetup()
 
 function popback()
 {
-	var lessonName = decodeURIComponent(window.location.pathname.substring(8));
-	getLesson(lessonName, true);
+	getLesson(history.state.lessonName, true);
 }
 

@@ -9,7 +9,7 @@ function getLessonSetup()
 
 function getLesson(lesson, noHistory)
 {
-	if(lesson === undefined)
+	if(lesson === undefined || lesson === "")
 	{
 		getMainPage(noHistory);
 	}
