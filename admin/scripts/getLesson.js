@@ -21,7 +21,7 @@ function getLesson(lesson, noHistory)
 
 function showLesson(name, markdown, noHistory)
 {
-	var html = "<header>HELLO</header>"
+	var html = "<header><div id=\"discard\"><i class=\"icon-left-big\"></i>Zrušit</div><div id=\"save\">Uložit<i class=\"icon-floppy\"></i></div></header>"
 	html += "<div id=\"editor\">" + markdown + "</div><div id=\"preview\">";
 	html += "<h1>" + name + "</h1>";
 	html += converter.makeHtml(markdown);
