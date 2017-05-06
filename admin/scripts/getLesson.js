@@ -55,7 +55,7 @@ function save()
 	{
 		var id = document.getElementById("save").dataset.id;
 		var query = "id=" + id + "&body=" + encodeURIComponent(ace.edit("editor").getValue());
-		request("/API/change_lesson", query, afterSave);
+		POSTrequest("/API/change_lesson", query, afterSave);
 	}
 	else
 	{

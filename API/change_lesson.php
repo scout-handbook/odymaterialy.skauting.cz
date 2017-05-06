@@ -3,20 +3,20 @@ const _API_EXEC = 1;
 
 require_once('internal/database.secret.php');
 
-if(!isset($_GET['id']))
+if(!isset($_POST['id']))
 {
-	throw new Exception('GET argument "id" must be provided.');
+	throw new Exception('POST argument "id" must be provided.');
 }
 
-$id = $_GET['id'];
+$id = $_POST['id'];
 
-if(isset($_GET['name']))
+if(isset($_POST['name']))
 {
-	$name = $_GET['name'];
+	$name = $_POST['name'];
 }
-if(isset($_GET['body']))
+if(isset($_POST['body']))
 {
-	$body = $_GET['body'];
+	$body = $_POST['body'];
 }
 
 $db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
