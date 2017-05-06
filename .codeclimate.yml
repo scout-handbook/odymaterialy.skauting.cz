@@ -34,6 +34,8 @@ engines:
     checks:
       CleanCode/ElseExpression:
         enabled: false
+      CleanCode/BooleanArgumentFlag:
+        enabled: false
       Controversial/Superglobals:
         enabled: false
   phan:

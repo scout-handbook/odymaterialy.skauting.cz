@@ -10,6 +10,8 @@ function historySetup()
 
 function popback()
 {
-	getLesson(history.state.lessonName, true);
+	if(history.state)
+	{
+		getLesson(history.state.id, history.state.name , true);
+	}
 }
-
