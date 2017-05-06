@@ -1,6 +1,6 @@
 function main()
 {
-	getLessonSetup();
+	refreshPreviewSetup();
 	historySetup();
 	mainPageSetup();
 }
