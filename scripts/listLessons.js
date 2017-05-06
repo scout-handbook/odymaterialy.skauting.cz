@@ -19,7 +19,8 @@ function showLessonList(list)
 		html += "<h1>" + list[i].name + "</h1>";
 		for(var j = 0; j < list[i].lessons.length; j++)
 		{
-			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + list[i].lessons[j].id + "\">" + list[i].lessons[j].name + "</a><br>";
+			var name = lessonList[i].lessons[j].name;
+			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + list[i].lessons[j].id + "\">" + name + "</a><br>";
 		}
 	}
 	document.getElementById("navigation").innerHTML = html;

@@ -1,19 +1,19 @@
 var changed;
 
-function getLesson(lesson, noHistory)
+function getLesson(id, name, noHistory)
 {
-	if(lesson === undefined || lesson === "")
+	if(!id)
 	{
 		getMainPage(noHistory);
 		return;
 	}
-	request("/API/get_lesson", "name=" + encodeURIComponent(lesson), function(response)
+	request("/API/get_lesson", "id=" + id, function(response)
 		{
-			showLesson(lesson, response, noHistory);
+			showLesson(id, name, response, noHistory);
 		});
 }
 
-function showLesson(name, markdown, noHistory)
+function showLesson(id, name, markdown, noHistory)
 {
 	changed = false;
 	var html = "<header><div id=\"discard\"><i class=\"icon-left-big\"></i>Zrušit</div><div id=\"save\">Uložit<i class=\"icon-floppy\"></i></div></header>"
@@ -21,7 +21,7 @@ function showLesson(name, markdown, noHistory)
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(name, markdown);
 
-	var stateObject = { lessonName: name };
+	var stateObject = { "id": id, "name": name };
 	if(!noHistory)
 	{
 		history.pushState(stateObject, "title", "/admin/");

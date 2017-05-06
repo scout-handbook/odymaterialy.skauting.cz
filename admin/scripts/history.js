@@ -5,5 +5,5 @@ function historySetup()
 
 function popback()
 {
-	getLesson(history.state.lessonName, true);
+	getLesson(history.state.id, history.state.name, true);
 }

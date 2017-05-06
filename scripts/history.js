@@ -12,4 +12,3 @@ function popback()
 {
 	getLesson(history.state.id, history.state.name , true);
 }
-
