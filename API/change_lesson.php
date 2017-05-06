@@ -2,11 +2,10 @@
 const _API_EXEC = 1;
 
 require_once('internal/skautisTry.php');
+require_once('internal/database.secret.php');
 
 function rewrite()
 {
-	require_once('internal/database.secret.php');
-
 	if(!isset($_POST['id']))
 	{
 		throw new Exception('POST argument "id" must be provided.');
