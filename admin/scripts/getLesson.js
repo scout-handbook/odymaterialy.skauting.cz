@@ -16,7 +16,7 @@ function getLesson(id, name, noHistory)
 function showLesson(id, name, markdown, noHistory)
 {
 	changed = false;
-	var html = "<header><div id=\"discard\"><i class=\"icon-left-big\"></i>Zrušit</div><div id=\"save\">Uložit<i class=\"icon-floppy\"></i></div></header>"
+	var html = "<header><div id=\"discard\"><i class=\"icon-left-big\"></i>Zrušit</div><div id=\"save\" data-id=\"" + id + "\">Uložit<i class=\"icon-floppy\"></i></div></header>"
 	html += "<div id=\"editor\">" + markdown + "</div><div id=\"preview\"><div id=\"preview-inner\"></div></div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(name, markdown);
@@ -51,5 +51,20 @@ function discard()
 
 function save()
 {
-	console.log("SAVE");
+	if(changed)
+	{
+		var id = document.getElementById("save").dataset.id;
+		var query = "id=" + id + "&body=" + encodeURIComponent(ace.edit("editor").getValue());
+		request("/API/change_lesson", query, afterSave);
+	}
+	else
+	{
+		discard();
+	}
+}
+
+function afterSave(data)
+{
+	console.log(data);
+	history.back();
 }
