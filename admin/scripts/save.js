@@ -5,12 +5,6 @@ function saveSetup()
 		save(sessionStorage.getItem("id"), sessionStorage.getItem("body"));
 		sessionStorage.clear();
 	}
-	else if(readCookie("id"))
-	{
-		save(readCookie("id"), readCookie("body"));
-		document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; 
-		document.cookie = "body=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; 
-	}
 }
 
 function readCookie(name)
@@ -39,18 +33,15 @@ function afterSave(response)
 	}
 	else
 	{
-		var id = document.getElementById("save").dataset.id;
-		var body = ace.edit("editor").getValue()
 		if(window.sessionStorage)
 		{
-			sessionStorage.setItem("id", id);
-			sessionStorage.setItem("body", body);
+			sessionStorage.setItem("id", document.getElementById("save").dataset.id);
+			sessionStorage.setItem("body", ace.edit("editor").getValue());
+			window.location.replace("https://odymaterialy.skauting.cz/auth/login.php");
 		}
 		else
 		{
-			document.cookie = "id=" + id + ";path=/";
-			document.cookie = "body=" + body + ";path=/";
+			alert("Byl jste odhlášen a uložení se tedy nezdařilo. Přihlaste se prosím a zkuste to znovu");
 		}
-		window.location.replace("https://odymaterialy.skauting.cz/auth/login.php");
 	}
 }
