@@ -19,8 +19,7 @@ function showLessonList(list)
 		html += "<h1>" + list[i].name + "</h1>";
 		for(var j = 0; j < list[i].lessons.length; j++)
 		{
-			var name = list[i].lessons[j].name;
-			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\">" + name + "</a><br>";
+			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + list[i].lessons[j].id + "\">" + list[i].lessons[j].name + "</a><br>";
 		}
 	}
 	document.getElementById("navigation").innerHTML = html;
@@ -34,6 +33,6 @@ function showLessonList(list)
 
 function itemOnClick(event)
 {
-	getLesson(event.srcElement.innerHTML);
+	getLesson(event.srcElement.dataset.id, event.srcElement.innerHTML);
 	return false;
 }

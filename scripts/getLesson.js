@@ -7,9 +7,9 @@ function getLessonSetup()
 	converter.setOption("tables", "true");
 }
 
-function getLesson(lesson, noHistory)
+function getLesson(id, name, noHistory)
 {
-	if(lesson === undefined || lesson === "")
+	if(!id)
 	{
 		getMainPage(noHistory);
 		return;
@@ -19,19 +19,19 @@ function getLesson(lesson, noHistory)
 		navOpen = false;
 		reflow();
 	}
-	cacheThenNetworkRequest("/API/get_lesson", "name=" + encodeURIComponent(lesson), function(response)
+	cacheThenNetworkRequest("/API/get_lesson", "id=" + id, function(response)
 		{
-			showLesson(lesson, response, noHistory);
+			showLesson(id, name, response, noHistory);
 		});
 }
 
-function showLesson(name, markdown, noHistory)
+function showLesson(id, name, markdown, noHistory)
 {
 	var html = converter.makeHtml(markdown);
 	html = "<h1>" + name + "</h1>" + html;
 	document.getElementById("content").innerHTML = html;
 	document.getElementsByTagName("main")[0].scrollTop = 0;
-	var stateObject = { lessonName: name };
+	var stateObject = { "id": id, "name": name };
 	if(!noHistory)
 	{
 		history.pushState(stateObject, "title", "/lesson/" + encodeURIComponent(name));
