@@ -24,7 +24,7 @@ SQL;
 	$statement->bind_param('i', $idPerson);
 	$statement->execute();
 	$statement->store_result();
-	$role = "";
+	$role = '';
 	$statement->bind_result($role);
 	if(!$statement->fetch())
 	{

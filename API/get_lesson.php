@@ -27,11 +27,11 @@ if ($statement === false)
 {
 	throw new Exception('Invalid SQL: "' . $sql . '". Error: ' . $db->error);
 }
-$statement->bind_param('s', $id);
+$statement->bind_param('i', $id);
 $statement->execute();
 
 $statement->store_result();
-$body = "";
+$body = '';
 $statement->bind_result($body);
 if (!$statement->fetch())
 {
