@@ -28,7 +28,7 @@ function showLesson(id, name, markdown, noHistory)
 	}
 
 	document.getElementById("discard").onclick = discard;
-	document.getElementById("save").onclick = save;
+	document.getElementById("save").onclick = saveCallback;
 
 	var editor = ace.edit("editor");
 	editor.setTheme("ace/theme/dreamweaver");
@@ -49,22 +49,16 @@ function discard()
 	}
 }
 
-function save()
+function saveCallback()
 {
 	if(changed)
 	{
 		var id = document.getElementById("save").dataset.id;
-		var query = "id=" + id + "&body=" + encodeURIComponent(ace.edit("editor").getValue());
-		POSTrequest("/API/change_lesson", query, afterSave);
+		var body = ace.edit("editor").getValue();
+		save(id, body);
 	}
 	else
 	{
 		discard();
 	}
-}
-
-function afterSave(data)
-{
-	console.log(data);
-	history.back();
 }

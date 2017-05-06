@@ -21,4 +21,5 @@ Allow from 127.0.0.1
 	Header add Link "</admin/scripts/mainPage.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/refreshPreview.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/request.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/save.js>;rel=preload;as=script"
 </FilesMatch>
