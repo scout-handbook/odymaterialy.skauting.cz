@@ -21,7 +21,7 @@ function showMainPage(lessonList, noHistory)
 		for(var j = 0; j < lessonList[i].lessons.length; j++)
 		{
 			var name = lessonList[i].lessons[j].name;
-			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\">" + name + "</a></h3>";
+			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + lessonList[i].lessons[j].id + "\">" + name + "</a></h3>";
 			if(lessonList[i].lessons[j].competences.length > 0)
 			{
 				html += "<span class=\"mainPage\">Kompetence: " + lessonList[i].lessons[j].competences[0];
@@ -52,6 +52,6 @@ function showMainPage(lessonList, noHistory)
 
 function itemOnClick(event)
 {
-	getLesson(event.srcElement.innerHTML);
+	getLesson(event.srcElement.dataset.id, event.srcElement.innerHTML);
 	return false;
 }

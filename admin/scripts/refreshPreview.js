@@ -32,6 +32,7 @@ function refreshPreviewSetup()
 
 function refreshPreview(name, markdown)
 {
+	markdown = "# " + name + "\n" + markdown;
 	if(window.Worker)
 	{
 		if(running)

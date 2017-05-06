@@ -16,5 +16,5 @@ if(isset($_COOKIE['skautis_token']))
 	$skautis->setLoginData($reconstructedPost);
 	header('Location: ' . $skautis->getLogoutUrl());
 }
-header('Location: https://odymaterialy.skauting.cz/');
+header('Location: https://odymaterialy.skauting.cz/logout');
 die();

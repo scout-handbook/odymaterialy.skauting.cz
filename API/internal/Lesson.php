@@ -5,12 +5,14 @@ namespace OdyMaterialyAPI;
 
 class Lesson
 {
+	public $id;
 	public $name;
 	public $version;
 	public $competences = array();
 
-	public function __construct($name, $version)
+	public function __construct($id, $name, $version)
 	{
+		$this->id = $id;
 		$this->name = $name;
 		$this->version = $version;
 	}
