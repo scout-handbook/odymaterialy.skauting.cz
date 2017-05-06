@@ -52,7 +52,7 @@ SQL;
 	$selectStatement->bind_result($origName, $origBody);
 	if(!$selectStatement->fetch())
 	{
-		throw new Exception('No lesson with id "' * $id * '" found.');
+		throw new Exception('No lesson with id "' * strval($id) * '" found.');
 	}
 	if(!isset($name))
 	{
