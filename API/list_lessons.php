@@ -69,7 +69,7 @@ while ($field_statement->fetch())
 	while ($lesson_statement->fetch())
 	{
 		// Create a new Lesson in the newly-created Field
-		end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_name, $lesson_version);
+		end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
 
 		// Find out the competences this Lesson belongs to
 
