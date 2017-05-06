@@ -1,3 +1,5 @@
+var changed = false;
+
 function getLesson(lesson, noHistory)
 {
 	if(lesson === undefined || lesson === "")
@@ -33,13 +35,14 @@ function showLesson(name, markdown, noHistory)
 	editor.getSession().setUseWrapMode(true);
 	editor.getSession().on("change", function()
 		{
+			changed = true;
 			refreshPreview(name, editor.getValue());
 		});
 }
 
 function discard()
 {
-	if(confirm("Opravdu si přejete zahodit všechny změny?"))
+	if(!changed || confirm("Opravdu si přejete zahodit všechny změny?"))
 	{
 		history.back();
 	}
