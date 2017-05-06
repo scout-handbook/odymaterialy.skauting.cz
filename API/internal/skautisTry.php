@@ -1,7 +1,7 @@
 <?php
 namespace OdyMaterialyAPI;
 
-@_API_EXEC === 1 or die('Restricted access.');
+@_API_EXEC === 1 or @_AUTH_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once('skautis.secret.php');
@@ -18,7 +18,7 @@ function skautisTry($success, $failure)
 			'skautIS_DateLogout' => \DateTime::createFromFormat('U', $_COOKIE['skautis_timeout'])
 				->setTimezone(new \DateTimeZone('Europe/Prague'))->format('j. n. Y H:i:s'));
 		$skautis->setLoginData($reconstructedPost);
-		if($skautis->getUser()->isLoggedIn())
+		if($skautis->getUser()->isLoggedIn() || $skautis->getUser()->isLoggedIn(true))
 		{
 			try
 			{

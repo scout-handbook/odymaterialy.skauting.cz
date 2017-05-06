@@ -1,0 +1,80 @@
+body
+{
+	margin: 0;
+	font-size: 16px;
+	line-height: 160%;
+	font-family: "Open Sans", sans-serif;
+	font-kerning: normal;
+	font-feature-settings: "liga" 1;
+}
+
+main
+{
+	color: #222222;
+}
+
+#mainPage
+{
+	padding: 20px;
+	max-width: 770px;
+	margin: 0 auto;
+}
+
+header
+{
+	height: 50px;
+}
+
+#editor, #preview
+{
+	position: absolute;
+	top: 50px;
+	bottom: 0;
+	width: 50%;
+	border-top: 1px solid #bfbfbf;
+}
+
+#preview
+{
+	right: 0;
+	overflow-y: auto;
+	border-left: 1px solid #bfbfbf;
+}
+
+#preview-inner
+{
+	margin: 0 20px 20px 20px;
+}
+
+#discard, #save
+{
+	height: 100%;
+	width: 150px;
+	line-height: 48px;
+	text-align: center;
+	background-color: #f6f6f6;
+	cursor: pointer;
+	transition: color ease 0.15s;
+}
+
+#discard:hover, #save:hover
+{
+	color: #6534AD;
+}
+
+#discard i, #save i
+{
+	margin: 0 5px;
+}
+
+#discard
+{
+	float: left;
+	border-right: 1px solid #bfbfbf;
+}
+
+#save
+{
+	float: right;
+	border-left: 1px solid #bfbfbf;
+}
