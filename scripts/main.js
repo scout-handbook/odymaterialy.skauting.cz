@@ -8,6 +8,7 @@ function main()
 	authSetup();
 	listLessonsSetup();
 	getLessonSetup();
+	mainPageSetup();
 	if("serviceWorker" in navigator)
 	{
 		navigator.serviceWorker.register("/serviceworker.js");
@@ -15,4 +16,3 @@ function main()
 }
 
 window.onload = main;
-
