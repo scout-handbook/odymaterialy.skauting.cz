@@ -1,4 +1,4 @@
-var changed = false;
+var changed;
 
 function getLesson(lesson, noHistory)
 {
@@ -15,8 +15,9 @@ function getLesson(lesson, noHistory)
 
 function showLesson(name, markdown, noHistory)
 {
+	changed = false;
 	var html = "<header><div id=\"discard\"><i class=\"icon-left-big\"></i>Zrušit</div><div id=\"save\">Uložit<i class=\"icon-floppy\"></i></div></header>"
-	html += "<div id=\"editor\">" + markdown + "</div><div id=\"preview\"></div>";
+	html += "<div id=\"editor\">" + markdown + "</div><div id=\"preview\"><div id=\"preview-inner\"></div></div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(name, markdown);
 

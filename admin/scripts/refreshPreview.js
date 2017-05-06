@@ -10,7 +10,7 @@ function refreshPreviewSetup()
 		worker = new Worker("scripts/previewWorker.js");
 		worker.onmessage = function(message)
 		{
-			document.getElementById("preview").innerHTML = message.data;
+			document.getElementById("preview-inner").innerHTML = message.data;
 			if(queue)
 			{
 				worker.postMessage(queue);
