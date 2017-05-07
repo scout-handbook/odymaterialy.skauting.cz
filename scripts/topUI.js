@@ -25,18 +25,18 @@ function cacheOffline()
 	var checked = document.getElementById("cacheOffline").checked;
 	if (window.location.pathname.substring(0, 8) === "/lesson/")
 	{
-		var lessonName = window.location.pathname.substring(8);
+		var id = window.location.pathname.substring(8).split("/")[0];
+		console.log(id);
 		caches.open(CACHE).then(function(cache)
 			{
 				if(checked)
 				{
-					cache.add("/API/get_lesson.php?name=" + lessonName);
+					cache.add("/API/get_lesson?id=" + id);
 				}
 				else
 				{
-					cache.delete("/API/get_lesson.php?name=" + lessonName);
+					cache.delete("/API/get_lesson?id=" + id);
 				}
 		});
 	}
 }
-

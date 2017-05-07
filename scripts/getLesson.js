@@ -38,7 +38,7 @@ function showLesson(id, name, markdown, noHistory)
 	}
 	if("serviceWorker" in navigator)
 	{
-		caches.match("/API/get_lesson?name=" + encodeURIComponent(name)).then(function(response)
+		caches.match("/API/get_lesson?id=" + id).then(function(response)
 			{
 				if(response === undefined)
 				{
