@@ -13,6 +13,8 @@ Allow from 127.0.0.1
 	Header add Link "</styles/fontello-ie7.css>;rel=preload;as=style"
 	Header add Link "</styles/lesson.css>;rel=preload;as=style"
 	Header add Link "</styles/mainPage.css>;rel=preload;as=style"
+	Header add Link "</admin/styles/dialog.css>;rel=preload;as=style"
+	Header add Link "</admin/styles/lesson.css>;rel=preload;as=style"
 	Header add Link "</admin/styles/main.css>;rel=preload;as=style"
 	Header add Link "</scripts/OdyMarkdown.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/getLesson.js>;rel=preload;as=script"
