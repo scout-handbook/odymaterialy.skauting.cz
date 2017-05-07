@@ -1,13 +1,13 @@
 .topButton
 {
-	color: #6a797d;
+	color: #67767a;
 	cursor: pointer;
 	transition: color ease 0.15s;
 }
 
 .topButton:hover
 {
-	color: #6534AD;
+	color: #6534ad;
 }
 
 #fontDecrease

@@ -26,7 +26,6 @@ function cacheOffline()
 	if (window.location.pathname.substring(0, 8) === "/lesson/")
 	{
 		var id = window.location.pathname.substring(8).split("/")[0];
-		console.log(id);
 		caches.open(CACHE).then(function(cache)
 			{
 				if(checked)
