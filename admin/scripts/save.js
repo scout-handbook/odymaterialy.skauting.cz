@@ -18,6 +18,7 @@ function afterSave(response)
 	var success = JSON.parse(response).success;
 	if(success)
 	{
+		dialog("Úspěšně uloženo.", "OK");
 		history.back();
 	}
 	else
@@ -30,7 +31,7 @@ function afterSave(response)
 		}
 		else
 		{
-			dialog("Byl jste odhlášen a uložení se tedy nezdařilo. Přihlaste se prosím a zkuste to znovu", "OK");
+			dialog("Byl jste odhlášen a uložení se tedy nezdařilo. Přihlaste se prosím a zkuste to znovu.", "OK");
 		}
 	}
 }

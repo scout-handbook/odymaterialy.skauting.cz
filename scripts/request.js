@@ -46,7 +46,7 @@ function request(url, query, headers)
 			{
 				xhttp.setRequestHeader(key, headers[key]);
 			}
-			if({}.hasOwnProperty.call(headers, key))
+			else if({}.hasOwnProperty.call(headers, key))
 			{
 				xhttp.setRequestHeader(key, headers[key]);
 			}
