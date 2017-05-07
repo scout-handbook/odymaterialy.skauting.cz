@@ -11,16 +11,16 @@ function listLessons(callback)
 		});
 }
 
-function showLessonList(list)
+function showLessonList(lessonList)
 {
 	var html = "";
-	for(var i = 0; i < list.length; i++)
+	for(var i = 0; i < lessonList.length; i++)
 	{
-		html += "<h1>" + list[i].name + "</h1>";
-		for(var j = 0; j < list[i].lessons.length; j++)
+		html += "<h1>" + lessonList[i].name + "</h1>";
+		for(var j = 0; j < lessonList[i].lessons.length; j++)
 		{
 			var name = lessonList[i].lessons[j].name;
-			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + list[i].lessons[j].id + "\">" + name + "</a><br>";
+			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + lessonList[i].lessons[j].id + "\">" + name + "</a><br>";
 		}
 	}
 	document.getElementById("navigation").innerHTML = html;
