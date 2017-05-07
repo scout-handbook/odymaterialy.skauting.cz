@@ -15,24 +15,7 @@ function showMainPage(lessonList, noHistory)
 {
 	var html = "<div id=\"mainPage\">";
 	html += "<h1>OdyMateriály - administrace</h1>";
-	for(var i = 0; i < lessonList.length; i++)
-	{
-		html += "<h2 class=\"mainPage\">" + lessonList[i].name + "</h2>";
-		for(var j = 0; j < lessonList[i].lessons.length; j++)
-		{
-			var name = lessonList[i].lessons[j].name;
-			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + lessonList[i].lessons[j].id + "\">" + name + "</a></h3>";
-			if(lessonList[i].lessons[j].competences.length > 0)
-			{
-				html += "<span class=\"mainPage\">Kompetence: " + lessonList[i].lessons[j].competences[0];
-				for(var k = 1; k < lessonList[i].lessons[j].competences.length; k++)
-				{
-					html += ", " + lessonList[i].lessons[j].competences[k];
-				}
-				html += "</span>";
-			}
-		}
-	}
+	html += renderLessonList(lessonList);
 	html += "</div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	

@@ -27,14 +27,14 @@ function getLesson(id, name, noHistory)
 
 function showLesson(id, name, markdown, noHistory)
 {
-	var html = converter.makeHtml(markdown);
-	html = "<h1>" + name + "</h1>" + html;
+	var html = "<h1>" + name + "</h1>";
+	html += converter.makeHtml(markdown);
 	document.getElementById("content").innerHTML = html;
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	var stateObject = { "id": id, "name": name };
 	if(!noHistory)
 	{
-		history.pushState(stateObject, "title", "/lesson/" + encodeURIComponent(name));
+		history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(name));
 	}
 	if("serviceWorker" in navigator)
 	{

@@ -7,17 +7,6 @@ function saveSetup()
 	}
 }
 
-function readCookie(name)
-{
-	var regex = new RegExp("[; ]" + name + "=([^\\s;]*)");
-	var match = (" " + document.cookie).match(regex);
-	if(name && match)
-	{
-		return unescape(match[1]);
-	}
-	return undefined;
-}
-
 function save(id, body)
 {
 	var query = "id=" + id + "&body=" + encodeURIComponent(body);
@@ -41,7 +30,7 @@ function afterSave(response)
 		}
 		else
 		{
-			alert("Byl jste odhlášen a uložení se tedy nezdařilo. Přihlaste se prosím a zkuste to znovu");
+			dialog("Byl jste odhlášen a uložení se tedy nezdařilo. Přihlaste se prosím a zkuste to znovu", "OK");
 		}
 	}
 }
