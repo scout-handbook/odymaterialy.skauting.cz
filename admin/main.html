@@ -24,6 +24,7 @@
 		<script defer src="/node_modules/ace-builds/src-min-noconflict/ace.js"></script>
 		<script defer src="/scripts/common.js"></script>
 		<script defer src="/scripts/OdyMarkdown.js"></script>
+		<script defer src="/admin/scripts/dialog.js"></script>
 		<script defer src="/admin/scripts/getLesson.js"></script>
 		<script defer src="/admin/scripts/history.js"></script>
 		<script defer src="/admin/scripts/main.js"></script>
@@ -33,6 +34,13 @@
 		<script defer src="/admin/scripts/save.js"></script>
 	</head>
 	<body>
+		<div id="overlay">
+			<div id="dialog">
+				<div id="dialogText"></div>
+				<div id="dismissText"></div>
+				<div id="confirmText"></div>
+			</div>
+		</div>
 		<main>
 		</main>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i">

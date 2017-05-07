@@ -43,9 +43,16 @@ function showLesson(id, name, markdown, noHistory)
 
 function discard()
 {
-	if(!changed || confirm("Opravdu si přejete zahodit všechny změny?"))
+	if(!changed)
 	{
 		history.back();
+	}
+	else
+	{
+		dialog("Opravdu si přejete zahodit všechny změny?", "Ano", function()
+			{
+				history.back();
+			}, "Ne");
 	}
 }
 
