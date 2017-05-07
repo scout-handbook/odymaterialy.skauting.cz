@@ -1,8 +1,3 @@
-function mainPageSetup()
-{
-	getMainPage();
-}
-
 function getMainPage(noHistory)
 {
 	listLessons(function(lessonList)

@@ -34,7 +34,7 @@ function showLesson(id, name, markdown, noHistory)
 	var stateObject = { "id": id, "name": name };
 	if(!noHistory)
 	{
-		history.pushState(stateObject, "title", "/lesson/" + encodeURIComponent(name));
+		history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(name));
 	}
 	if("serviceWorker" in navigator)
 	{
