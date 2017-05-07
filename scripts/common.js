@@ -21,3 +21,11 @@ function renderLessonList(list)
 	}
 	return html;
 }
+
+function popback()
+{
+	if(history.state)
+	{
+		getLesson(history.state.id, history.state.name , true);
+	}
+}
