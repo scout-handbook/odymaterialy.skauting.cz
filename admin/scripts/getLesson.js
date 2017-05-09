@@ -31,7 +31,7 @@ function showLesson(id, name, markdown, noHistory)
 	document.getElementById("save").onclick = saveCallback;
 
 	var editor = ace.edit("editor");
-	editor.setTheme("ace/theme/dreamweaver");
+	editor.setTheme("ace/theme/odymaterialy");
 	editor.getSession().setMode("ace/mode/markdown");
 	editor.getSession().setUseWrapMode(true);
 	editor.getSession().on("change", function()
