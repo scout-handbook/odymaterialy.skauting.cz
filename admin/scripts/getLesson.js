@@ -16,8 +16,21 @@ function getLesson(id, name, noHistory)
 function showLesson(id, name, markdown, noHistory)
 {
 	changed = false;
-	var html = "<header><div id=\"discard\"><i class=\"icon-left-big\"></i>Zrušit</div><div id=\"save\" data-id=\"" + id + "\">Uložit<i class=\"icon-floppy\"></i></div></header>"
-	html += "<div id=\"editor\">" + markdown + "</div><div id=\"preview\"><div id=\"preview-inner\"></div></div>";
+	var html = '\
+<header>\
+	<div class="button" id="discard">\
+		<i class="icon-left-big"></i>\
+		Zrušit\
+	</div>\
+	<form>\
+		<input type="text" id="name" value="' + name + '" autocomplete=off>\
+	</form>\
+	<div class="button" id="save" data-id="' + id + '">\
+		Uložit\
+		<i class="icon-floppy"></i>\
+	</div>\
+</header>'
+	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(name, markdown);
 
@@ -34,11 +47,15 @@ function showLesson(id, name, markdown, noHistory)
 	editor.setTheme("ace/theme/odymaterialy");
 	editor.getSession().setMode("ace/mode/markdown");
 	editor.getSession().setUseWrapMode(true);
-	editor.getSession().on("change", function()
-		{
-			changed = true;
-			refreshPreview(name, editor.getValue());
-		});
+	editor.getSession().on("change", change);
+	document.getElementById("name").oninput = change;
+	document.getElementById("name").onchange = change;
+}
+
+function change()
+{
+	changed = true;
+	refreshPreview(document.getElementById("name").value, ace.edit("editor").getValue());
 }
 
 function discard()
@@ -61,8 +78,9 @@ function saveCallback()
 	if(changed)
 	{
 		var id = document.getElementById("save").dataset.id;
+		var name = document.getElementById("name").value;
 		var body = ace.edit("editor").getValue();
-		save(id, body);
+		save(id, name, body);
 	}
 	else
 	{

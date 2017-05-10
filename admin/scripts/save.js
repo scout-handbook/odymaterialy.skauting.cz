@@ -2,14 +2,14 @@ function saveSetup()
 {
 	if(window.sessionStorage && sessionStorage.getItem("id"))
 	{
-		save(sessionStorage.getItem("id"), sessionStorage.getItem("body"));
+		save(sessionStorage.getItem("id"), sessionStorage.getItem("name"), sessionStorage.getItem("body"));
 		sessionStorage.clear();
 	}
 }
 
-function save(id, body)
+function save(id, name, body)
 {
-	var query = "id=" + id + "&body=" + encodeURIComponent(body);
+	var query = "id=" + id + "&name=" + name + "&body=" + encodeURIComponent(body);
 	POSTrequest("/API/change_lesson", query, afterSave);
 }
 
@@ -26,6 +26,7 @@ function afterSave(response)
 		if(window.sessionStorage)
 		{
 			sessionStorage.setItem("id", document.getElementById("save").dataset.id);
+			sessionStorage.setItem("name", document.getElementById("name").value);
 			sessionStorage.setItem("body", ace.edit("editor").getValue());
 			window.location.replace("https://odymaterialy.skauting.cz/auth/login.php");
 		}
