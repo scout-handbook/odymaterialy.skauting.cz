@@ -79,7 +79,7 @@ function discard()
 		dialog("Opravdu si přejete zahodit všechny změny?", "Ano", function()
 			{
 				history.back();
-			}, "Ne");
+			}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;");
 	}
 }
 
