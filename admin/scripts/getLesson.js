@@ -1,4 +1,5 @@
 var changed;
+var competences = false;
 
 function getLesson(id, name, noHistory)
 {
@@ -29,7 +30,15 @@ function showLesson(id, name, markdown, noHistory)
 		Uložit\
 		<i class="icon-floppy"></i>\
 	</div>\
-</header>'
+	<div class="button" id="competenceButton">\
+		Kompetence\
+	</div>\
+</header>\
+<div id="competences">\
+	<div id="competenceWrapper">\
+		HELLO\
+	</div>\
+</div>'
 	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(name, markdown);
@@ -42,6 +51,7 @@ function showLesson(id, name, markdown, noHistory)
 
 	document.getElementById("discard").onclick = discard;
 	document.getElementById("save").onclick = saveCallback;
+	document.getElementById("competenceButton").onclick = showCompetences;
 
 	var editor = ace.edit("editor");
 	editor.setTheme("ace/theme/odymaterialy");
@@ -86,4 +96,17 @@ function saveCallback()
 	{
 		discard();
 	}
+}
+
+function showCompetences()
+{
+	if(competences)
+	{
+		document.getElementById("competences").style.marginTop = "-100%";
+	}
+	else
+	{
+		document.getElementById("competences").style.marginTop = "-91px";
+	}
+	competences = !competences;
 }
