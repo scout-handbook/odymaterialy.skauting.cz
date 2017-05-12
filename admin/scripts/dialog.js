@@ -1,7 +1,6 @@
 function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCallback)
 {
 	document.getElementById("overlay").style.display = "inline";
-	console.log("DIALOG");
 	document.getElementById("dialogText").innerHTML = mainText;
 	document.getElementById("confirmText").innerHTML = confirmText;
 	var confirmCallbackWrapped;

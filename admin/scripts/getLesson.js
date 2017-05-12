@@ -93,8 +93,9 @@ function saveCallback()
 	{
 		var id = document.getElementById("save").dataset.id;
 		var name = document.getElementById("name").value;
+		var competences = parseCompetences();
 		var body = ace.edit("editor").getValue();
-		save(id, name, body);
+		save(id, name, competences, body);
 	}
 	else
 	{
@@ -120,7 +121,7 @@ function renderCompetences(competenceList, currentCompetences)
 	var html = "<form>";
 	for(var i = 0; i < competenceList.length; i++)
 	{
-		html += "<input type=\"checkbox\"";
+		html += "<input type=\"checkbox\" data-id=\"" + competenceList[i].id + "\"";
 		if(currentCompetences.indexOf(competenceList[i].id) > -1)
 		{
 			html += " checked";
@@ -138,4 +139,18 @@ function renderCompetences(competenceList, currentCompetences)
 				changed = true;
 			};
 	}
+}
+
+function parseCompetences()
+{
+	var ret = [];
+	nodes = document.getElementById("competenceWrapper").getElementsByTagName("input");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		if(nodes[l].checked)
+		{
+			ret.push(nodes[l].dataset.id);
+		}
+	}
+	return ret;
 }

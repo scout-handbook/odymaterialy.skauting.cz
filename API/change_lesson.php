@@ -17,6 +17,10 @@ function rewrite()
 	{
 		$name = $_POST['name'];
 	}
+	if(isset($_POST['competence']))
+	{
+		$competences = $_POST['competence'];
+	}
 	if(isset($_POST['body']))
 	{
 		$body = $_POST['body'];
@@ -39,40 +43,78 @@ SET name = ?, version = version + 1, body = ?
 WHERE id = ?;
 SQL;
 
-	$selectStatement = $db->prepare($selectSQL);
-	if ($selectStatement === false)
-	{
-		throw new Exception('Invalid SQL: "' . $selectSQL . '". Error: ' . $db->error);
-	}
-	$selectStatement->bind_param('i', $id);
-	$selectStatement->execute();
-	$selectStatement->store_result();
-	$origName = '';
-	$origBody = '';
-	$selectStatement->bind_result($origName, $origBody);
-	if(!$selectStatement->fetch())
-	{
-		throw new Exception('No lesson with id "' * strval($id) * '" found.');
-	}
-	if(!isset($name))
-	{
-		$name = $origName;
-	}
-	if(!isset($body))
-	{
-		$body = $origBody;
-	}
-	$selectStatement->close();
+	$deleteCompetencesSQL = <<<SQL
+DELETE FROM competences_for_lessons
+WHERE lesson_id = ?;
+SQL;
+	$insertCompetencesSQL = <<<SQL
+INSERT INTO competences_for_lessons (lesson_id, competence_id)
+VALUES (?, ?);
+SQL;
 
+	if(!isset($name) or !isset($body))
+	{
+		$selectStatement = $db->prepare($selectSQL);
+		if($selectStatement === false)
+		{
+			throw new Exception('Invalid SQL: "' . $selectSQL . '". Error: ' . $db->error);
+		}
+		$selectStatement->bind_param('i', $id);
+		$selectStatement->execute();
+		$selectStatement->store_result();
+		$origName = '';
+		$origBody = '';
+		$selectStatement->bind_result($origName, $origBody);
+		if(!$selectStatement->fetch())
+		{
+			throw new Exception('No lesson with id "' * strval($id) * '" found.');
+		}
+		if(!isset($name))
+		{
+			$name = $origName;
+		}
+		if(!isset($body))
+		{
+			$body = $origBody;
+		}
+		$selectStatement->close();
+	}
 
 	$updateStatement = $db->prepare($updateSQL);
-	if ($updateStatement === false)
+	if($updateStatement === false)
 	{
 		throw new Exception('Invalid SQL: "' . $updateSQL . '". Error: ' . $db->error);
 	}
 	$updateStatement->bind_param('ssi', $name, $body, $id);
 	$updateStatement->execute();
 	$updateStatement->close();
+
+	if(isset($competences))
+	{
+		$deleteStatement = $db->prepare($deleteCompetencesSQL);
+		if($deleteStatement === false)
+		{
+			throw new Exception('Invalid SQL: "' . $deleteCompetencesSQL . '". Error: ' . $db->error);
+		}
+		$deleteStatement->bind_param('i', $id);
+		$deleteStatement->execute();
+		$deleteStatement->close();
+
+		if(!empty($competences))
+		{
+			$insertStatement = $db->prepare($insertCompetencesSQL);
+			if($insertStatement === false)
+			{
+				throw new Exception('Invalid SQL: "' . $insertCompetencesSQL . '". Error: ' . $db->error);
+			}
+			foreach($competences as $competence)
+			{
+				$insertStatement->bind_param('ii', $id, $competence);
+				$insertStatement->execute();
+			}
+			$insertStatement->close();
+		}
+	}
 	$db->close();
 	echo(json_encode(array('success' => true)));
 }
