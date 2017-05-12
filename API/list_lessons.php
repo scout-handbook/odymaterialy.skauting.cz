@@ -9,7 +9,7 @@ require_once('internal/Lesson.php');
 // Prepared statements where ? will be replaced later
 
 $field_sql = <<<SQL
-SELECT * FROM fields;
+SELECT id, name FROM fields;
 SQL;
 
 $lesson_sql = <<<SQL
