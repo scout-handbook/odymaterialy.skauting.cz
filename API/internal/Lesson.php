@@ -33,9 +33,9 @@ function Lesson_cmp($first, $second)
 	{
 		return 1;
 	}
-	if ($first->competences[0] == $second->competences[0])
+	if ($first->competences[0]->number == $second->competences[0]->number)
 	{
 		return 0;
 	}
-	return ($first->competences[0] < $second->competences[0]) ? -1 : 1;
+	return ($first->competences[0]->number < $second->competences[0]->number) ? -1 : 1;
 }

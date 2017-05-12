@@ -10,10 +10,10 @@ function renderLessonList(list)
 			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + list[i].lessons[j].id + "\">" + name + "</a></h3>";
 			if(list[i].lessons[j].competences.length > 0)
 			{
-				html += "<span class=\"mainPage\">Kompetence: " + list[i].lessons[j].competences[0];
+				html += "<span class=\"mainPage\">Kompetence: " + list[i].lessons[j].competences[0].number;
 				for(var k = 1; k < list[i].lessons[j].competences.length; k++)
 				{
-					html += ", " + list[i].lessons[j].competences[k];
+					html += ", " + list[i].lessons[j].competences[k].number;
 				}
 				html += "</span>";
 			}
