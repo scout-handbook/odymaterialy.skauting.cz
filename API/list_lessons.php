@@ -88,7 +88,8 @@ while ($field_statement->fetch())
 		$competence_statement->bind_result($competence_id, $competence_number);
 		while ($competence_statement->fetch())
 		{
-			end(end($fields)->lessons)->competences[] = new OdyMaterialyAPI\SimpleCompetence($competence_id, $competence_number);
+			end(end($fields)->lessons)->competences[] =
+				new OdyMaterialyAPI\SimpleCompetence($competence_id, $competence_number);
 		}
 		$competence_statement->close();
 	}
