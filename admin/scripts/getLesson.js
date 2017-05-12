@@ -1,7 +1,7 @@
 var changed;
 var competences = false;
 
-function getLesson(id, name, noHistory)
+function getLesson(id, name, competences, noHistory)
 {
 	if(!id)
 	{
@@ -10,11 +10,11 @@ function getLesson(id, name, noHistory)
 	}
 	request("/API/get_lesson", "id=" + id, function(response)
 		{
-			showLesson(id, name, response, noHistory);
+			showLesson(id, name, competences, response, noHistory);
 		});
 }
 
-function showLesson(id, name, markdown, noHistory)
+function showLesson(id, name, competences, markdown, noHistory)
 {
 	changed = false;
 	var html = '\
@@ -41,13 +41,13 @@ function showLesson(id, name, markdown, noHistory)
 
 	request("/API/list_competences", "", function(response)
 		{
-			renderCompetences(JSON.parse(response));
+			renderCompetences(JSON.parse(response), competences);
 		});
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(name, markdown);
 
-	var stateObject = { "id": id, "name": name };
+	var stateObject = { "id": id, "name": name, "competences": competences };
 	if(!noHistory)
 	{
 		history.pushState(stateObject, "title", "/admin/");
@@ -115,12 +115,17 @@ function showCompetences()
 	competences = !competences;
 }
 
-function renderCompetences(competenceList)
+function renderCompetences(competenceList, currentCompetences)
 {
 	var html = "<form>";
 	for(var i = 0; i < competenceList.length; i++)
 	{
-		html += "<input type=\"checkbox\"><b>" + competenceList[i].number + "</b>: " + competenceList[i].name + "<br>";
+		html += "<input type=\"checkbox\"";
+		if(currentCompetences.indexOf(competenceList[i].id) > -1)
+		{
+			html += " checked";
+		}
+		html += "><b>" + competenceList[i].number + "</b>: " + competenceList[i].name + "<br>";
 	}
 	html += "</form>"
 	document.getElementById("competenceWrapper").innerHTML = html;
