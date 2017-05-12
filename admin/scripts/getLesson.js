@@ -129,4 +129,13 @@ function renderCompetences(competenceList, currentCompetences)
 	}
 	html += "</form>"
 	document.getElementById("competenceWrapper").innerHTML = html;
+
+	nodes = document.getElementById("competenceWrapper").getElementsByTagName("input");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		nodes[l].onchange = function()
+			{
+				changed = true;
+			};
+	}
 }
