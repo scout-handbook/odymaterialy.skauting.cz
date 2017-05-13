@@ -14,7 +14,7 @@ function save(id, name, competences, body)
 	{
 		competenceQuery += "&competence[]=" + competences[i];
 	}
-	if(competenceQuery == "")
+	if(competenceQuery === "")
 	{
 		competenceQuery = "&competence[]=";
 	}

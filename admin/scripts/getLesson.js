@@ -72,6 +72,11 @@ function change()
 	refreshPreview(document.getElementById("name").value, ace.edit("editor").getValue());
 }
 
+function competenceChange()
+{
+	changed = true;
+}
+
 function discard()
 {
 	if(!changed)
@@ -134,10 +139,7 @@ function renderCompetences(competenceList, currentCompetences)
 	nodes = document.getElementById("competenceWrapper").getElementsByTagName("input");
 	for(var l = 0; l < nodes.length; l++)
 	{
-		nodes[l].onchange = function()
-			{
-				changed = true;
-			};
+		nodes[l].onchange = competenceChange;
 	}
 }
 
