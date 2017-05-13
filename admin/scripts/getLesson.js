@@ -126,12 +126,12 @@ function renderCompetences(competenceList, currentCompetences)
 	var html = "<form>";
 	for(var i = 0; i < competenceList.length; i++)
 	{
-		html += "<input type=\"checkbox\" data-id=\"" + competenceList[i].id + "\"";
+		html += "<label class=\"competenceSwitch\"><input type=\"checkbox\" data-id=\"" + competenceList[i].id + "\"";
 		if(currentCompetences.indexOf(competenceList[i].id) > -1)
 		{
 			html += " checked";
 		}
-		html += "><b>" + competenceList[i].number + "</b>: " + competenceList[i].name + "<br>";
+		html += "><span class=\"checkbox\"></span></label><b>" + competenceList[i].number + "</b>: " + competenceList[i].name + "<br>";
 	}
 	html += "</form>"
 	document.getElementById("competenceWrapper").innerHTML = html;

@@ -107,3 +107,54 @@ header
 	margin-right: 20px;
 	overflow-y: auto;
 }
+
+.competenceSwitch
+{
+	float: left;
+	position: relative;
+	width: 30px;
+	height: 21px;
+	margin-right: 15px;
+}
+
+.competenceSwitch input
+{
+	display: none;
+}
+
+.checkbox
+{
+	margin-top: 4px;
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #cccccc;
+	transition: background-color ease 0.4s;
+	border-radius: 17px;
+}
+
+.checkbox:before
+{
+	position: absolute;
+	content: "";
+	height: 13px;
+	width: 13px;
+	left: 2px;
+	bottom: 2px;
+	background-color: white;
+	transition: transform ease 0.4s;
+	border-radius: 50%;
+}
+
+input:checked + .checkbox
+{
+	background-color: #6534AD;;
+}
+
+input:checked + .checkbox:before
+{
+	transform: translateX(13px);
+}
