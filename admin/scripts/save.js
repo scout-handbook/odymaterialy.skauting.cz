@@ -1,9 +1,12 @@
+var resave = false;
+
 function saveSetup()
 {
 	if(window.sessionStorage && sessionStorage.getItem("id"))
 	{
 		save(sessionStorage.getItem("id"), sessionStorage.getItem("name"), JSON.parse(sessionStorage.getItem("competences")), sessionStorage.getItem("body"));
 		sessionStorage.clear();
+		resave = true;
 	}
 }
 
@@ -27,12 +30,18 @@ function afterSave(response)
 	var success = JSON.parse(response).success;
 	if(success)
 	{
-		dialog("Úspěšně uloženo.", "OK");
+		dialog("Úspěšně uloženo.", "OK", function()
+			{
+				if(resave)
+				{
+					window.location.reload();
+				}
+			});
 		history.back();
 	}
 	else
 	{
-		if(window.sessionStorage)
+		if(!resave && window.sessionStorage)
 		{
 			sessionStorage.setItem("id", document.getElementById("save").dataset.id);
 			sessionStorage.setItem("name", document.getElementById("name").value);
