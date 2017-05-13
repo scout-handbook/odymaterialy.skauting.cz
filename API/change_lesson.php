@@ -4,6 +4,42 @@ const _API_EXEC = 1;
 require_once('internal/skautisTry.php');
 require_once('internal/database.secret.php');
 
+function redoCompetences()
+{
+	$deleteSQL = <<<SQL
+DELETE FROM competences_for_lessons
+WHERE lesson_id = ?;
+SQL;
+	$insertSQL = <<<SQL
+INSERT INTO competences_for_lessons (lesson_id, competence_id)
+VALUES (?, ?);
+SQL;
+
+	$deleteStatement = $db->prepare($deleteSQL);
+	if($deleteStatement === false)
+	{
+		throw new Exception('Invalid SQL: "' . $deleteSQL . '". Error: ' . $db->error);
+	}
+	$deleteStatement->bind_param('i', $id);
+	$deleteStatement->execute();
+	$deleteStatement->close();
+
+	if(!empty($competences))
+	{
+		$insertStatement = $db->prepare($insertSQL);
+		if($insertStatement === false)
+		{
+			throw new Exception('Invalid SQL: "' . $insertSQL . '". Error: ' . $db->error);
+		}
+		foreach($competences as $competence)
+		{
+			$insertStatement->bind_param('ii', $id, $competence);
+			$insertStatement->execute();
+		}
+		$insertStatement->close();
+	}
+}
+
 function rewrite()
 {
 	if(!isset($_POST['id']))
@@ -41,15 +77,6 @@ SQL;
 UPDATE lessons
 SET name = ?, version = version + 1, body = ?
 WHERE id = ?;
-SQL;
-
-	$deleteCompetencesSQL = <<<SQL
-DELETE FROM competences_for_lessons
-WHERE lesson_id = ?;
-SQL;
-	$insertCompetencesSQL = <<<SQL
-INSERT INTO competences_for_lessons (lesson_id, competence_id)
-VALUES (?, ?);
 SQL;
 
 	if(!isset($name) or !isset($body))
@@ -91,29 +118,7 @@ SQL;
 
 	if(isset($competences))
 	{
-		$deleteStatement = $db->prepare($deleteCompetencesSQL);
-		if($deleteStatement === false)
-		{
-			throw new Exception('Invalid SQL: "' . $deleteCompetencesSQL . '". Error: ' . $db->error);
-		}
-		$deleteStatement->bind_param('i', $id);
-		$deleteStatement->execute();
-		$deleteStatement->close();
-
-		if(!empty($competences))
-		{
-			$insertStatement = $db->prepare($insertCompetencesSQL);
-			if($insertStatement === false)
-			{
-				throw new Exception('Invalid SQL: "' . $insertCompetencesSQL . '". Error: ' . $db->error);
-			}
-			foreach($competences as $competence)
-			{
-				$insertStatement->bind_param('ii', $id, $competence);
-				$insertStatement->execute();
-			}
-			$insertStatement->close();
-		}
+		redoCompetences();
 	}
 	$db->close();
 	echo(json_encode(array('success' => true)));

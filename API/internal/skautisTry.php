@@ -16,12 +16,12 @@ SQL;
 	$db = new \mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
 	if ($db->connect_error)
 	{
-		throw new Exception('Failed to connect to the database. Error: ' . $db->connect_error);
+		throw new \Exception('Failed to connect to the database. Error: ' . $db->connect_error);
 	}
 	$statement = $db->prepare($getRoleSQL);
 	if($statement === false)
 	{
-		throw new Exception('Invalid SQL: "' . $getRoleSQL . '". Error: ' . $db->error);
+		throw new \Exception('Invalid SQL: "' . $getRoleSQL . '". Error: ' . $db->error);
 	}
 	$idPerson = $skautis->UserManagement->UserDetail()->ID_Person;
 	$statement->bind_param('i', $idPerson);
