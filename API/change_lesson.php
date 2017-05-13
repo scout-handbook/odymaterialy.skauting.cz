@@ -124,4 +124,4 @@ function reauth()
 	echo(json_encode(array('success' => false)));
 }
 
-OdyMaterialyAPI\skautisTry('rewrite', 'reauth', true);
+OdyMaterialyAPI\editorTry('rewrite', 'reauth', true);
