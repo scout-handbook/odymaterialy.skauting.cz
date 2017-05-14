@@ -1,0 +1,9 @@
+[{
+	"relation": ["delegate_permission/common.handle_all_urls"],
+	"target": {
+		"namespace": "android_app",
+		"package_name": "cz.skaut.mlha.odymaterialy",
+		"sha256_cert_fingerprints":
+		["C8:F9:E1:0A:7B:30:4F:97:FF:E1:97:D3:E4:D6:0A:AF:4F:48:3C:A6:CF:4E:3A:B3:A9:9A:AA:D0:16:DF:38:71"]
+	}
+}]
