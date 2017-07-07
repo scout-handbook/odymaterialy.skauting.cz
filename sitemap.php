@@ -1,7 +1,7 @@
 <?php
 
 ob_start();
-include('API/list_lessons.php');
+include('API/v0.9/list_lessons.php');
 $list = json_decode(ob_get_clean());
 
 header('content-type:text/plain; charset=utf-8');

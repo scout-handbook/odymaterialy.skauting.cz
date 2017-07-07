@@ -8,7 +8,7 @@ function getLesson(id, name, competences, noHistory)
 		getMainPage(noHistory);
 		return;
 	}
-	request("/API/get_lesson", "id=" + id, function(response)
+	request("/API/v0.9/get_lesson", "id=" + id, function(response)
 		{
 			showLesson(id, name, competences, response, noHistory);
 		});
@@ -39,7 +39,7 @@ function showLesson(id, name, competences, markdown, noHistory)
 </div>'
 	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
 
-	request("/API/list_competences", "", function(response)
+	request("/API/v0.9/list_competences", "", function(response)
 		{
 			renderCompetences(JSON.parse(response), competences);
 		});

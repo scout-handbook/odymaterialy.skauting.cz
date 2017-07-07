@@ -19,7 +19,7 @@ function getLesson(id, name, noHistory)
 		navOpen = false;
 		reflow();
 	}
-	cacheThenNetworkRequest("/API/get_lesson", "id=" + id, function(response)
+	cacheThenNetworkRequest("/API/v0.9/get_lesson", "id=" + id, function(response)
 		{
 			showLesson(id, name, response, noHistory);
 		});
@@ -38,7 +38,7 @@ function showLesson(id, name, markdown, noHistory)
 	}
 	if("serviceWorker" in navigator)
 	{
-		caches.match("/API/get_lesson?id=" + id).then(function(response)
+		caches.match("/API/v0.9/get_lesson?id=" + id).then(function(response)
 			{
 				if(response === undefined)
 				{

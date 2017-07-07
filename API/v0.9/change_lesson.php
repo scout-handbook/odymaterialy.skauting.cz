@@ -1,8 +1,8 @@
 <?php
 const _API_EXEC = 1;
 
-require_once('internal/skautisTry.php');
-require_once('internal/database.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
 function redoCompetences()
 {

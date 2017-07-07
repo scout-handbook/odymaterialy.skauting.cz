@@ -30,11 +30,11 @@ function cacheOffline()
 			{
 				if(checked)
 				{
-					cache.add("/API/get_lesson?id=" + id);
+					cache.add("/API/v0.9/get_lesson?id=" + id);
 				}
 				else
 				{
-					cache.delete("/API/get_lesson?id=" + id);
+					cache.delete("/API/v0.9/get_lesson?id=" + id);
 				}
 		});
 	}

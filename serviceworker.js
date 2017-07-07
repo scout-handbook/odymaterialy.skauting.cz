@@ -24,11 +24,11 @@ var cacheNonBlocking = [
 ];
 
 var cacheUpdating = [
-	"/API/list_lessons"
+	"/API/v0.9/list_lessons"
 ];
 
 var cacheOnDemand = [
-	"/API/get_lesson"
+	"/API/v0.9/get_lesson"
 ];
 
 self.addEventListener("install", function(event)

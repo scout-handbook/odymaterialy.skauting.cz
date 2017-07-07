@@ -2,7 +2,7 @@
 const _API_EXEC = 1;
 
 header('content-type:text/markdown; charset=utf-8');
-require_once('internal/database.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
 if(!isset($_GET['id']))
 {

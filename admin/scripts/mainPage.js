@@ -5,7 +5,7 @@ function mainPageSetup()
 
 function getMainPage(noHistory)
 {
-	request("/API/list_lessons", "", function(response)
+	request("/API/v0.9/list_lessons", "", function(response)
 		{
 			showMainPage(JSON.parse(response), noHistory);
 		});

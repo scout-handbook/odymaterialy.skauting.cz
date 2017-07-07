@@ -5,7 +5,7 @@ function listLessonsSetup()
 
 function listLessons(callback)
 {
-	cacheThenNetworkRequest("/API/list_lessons", "", function(response)
+	cacheThenNetworkRequest("/API/v0.9/list_lessons", "", function(response)
 		{
 			FIELDS = JSON.parse(response);
 			callback();

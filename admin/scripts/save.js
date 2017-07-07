@@ -22,7 +22,7 @@ function save(id, name, competences, body)
 		competenceQuery = "&competence[]=";
 	}
 	var query = "id=" + id + "&name=" + name + competenceQuery + "&body=" + encodeURIComponent(body);
-	POSTrequest("/API/change_lesson", query, afterSave);
+	POSTrequest("/API/v0.9/change_lesson", query, afterSave);
 }
 
 function afterSave(response)

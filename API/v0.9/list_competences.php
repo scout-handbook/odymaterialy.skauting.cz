@@ -2,8 +2,8 @@
 const _API_EXEC = 1; // Required by includes
 
 header('content-type:application/json; charset=utf-8');
-require_once('internal/database.secret.php');
-require_once('internal/Competence.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Competence.php');
 
 // Prepared statements where ? will be replaced later
 
