@@ -112,11 +112,11 @@ function showCompetences()
 {
 	if(competences)
 	{
-		document.getElementById("competences").style.marginTop = "-100%";
+		document.getElementById("competences").style.top = "-100%";
 	}
 	else
 	{
-		document.getElementById("competences").style.marginTop = "-91px";
+		document.getElementById("competences").style.top = "-91px";
 	}
 	competences = !competences;
 }

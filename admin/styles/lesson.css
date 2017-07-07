@@ -95,8 +95,8 @@ header
 	height: 100%;
 	z-index: 7;
 	background-color: #ffffff;
-	transition: margin 0.4s ease;
-	margin-top: -100%;
+	transition: top 0.4s ease;
+	top: -100%;
 }
 
 #competenceWrapper
