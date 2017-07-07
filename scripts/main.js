@@ -1,4 +1,5 @@
 var CACHE = "odymaterialy-v1";
+var FIELDS;
 
 function main()
 {

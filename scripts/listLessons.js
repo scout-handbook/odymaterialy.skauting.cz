@@ -7,20 +7,21 @@ function listLessons(callback)
 {
 	cacheThenNetworkRequest("/API/list_lessons", "", function(response)
 		{
-			callback(JSON.parse(response));
+			FIELDS = JSON.parse(response);
+			callback();
 		});
 }
 
-function showLessonList(lessonList)
+function showLessonList()
 {
 	var html = "";
-	for(var i = 0; i < lessonList.length; i++)
+	for(var i = 0; i < FIELDS.length; i++)
 	{
-		html += "<h1>" + lessonList[i].name + "</h1>";
-		for(var j = 0; j < lessonList[i].lessons.length; j++)
+		html += "<h1>" + FIELDS[i].name + "</h1>";
+		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			var name = lessonList[i].lessons[j].name;
-			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + lessonList[i].lessons[j].id + "\">" + name + "</a><br>";
+			var name = FIELDS[i].lessons[j].name;
+			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + name + "</a><br>";
 		}
 	}
 	document.getElementById("navigation").innerHTML = html;
