@@ -15,6 +15,8 @@ INSERT INTO competences_for_lessons (lesson_id, competence_id)
 VALUES (?, ?);
 SQL;
 
+	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
+
 	$deleteStatement = $db->prepare($deleteSQL);
 	if($deleteStatement === false)
 	{
