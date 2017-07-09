@@ -25,5 +25,12 @@ $timeout = DateTime::createFromFormat('j. n. Y H:i:s', $_POST['skautIS_DateLogou
 setcookie('skautis_token', $token, intval($timeout), "/", "odymaterialy.skauting.cz", true, true);
 setcookie('skautis_timeout', $timeout, intval($timeout), "/", "odymaterialy.skauting.cz", true, true);
 
+$_COOKIE['skautis_token'] = $token;
+$_COOKIE['skautis_timeout'] = $timeout;
+
+ob_start();
+include($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/update_user.php');
+ob_end_flush();
+
 header('Location: ' . $redirect);
 die();
