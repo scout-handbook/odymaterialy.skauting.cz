@@ -81,18 +81,27 @@ function competenceExpand(event)
 	while(!element.classList.contains("competence") && (element = element.parentElement)) {}
 	if(element.style.width == "400px")
 	{
-		element.style.width = "3em";
-		element.style.maxHeight = "3em";
+		element.style.width = "";
+		element.style.maxHeight = "";
+		element.firstChild.style.color = "";
+		element.style.borderColor = "";
+		element.style.backgroundColor = "";
 	}
 	else
 	{
 		nodes = document.getElementById("content").getElementsByClassName("competence");
 		for(var i = 0; i < nodes.length; i++)
 		{
-			nodes[i].style.width = "3em";
-			nodes[i].style.maxHeight = "3em";
+			nodes[i].style.width = "";
+			nodes[i].style.maxHeight = "";
+			nodes[i].firstChild.style.color = "";
+			nodes[i].style.borderColor = "";
+			nodes[i].style.backgroundColor = "";
 		}
 		element.style.width = "400px";
 		element.style.maxHeight = "10em";
+		element.firstChild.style.color = "#6534ad";
+		element.style.borderColor = "#6534ad";
+		element.style.backgroundColor = "#f5f5f5";
 	}
 }

@@ -11,7 +11,7 @@
 	overflow: hidden;
 	font-size: 150%;
 	vertical-align: top;
-	transition: width ease 0.2s, max-height ease 0.2s;
+	transition: width ease 0.15s, max-height ease 0.15s, border-color ease 0.15s, background-color ease 0.15s;
 }
 
 .competenceNumber
@@ -20,6 +20,7 @@
 	width: 3em;
 	height: 2.9em;
 	float: left;
+	transition: color ease 0.15s;
 }
 
 .competenceText
