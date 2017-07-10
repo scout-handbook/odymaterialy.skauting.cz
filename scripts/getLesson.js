@@ -82,7 +82,7 @@ function competenceExpand(event)
 	if(element.style.width == "400px")
 	{
 		element.style.width = "";
-		element.style.maxHeight = "";
+		element.style.height = "";
 		element.firstChild.style.color = "";
 		element.style.borderColor = "";
 		element.style.backgroundColor = "";
@@ -93,13 +93,13 @@ function competenceExpand(event)
 		for(var i = 0; i < nodes.length; i++)
 		{
 			nodes[i].style.width = "";
-			nodes[i].style.maxHeight = "";
+			nodes[i].style.height = "";
 			nodes[i].firstChild.style.color = "";
 			nodes[i].style.borderColor = "";
 			nodes[i].style.backgroundColor = "";
 		}
 		element.style.width = "400px";
-		element.style.maxHeight = "10em";
+		element.style.height = element.childNodes[1].offsetHeight + "px";
 		element.firstChild.style.color = "#6534ad";
 		element.style.borderColor = "#6534ad";
 		element.style.backgroundColor = "#f5f5f5";

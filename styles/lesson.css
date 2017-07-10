@@ -7,11 +7,11 @@
 	border-radius: 1.5em;
 	cursor: pointer;
 	width: 3em;
-	max-height: 3em;
+	height: 3em;
 	overflow: hidden;
 	font-size: 150%;
 	vertical-align: top;
-	transition: width ease 0.15s, max-height ease 0.15s, border-color ease 0.15s, background-color ease 0.15s;
+	transition: width ease 0.15s, height ease 0.15s, border-color ease 0.15s, background-color ease 0.15s;
 }
 
 .competenceNumber
