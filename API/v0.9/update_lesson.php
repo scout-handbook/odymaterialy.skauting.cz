@@ -4,7 +4,7 @@ const _API_EXEC = 1;
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
-function redoCompetences()
+function redoCompetences($db)
 {
 	$deleteSQL = <<<SQL
 DELETE FROM competences_for_lessons
@@ -14,8 +14,6 @@ SQL;
 INSERT INTO competences_for_lessons (lesson_id, competence_id)
 VALUES (?, ?);
 SQL;
-
-	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
 
 	$deleteStatement = $db->prepare($deleteSQL);
 	if($deleteStatement === false)
@@ -120,7 +118,7 @@ SQL;
 
 	if(isset($competences))
 	{
-		redoCompetences();
+		redoCompetences($db);
 	}
 	$db->close();
 	echo(json_encode(array('success' => true)));

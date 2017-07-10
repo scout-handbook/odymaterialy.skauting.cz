@@ -1,3 +1,3 @@
 # Add .php automatically
 RewriteEngine On
-RewriteRule ^(list_lessons|get_lesson|get_login_state|change_lesson|list_competences|update_user)$ /API/v0.9/$1.php [QSA]
+RewriteRule ^(get_lesson|get_login_state|list_competences|list_lessons|update_lesson|update_user)$ /API/v0.9/$1.php [QSA]
