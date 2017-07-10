@@ -43,10 +43,22 @@ function showLesson(id, markdown, noHistory)
 			}
 		}
 	}
-	var html = "<h1>" + lesson.name + "</h1>";
-	for(var k = 0; k < lesson.competences.length; k++)
+	var competences = [];
+	for(var k = 0; k < COMPETENCES.length; k++)
 	{
-		html += "<span class=\"competence\"><span class=\"competenceNumber\"><span><p>" + lesson.competences[k].number + "</p></span></span><span class=\"competenceText\">Lorem ipsum dolor sit amet consectetur adipiscing elit. Nun novam queribus et tu molus est distractus megalomanis.Qui perse nova agia via maria ecclesia. Pro orat mater filibus et iudeorem deus.</span></span>";
+		for(var l = 0; l < lesson.competences.length; l++)
+		{
+			if(lesson.competences[l].id === COMPETENCES[k].id)
+			{
+				competences.push(COMPETENCES[k]);
+				break;
+			}
+		}
+	}
+	var html = "<h1>" + lesson.name + "</h1>";
+	for(var k = 0; k < competences.length; k++)
+	{
+		html += "<span class=\"competence\"><span class=\"competenceNumber\"><span><p>" + competences[k].number + "</p></span></span><span class=\"competenceText\">" + competences[k].name + "</span></span>";
 	}
 	html += converter.makeHtml(markdown);
 	document.getElementById("content").innerHTML = html;
