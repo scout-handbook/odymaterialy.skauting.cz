@@ -86,6 +86,12 @@ function competenceExpand(event)
 	}
 	else
 	{
+		nodes = document.getElementById("content").getElementsByClassName("competence");
+		for(var i = 0; i < nodes.length; i++)
+		{
+			nodes[i].style.width = "3em";
+			nodes[i].style.maxHeight = "3em";
+		}
 		element.style.width = "400px";
 		element.style.maxHeight = "10em";
 	}
