@@ -7,7 +7,7 @@ function getLessonSetup()
 	converter.setOption("tables", "true");
 }
 
-function getLesson(id, name, noHistory)
+function getLesson(id, noHistory)
 {
 	if(!id)
 	{
@@ -21,17 +21,30 @@ function getLesson(id, name, noHistory)
 	}
 	cacheThenNetworkRequest("/API/v0.9/get_lesson", "id=" + id, function(response)
 		{
-			showLesson(id, name, response, noHistory);
+			showLesson(id, response, noHistory);
 		});
 }
 
-function showLesson(id, name, markdown, noHistory)
+function showLesson(id, markdown, noHistory)
 {
+	var name = "";
+	outer:
+	for(var i = 0; i < FIELDS.length; i++)
+	{
+		for(var j = 0; j < FIELDS[i].lessons.length; j++)
+		{
+			if(FIELDS[i].lessons[j].id == id)
+			{
+				name = FIELDS[i].lessons[j].name;
+				break outer;
+			}
+		}
+	}
 	var html = "<h1>" + name + "</h1>";
 	html += converter.makeHtml(markdown);
 	document.getElementById("content").innerHTML = html;
 	document.getElementsByTagName("main")[0].scrollTop = 0;
-	var stateObject = { "id": id, "name": name };
+	var stateObject = { "id": id };
 	if(!noHistory)
 	{
 		history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(name));
@@ -49,9 +62,6 @@ function showLesson(id, name, markdown, noHistory)
 					document.getElementById("cacheOffline").checked = true;
 				}
 			});
-	}
-	if("serviceWorker" in navigator)
-	{
 		document.getElementById("offlineSwitch").style.display = "block";
 	}
 }
