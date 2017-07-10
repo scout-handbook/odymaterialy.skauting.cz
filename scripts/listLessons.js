@@ -35,6 +35,6 @@ function showLessonList()
 
 function itemOnClick(event)
 {
-	getLesson(event.srcElement.dataset.id);
+	getLesson(event.target.dataset.id);
 	return false;
 }

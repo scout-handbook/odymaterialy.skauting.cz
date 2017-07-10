@@ -35,7 +35,7 @@ function showMainPage(lessonList, noHistory)
 
 function itemOnClick(event)
 {
-	getLesson(event.srcElement.dataset.id, event.srcElement.innerHTML, JSON.parse(event.srcElement.dataset.competences));
+	getLesson(event.target.dataset.id, event.target.innerHTML, JSON.parse(event.target.dataset.competences));
 	return false;
 }
 
