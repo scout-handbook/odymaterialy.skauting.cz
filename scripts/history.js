@@ -3,7 +3,7 @@ function historySetup()
 	window.onpopstate = popback;
 	if (window.location.pathname.substring(0, 8) === "/lesson/")
 	{
-		listLessons(showInitialLesson);
+		lessonListEvent.addCallback(showInitialLesson);
 	}
 	else
 	{

@@ -1,6 +1,6 @@
 function getMainPage(noHistory)
 {
-	listLessons(function()
+	lessonListEvent.addCallback(function()
 		{
 			showMainPage(noHistory);
 		});

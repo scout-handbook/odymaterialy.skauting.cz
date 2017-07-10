@@ -1,5 +1,6 @@
 var CACHE = "odymaterialy-v1";
 var FIELDS;
+var COMPETENCES;
 
 function main()
 {

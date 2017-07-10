@@ -21,7 +21,10 @@ function getLesson(id, noHistory)
 	}
 	cacheThenNetworkRequest("/API/v0.9/get_lesson", "id=" + id, function(response)
 		{
-			showLesson(id, response, noHistory);
+			lessonListEvent.addCallback(function()
+				{
+					showLesson(id, response, noHistory);
+				});
 		});
 }
 
