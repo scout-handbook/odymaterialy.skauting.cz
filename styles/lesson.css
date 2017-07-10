@@ -1,3 +1,35 @@
+.competence
+{
+	border: 1px solid #bfbfbf;
+	background-color: #fafafa;
+	display: inline-block;
+	margin-right: 20px;
+	border-radius: 1.5em;
+	cursor: pointer;
+	width: 3em;
+	max-height: 3em;
+	overflow: hidden;
+	font-size: 150%;
+	vertical-align: top;
+	transition: width ease 0.2s, max-height ease 0.2s;
+}
+
+.competenceNumber
+{
+	text-align: center;
+	width: 3em;
+	height: 2.9em;
+	float: left;
+}
+
+.competenceText
+{
+	display: block;
+	font-size: 66%;
+	width: 360px;
+	padding: 20px;
+}
+
 main a
 {
 	color: #6534AD;

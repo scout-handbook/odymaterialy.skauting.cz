@@ -27,7 +27,7 @@ function getLesson(id, noHistory)
 
 function showLesson(id, markdown, noHistory)
 {
-	var name = "";
+	var lesson = {};
 	outer:
 	for(var i = 0; i < FIELDS.length; i++)
 	{
@@ -35,19 +35,28 @@ function showLesson(id, markdown, noHistory)
 		{
 			if(FIELDS[i].lessons[j].id == id)
 			{
-				name = FIELDS[i].lessons[j].name;
+				lesson = FIELDS[i].lessons[j];
 				break outer;
 			}
 		}
 	}
-	var html = "<h1>" + name + "</h1>";
+	var html = "<h1>" + lesson.name + "</h1>";
+	for(var k = 0; k < lesson.competences.length; k++)
+	{
+		html += "<span class=\"competence\"><span class=\"competenceNumber\"><span><p>" + lesson.competences[k].number + "</p></span></span><span class=\"competenceText\">Lorem ipsum dolor sit amet consectetur adipiscing elit. Nun novam queribus et tu molus est distractus megalomanis.Qui perse nova agia via maria ecclesia. Pro orat mater filibus et iudeorem deus.</span></span>";
+	}
 	html += converter.makeHtml(markdown);
 	document.getElementById("content").innerHTML = html;
+	nodes = document.getElementById("content").getElementsByClassName("competence");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		nodes[l].onclick = competenceExpand;
+	}
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	var stateObject = { "id": id };
 	if(!noHistory)
 	{
-		history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(name));
+		history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(lesson.name));
 	}
 	if("serviceWorker" in navigator)
 	{
@@ -63,5 +72,21 @@ function showLesson(id, markdown, noHistory)
 				}
 			});
 		document.getElementById("offlineSwitch").style.display = "block";
+	}
+}
+
+function competenceExpand(event)
+{
+	element = event.target;
+	while(!element.classList.contains("competence") && (element = element.parentElement)) {}
+	if(element.style.width == "400px")
+	{
+		element.style.width = "3em";
+		element.style.maxHeight = "3em";
+	}
+	else
+	{
+		element.style.width = "400px";
+		element.style.maxHeight = "10em";
 	}
 }
