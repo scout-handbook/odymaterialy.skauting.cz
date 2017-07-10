@@ -94,8 +94,9 @@ function competenceExpand(event)
 {
 	element = event.target;
 	while(!element.classList.contains("competence") && (element = element.parentElement)) {}
-	if(element.style.width == "400px")
+	if(element.style.width !== "")
 	{
+		element.childNodes[1].style.width = "";
 		element.style.width = "";
 		element.style.height = "";
 		element.firstChild.style.color = "";
@@ -107,13 +108,15 @@ function competenceExpand(event)
 		nodes = document.getElementById("content").getElementsByClassName("competence");
 		for(var i = 0; i < nodes.length; i++)
 		{
+			nodes[i].childNodes[1].style.width = "";
 			nodes[i].style.width = "";
 			nodes[i].style.height = "";
 			nodes[i].firstChild.style.color = "";
 			nodes[i].style.borderColor = "";
 			nodes[i].style.backgroundColor = "";
 		}
-		element.style.width = "400px";
+		element.childNodes[1].style.width = Math.min(360, element.parentElement.clientWidth - 40) + "px";
+		element.style.width = Math.min(400, element.parentElement.clientWidth) + "px";
 		element.style.height = element.childNodes[1].offsetHeight + "px";
 		element.firstChild.style.color = "#6534ad";
 		element.style.borderColor = "#6534ad";
