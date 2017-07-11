@@ -1,21 +1,34 @@
+var lessonListEvent = new AfterLoadEvent(2);
+
 function mainPageSetup()
 {
 	getMainPage();
+	lessonListSetup();
+}
+
+function lessonListSetup()
+{
+	request("/API/v0.9/list_lessons", "", function(response)
+		{
+			FIELDS = JSON.parse(response);
+			lessonListEvent.trigger();
+			lessonListEvent.trigger();
+		});
 }
 
 function getMainPage(noHistory)
 {
-	request("/API/v0.9/list_lessons", "", function(response)
+	lessonListEvent.addCallback(function()
 		{
-			showMainPage(JSON.parse(response), noHistory);
+			showMainPage(noHistory);
 		});
 }
 
-function showMainPage(lessonList, noHistory)
+function showMainPage(noHistory)
 {
 	var html = "<div id=\"mainPage\">";
 	html += "<h1>OdyMateriály - administrace</h1>";
-	html += renderLessonList(lessonList);
+	html += renderLessonList();
 	html += "</div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	
@@ -35,33 +48,33 @@ function showMainPage(lessonList, noHistory)
 
 function itemOnClick(event)
 {
-	getLesson(event.target.dataset.id, event.target.innerHTML, JSON.parse(event.target.dataset.competences));
+	getLesson(event.target.dataset.id, JSON.parse(event.target.dataset.competences));
 	return false;
 }
 
-function renderLessonList(list)
+function renderLessonList()
 {
 	var html = "";
-	for(var i = 0; i < list.length; i++)
+	for(var i = 0; i < FIELDS.length; i++)
 	{
-		html += "<h2 class=\"mainPage\">" + list[i].name + "</h2>";
-		for(var j = 0; j < list[i].lessons.length; j++)
+		html += "<h2 class=\"mainPage\">" + FIELDS[i].name + "</h2>";
+		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			var name = list[i].lessons[j].name;
+			var name = FIELDS[i].lessons[j].name;
 			var chtml = "";
 			var competences = [];
-			if(list[i].lessons[j].competences.length > 0)
+			if(FIELDS[i].lessons[j].competences.length > 0)
 			{
-				competences.push(list[i].lessons[j].competences[0].id);
-				chtml += "<span class=\"mainPage\">Kompetence: " + list[i].lessons[j].competences[0].number;
-				for(var k = 1; k < list[i].lessons[j].competences.length; k++)
+				competences.push(FIELDS[i].lessons[j].competences[0].id);
+				chtml += "<span class=\"mainPage\">Kompetence: " + FIELDS[i].lessons[j].competences[0].number;
+				for(var k = 1; k < FIELDS[i].lessons[j].competences.length; k++)
 				{
-					competences.push(list[i].lessons[j].competences[k].id);
-					chtml += ", " + list[i].lessons[j].competences[k].number;
+					competences.push(FIELDS[i].lessons[j].competences[k].id);
+					chtml += ", " + FIELDS[i].lessons[j].competences[k].number;
 				}
 				chtml += "</span>";
 			}
-			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + list[i].lessons[j].id + "\" data-competences=\"" + JSON.stringify(competences) + "\">" + name + "</a></h3>";
+			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\" data-competences=\"" + JSON.stringify(competences) + "\">" + name + "</a></h3>";
 			html += chtml;
 		}
 	}

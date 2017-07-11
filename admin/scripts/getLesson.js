@@ -1,7 +1,7 @@
 var changed;
 var competences = false;
 
-function getLesson(id, name, competences, noHistory)
+function getLesson(id, competences, noHistory)
 {
 	if(!id)
 	{
@@ -10,13 +10,29 @@ function getLesson(id, name, competences, noHistory)
 	}
 	request("/API/v0.9/get_lesson", "id=" + id, function(response)
 		{
-			showLesson(id, name, competences, response, noHistory);
+			lessonListEvent.addCallback(function()
+				{
+					showLesson(id, competences, response, noHistory);
+				});
 		});
 }
 
-function showLesson(id, name, competences, markdown, noHistory)
+function showLesson(id, competences, markdown, noHistory)
 {
 	changed = false;
+	var lesson = {};
+	outer:
+	for(var i = 0; i < FIELDS.length; i++)
+	{
+		for(var j = 0; j < FIELDS[i].lessons.length; j++)
+		{
+			if(FIELDS[i].lessons[j].id == id)
+			{
+				lesson = FIELDS[i].lessons[j];
+				break outer;
+			}
+		}
+	}
 	var html = '\
 <header>\
 	<div class="button" id="discard">\
@@ -24,7 +40,7 @@ function showLesson(id, name, competences, markdown, noHistory)
 		Zrušit\
 	</div>\
 	<form>\
-		<input type="text" id="name" value="' + name + '" autocomplete=off>\
+		<input type="text" id="name" value="' + lesson.name + '" autocomplete=off>\
 	</form>\
 	<div class="button" id="save" data-id="' + id + '">\
 		Uložit\
@@ -45,9 +61,9 @@ function showLesson(id, name, competences, markdown, noHistory)
 		});
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
-	refreshPreview(name, markdown);
+	refreshPreview(lesson.name, markdown);
 
-	var stateObject = { "id": id, "name": name, "competences": competences };
+	var stateObject = { "id": id, "competences": competences };
 	if(!noHistory)
 	{
 		history.pushState(stateObject, "title", "/admin/");

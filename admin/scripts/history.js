@@ -7,6 +7,9 @@ function popback()
 {
 	if(history.state)
 	{
-		getLesson(history.state.id, history.state.name, history.state.competences, true);
+		lessonListEvent.addCallback(function()
+			{
+				getLesson(history.state.id, history.state.competences, true);
+			});
 	}
 }

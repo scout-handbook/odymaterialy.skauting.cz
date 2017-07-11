@@ -37,6 +37,8 @@ function afterSave(response)
 					window.location.reload();
 				}
 			});
+		lessonListEvent = new AfterLoadEvent(2);
+		lessonListSetup();
 		history.back();
 	}
 	else
