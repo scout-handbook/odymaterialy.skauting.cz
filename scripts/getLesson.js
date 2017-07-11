@@ -1,10 +1,12 @@
 var converter;
+var activeCompetence = null;
 
 function getLessonSetup()
 {
 	converter = new showdown.Converter({extensions: ["notes"]});
 	converter.setOption("noHeaderId", "true");
 	converter.setOption("tables", "true");
+	window.addEventListener("resize", competenceReflow)
 }
 
 function getLesson(id, noHistory)
@@ -73,7 +75,8 @@ function showLesson(id, markdown, noHistory, second)
 		var stateObject = { "id": id };
 		if(!noHistory)
 		{
-			history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(lesson.name));
+			history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(lesson.name));;
+
 		}
 	}
 	if("serviceWorker" in navigator)
@@ -99,6 +102,7 @@ function competenceExpand(event)
 	while(!element.classList.contains("competenceBubble") && (element = element.parentElement)) {}
 	if(element.style.width !== "")
 	{
+		activeCompetence = null;
 		element.childNodes[1].style.width = "";
 		element.style.width = "";
 		element.style.height = "";
@@ -118,11 +122,20 @@ function competenceExpand(event)
 			nodes[i].style.borderColor = "";
 			nodes[i].style.backgroundColor = "";
 		}
-		element.childNodes[1].style.width = Math.min(360, element.parentElement.clientWidth - 40) + "px";
-		element.style.width = Math.min(400, element.parentElement.clientWidth) + "px";
-		element.style.height = element.childNodes[1].offsetHeight + "px";
+		activeCompetence = element;
+		competenceReflow();
 		element.firstChild.style.color = "#6534ad";
 		element.style.borderColor = "#6534ad";
 		element.style.backgroundColor = "#f5f5f5";
+	}
+}
+
+function competenceReflow()
+{
+	if(activeCompetence)
+	{
+		activeCompetence.childNodes[1].style.width = Math.min(360, activeCompetence.parentElement.clientWidth - 40) + "px";
+		activeCompetence.style.width = Math.min(400, activeCompetence.parentElement.clientWidth) + "px";
+		activeCompetence.style.height = activeCompetence.childNodes[1].offsetHeight + "px";
 	}
 }
