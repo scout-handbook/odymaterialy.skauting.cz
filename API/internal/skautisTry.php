@@ -59,7 +59,6 @@ function skautisTry($success, $failure, $hardCheck = true)
 				return $failure($skautis);
 			}
 		}
-		return $failure($skautis);
 	}
 	return $failure($skautis);
 }
