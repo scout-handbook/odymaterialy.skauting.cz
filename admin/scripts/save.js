@@ -2,11 +2,11 @@ var resave = false;
 
 function saveSetup()
 {
-	if(window.sessionStorage && sessionStorage.getItem("id"))
+	if(window.sessionStorage && sessionStorage.getItem("action") === "save")
 	{
+		resave = true;
 		save(sessionStorage.getItem("id"), sessionStorage.getItem("name"), JSON.parse(sessionStorage.getItem("competences")), sessionStorage.getItem("body"));
 		sessionStorage.clear();
-		resave = true;
 	}
 }
 
@@ -45,6 +45,7 @@ function afterSave(response)
 	{
 		if(!resave && window.sessionStorage)
 		{
+			sessionStorage.setItem("action", "save");
 			sessionStorage.setItem("id", document.getElementById("save").dataset.id);
 			sessionStorage.setItem("name", document.getElementById("name").value);
 			sessionStorage.setItem("competences", JSON.stringify(parseCompetences()));

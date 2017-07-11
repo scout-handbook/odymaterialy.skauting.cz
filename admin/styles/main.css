@@ -35,3 +35,8 @@ body
 	border-color: #6534ad;
 	background-color: #f5f5f5;
 }
+
+#addLesson
+{
+	float: left;
+}

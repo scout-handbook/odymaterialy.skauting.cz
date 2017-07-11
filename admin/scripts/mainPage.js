@@ -34,10 +34,12 @@ function showMainPage(noHistory)
 {
 	var html = "<div id=\"mainPage\">";
 	html += "<h1>OdyMateriály - administrace</h1>";
+	html += "<div class=\"button\" id=\"addLesson\">Nová lekce</div><br>";
 	html += renderLessonList();
 	html += "</div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	
+	document.getElementById("addLesson").onclick = addLesson;
 	nodes = document.getElementsByTagName("main")[0].getElementsByTagName("h3");
 	for(var l = 0; l < nodes.length; l++)
 	{
