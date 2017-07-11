@@ -4,7 +4,7 @@ const _API_EXEC = 1;
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
-function redoCompetences($db)
+function redoCompetences($db, $lessonId, $competences)
 {
 	$deleteSQL = <<<SQL
 DELETE FROM competences_for_lessons
@@ -20,7 +20,7 @@ SQL;
 	{
 		throw new Exception('Invalid SQL: "' . $deleteSQL . '". Error: ' . $db->error);
 	}
-	$deleteStatement->bind_param('i', $id);
+	$deleteStatement->bind_param('i', $lessonId);
 	$deleteStatement->execute();
 	$deleteStatement->close();
 
@@ -33,7 +33,7 @@ SQL;
 		}
 		foreach($competences as $competence)
 		{
-			$insertStatement->bind_param('ii', $id, $competence);
+			$insertStatement->bind_param('ii', $lessonId, $competence);
 			$insertStatement->execute();
 		}
 		$insertStatement->close();
@@ -118,7 +118,7 @@ SQL;
 
 	if(isset($competences))
 	{
-		redoCompetences($db);
+		redoCompetences($db, $id, $competences);
 	}
 	$db->close();
 	echo(json_encode(array('success' => true)));
