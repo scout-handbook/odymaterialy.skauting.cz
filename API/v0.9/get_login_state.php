@@ -22,4 +22,4 @@ function showGuest()
 	return $response;
 }
 
-echo(json_encode(OdyMaterialyAPI\skautisTry('showUserAccount', 'showGuest')));
+echo(json_encode(OdyMaterialyAPI\skautisTry('showUserAccount', 'showGuest', false)));

@@ -31,4 +31,4 @@ function fail()
 	throw new Exception('Permission denied.');
 }
 
-OdymaterialyAPI\skautisTry('updateUser', 'fail');
+OdymaterialyAPI\skautisTry('updateUser', 'fail', false);

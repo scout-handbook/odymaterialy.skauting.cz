@@ -2,7 +2,7 @@
 const _AUTH_EXEC = 1;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautis.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/auth/skautis.secret.php');
 
 if(isset($_COOKIE['skautis_token']))
 {

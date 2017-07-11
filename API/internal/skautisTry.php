@@ -1,11 +1,11 @@
 <?php
 namespace OdyMaterialyAPI;
 
-@_API_EXEC === 1 or @_AUTH_EXEC === 1 or die('Restricted access.');
+@_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once('skautis.secret.php');
-require_once('database.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautis.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
 function getRole($idPerson)
 {
@@ -36,7 +36,7 @@ SQL;
 	return $role;
 }
 
-function skautisTry($success, $failure, $hardCheck = false)
+function skautisTry($success, $failure, $hardCheck = true)
 {
 	$skautis = \Skautis\Skautis::getInstance(SKAUTIS_APP_ID, SKAUTIS_TEST_MODE);
 	if(isset($_COOKIE['skautis_token']) and isset($_COOKIE['skautis_timeout']))
@@ -64,7 +64,7 @@ function skautisTry($success, $failure, $hardCheck = false)
 	return $failure($skautis);
 }
 
-function editorTry($success, $failure, $hardCheck = false)
+function editorTry($success, $failure, $hardCheck = true)
 {
 	$safeCallback = function($skautis) use ($success, $failure)
 	{
