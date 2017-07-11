@@ -34,6 +34,7 @@ Header always set Expect-CT "max-age=0"
 <FilesMatch "index.html">
 	Header add Link "</styles/fontello.css>;rel=preload;as=style"
 	Header add Link "</styles/fontello-ie7.css>;rel=preload;as=style"
+	Header add Link "</styles/competenceBubble.css>;rel=preload;as=style"
 	Header add Link "</styles/lesson.css>;rel=preload;as=style"
 	Header add Link "</styles/main.css>;rel=preload;as=style"
 	Header add Link "</styles/mainPage.css>;rel=preload;as=style"

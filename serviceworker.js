@@ -10,6 +10,7 @@ var cacheBlocking = [
 	"/scripts/OdyMarkdown.js",
 	"/scripts/request.js",
 	"/scripts/topUI.js",
+	"/styles/competenceBubble.css",
 	"/styles/lesson.css",
 	"/styles/main.css",
 	"/styles/mainPage.css",
