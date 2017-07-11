@@ -9,7 +9,7 @@ function popback()
 	{
 		lessonListEvent.addCallback(function()
 			{
-				getLesson(history.state.id, history.state.competences, true);
+				getLesson(history.state.id, true);
 			});
 	}
 }

@@ -1,7 +1,7 @@
 var changed;
 var competences = false;
 
-function getLesson(id, competences, noHistory)
+function getLesson(id, noHistory)
 {
 	if(!id)
 	{
@@ -12,12 +12,12 @@ function getLesson(id, competences, noHistory)
 		{
 			lessonListEvent.addCallback(function()
 				{
-					showLesson(id, competences, response, noHistory);
+					showLesson(id, response, noHistory);
 				});
 		});
 }
 
-function showLesson(id, competences, markdown, noHistory)
+function showLesson(id, markdown, noHistory)
 {
 	changed = false;
 	var lesson = {};
@@ -55,15 +55,11 @@ function showLesson(id, competences, markdown, noHistory)
 </div>'
 	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
 
-	request("/API/v0.9/list_competences", "", function(response)
-		{
-			renderCompetences(JSON.parse(response), competences);
-		});
-
 	document.getElementsByTagName("main")[0].innerHTML = html;
+	renderCompetences(lesson.competences);
 	refreshPreview(lesson.name, markdown);
 
-	var stateObject = { "id": id, "competences": competences };
+	var stateObject = { "id": id };
 	if(!noHistory)
 	{
 		history.pushState(stateObject, "title", "/admin/");
@@ -137,25 +133,29 @@ function showCompetences()
 	competences = !competences;
 }
 
-function renderCompetences(competenceList, currentCompetences)
+function renderCompetences(currentCompetences)
 {
 	var html = "<form>";
-	for(var i = 0; i < competenceList.length; i++)
+	for(var i = 0; i < COMPETENCES.length; i++)
 	{
-		html += "<div class=\"competence\"><label class=\"competenceSwitch\"><input type=\"checkbox\" data-id=\"" + competenceList[i].id + "\"";
-		if(currentCompetences.indexOf(competenceList[i].id) > -1)
+		html += "<div class=\"competence\"><label class=\"competenceSwitch\"><input type=\"checkbox\" data-id=\"" + COMPETENCES[i].id + "\"";
+		for(var j = 0; j < currentCompetences.length; j++)
 		{
-			html += " checked";
+			if(currentCompetences[j].id == COMPETENCES[i].id)
+			{
+				html += " checked";
+				break;
+			}
 		}
-		html += "><span class=\"checkbox\"></span></label><span class=\"competenceNumber\">" + competenceList[i].number + ":</span> " + competenceList[i].name + "</div>";
+		html += "><span class=\"checkbox\"></span></label><span class=\"competenceNumber\">" + COMPETENCES[i].number + ":</span> " + COMPETENCES[i].name + "</div>";
 	}
 	html += "</form>"
 	document.getElementById("competenceWrapper").innerHTML = html;
 
 	nodes = document.getElementById("competenceWrapper").getElementsByTagName("input");
-	for(var l = 0; l < nodes.length; l++)
+	for(var k = 0; k < nodes.length; k++)
 	{
-		nodes[l].onchange = competenceChange;
+		nodes[k].onchange = competenceChange;
 	}
 }
 

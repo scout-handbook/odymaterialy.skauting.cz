@@ -1,4 +1,6 @@
 var lessonListEvent = new AfterLoadEvent(2);
+var FIELDS = [];
+var COMPETENCES = [];
 
 function mainPageSetup()
 {
@@ -12,6 +14,10 @@ function lessonListSetup()
 		{
 			FIELDS = JSON.parse(response);
 			lessonListEvent.trigger();
+		});
+	request("/API/v0.9/list_competences", "", function(response)
+		{
+			COMPETENCES = JSON.parse(response);
 			lessonListEvent.trigger();
 		});
 }
@@ -48,7 +54,7 @@ function showMainPage(noHistory)
 
 function itemOnClick(event)
 {
-	getLesson(event.target.dataset.id, JSON.parse(event.target.dataset.competences));
+	getLesson(event.target.dataset.id);
 	return false;
 }
 
@@ -60,22 +66,28 @@ function renderLessonList()
 		html += "<h2 class=\"mainPage\">" + FIELDS[i].name + "</h2>";
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			var name = FIELDS[i].lessons[j].name;
-			var chtml = "";
-			var competences = [];
+			html += "<h3 class=\"mainPage\"><a title=\"" + FIELDS[i].lessons[j].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + FIELDS[i].lessons[j].name + "</a></h3>";
 			if(FIELDS[i].lessons[j].competences.length > 0)
 			{
-				competences.push(FIELDS[i].lessons[j].competences[0].id);
-				chtml += "<span class=\"mainPage\">Kompetence: " + FIELDS[i].lessons[j].competences[0].number;
-				for(var k = 1; k < FIELDS[i].lessons[j].competences.length; k++)
+				var competences = [];
+				for(var k = 0; k < COMPETENCES.length; k++)
 				{
-					competences.push(FIELDS[i].lessons[j].competences[k].id);
-					chtml += ", " + FIELDS[i].lessons[j].competences[k].number;
+					for(var l = 0; l < FIELDS[i].lessons[j].competences.length; l++)
+					{
+						if(FIELDS[i].lessons[j].competences[l].id === COMPETENCES[k].id)
+						{
+							competences.push(COMPETENCES[k]);
+							break;
+						}
+					}
 				}
-				chtml += "</span>";
+				html += "<span class=\"mainPage\">Kompetence: " + competences[0].number;
+				for(var m = 1; m < competences.length; m++)
+				{
+					html += ", " + competences[m].number;
+				}
+				html += "</span>";
 			}
-			html += "<h3 class=\"mainPage\"><a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\" data-competences=\"" + JSON.stringify(competences) + "\">" + name + "</a></h3>";
-			html += chtml;
 		}
 	}
 	return html;
