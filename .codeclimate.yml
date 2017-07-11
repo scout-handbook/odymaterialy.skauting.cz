@@ -29,6 +29,8 @@ engines:
         enabled: false
       PSR1 Files SideEffects FoundWithSymbols:
         enabled: false
+      Squiz Functions MultiLineFunctionDeclaration BraceOnNewLine:
+        enabled: false
   phpmd:
     enabled: true
     checks:

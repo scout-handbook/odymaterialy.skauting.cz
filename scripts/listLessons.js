@@ -1,26 +1,36 @@
+var lessonListEvent = new AfterLoadEvent(2);
+
 function listLessonsSetup()
 {
-	listLessons(showLessonList);
-}
-
-function listLessons(callback)
-{
-	cacheThenNetworkRequest("/API/list_lessons", "", function(response)
+	cacheThenNetworkRequest("/API/v0.9/list_lessons", "", function(response, second)
 		{
-			callback(JSON.parse(response));
+			FIELDS = JSON.parse(response);
+			if(!second)
+			{
+				lessonListEvent.trigger();
+			}
 		});
+	cacheThenNetworkRequest("/API/v0.9/list_competences", "", function(response, second)
+		{
+			COMPETENCES = JSON.parse(response);
+			if(!second)
+			{
+				lessonListEvent.trigger();
+			}
+		});
+	lessonListEvent.addCallback(showLessonList);
 }
 
-function showLessonList(lessonList)
+function showLessonList()
 {
 	var html = "";
-	for(var i = 0; i < lessonList.length; i++)
+	for(var i = 0; i < FIELDS.length; i++)
 	{
-		html += "<h1>" + lessonList[i].name + "</h1>";
-		for(var j = 0; j < lessonList[i].lessons.length; j++)
+		html += "<h1>" + FIELDS[i].name + "</h1>";
+		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			var name = lessonList[i].lessons[j].name;
-			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + lessonList[i].lessons[j].id + "\">" + name + "</a><br>";
+			var name = FIELDS[i].lessons[j].name;
+			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + name + "</a><br>";
 		}
 	}
 	document.getElementById("navigation").innerHTML = html;
@@ -34,6 +44,6 @@ function showLessonList(lessonList)
 
 function itemOnClick(event)
 {
-	getLesson(event.srcElement.dataset.id, event.srcElement.innerHTML);
+	getLesson(event.target.dataset.id);
 	return false;
 }

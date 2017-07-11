@@ -18,6 +18,8 @@ table
 {
 	border: 1px solid #DDDDDD;
 	border-collapse: collapse;
+	display: block;
+	overflow-x: auto;
 }
 
 td, th

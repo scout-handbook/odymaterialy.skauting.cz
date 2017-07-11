@@ -1,16 +1,18 @@
 function cacheThenNetworkRequest(url, query, callback)
 {
 	var networkDataReceived = false;
+	var cacheDataReceived = false;
 	request(url, query, {}).then(function(response)
 		{
 			networkDataReceived = true;
-			callback(response);
+			callback(response, cacheDataReceived);
 		});
 	request(url, query, {"Accept": "x-cache/only"}).then(function(response)
 		{
 			if(!networkDataReceived)
 			{
-				callback(response);
+				cacheDataReceived = true;
+				callback(response, false);
 			}
 		}, function(reject){});
 }

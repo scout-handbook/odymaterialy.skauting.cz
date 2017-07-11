@@ -2,7 +2,7 @@ var navOpen = true;
 
 function navSetup()
 {
-	window.onresize = reflow;
+	window.addEventListener("resize", reflow)
 	document.getElementById("navCloseButton").onclick = switchNav;
 	document.getElementById("overlay").onclick = switchNav;
 	document.getElementById("lessonOverview").onclick = function()

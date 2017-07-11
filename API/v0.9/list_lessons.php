@@ -2,14 +2,14 @@
 const _API_EXEC = 1; // Required by includes
 
 header('content-type:application/json; charset=utf-8');
-require_once('internal/database.secret.php');
-require_once('internal/Field.php');
-require_once('internal/Lesson.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Field.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Lesson.php');
 
 // Prepared statements where ? will be replaced later
 
 $field_sql = <<<SQL
-SELECT * FROM fields;
+SELECT id, name FROM fields;
 SQL;
 
 $lesson_sql = <<<SQL
@@ -19,9 +19,10 @@ WHERE lessons_in_fields.field_id = ?;
 SQL;
 
 $competence_sql = <<<SQL
-SELECT competences.number FROM competences
+SELECT competences.id, competences.number FROM competences
 JOIN competences_for_lessons on competences.id = competences_for_lessons.competence_id
-WHERE competences_for_lessons.lesson_id = ?;
+WHERE competences_for_lessons.lesson_id = ?
+ORDER BY competences.number;
 SQL;
 
 // Open database connection
@@ -81,15 +82,22 @@ while ($field_statement->fetch())
 		$competence_statement->bind_param('i', $lesson_id);
 		$competence_statement->execute();
 
-		$competence_number = '';
-		$competence_statement->bind_result($competence_number);
+		$competence_id = '';
+		$competence_statement->bind_result($competence_id, $competence_number);
+		if($competence_statement->fetch())
+		{
+			end(end($fields)->lessons)->lowestCompetence = $competence_number;
+			end(end($fields)->lessons)->competences[] = $competence_id;
+		}
+		else
+		{
+			end(end($fields)->lessons)->lowestCompetence = 0;
+		}
 		while ($competence_statement->fetch())
 		{
-			end(end($fields)->lessons)->competences[] = $competence_number;
+			end(end($fields)->lessons)->competences[] = $competence_id;
 		}
 		$competence_statement->close();
-		// Sort the competence list for the newly-created Lesson low-to-high
-		sort(end(end($fields)->lessons)->competences, SORT_NUMERIC);
 	}
 	$lesson_statement->close();
 	// Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high

@@ -1,6 +1,7 @@
 var CACHE = "odymaterialy-v1";
 var cacheBlocking = [
 	"/index.html",
+	"/scripts/AfterLoadEvent.js",
 	"/scripts/auth.js",
 	"/scripts/getLesson.js",
 	"/scripts/history.js",
@@ -10,6 +11,7 @@ var cacheBlocking = [
 	"/scripts/OdyMarkdown.js",
 	"/scripts/request.js",
 	"/scripts/topUI.js",
+	"/styles/competenceBubble.css",
 	"/styles/lesson.css",
 	"/styles/main.css",
 	"/styles/mainPage.css",
@@ -24,11 +26,11 @@ var cacheNonBlocking = [
 ];
 
 var cacheUpdating = [
-	"/API/list_lessons"
+	"/API/v0.9/list_lessons"
 ];
 
 var cacheOnDemand = [
-	"/API/get_lesson"
+	"/API/v0.9/get_lesson"
 ];
 
 self.addEventListener("install", function(event)

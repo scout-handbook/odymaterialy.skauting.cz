@@ -18,6 +18,9 @@ RewriteRule (.*) / [QSA]
 # Login & logout redirect uri
 RewriteRule ^log(in|out)$ /auth/log$1_redirect\.php
 
+# Sitemap rewrite
+RewriteRule ^sitemap$ sitemap.php
+
 # Security headers
 Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 Header always set X-Frame-Options "DENY"
@@ -31,6 +34,7 @@ Header always set Expect-CT "max-age=0"
 <FilesMatch "index.html">
 	Header add Link "</styles/fontello.css>;rel=preload;as=style"
 	Header add Link "</styles/fontello-ie7.css>;rel=preload;as=style"
+	Header add Link "</styles/competenceBubble.css>;rel=preload;as=style"
 	Header add Link "</styles/lesson.css>;rel=preload;as=style"
 	Header add Link "</styles/main.css>;rel=preload;as=style"
 	Header add Link "</styles/mainPage.css>;rel=preload;as=style"
@@ -39,6 +43,7 @@ Header always set Expect-CT "max-age=0"
 	Header add Link "</styles/topUI.css>;rel=preload;as=style"
 	Header add Link "</styles/computer.css>;rel=preload;as=style"
 	Header add Link "</styles/handheld.css>;rel=preload;as=style"
+	Header add Link "</scripts/AfterLoadEvent.js>;rel=preload;as=script"
 	Header add Link "</scripts/auth.js>;rel=preload;as=script"
 	Header add Link "</scripts/getLesson.js>;rel=preload;as=script"
 	Header add Link "</scripts/history.js>;rel=preload;as=script"

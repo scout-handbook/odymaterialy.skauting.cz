@@ -1,13 +1,15 @@
 var converter;
+var activeCompetence = null;
 
 function getLessonSetup()
 {
 	converter = new showdown.Converter({extensions: ["notes"]});
 	converter.setOption("noHeaderId", "true");
 	converter.setOption("tables", "true");
+	window.addEventListener("resize", competenceReflow)
 }
 
-function getLesson(id, name, noHistory)
+function getLesson(id, noHistory)
 {
 	if(!id)
 	{
@@ -19,26 +21,64 @@ function getLesson(id, name, noHistory)
 		navOpen = false;
 		reflow();
 	}
-	cacheThenNetworkRequest("/API/get_lesson", "id=" + id, function(response)
+	cacheThenNetworkRequest("/API/v0.9/get_lesson", "id=" + id, function(response, second)
 		{
-			showLesson(id, name, response, noHistory);
+			lessonListEvent.addCallback(function()
+				{
+					showLesson(id, response, noHistory, second);
+				});
 		});
 }
 
-function showLesson(id, name, markdown, noHistory)
+function showLesson(id, markdown, noHistory, second)
 {
-	var html = "<h1>" + name + "</h1>";
+	var lesson = {};
+	outer:
+	for(var i = 0; i < FIELDS.length; i++)
+	{
+		for(var j = 0; j < FIELDS[i].lessons.length; j++)
+		{
+			if(FIELDS[i].lessons[j].id == id)
+			{
+				lesson = FIELDS[i].lessons[j];
+				break outer;
+			}
+		}
+	}
+	var competences = [];
+	for(var k = 0; k < COMPETENCES.length; k++)
+	{
+		if(lesson.competences.indexOf(COMPETENCES[k].id) >=0)
+		{
+			competences.push(COMPETENCES[k]);
+		}
+	}
+	var html = "<h1>" + lesson.name + "</h1>";
+	activeCompetence = null;
+	for(var k = 0; k < competences.length; k++)
+	{
+		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><span><p>" + competences[k].number + "</p></span></span><span class=\"competenceBubbleText\">" + competences[k].name + "</span></span>";
+	}
 	html += converter.makeHtml(markdown);
 	document.getElementById("content").innerHTML = html;
-	document.getElementsByTagName("main")[0].scrollTop = 0;
-	var stateObject = { "id": id, "name": name };
-	if(!noHistory)
+	nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
+	for(var l = 0; l < nodes.length; l++)
 	{
-		history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(name));
+		nodes[l].onclick = competenceExpand;
+	}
+	document.getElementsByTagName("main")[0].scrollTop = 0;
+	if(!second)
+	{
+		var stateObject = { "id": id };
+		if(!noHistory)
+		{
+			history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(lesson.name));;
+
+		}
 	}
 	if("serviceWorker" in navigator)
 	{
-		caches.match("/API/get_lesson?id=" + id).then(function(response)
+		caches.match("/API/v0.9/get_lesson?id=" + id).then(function(response)
 			{
 				if(response === undefined)
 				{
@@ -49,9 +89,50 @@ function showLesson(id, name, markdown, noHistory)
 					document.getElementById("cacheOffline").checked = true;
 				}
 			});
-	}
-	if("serviceWorker" in navigator)
-	{
 		document.getElementById("offlineSwitch").style.display = "block";
+	}
+}
+
+function competenceExpand(event)
+{
+	element = event.target;
+	while(!element.classList.contains("competenceBubble") && (element = element.parentElement)) {}
+	if(element.style.width !== "")
+	{
+		activeCompetence = null;
+		element.childNodes[1].style.width = "";
+		element.style.width = "";
+		element.style.height = "";
+		element.firstChild.style.color = "";
+		element.style.borderColor = "";
+		element.style.backgroundColor = "";
+	}
+	else
+	{
+		nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
+		for(var i = 0; i < nodes.length; i++)
+		{
+			nodes[i].childNodes[1].style.width = "";
+			nodes[i].style.width = "";
+			nodes[i].style.height = "";
+			nodes[i].firstChild.style.color = "";
+			nodes[i].style.borderColor = "";
+			nodes[i].style.backgroundColor = "";
+		}
+		activeCompetence = element;
+		competenceReflow();
+		element.firstChild.style.color = "#6534ad";
+		element.style.borderColor = "#6534ad";
+		element.style.backgroundColor = "#f5f5f5";
+	}
+}
+
+function competenceReflow()
+{
+	if(activeCompetence)
+	{
+		activeCompetence.childNodes[1].style.width = Math.min(360, activeCompetence.parentElement.clientWidth - 40) + "px";
+		activeCompetence.style.width = Math.min(400, activeCompetence.parentElement.clientWidth) + "px";
+		activeCompetence.style.height = activeCompetence.childNodes[1].offsetHeight + "px";
 	}
 }

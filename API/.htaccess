@@ -1,3 +1,0 @@
-# Add .php automatically
-RewriteEngine On
-RewriteRule ^(list_lessons|get_lesson|get_login_state|change_lesson)$ /API/$1.php [QSA]

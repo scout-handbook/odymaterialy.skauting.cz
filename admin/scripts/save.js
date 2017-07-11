@@ -1,16 +1,28 @@
+var resave = false;
+
 function saveSetup()
 {
 	if(window.sessionStorage && sessionStorage.getItem("id"))
 	{
-		save(sessionStorage.getItem("id"), sessionStorage.getItem("body"));
+		save(sessionStorage.getItem("id"), sessionStorage.getItem("name"), JSON.parse(sessionStorage.getItem("competences")), sessionStorage.getItem("body"));
 		sessionStorage.clear();
+		resave = true;
 	}
 }
 
-function save(id, body)
+function save(id, name, competences, body)
 {
-	var query = "id=" + id + "&body=" + encodeURIComponent(body);
-	POSTrequest("/API/change_lesson", query, afterSave);
+	var competenceQuery = "";
+	for(i = 0; i < competences.length; i++)
+	{
+		competenceQuery += "&competence[]=" + competences[i];
+	}
+	if(competenceQuery === "")
+	{
+		competenceQuery = "&competence[]=";
+	}
+	var query = "id=" + id + "&name=" + name + competenceQuery + "&body=" + encodeURIComponent(body);
+	POSTrequest("/API/v0.9/update_lesson", query, afterSave);
 }
 
 function afterSave(response)
@@ -18,14 +30,24 @@ function afterSave(response)
 	var success = JSON.parse(response).success;
 	if(success)
 	{
-		dialog("Úspěšně uloženo.", "OK");
+		dialog("Úspěšně uloženo.", "OK", function()
+			{
+				if(resave)
+				{
+					window.location.reload();
+				}
+			});
+		lessonListEvent = new AfterLoadEvent(2);
+		lessonListSetup();
 		history.back();
 	}
 	else
 	{
-		if(window.sessionStorage)
+		if(!resave && window.sessionStorage)
 		{
 			sessionStorage.setItem("id", document.getElementById("save").dataset.id);
+			sessionStorage.setItem("name", document.getElementById("name").value);
+			sessionStorage.setItem("competences", JSON.stringify(parseCompetences()));
 			sessionStorage.setItem("body", ace.edit("editor").getValue());
 			window.location.replace("https://odymaterialy.skauting.cz/auth/login.php");
 		}
