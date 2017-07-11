@@ -1,6 +1,7 @@
 var CACHE = "odymaterialy-v1";
 var cacheBlocking = [
 	"/index.html",
+	"/scripts/AfterLoadEvent.js",
 	"/scripts/auth.js",
 	"/scripts/getLesson.js",
 	"/scripts/history.js",
