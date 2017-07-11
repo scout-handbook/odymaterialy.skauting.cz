@@ -1,4 +1,4 @@
-.competence
+.competenceBubble
 {
 	border: 1px solid #bfbfbf;
 	background-color: #fafafa;
@@ -16,16 +16,17 @@
 	transition: width ease 0.15s, height ease 0.15s, border-color ease 0.15s, background-color ease 0.15s;
 }
 
-.competenceNumber
+.competenceBubbleNumber
 {
 	text-align: center;
+	font-weight:bold;
 	width: 3em;
 	height: 2.9em;
 	float: left;
 	transition: color ease 0.15s;
 }
 
-.competenceText
+.competenceBubbleText
 {
 	display: block;
 	font-size: 66%;

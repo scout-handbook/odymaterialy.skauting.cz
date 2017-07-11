@@ -58,11 +58,11 @@ function showLesson(id, markdown, noHistory)
 	var html = "<h1>" + lesson.name + "</h1>";
 	for(var k = 0; k < competences.length; k++)
 	{
-		html += "<span class=\"competence\"><span class=\"competenceNumber\"><span><p>" + competences[k].number + "</p></span></span><span class=\"competenceText\">" + competences[k].name + "</span></span>";
+		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><span><p>" + competences[k].number + "</p></span></span><span class=\"competenceBubbleText\">" + competences[k].name + "</span></span>";
 	}
 	html += converter.makeHtml(markdown);
 	document.getElementById("content").innerHTML = html;
-	nodes = document.getElementById("content").getElementsByClassName("competence");
+	nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
 	for(var l = 0; l < nodes.length; l++)
 	{
 		nodes[l].onclick = competenceExpand;
@@ -93,7 +93,7 @@ function showLesson(id, markdown, noHistory)
 function competenceExpand(event)
 {
 	element = event.target;
-	while(!element.classList.contains("competence") && (element = element.parentElement)) {}
+	while(!element.classList.contains("competenceBubble") && (element = element.parentElement)) {}
 	if(element.style.width !== "")
 	{
 		element.childNodes[1].style.width = "";
@@ -105,7 +105,7 @@ function competenceExpand(event)
 	}
 	else
 	{
-		nodes = document.getElementById("content").getElementsByClassName("competence");
+		nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
 		for(var i = 0; i < nodes.length; i++)
 		{
 			nodes[i].childNodes[1].style.width = "";
