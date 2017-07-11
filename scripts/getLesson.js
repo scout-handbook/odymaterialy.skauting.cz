@@ -58,6 +58,7 @@ function showLesson(id, markdown, noHistory, second)
 		}
 	}
 	var html = "<h1>" + lesson.name + "</h1>";
+	activeCompetence = null;
 	for(var k = 0; k < competences.length; k++)
 	{
 		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><span><p>" + competences[k].number + "</p></span></span><span class=\"competenceBubbleText\">" + competences[k].name + "</span></span>";
