@@ -19,16 +19,16 @@ function getLesson(id, noHistory)
 		navOpen = false;
 		reflow();
 	}
-	cacheThenNetworkRequest("/API/v0.9/get_lesson", "id=" + id, function(response)
+	cacheThenNetworkRequest("/API/v0.9/get_lesson", "id=" + id, function(response, second)
 		{
 			lessonListEvent.addCallback(function()
 				{
-					showLesson(id, response, noHistory);
+					showLesson(id, response, noHistory, second);
 				});
 		});
 }
 
-function showLesson(id, markdown, noHistory)
+function showLesson(id, markdown, noHistory, second)
 {
 	var lesson = {};
 	outer:
@@ -68,10 +68,13 @@ function showLesson(id, markdown, noHistory)
 		nodes[l].onclick = competenceExpand;
 	}
 	document.getElementsByTagName("main")[0].scrollTop = 0;
-	var stateObject = { "id": id };
-	if(!noHistory)
+	if(!second)
 	{
-		history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(lesson.name));
+		var stateObject = { "id": id };
+		if(!noHistory)
+		{
+			history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(lesson.name));
+		}
 	}
 	if("serviceWorker" in navigator)
 	{

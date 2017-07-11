@@ -2,15 +2,21 @@ var lessonListEvent = new AfterLoadEvent(2);
 
 function listLessonsSetup()
 {
-	cacheThenNetworkRequest("/API/v0.9/list_lessons", "", function(response)
+	cacheThenNetworkRequest("/API/v0.9/list_lessons", "", function(response, second)
 		{
 			FIELDS = JSON.parse(response);
-			lessonListEvent.trigger();
+			if(!second)
+			{
+				lessonListEvent.trigger();
+			}
 		});
-	cacheThenNetworkRequest("/API/v0.9/list_competences", "", function(response)
+	cacheThenNetworkRequest("/API/v0.9/list_competences", "", function(response, second)
 		{
 			COMPETENCES = JSON.parse(response);
-			lessonListEvent.trigger();
+			if(!second)
+			{
+				lessonListEvent.trigger();
+			}
 		});
 	lessonListEvent.addCallback(showLessonList);
 }
