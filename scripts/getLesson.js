@@ -48,13 +48,9 @@ function showLesson(id, markdown, noHistory, second)
 	var competences = [];
 	for(var k = 0; k < COMPETENCES.length; k++)
 	{
-		for(var l = 0; l < lesson.competences.length; l++)
+		if(lesson.competences.indexOf(COMPETENCES[k].id) >=0)
 		{
-			if(lesson.competences[l].id === COMPETENCES[k].id)
-			{
-				competences.push(COMPETENCES[k]);
-				break;
-			}
+			competences.push(COMPETENCES[k]);
 		}
 	}
 	var html = "<h1>" + lesson.name + "</h1>";

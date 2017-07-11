@@ -139,13 +139,9 @@ function renderCompetences(currentCompetences)
 	for(var i = 0; i < COMPETENCES.length; i++)
 	{
 		html += "<div class=\"competence\"><label class=\"competenceSwitch\"><input type=\"checkbox\" data-id=\"" + COMPETENCES[i].id + "\"";
-		for(var j = 0; j < currentCompetences.length; j++)
+		if(currentCompetences.indexOf(COMPETENCES[i].id) >= 0)
 		{
-			if(currentCompetences[j].id == COMPETENCES[i].id)
-			{
-				html += " checked";
-				break;
-			}
+			html += " checked";
 		}
 		html += "><span class=\"checkbox\"></span></label><span class=\"competenceNumber\">" + COMPETENCES[i].number + ":</span> " + COMPETENCES[i].name + "</div>";
 	}

@@ -5,7 +5,6 @@ header('content-type:application/json; charset=utf-8');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Field.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Lesson.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/SimpleCompetence.php');
 
 // Prepared statements where ? will be replaced later
 
@@ -84,12 +83,19 @@ while ($field_statement->fetch())
 		$competence_statement->execute();
 
 		$competence_id = '';
-		$competence_number = '';
 		$competence_statement->bind_result($competence_id, $competence_number);
+		if($competence_statement->fetch())
+		{
+			end(end($fields)->lessons)->lowestCompetence = $competence_number;
+			end(end($fields)->lessons)->competences[] = $competence_id;
+		}
+		else
+		{
+			end(end($fields)->lessons)->lowestCompetence = 0;
+		}
 		while ($competence_statement->fetch())
 		{
-			end(end($fields)->lessons)->competences[] =
-				new OdyMaterialyAPI\SimpleCompetence($competence_id, $competence_number);
+			end(end($fields)->lessons)->competences[] = $competence_id;
 		}
 		$competence_statement->close();
 	}

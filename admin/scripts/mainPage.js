@@ -72,13 +72,9 @@ function renderLessonList()
 				var competences = [];
 				for(var k = 0; k < COMPETENCES.length; k++)
 				{
-					for(var l = 0; l < FIELDS[i].lessons[j].competences.length; l++)
+					if(FIELDS[i].lessons[j].competences.indexOf(COMPETENCES[k].id) >= 0)
 					{
-						if(FIELDS[i].lessons[j].competences[l].id === COMPETENCES[k].id)
-						{
-							competences.push(COMPETENCES[k]);
-							break;
-						}
+						competences.push(COMPETENCES[k]);
 					}
 				}
 				html += "<span class=\"mainPage\">Kompetence: " + competences[0].number;
