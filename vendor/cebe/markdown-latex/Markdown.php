@@ -204,7 +204,7 @@ class Markdown extends \cebe\markdown\Parser
 			}
 			return '\hyperref['.str_replace('#', '::', $url).']{' . $text . '}';
 		} else {
-			return $text . '\\footnote{' . (empty($block['title']) ? '' : $this->escapeLatex($block['title']) . ': ') . '\url{' . $this->escapeLatex($url) . '}}';
+			return $text . '\\footnote{' . (empty($block['title']) ? '' : $this->escapeLatex($block['title']) . ': ') . '\url{' . $this->escapeUrl($url) . '}}';
 		}
 	}
 
@@ -222,7 +222,15 @@ class Markdown extends \cebe\markdown\Parser
 		}
 
 		// TODO create figure with caption with title
-		$url = $this->escapeLatex($block['url']);
+		$replaces = [
+			'%' => '\\%',
+			'{' => '\\%7B',
+			'}' => '\\%7D',
+			'\\' => '\\\\',
+			'#' => '\\#',
+			'$' => '\\%24',
+		];
+		$url = str_replace(array_keys($replaces), array_values($replaces), $block['url']);
 		return "\\noindent\\includegraphics[width=\\textwidth]{{$url}}";
 	}
 
@@ -256,7 +264,7 @@ class Markdown extends \cebe\markdown\Parser
 	 */
 	protected function renderEmail($block)
 	{
-		$email = $this->escapeLatex($block[1]);
+		$email = $this->escapeUrl($block[1]);
 		return "\\href{mailto:{$email}}{{$email}}";
 	}
 
@@ -265,7 +273,7 @@ class Markdown extends \cebe\markdown\Parser
 	 */
 	protected function renderUrl($block)
 	{
-		return '\url{' . $this->escapeLatex($block[1]) . '}';
+		return '\url{' . $this->escapeUrl($block[1]) . '}';
 	}
 
 	/**
@@ -323,6 +331,14 @@ class Markdown extends \cebe\markdown\Parser
 	private $_escaper;
 
 	/**
+	 * Escape special characters in URLs
+	 */
+	protected function escapeUrl($string)
+	{
+		return str_replace('%', '\\%', $this->escapeLatex($string));
+	}
+
+	/**
 	 * Escape special LaTeX characters
 	 */
 	protected function escapeLatex($string)
@@ -330,9 +346,7 @@ class Markdown extends \cebe\markdown\Parser
 		if ($this->_escaper === null) {
 			$this->_escaper = new TextToLatex();
 		}
-		$output = $this->_escaper->convert($string);
-		$output = str_replace('%', '\\%', $output);
-		return $output;
+		return $this->_escaper->convert($string);
 	}
 
 	/**
