@@ -109,7 +109,7 @@ $field_name = '';
 $field_statement->bind_result($field_id, $field_name);
 while ($field_statement->fetch())
 {
-	$fields[] = new OdyMaterialyAPI\Field($field_name); // Create a new field
+	$fields[] = new OdyMaterialyAPI\Field($field_id, $field_name); // Create a new field
 
 	// Populate the newly-created Field with its lessons
 
