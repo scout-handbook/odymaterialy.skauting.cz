@@ -7,7 +7,7 @@ function navSetup()
 	document.getElementById("overlay").onclick = switchNav;
 	document.getElementById("lessonOverview").onclick = function()
 		{
-			getLesson();
+			getMainPage();
 			return false;
 		}
 	reflow();

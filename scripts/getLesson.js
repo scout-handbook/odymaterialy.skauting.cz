@@ -11,11 +11,6 @@ function getLessonSetup()
 
 function getLesson(id, noHistory)
 {
-	if(!id)
-	{
-		getMainPage(noHistory);
-		return;
-	}
 	if(screen.width < 700)
 	{
 		navOpen = false;
@@ -72,7 +67,7 @@ function showLesson(id, markdown, noHistory, second)
 		var stateObject = { "id": id };
 		if(!noHistory)
 		{
-			history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(lesson.name));;
+			history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(lesson.name));
 
 		}
 	}
