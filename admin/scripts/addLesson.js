@@ -20,7 +20,7 @@ function addLesson(noHistory)
 		Zrušit\
 	</div>\
 	<form>\
-		<input type="text" id="name" value="Prázdná lekce" autocomplete=off>\
+		<input type="text" id="name" value="' + defaultName + '" autocomplete=off>\
 	</form>\
 	<div class="button" id="save">\
 		Uložit\
@@ -33,10 +33,10 @@ function addLesson(noHistory)
 <div id="competences">\
 	<div id="competenceWrapper"></div>\
 </div>'
-	html += '<div id="editor">## Nadpis</div><div id="preview"><div id="preview-inner"></div></div>';
+	html += '<div id="editor">' + defaultBody + '</div><div id="preview"><div id="preview-inner"></div></div>';
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	renderCompetences([]);
-	refreshPreview("Prázdná lekce", "## Nadpis");
+	refreshPreview(defaultName, defaultBody);
 
 	var stateObject = {};
 	if(!noHistory)

@@ -19,6 +19,7 @@ Allow from 127.0.0.1
 	Header add Link "</scripts/AfterLoadEvent.js>;rel=preload;as=script"
 	Header add Link "</scripts/OdyMarkdown.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/addLesson.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/default.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/getLesson.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/history.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/main.js>;rel=preload;as=script"
