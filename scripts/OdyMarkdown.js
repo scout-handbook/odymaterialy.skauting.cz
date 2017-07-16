@@ -11,11 +11,16 @@ var OdyMarkdown = function()
 		regex: "</table>",
 		replace: "</table></div>"
 	};
+	var blankLinks = {
+		type: "output",
+		regex: "<a href",
+		replace: "<a target=\"_blank\" href"
+	};
 	var notes = {
 		type: "lang",
 		filter: function(text, c, o) {return filterCommand(text, "notes", notes_command);}
 	};
-	return [responsiveTablesBegin, responsiveTablesEnd, notes];
+	return [responsiveTablesBegin, responsiveTablesEnd, blankLinks, notes];
 }
 
 //Register extensions
