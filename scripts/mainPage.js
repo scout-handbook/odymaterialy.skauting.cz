@@ -12,10 +12,17 @@ function showMainPage(noHistory)
 	html += renderLessonList();
 	document.getElementById("content").innerHTML = html;
 
-	nodes = document.getElementById("content").getElementsByTagName("h3");
+	nodes = document.getElementById("content").getElementsByTagName("a");
 	for(var l = 0; l < nodes.length; l++)
 	{
-		nodes[l].firstChild.onclick = lessonOnClick;
+		if(nodes[l].parentElement.tagName == "H2")
+		{
+			nodes[l].onclick = fieldOnClick;
+		}
+		else
+		{
+			nodes[l].onclick = lessonOnClick;
+		}
 	}
 
 	document.getElementsByTagName("main")[0].scrollTop = 0;
@@ -33,7 +40,7 @@ function renderLessonList()
 	{
 		if(FIELDS[i].name)
 		{
-			html += "<h2 class=\"mainPage\">" + FIELDS[i].name + "</h2>";
+			html += "<h2 class=\"mainPage\"><a title=\"" + FIELDS[i].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].id + "\">" + FIELDS[i].name + "</a></h2>";
 			for(var j = 0; j < FIELDS[i].lessons.length; j++)
 			{
 				html += "<h3 class=\"mainPage secondLevel\"><a title=\"" + FIELDS[i].lessons[j].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + FIELDS[i].lessons[j].name + "</a></h3>";

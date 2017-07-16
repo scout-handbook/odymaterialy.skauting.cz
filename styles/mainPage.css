@@ -3,6 +3,11 @@ h2.mainPage
 	margin-top: 40px;
 }
 
+h2.mainPage a
+{
+	color: #364149;
+}
+
 h3.mainPage
 {
 	margin-top: 40px;
