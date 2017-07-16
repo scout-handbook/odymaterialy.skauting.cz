@@ -17,6 +17,14 @@ class Field
 // Field comparison function used in usort. Assumes that both Fields have their lessons sorted low-to-high.
 function Field_cmp($first, $second)
 {
+	if (get_class($first) === "OdyMaterialyAPI\AnonymousField")
+	{
+		return -1;
+	}
+	if (get_class($second) === "OdyMaterialyAPI\AnonymousField")
+	{
+		return 1;
+	}
 	if (empty($first->lessons))
 	{
 		if (empty($second->lessons))
