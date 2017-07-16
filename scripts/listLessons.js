@@ -28,19 +28,17 @@ function showLessonList()
 	{
 		if(FIELDS[i].name)
 		{
-			html += "<h1>" + FIELDS[i].name + "</h1>";
+			html += "<h1><a title=\"" + FIELDS[i].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].id + "\">" + FIELDS[i].name + "</a></h1>";
 			for(var j = 0; j < FIELDS[i].lessons.length; j++)
 			{
-				var name = FIELDS[i].lessons[j].name;
-				html += "<a class=\"secondLevel\" title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + name + "</a><br>";
+				html += "<a class=\"secondLevel\" title=\"" + FIELDS[i].lessons[j].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + FIELDS[i].lessons[j].name + "</a><br>";
 			}
 		}
 		else
 		{
 			for(var j = 0; j < FIELDS[i].lessons.length; j++)
 			{
-				var name = FIELDS[i].lessons[j].name;
-				html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + name + "</a><br>";
+				html += "<a title=\"" + FIELDS[i].lessons[j].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + FIELDS[i].lessons[j].name + "</a><br>";
 			}
 		}
 	}
@@ -48,12 +46,25 @@ function showLessonList()
 	nodes = document.getElementById("navigation").getElementsByTagName("a");
 	for(var k = 0; k < nodes.length; k++)
 	{
-		nodes[k].onclick = itemOnClick;
+		if(nodes[k].parentElement.tagName == "H1")
+		{
+			nodes[k].onclick = fieldOnClick;
+		}
+		else
+		{
+			nodes[k].onclick = lessonOnClick;
+		}
 	}
 	document.getElementsByTagName("nav")[0].style.transition = "margin-left 0.3s ease";
 }
 
-function itemOnClick(event)
+function fieldOnClick(event)
+{
+	getField(event.target.dataset.id);
+	return false;
+}
+
+function lessonOnClick(event)
 {
 	getLesson(event.target.dataset.id);
 	return false;

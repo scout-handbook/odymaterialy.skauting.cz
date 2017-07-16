@@ -15,7 +15,7 @@ function showMainPage(noHistory)
 	nodes = document.getElementById("content").getElementsByTagName("h3");
 	for(var l = 0; l < nodes.length; l++)
 	{
-		nodes[l].firstChild.onclick = itemOnClick;
+		nodes[l].firstChild.onclick = lessonOnClick;
 	}
 
 	document.getElementsByTagName("main")[0].scrollTop = 0;

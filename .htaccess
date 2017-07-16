@@ -11,6 +11,10 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
 
+# Fields rewrite
+RewriteCond %{REQUEST_URI} ^/field/
+RewriteRule (.*) / [QSA]
+
 # Lessons rewrite
 RewriteCond %{REQUEST_URI} ^/lesson/
 RewriteRule (.*) / [QSA]
@@ -45,6 +49,7 @@ Header always set Expect-CT "enforce; max-age=31536000"
 	Header add Link "</styles/handheld.css>;rel=preload;as=style"
 	Header add Link "</scripts/AfterLoadEvent.js>;rel=preload;as=script"
 	Header add Link "</scripts/auth.js>;rel=preload;as=script"
+	Header add Link "</scripts/getField.js>;rel=preload;as=script"
 	Header add Link "</scripts/getLesson.js>;rel=preload;as=script"
 	Header add Link "</scripts/history.js>;rel=preload;as=script"
 	Header add Link "</scripts/listLessons.js>;rel=preload;as=script"
