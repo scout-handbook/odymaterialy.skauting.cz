@@ -14,12 +14,15 @@ main h1
 	line-height: 140%;
 }
 
+main .tableContainer
+{
+	overflow-x: auto;
+}
+
 main table
 {
 	border: 1px solid #DDDDDD;
 	border-collapse: collapse;
-	display: block;
-	overflow-x: auto;
 }
 
 main img

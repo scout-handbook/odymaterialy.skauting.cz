@@ -3,7 +3,7 @@ var activeCompetence = null;
 
 function getLessonSetup()
 {
-	converter = new showdown.Converter({extensions: ["notes"]});
+	converter = new showdown.Converter({extensions: ["OdyMarkdown"]});
 	converter.setOption("noHeaderId", "true");
 	converter.setOption("tables", "true");
 	window.addEventListener("resize", competenceReflow)

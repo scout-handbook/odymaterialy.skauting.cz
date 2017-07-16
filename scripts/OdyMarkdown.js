@@ -1,15 +1,25 @@
 // Showdown extensions definitions
-var notes = function()
+var OdyMarkdown = function()
 {
-	var notes1 = {
-		type:  "lang",
+	var responsiveTablesBegin = {
+		type: "output",
+		regex: "<table>",
+		replace: "<div class=\"tableContainer\"><table>"
+	};
+	var responsiveTablesEnd = {
+		type: "output",
+		regex: "</table>",
+		replace: "</table></div>"
+	};
+	var notes = {
+		type: "lang",
 		filter: function(text, c, o) {return filterCommand(text, "notes", notes_command);}
 	};
-	return [notes1];
+	return [responsiveTablesBegin, responsiveTablesEnd, notes];
 }
 
 //Register extensions
-showdown.extension("notes", notes);
+showdown.extension("OdyMarkdown", OdyMarkdown);
 
 // Generic command processing functions
 function filterCommand(text, commandName, command)
