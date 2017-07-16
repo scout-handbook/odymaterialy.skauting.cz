@@ -6,11 +6,10 @@ h2.mainPage
 h3.mainPage
 {
 	margin-top: 40px;
-	margin-left: 20px;
 	margin-bottom: 10px;
 }
 
-span.mainPage
+.mainPage.secondLevel
 {
-	margin-left: 20px;
+	margin-left: 40px;
 }
