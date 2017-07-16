@@ -64,13 +64,18 @@ nav a:hover
 #navContainer a
 {
 	display: inline-block;
-	margin: 10px 20px 10px 30px;
+	margin: 10px 20px 10px 20px;
 }
 
 #navContainer h1 a
 {
 	color: #364149;
 	margin: 0;
+}
+
+#navContainer .secondLevel
+{
+	margin-left: 40px;
 }
 
 #navCloseButton

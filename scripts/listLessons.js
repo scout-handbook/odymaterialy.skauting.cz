@@ -26,11 +26,22 @@ function showLessonList()
 	var html = "";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
-		html += "<h1>" + FIELDS[i].name + "</h1>";
-		for(var j = 0; j < FIELDS[i].lessons.length; j++)
+		if(FIELDS[i].name)
 		{
-			var name = FIELDS[i].lessons[j].name;
-			html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + name + "</a><br>";
+			html += "<h1>" + FIELDS[i].name + "</h1>";
+			for(var j = 0; j < FIELDS[i].lessons.length; j++)
+			{
+				var name = FIELDS[i].lessons[j].name;
+				html += "<a class=\"secondLevel\" title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + name + "</a><br>";
+			}
+		}
+		else
+		{
+			for(var j = 0; j < FIELDS[i].lessons.length; j++)
+			{
+				var name = FIELDS[i].lessons[j].name;
+				html += "<a title=\"" + name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + name + "</a><br>";
+			}
 		}
 	}
 	document.getElementById("navigation").innerHTML = html;
