@@ -92,7 +92,7 @@ function afterAdd(response)
 	var success = JSON.parse(response).success;
 	if(success)
 	{
-		dialog("Úspěšně uloženo.", "OK", function()
+		dialog("Úspěšně vloženo.", "OK", function()
 			{
 				if(readd)
 				{
@@ -115,7 +115,7 @@ function afterAdd(response)
 		}
 		else
 		{
-			dialog("Byl jste odhlášen a uložení se tedy nezdařilo. Přihlaste se prosím a zkuste to znovu.", "OK");
+			dialog("Byl jste odhlášen a vložení se tedy nezdařilo. Přihlaste se prosím a zkuste to znovu.", "OK");
 		}
 	}
 }
