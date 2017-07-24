@@ -39,7 +39,10 @@ function showMainPage(noHistory)
 	html += "</div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	
-	document.getElementById("addLesson").onclick = addLesson;
+	document.getElementById("addLesson").onclick = function()
+		{
+			addLesson();
+		};
 	nodes = document.getElementsByTagName("main")[0].getElementsByTagName("h3");
 	for(var l = 0; l < nodes.length; l++)
 	{
