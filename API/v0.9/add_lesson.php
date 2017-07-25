@@ -5,31 +5,41 @@ header('content-type:application/json; charset=utf-8');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/AuthenticationException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
+
 function addCompetences($db, $lessonId, $competences)
 {
-	$insertSQL = <<<SQL
+	$SQL = <<<SQL
 INSERT INTO competences_for_lessons (lesson_id, competence_id)
 VALUES (?, ?);
 SQL;
 
-	$insertStatement = $db->prepare($insertSQL);
-	if($insertStatement === false)
+	$statement = $db->prepare($SQL);
+	if(!$statement)
 	{
-		throw new Exception('Invalid SQL: "' . $insertSQL . '". Error: ' . $db->error);
+		throw new OdyMaterialyAPI\QueryException($SQL, $db);
 	}
 	foreach($competences as $competence)
 	{
-		$insertStatement->bind_param('ii', $lessonId, $competence);
-		$insertStatement->execute();
+		$statement->bind_param('ii', $lessonId, $competence);
+		if(!$statement->execute())
+		{
+			throw new OdyMaterialyAPI\ExecutionException($SQL, $statement);
+		}
 	}
-	$insertStatement->close();
+	$statement->close();
 }
 
 function add()
 {
 	if(!isset($_POST['name']))
 	{
-		throw new Exception('POST argument "name" must be provided.');
+		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'name');
 	}
 
 	$name = $_POST['name'];
@@ -48,22 +58,25 @@ function add()
 
 	if ($db->connect_error)
 	{
-		throw new Exception('Failed to connect to the database. Error: ' . $db->connect_error);
+		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
 
-	$insertSQL = <<<SQL
+	$SQL = <<<SQL
 INSERT INTO lessons (name, body)
 VALUES (?, ?);
 SQL;
 
-	$insertStatement = $db->prepare($insertSQL);
-	if($insertStatement === false)
+	$statement = $db->prepare($SQL);
+	if(!$statement)
 	{
-		throw new Exception('Invalid SQL: "' . $insertSQL . '". Error: ' . $db->error);
+		throw new OdyMaterialyAPI\QueryException($SQL, $db);
 	}
-	$insertStatement->bind_param('ss', $name, $body);
-	$insertStatement->execute();
-	$insertStatement->close();
+	$statement->bind_param('ss', $name, $body);
+	if(!$statement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($SQL, $statement);
+	}
+	$statement->close();
 
 	$id = $db->insert_id;
 
@@ -72,12 +85,19 @@ SQL;
 		addCompetences($db, $id, $competences);
 	}
 	$db->close();
-	echo(json_encode(array('success' => true)));
 }
 
 function reauth()
 {
-	echo(json_encode(array('success' => false)));
+	throw new OdyMaterialyAPI\AuthenticationException();
 }
 
-OdyMaterialyAPI\editorTry('add', 'reauth', true);
+try
+{
+	OdyMaterialyAPI\editorTry('add', 'reauth', true);
+	echo(json_encode(array('success' => true)));
+}
+catch(OdyMaterialyAPI\APIException $e)
+{
+	echo($e);
+}
