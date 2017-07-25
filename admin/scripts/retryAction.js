@@ -22,16 +22,17 @@ function retryActionAfter(result, url, query)
 {
 	if(result.success)
 	{
-		dialog("Úspěšně uloženo", "OK", function()
-			{
-				if(retry)
-				{
-					window.location.reload();
-				}
-			});
+		dialog("Úspěšně uloženo", "OK");
 		lessonListEvent = new AfterLoadEvent(2);
 		lessonListSetup();
-		history.back();
+		if(retry)
+		{
+			getMainPage();
+		}
+		else
+		{
+			history.back();
+		}
 	}
 	else if(result.type === "AuthenticationException")
 	{
