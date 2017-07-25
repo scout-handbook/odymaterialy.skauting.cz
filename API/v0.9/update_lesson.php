@@ -1,6 +1,7 @@
 <?php
 const _API_EXEC = 1;
 
+header('content-type:application/json; charset=utf-8');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
