@@ -108,11 +108,21 @@ function saveCallback()
 {
 	if(changed)
 	{
-		var id = document.getElementById("save").dataset.id;
-		var name = document.getElementById("name").value;
+		var query = "id=" + document.getElementById("save").dataset.id;
+		query += "&name=" + document.getElementById("name").value;
 		var competences = parseCompetences();
-		var body = ace.edit("editor").getValue();
-		save(id, name, competences, body);
+		var competenceQuery = "";
+		for(i = 0; i < competences.length; i++)
+		{
+			competenceQuery += "&competence[]=" + competences[i];
+		}
+		if(competenceQuery === "")
+		{
+			competenceQuery = "&competence[]=";
+		}
+		query += competenceQuery;
+		query += "&body=" + encodeURIComponent(ace.edit("editor").getValue());
+		retryAction("/API/v0.9/update_lesson", query);
 	}
 	else
 	{

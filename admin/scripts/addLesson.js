@@ -1,18 +1,5 @@
-var readd = false;
-
-function addSetup()
-{
-	if(window.sessionStorage && sessionStorage.getItem("action") === "add")
-	{
-		readd = true;
-		addSave(sessionStorage.getItem("name"), JSON.parse(sessionStorage.getItem("competences")), sessionStorage.getItem("body"));
-		sessionStorage.clear();
-	}
-}
-
 function addLesson(noHistory)
 {
-	changed = true;
 	var html = '\
 <header>\
 	<div class="button" id="discard">\
@@ -59,22 +46,9 @@ function addLesson(noHistory)
 
 function addCallback()
 {
-	if(changed)
-	{
-		var name = document.getElementById("name").value;
-		var competences = parseCompetences();
-		var body = ace.edit("editor").getValue();
-		addSave(name, competences, body);
-	}
-	else
-	{
-		discard();
-	}
-}
-
-function addSave(name, competences, body)
-{
-	var competenceQuery = "";
+	var query = "name=" + document.getElementById("name").value;
+	var competences = parseCompetences();
+	var competenceQuery = ""
 	for(i = 0; i < competences.length; i++)
 	{
 		competenceQuery += "&competence[]=" + competences[i];
@@ -83,39 +57,7 @@ function addSave(name, competences, body)
 	{
 		competenceQuery = "&competence[]=";
 	}
-	var query = "name=" + name + competenceQuery + "&body=" + encodeURIComponent(body);
-	POSTrequest("/API/v0.9/add_lesson", query, afterAdd);
-}
-
-function afterAdd(response)
-{
-	var success = JSON.parse(response).success;
-	if(success)
-	{
-		dialog("Úspěšně vloženo.", "OK", function()
-			{
-				if(readd)
-				{
-					window.location.reload();
-				}
-			});
-		lessonListEvent = new AfterLoadEvent(2);
-		lessonListSetup();
-		history.back();
-	}
-	else
-	{
-		if(!readd && window.sessionStorage)
-		{
-			sessionStorage.setItem("action", "add");
-			sessionStorage.setItem("name", document.getElementById("name").value);
-			sessionStorage.setItem("competences", JSON.stringify(parseCompetences()));
-			sessionStorage.setItem("body", ace.edit("editor").getValue());
-			window.location.replace("https://odymaterialy.skauting.cz/auth/login.php");
-		}
-		else
-		{
-			dialog("Byl jste odhlášen a vložení se tedy nezdařilo. Přihlaste se prosím a zkuste to znovu.", "OK");
-		}
-	}
+	query += competenceQuery;
+	query += "&body=" + encodeURIComponent(ace.edit("editor").getValue());
+	retryAction("/API/v0.9/add_lesson", query);
 }

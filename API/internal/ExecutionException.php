@@ -11,6 +11,6 @@ class ExecutionException extends APIException
 
 	public function __construct($SQL, $statement)
 	{
-		parent::__construct('Query: "' . $SQL . '" has failed. Error message: "' . $statement->error . '".');
+		parent::__construct('Query "' . $SQL . '" has failed. Error message: "' . $statement->error . '".');
 	}
 }

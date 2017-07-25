@@ -3,7 +3,7 @@ function main()
 	refreshPreviewSetup();
 	historySetup();
 	mainPageSetup();
-	saveSetup();
+	retryActionSetup();
 }
 
 window.onload = main;
