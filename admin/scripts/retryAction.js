@@ -33,6 +33,7 @@ function retryActionAfter(result, url, query)
 		{
 			history.back();
 		}
+		retry = false;
 	}
 	else if(result.type === "AuthenticationException")
 	{

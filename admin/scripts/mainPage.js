@@ -82,30 +82,68 @@ function changeFieldOnClick(event)
 		{
 			if(FIELDS[i].lessons[j].id == event.target.dataset.id)
 			{
-				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div><form>"
+				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeFieldSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">"
 				checked = true;
 				break;
 			}
-		}
-		if(FIELDS[i].id)
-		{
-			name = FIELDS[i].name;
-		}
-		else
-		{
-			name = "<i>Nezařazeno</i>"
 		}
 		form += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"field\"";
 		if(checked)
 		{
 			form += " checked";
 		}
-		form += "><span class=\"formRadio\"></span></label>" + name + "</div>";
+		if(FIELDS[i].id)
+		{
+			form += " data-id=\"" + FIELDS[i].id + "\"";
+		}
+		else
+		{
+			form += " data-id=\"\"";
+		}
+		form += "><span class=\"formRadio\"></span></label>";
+		if(FIELDS[i].id)
+		{
+			form += FIELDS[i].name;
+		}
+		else
+		{
+			form += "<i>Nezařazeno</i>"
+		}
+		form += "</div>";
 	}
 	html += form + "</form>";
 	document.getElementById("sidePanel").innerHTML = html;
 
 	document.getElementById("sidePanelCancel").onclick = sidePanelClose;
+	document.getElementById("changeFieldSave").onclick = changeFieldSave;
+
+	history.pushState({}, "title", "/admin/");
+}
+
+function changeFieldSave(event)
+{
+	var lessonId = document.getElementById("changeFieldSave").dataset.id;
+	var fieldId = parseForm()[0];
+	var query = "lesson-id=" + lessonId;
+	if(fieldId)
+	{
+		query += "&field-id=" + fieldId;
+	}
+	retryAction("/API/v0.9/update_lesson_field", query);
+}
+
+function parseForm()
+{
+	var ret = [];
+	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
+	for(var i = 0; i < nodes.length; i++)
+	{
+		if(nodes[i].checked)
+		{
+			ret.push(nodes[i].dataset.id);
+		}
+	}
+	return ret;
 }
 
 function renderLessonList()
