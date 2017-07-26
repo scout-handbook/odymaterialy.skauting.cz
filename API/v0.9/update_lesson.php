@@ -12,48 +12,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
-function redoCompetences($db, $lessonId, $competences)
-{
-	$deleteSQL = <<<SQL
-DELETE FROM competences_for_lessons
-WHERE lesson_id = ?;
-SQL;
-	$insertSQL = <<<SQL
-INSERT INTO competences_for_lessons (lesson_id, competence_id)
-VALUES (?, ?);
-SQL;
-
-	$deleteStatement = $db->prepare($deleteSQL);
-	if(!$deleteStatement)
-	{
-		throw new OdyMaterialyAPI\QueryException($deleteSQL, $db);
-	}
-	$deleteStatement->bind_param('i', $lessonId);
-	if(!$deleteStatement->execute())
-	{
-		throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $deleteStatement);
-	}
-	$deleteStatement->close();
-
-	if(!empty($competences))
-	{
-		$insertStatement = $db->prepare($insertSQL);
-		if(!$insertStatement)
-		{
-			throw new OdyMaterialyAPI\QueryException($insertSQL, $db);
-		}
-		foreach($competences as $competence)
-		{
-			$insertStatement->bind_param('ii', $lessonId, $competence);
-			if(!$insertStatement->execute())
-			{
-				throw new OdyMaterialyAPI\ExecutionException($insertSQL, $insertStatement);
-			}
-		}
-		$insertStatement->close();
-	}
-}
-
 function rewrite()
 {
 	if(!isset($_POST['id']))
@@ -66,10 +24,6 @@ function rewrite()
 	if(isset($_POST['name']))
 	{
 		$name = $_POST['name'];
-	}
-	if(isset($_POST['competence']))
-	{
-		$competences = $_POST['competence'];
 	}
 	if(isset($_POST['body']))
 	{
@@ -135,11 +89,6 @@ SQL;
 		throw new OdyMaterialyAPI\ExecutionException($updateSQL, $updateStatement);
 	}
 	$updateStatement->close();
-
-	if(isset($competences))
-	{
-		redoCompetences($db, $id, $competences);
-	}
 	$db->close();
 }
 

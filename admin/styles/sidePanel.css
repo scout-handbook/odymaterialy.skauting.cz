@@ -5,9 +5,9 @@
 	right: -631px;
 	bottom: 0;
 	width: 600px;
-	border-left: solid 1px #bfbfbf;
-	padding-top: 50px;
+	padding-top: 30px;
 	padding-left: 30px;
+	border-left: solid 1px #bfbfbf;
 	background: white;
 	transition: right ease 0.3s;
 	z-index: 1;
