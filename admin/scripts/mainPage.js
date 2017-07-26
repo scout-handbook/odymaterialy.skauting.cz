@@ -32,7 +32,7 @@ function getMainPage(noHistory)
 
 function showMainPage(noHistory)
 {
-	var html = "<div id=\"sidePanel\"></div><div id=\"mainPageContainer\"><div id=\"mainPage\">";
+	var html = "<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div><div id=\"mainPageContainer\"><div id=\"mainPage\">";
 	html += "<h1>OdyMateriály - administrace</h1>";
 	html += "<div class=\"button\" id=\"addLesson\">Nová lekce</div><br>";
 	html += renderLessonList();
@@ -72,7 +72,8 @@ function itemOnClick(event)
 function changeFieldOnClick(event)
 {
 	sidePanelOpen();
-	var html = "<form>"
+	var html = "";
+	var form = "";
 	var name = "";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
@@ -81,6 +82,7 @@ function changeFieldOnClick(event)
 		{
 			if(FIELDS[i].lessons[j].id == event.target.dataset.id)
 			{
+				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div><form>"
 				checked = true;
 				break;
 			}
@@ -93,15 +95,17 @@ function changeFieldOnClick(event)
 		{
 			name = "<i>Nezařazeno</i>"
 		}
-		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"field\"";
+		form += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"field\"";
 		if(checked)
 		{
-			html += " checked";
+			form += " checked";
 		}
-		html += "><span class=\"formRadio\"></span></label>" + name + "</div>";
+		form += "><span class=\"formRadio\"></span></label>" + name + "</div>";
 	}
-	html += "</form>";
+	html += form + "</form>";
 	document.getElementById("sidePanel").innerHTML = html;
+
+	document.getElementById("sidePanelCancel").onclick = sidePanelClose;
 }
 
 function renderLessonList()
@@ -167,11 +171,15 @@ function renderLessonList()
 function sidePanelOpen()
 {
 	var sidePanel = document.getElementById("sidePanel");
+	var overlay = document.getElementById("sidePanelOverlay");
 	sidePanel.style.right = "0";
+	overlay.style.display = "inline";
 }
 
 function sidePanelClose()
 {
 	var sidePanel = document.getElementById("sidePanel");
-	sidePanel.style.right = "-431px";
+	var overlay = document.getElementById("sidePanelOverlay");
+	sidePanel.style.right = "-631px";
+	overlay.style.display = "none";
 }

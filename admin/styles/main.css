@@ -54,20 +54,46 @@ main
 {
 	position: absolute;
 	top:0;
-	right: -431px;
+	right: -631px;
 	bottom: 0;
-	width: 400px;
+	width: 600px;
 	border-left: solid 1px #bfbfbf;
 	padding-top: 50px;
 	padding-left: 30px;
 	background: white;
 	transition: right ease 0.3s;
+	z-index: 1;
+}
+
+.sidePanelTitle
+{
+	color: #6534ad;
+}
+
+#sidePanelCancel
+{
+	margin-right: 20px;
+}
+
+#sidePanelOverlay
+{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background-color: #999999;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: none;
 }
 
 #mainPageContainer
 {
 	height: 100%;
 	overflow-y: auto;
+}
+
+.formRow
+{
+	margin-top: 30px;
 }
 
 .formSwitch input
@@ -80,24 +106,25 @@ main
 	cursor: pointer;
 	border: 1px solid #bfbfbf;
 	background-color: 1px solid #fafafa;
-	border-radius: 6px;
-	width: 11px;
-	height: 11px;
+	width: 15px;
+	height: 15px;
+	border-radius: 8px;
 	display: inline-block;
 	margin-right: 10px;
+	margin-bottom: -2px;
 	transition: border-color ease 0.15s, background-color ease 0.15s;
 }
 
 .formRadio:before
 {
 	background-color: #bfbfbf;
-	width: 5px;
-	height: 5px;
-	border-radius: 3px;
+	width: 7px;
+	height: 7px;
+	border-radius: 4px;
 	content: "";
 	position: fixed;
-	margin-top: 3px;
-	margin-left: 3px;
+	margin-top: 4px;
+	margin-left: 4px;
 	transition: background-color ease 0.15s;
 }
 
