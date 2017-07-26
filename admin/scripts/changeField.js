@@ -1,3 +1,5 @@
+var fieldChanged = false;
+
 function changeFieldOnClick(event)
 {
 	sidePanelOpen();
@@ -42,19 +44,41 @@ function changeFieldOnClick(event)
 	html += form + "</form>";
 	document.getElementById("sidePanel").innerHTML = html;
 
-	document.getElementById("sidePanelCancel").onclick = sidePanelClose;
+	document.getElementById("sidePanelCancel").onclick = function()
+		{
+			history.back();
+		};
 	document.getElementById("changeFieldSave").onclick = changeFieldSave;
 
-	history.pushState({}, "title", "/admin/");
+	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
+	for(var k = 0; k < nodes.length; k++)
+	{
+		nodes[k].onchange = function()
+			{
+				fieldChanged = true;
+			};
+	}
+
+	var stateObject = { "sidePanel": "open" };
+	history.pushState(stateObject, "title", "/admin/");
 }
 
 function changeFieldSave(event)
 {
-	var fieldId = parseForm()[0];
-	var query = "lesson-id=" + document.getElementById("changeFieldSave").dataset.id;
-	if(fieldId)
+	if(fieldChanged)
 	{
-		query += "&field-id=" + fieldId;
+		var fieldId = parseForm()[0];
+		var query = "lesson-id=" + document.getElementById("changeFieldSave").dataset.id;
+		if(fieldId)
+		{
+			query += "&field-id=" + fieldId;
+		}
+		fieldChanged = false;
+		sidePanelClose();
+		retryAction("/API/v0.9/update_lesson_field", query);
 	}
-	retryAction("/API/v0.9/update_lesson_field", query);
+	else
+	{
+		history.back();
+	}
 }

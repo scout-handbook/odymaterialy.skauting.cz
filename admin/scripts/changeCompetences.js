@@ -1,3 +1,5 @@
+var competencesChanged = false;
+
 function changeCompetencesOnClick(event)
 {
 	sidePanelOpen();
@@ -29,19 +31,40 @@ function changeCompetencesOnClick(event)
 	}
 	html += "</form>";
 	document.getElementById("sidePanel").innerHTML = html;
-	document.getElementById("sidePanelCancel").onclick = sidePanelClose;
+	document.getElementById("sidePanelCancel").onclick = function()
+		{
+			history.back();
+		};
 	document.getElementById("changeCompetencesSave").onclick = changeCompetencesSave;
+
+	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
+	for(var k = 0; k < nodes.length; k++)
+	{
+		nodes[k].onchange = function()
+			{
+				competencesChanged = true;
+			};
+	}
 
 	history.pushState({}, "title", "/admin/");
 }
 
 function changeCompetencesSave(event)
 {
-	var query = "id=" + document.getElementById("changeCompetencesSave").dataset.id;
-	var competences = parseForm();
-	for(i = 0; i < competences.length; i++)
+	if(competencesChanged)
 	{
-		query += "&competence[]=" + competences[i];
+		var query = "id=" + document.getElementById("changeCompetencesSave").dataset.id;
+		var competences = parseForm();
+		for(i = 0; i < competences.length; i++)
+		{
+			query += "&competence[]=" + competences[i];
+		}
+		competencesChanged = false;
+		sidePanelClose();
+		retryAction("/API/v0.9/update_lesson_competences", query);
 	}
-	retryAction("/API/v0.9/update_lesson_competences", query);
+	else
+	{
+		history.back();
+	}
 }

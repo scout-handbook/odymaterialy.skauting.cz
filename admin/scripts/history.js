@@ -7,9 +7,20 @@ function popback()
 {
 	if(history.state)
 	{
-		lessonListEvent.addCallback(function()
-			{
-				getLesson(history.state.id, true);
-			});
+		if(history.state.id)
+		{
+			lessonListEvent.addCallback(function()
+				{
+					getLesson(history.state.id, true);
+				});
+		}
+		else if(sidePanelState)
+		{
+			sidePanelClose();
+		}
+		else
+		{
+			getMainPage();
+		}
 	}
 }

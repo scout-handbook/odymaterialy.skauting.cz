@@ -3,11 +3,6 @@ var competences = false;
 
 function getLesson(id, noHistory)
 {
-	if(!id)
-	{
-		getMainPage(noHistory);
-		return;
-	}
 	request("/API/v0.9/get_lesson", "id=" + id, function(response)
 		{
 			lessonListEvent.addCallback(function()
