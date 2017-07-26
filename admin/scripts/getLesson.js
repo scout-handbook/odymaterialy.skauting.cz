@@ -46,17 +46,10 @@ function showLesson(id, markdown, noHistory)
 		Uložit\
 		<i class="icon-floppy"></i>\
 	</div>\
-	<div class="button" id="competenceButton">\
-		Kompetence\
-	</div>\
-</header>\
-<div id="competences">\
-	<div id="competenceWrapper"></div>\
-</div>'
+</header>'
 	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
-	renderCompetences(lesson.competences);
 	refreshPreview(lesson.name, markdown);
 
 	var stateObject = { "id": id };
@@ -67,7 +60,6 @@ function showLesson(id, markdown, noHistory)
 
 	document.getElementById("discard").onclick = discard;
 	document.getElementById("save").onclick = saveCallback;
-	document.getElementById("competenceButton").onclick = showCompetences;
 
 	var editor = ace.edit("editor");
 	editor.setTheme("ace/theme/odymaterialy");
@@ -82,11 +74,6 @@ function change()
 {
 	changed = true;
 	refreshPreview(document.getElementById("name").value, ace.edit("editor").getValue());
-}
-
-function competenceChange()
-{
-	changed = true;
 }
 
 function discard()
@@ -110,17 +97,6 @@ function saveCallback()
 	{
 		var query = "id=" + document.getElementById("save").dataset.id;
 		query += "&name=" + document.getElementById("name").value;
-		var competences = parseCompetences();
-		var competenceQuery = "";
-		for(i = 0; i < competences.length; i++)
-		{
-			competenceQuery += "&competence[]=" + competences[i];
-		}
-		if(competenceQuery === "")
-		{
-			competenceQuery = "&competence[]=";
-		}
-		query += competenceQuery;
 		query += "&body=" + encodeURIComponent(ace.edit("editor").getValue());
 		retryAction("/API/v0.9/update_lesson", query);
 	}
@@ -128,53 +104,4 @@ function saveCallback()
 	{
 		discard();
 	}
-}
-
-function showCompetences()
-{
-	if(competences)
-	{
-		document.getElementById("competences").style.top = "-100%";
-	}
-	else
-	{
-		document.getElementById("competences").style.top = "-91px";
-	}
-	competences = !competences;
-}
-
-function renderCompetences(currentCompetences)
-{
-	var html = "<form>";
-	for(var i = 0; i < COMPETENCES.length; i++)
-	{
-		html += "<div class=\"competence\"><label class=\"competenceSwitch\"><input type=\"checkbox\" data-id=\"" + COMPETENCES[i].id + "\"";
-		if(currentCompetences.indexOf(COMPETENCES[i].id) >= 0)
-		{
-			html += " checked";
-		}
-		html += "><span class=\"checkbox\"></span></label><span class=\"competenceNumber\">" + COMPETENCES[i].number + ":</span> " + COMPETENCES[i].name + "</div>";
-	}
-	html += "</form>"
-	document.getElementById("competenceWrapper").innerHTML = html;
-
-	nodes = document.getElementById("competenceWrapper").getElementsByTagName("input");
-	for(var k = 0; k < nodes.length; k++)
-	{
-		nodes[k].onchange = competenceChange;
-	}
-}
-
-function parseCompetences()
-{
-	var ret = [];
-	nodes = document.getElementById("competenceWrapper").getElementsByTagName("input");
-	for(var l = 0; l < nodes.length; l++)
-	{
-		if(nodes[l].checked)
-		{
-			ret.push(nodes[l].dataset.id);
-		}
-	}
-	return ret;
 }
