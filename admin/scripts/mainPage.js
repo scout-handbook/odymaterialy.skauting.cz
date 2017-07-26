@@ -1,6 +1,7 @@
 var lessonListEvent = new AfterLoadEvent(2);
 var FIELDS = [];
 var COMPETENCES = [];
+var sidePanelOpen = false;
 
 function mainPageSetup()
 {
@@ -32,11 +33,11 @@ function getMainPage(noHistory)
 
 function showMainPage(noHistory)
 {
-	var html = "<div id=\"mainPage\">";
+	var html = "<div id=\"sidePanel\">Lorem ipsum.</div><div id=\"mainPageContainer\"><div id=\"mainPage\">";
 	html += "<h1>OdyMateriály - administrace</h1>";
 	html += "<div class=\"button\" id=\"addLesson\">Nová lekce</div><br>";
 	html += renderLessonList();
-	html += "</div>";
+	html += "</div></div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	
 	document.getElementById("addLesson").onclick = function()
@@ -48,6 +49,12 @@ function showMainPage(noHistory)
 	{
 		nodes[l].firstChild.onclick = itemOnClick;
 	}
+	nodes = document.getElementsByTagName("main")[0].getElementsByClassName("changeField");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		nodes[l].onclick = changeFieldOnClick;
+	}
+
 
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	var stateObject = { lessonName: "" };
@@ -61,6 +68,43 @@ function itemOnClick(event)
 {
 	getLesson(event.target.dataset.id);
 	return false;
+}
+
+function changeFieldOnClick(event)
+{
+	sidePanelOpen = !sidePanelOpen;
+	reflowSidePanel();
+
+	var html = "<form>"
+	var name = "";
+	for(var i = 0; i < FIELDS.length; i++)
+	{
+		var checked = false;
+		for(var j = 0; j < FIELDS[i].lessons.length; j++)
+		{
+			if(FIELDS[i].lessons[j].id == event.target.dataset.id)
+			{
+				checked = true;
+				break;
+			}
+		}
+		if(FIELDS[i].id)
+		{
+			name = FIELDS[i].name;
+		}
+		else
+		{
+			name = "<i>Nezařazeno</i>"
+		}
+		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"field\"";
+		if(checked)
+		{
+			html += " checked";
+		}
+		html += "><span class=\"formRadio\"></span></label>" + name + "</div>";
+	}
+	html += "</form>";
+	document.getElementById("sidePanel").innerHTML = html;
 }
 
 function renderLessonList()
@@ -89,8 +133,9 @@ function renderLessonList()
 					{
 						html += ", " + competences[m].number;
 					}
-					html += "</span>";
+					html += "</span><br>";
 				}
+				html += "<div class=\"button mainPage secondLevel changeField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit oblast</div>";
 			}
 		}
 		else
@@ -113,10 +158,24 @@ function renderLessonList()
 					{
 						html += ", " + competences[m].number;
 					}
-					html += "</span>";
+					html += "</span><br>";
 				}
+				html += "<div class=\"button changeField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit oblast</div>";
 			}
 		}
 	}
 	return html;
+}
+
+function reflowSidePanel()
+{
+	var sidePanel = document.getElementById("sidePanel");
+	if(sidePanelOpen)
+	{
+		sidePanel.style.right = "0";
+	}
+	else
+	{
+		sidePanel.style.right = "-431px";
+	}
 }
