@@ -3,7 +3,6 @@ function changeFieldOnClick(event)
 	sidePanelOpen();
 	var html = "";
 	var form = "";
-	var name = "";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
 		var checked = false;
@@ -51,9 +50,8 @@ function changeFieldOnClick(event)
 
 function changeFieldSave(event)
 {
-	var lessonId = document.getElementById("changeFieldSave").dataset.id;
 	var fieldId = parseForm()[0];
-	var query = "lesson-id=" + lessonId;
+	var query = "lesson-id=" + document.getElementById("changeFieldSave").dataset.id;
 	if(fieldId)
 	{
 		query += "&field-id=" + fieldId;
