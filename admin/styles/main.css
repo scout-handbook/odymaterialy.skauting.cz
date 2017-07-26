@@ -85,6 +85,7 @@ main
 	height: 11px;
 	display: inline-block;
 	margin-right: 10px;
+	transition: border-color ease 0.15s, background-color ease 0.15s;
 }
 
 .formRadio:before
@@ -97,6 +98,7 @@ main
 	position: fixed;
 	margin-top: 3px;
 	margin-left: 3px;
+	transition: background-color ease 0.15s;
 }
 
 .formRadio:hover

@@ -1,7 +1,6 @@
 var lessonListEvent = new AfterLoadEvent(2);
 var FIELDS = [];
 var COMPETENCES = [];
-var sidePanelOpen = false;
 
 function mainPageSetup()
 {
@@ -33,7 +32,7 @@ function getMainPage(noHistory)
 
 function showMainPage(noHistory)
 {
-	var html = "<div id=\"sidePanel\">Lorem ipsum.</div><div id=\"mainPageContainer\"><div id=\"mainPage\">";
+	var html = "<div id=\"sidePanel\"></div><div id=\"mainPageContainer\"><div id=\"mainPage\">";
 	html += "<h1>OdyMateriály - administrace</h1>";
 	html += "<div class=\"button\" id=\"addLesson\">Nová lekce</div><br>";
 	html += renderLessonList();
@@ -72,9 +71,7 @@ function itemOnClick(event)
 
 function changeFieldOnClick(event)
 {
-	sidePanelOpen = !sidePanelOpen;
-	reflowSidePanel();
-
+	sidePanelOpen();
 	var html = "<form>"
 	var name = "";
 	for(var i = 0; i < FIELDS.length; i++)
@@ -167,15 +164,14 @@ function renderLessonList()
 	return html;
 }
 
-function reflowSidePanel()
+function sidePanelOpen()
 {
 	var sidePanel = document.getElementById("sidePanel");
-	if(sidePanelOpen)
-	{
-		sidePanel.style.right = "0";
-	}
-	else
-	{
-		sidePanel.style.right = "-431px";
-	}
+	sidePanel.style.right = "0";
+}
+
+function sidePanelClose()
+{
+	var sidePanel = document.getElementById("sidePanel");
+	sidePanel.style.right = "-431px";
 }
