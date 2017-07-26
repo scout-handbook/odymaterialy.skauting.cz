@@ -24,7 +24,7 @@ function changeCompetencesOnClick(event)
 			html += " checked";
 		}
 		html += " data-id=\"" + COMPETENCES[k].id + "\"";
-		html += "><span class=\"formCheckbox\"></span></label>";
+		html += "><span class=\"formCustom formCheckbox\"></span></label>";
 		html += "<span class=\"competenceNumber\">" + COMPETENCES[k].number + ":</span> " + COMPETENCES[k].name + "</div>";
 	}
 	html += "</form>";

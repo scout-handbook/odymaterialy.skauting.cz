@@ -28,7 +28,7 @@ function changeFieldOnClick(event)
 		{
 			form += " data-id=\"\"";
 		}
-		form += "><span class=\"formRadio\"></span></label>";
+		form += "><span class=\"formCustom formRadio\"></span></label>";
 		if(FIELDS[i].id)
 		{
 			form += FIELDS[i].name;
