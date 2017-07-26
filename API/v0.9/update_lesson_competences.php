@@ -12,16 +12,16 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
-function moveLesson()
+function changeCompetences()
 {
-	if(!isset($_POST['lesson-id']))
+	if(!isset($_POST['id']))
 	{
-		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'lesson-id');
+		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
-	$lessonId = $_POST['lesson-id'];
-	if(isset($_POST['field-id']))
+	$id = $_POST['id'];
+	if(isset($_POST['competence']))
 	{
-		$fieldId = $_POST['field-id'];
+		$competences = $_POST['competence'];
 	}
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
@@ -32,11 +32,11 @@ function moveLesson()
 	}
 
 	$deleteSQL = <<<SQL
-DELETE FROM lessons_in_fields
+DELETE FROM competences_for_lessons
 WHERE lesson_id = ?;
 SQL;
 	$insertSQL = <<<SQL
-INSERT INTO lessons_in_fields (field_id, lesson_id)
+INSERT INTO competences_for_lessons (lesson_id, competence_id)
 VALUES (?, ?);
 SQL;
 
@@ -45,24 +45,27 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($deleteSQL, $db);
 	}
-	$deleteStatement->bind_param('i', $lessonId);
+	$deleteStatement->bind_param('i', $id);
 	if(!$deleteStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $deleteStatement);
 	}
 	$deleteStatement->close();
 
-	if(isset($fieldId))
+	if(isset($competences))
 	{
 		$insertStatement = $db->prepare($insertSQL);
 		if(!$insertStatement)
 		{
 			throw new OdyMaterialyAPI\QueryException($insertSQL, $db);
 		}
-		$insertStatement->bind_param('ii', $fieldId, $lessonId);
-		if(!$insertStatement->execute())
+		foreach($competences as $competence)
 		{
-			throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $insertStatement);
+			$insertStatement->bind_param('ii', $id, $competence);
+			if(!$insertStatement->execute())
+			{
+				throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $insertStatement);
+			}
 		}
 		$insertStatement->close();
 	}
@@ -75,7 +78,7 @@ function reauth()
 
 try
 {
-	OdyMaterialyAPI\editorTry('moveLesson', 'reauth', true);
+	OdyMaterialyAPI\editorTry('changeCompetences', 'reauth', true);
 	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)

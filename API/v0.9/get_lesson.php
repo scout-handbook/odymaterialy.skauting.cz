@@ -38,10 +38,6 @@ if (!$statement->fetch())
 	throw new Exception('No lesson with the id "' . $id . '" found.');
 }
 $result = $body;
-if ($statement->fetch())
-{
-	throw new Exception('More than one lesson with the id "' . $id . '" found. This should never happen.');
-}
 $statement->close();
 $db->close();
 
