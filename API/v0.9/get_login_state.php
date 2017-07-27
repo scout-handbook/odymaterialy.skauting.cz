@@ -3,6 +3,7 @@ const _API_EXEC = 1;
 
 header("content-type:application/json");
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 
 function showUserAccount($skautis)

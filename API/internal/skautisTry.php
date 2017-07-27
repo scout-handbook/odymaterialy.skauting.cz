@@ -4,37 +4,8 @@ namespace OdyMaterialyAPI;
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautis.secret.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
-
-function getRole($idPerson)
-{
-	$getRoleSQL = <<<SQL
-SELECT role FROM users WHERE id = ?;
-SQL;
-
-	$db = new \mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
-	if ($db->connect_error)
-	{
-		throw new \Exception('Failed to connect to the database. Error: ' . $db->connect_error);
-	}
-	$statement = $db->prepare($getRoleSQL);
-	if($statement === false)
-	{
-		throw new \Exception('Invalid SQL: "' . $getRoleSQL . '". Error: ' . $db->error);
-	}
-	$statement->bind_param('i', $idPerson);
-	$statement->execute();
-	$statement->store_result();
-	$role = '';
-	$statement->bind_result($role);
-	if(!$statement->fetch())
-	{
-		throw new \Exception('Error: User not in database even though they are logged in.');
-		return 0;
-	}
-	return $role;
-}
 
 function skautisTry($success, $failure, $hardCheck = true)
 {
@@ -63,12 +34,17 @@ function skautisTry($success, $failure, $hardCheck = true)
 	return $failure($skautis);
 }
 
-function editorTry($success, $failure, $hardCheck = true)
+function roleTry($success, $failure, $hardCheck = true, $requiredRole = Role::USER)
 {
-	$safeCallback = function($skautis) use ($success, $failure)
+	if($requiredRole === Role::USER)
 	{
-		$role = getRole($skautis->UserManagement->UserDetail()->ID_Person);
-		if($role === "editor" or $role === "administrator" or $role === "superuser")
+		skautisTry($success, $failure, $hardCheck);
+		return;
+	}
+	$safeCallback = function($skautis) use ($success, $failure, $requiredRole)
+	{
+		$role = Role::parse(getRole($skautis->UserManagement->UserDetail()->ID_Person));
+		if($role >= $requiredRole)
 		{
 			$success($skautis);
 		}
@@ -78,4 +54,18 @@ function editorTry($success, $failure, $hardCheck = true)
 		}
 	};
 	skautisTry($safeCallback, $failure, $hardCheck);
+}
+
+function editorTry($success, $failure, $hardCheck = true)
+{
+	roleTry($success, $failure, $hardCheck, Role::EDITOR);
+}
+
+function administratorTry($success, $failure, $hardCheck = true)
+{
+	roleTry($success, $failure, $hardCheck, Role::ADMINISTRATOR);
+}
+function superuserTry($success, $failure, $hardCheck = true)
+{
+	roleTry($success, $failure, $hardCheck, Role::SUPERUSER);
 }
