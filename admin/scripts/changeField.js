@@ -41,7 +41,8 @@ function changeFieldSave()
 	{
 		var query = "id=" + document.getElementById("changeFieldSave").dataset.id;
 		query += "&name=" + document.getElementById("fieldName").value;
-		console.log(query);
-		//retryAction("/API/v0.9/update_field", query);
+		fieldChanged = false;
+		sidePanelClose();
+		retryAction("/API/v0.9/update_field", query);
 	}
 }

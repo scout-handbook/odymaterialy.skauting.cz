@@ -7,7 +7,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ArgumentException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/AuthenticationException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');

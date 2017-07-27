@@ -11,17 +11,18 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
-function changeCompetences()
+function updateField()
 {
 	if(!isset($_POST['id']))
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
 	$id = $_POST['id'];
-	if(isset($_POST['competence']))
+	if(!isset($_POST['name']))
 	{
-		$competences = $_POST['competence'];
+		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'name');
 	}
+	$name = $_POST['name'];
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
 
@@ -30,50 +31,29 @@ function changeCompetences()
 		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
 
-	$deleteSQL = <<<SQL
-DELETE FROM competences_for_lessons
-WHERE lesson_id = ?;
-SQL;
-	$insertSQL = <<<SQL
-INSERT INTO competences_for_lessons (lesson_id, competence_id)
-VALUES (?, ?);
+	$SQL = <<<SQL
+UPDATE fields
+SET name = ?
+WHERE id = ?;
 SQL;
 
-	$deleteStatement = $db->prepare($deleteSQL);
-	if(!$deleteStatement)
+	$statement = $db->prepare($SQL);
+	if(!$statement)
 	{
-		throw new OdyMaterialyAPI\QueryException($deleteSQL, $db);
+		throw new OdyMaterialyAPI\QueryException($SQL, $db);
 	}
-	$deleteStatement->bind_param('i', $id);
-	if(!$deleteStatement->execute())
+	$statement->bind_param('si', $name, $id);
+	if(!$statement->execute())
 	{
-		throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $deleteStatement);
+		throw new OdyMaterialyAPI\ExecutionException($SQL, $statement);
 	}
-	$deleteStatement->close();
-
-	if(isset($competences))
-	{
-		$insertStatement = $db->prepare($insertSQL);
-		if(!$insertStatement)
-		{
-			throw new OdyMaterialyAPI\QueryException($insertSQL, $db);
-		}
-		foreach($competences as $competence)
-		{
-			$insertStatement->bind_param('ii', $id, $competence);
-			if(!$insertStatement->execute())
-			{
-				throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $insertStatement);
-			}
-		}
-		$insertStatement->close();
-	}
+	$statement->close();
 	$db->close();
 }
 
 try
 {
-	OdyMaterialyAPI\editorTry('changeCompetences', true);
+	OdyMaterialyAPI\administratorTry('updateField', true);
 	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)
