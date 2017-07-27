@@ -14,6 +14,11 @@ function main()
 	{
 		navigator.serviceWorker.register("/serviceworker.js");
 	}
+	WebFont.load({
+		google: {
+			families: ["Open Sans:400,400i,700,700i"]
+		}
+	});
 }
 
 window.onload = main;

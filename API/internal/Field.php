@@ -5,11 +5,13 @@ namespace OdyMaterialyAPI;
 
 class Field
 {
+	public $id;
 	public $name;
 	public $lessons = array();
 
-	public function __construct($name)
+	public function __construct($id, $name)
 	{
+		$this->id = $id;
 		$this->name = $name;
 	}
 }
@@ -17,6 +19,14 @@ class Field
 // Field comparison function used in usort. Assumes that both Fields have their lessons sorted low-to-high.
 function Field_cmp($first, $second)
 {
+	if (get_class($first) === "OdyMaterialyAPI\AnonymousField")
+	{
+		return -1;
+	}
+	if (get_class($second) === "OdyMaterialyAPI\AnonymousField")
+	{
+		return 1;
+	}
 	if (empty($first->lessons))
 	{
 		if (empty($second->lessons))

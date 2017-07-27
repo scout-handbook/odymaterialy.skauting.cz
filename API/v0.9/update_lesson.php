@@ -1,50 +1,22 @@
 <?php
 const _API_EXEC = 1;
 
+header('content-type:application/json; charset=utf-8');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
-function redoCompetences($db, $lessonId, $competences)
-{
-	$deleteSQL = <<<SQL
-DELETE FROM competences_for_lessons
-WHERE lesson_id = ?;
-SQL;
-	$insertSQL = <<<SQL
-INSERT INTO competences_for_lessons (lesson_id, competence_id)
-VALUES (?, ?);
-SQL;
-
-	$deleteStatement = $db->prepare($deleteSQL);
-	if($deleteStatement === false)
-	{
-		throw new Exception('Invalid SQL: "' . $deleteSQL . '". Error: ' . $db->error);
-	}
-	$deleteStatement->bind_param('i', $lessonId);
-	$deleteStatement->execute();
-	$deleteStatement->close();
-
-	if(!empty($competences))
-	{
-		$insertStatement = $db->prepare($insertSQL);
-		if($insertStatement === false)
-		{
-			throw new Exception('Invalid SQL: "' . $insertSQL . '". Error: ' . $db->error);
-		}
-		foreach($competences as $competence)
-		{
-			$insertStatement->bind_param('ii', $lessonId, $competence);
-			$insertStatement->execute();
-		}
-		$insertStatement->close();
-	}
-}
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/AuthenticationException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
 function rewrite()
 {
 	if(!isset($_POST['id']))
 	{
-		throw new Exception('POST argument "id" must be provided.');
+		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
 
 	$id = $_POST['id'];
@@ -52,10 +24,6 @@ function rewrite()
 	if(isset($_POST['name']))
 	{
 		$name = $_POST['name'];
-	}
-	if(isset($_POST['competence']))
-	{
-		$competences = $_POST['competence'];
 	}
 	if(isset($_POST['body']))
 	{
@@ -66,7 +34,7 @@ function rewrite()
 
 	if ($db->connect_error)
 	{
-		throw new Exception('Failed to connect to the database. Error: ' . $db->connect_error);
+		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
 
 	$selectSQL = <<<SQL
@@ -82,19 +50,22 @@ SQL;
 	if(!isset($name) or !isset($body))
 	{
 		$selectStatement = $db->prepare($selectSQL);
-		if($selectStatement === false)
+		if(!$selectStatement)
 		{
-			throw new Exception('Invalid SQL: "' . $selectSQL . '". Error: ' . $db->error);
+			throw new OdyMaterialyAPI\QueryException($selectSQL, $db);
 		}
 		$selectStatement->bind_param('i', $id);
-		$selectStatement->execute();
+		if(!$selectStatement->execute())
+		{
+			throw new OdyMaterialyAPI\ExecutionException($selectSQL, $selectStatement);
+		}
 		$selectStatement->store_result();
 		$origName = '';
 		$origBody = '';
 		$selectStatement->bind_result($origName, $origBody);
 		if(!$selectStatement->fetch())
 		{
-			throw new Exception('No lesson with id "' * strval($id) * '" found.');
+			throw new OdyMaterialyAPI\APIException('No lesson with id "' * strval($id) * '" found.');
 		}
 		if(!isset($name))
 		{
@@ -108,25 +79,25 @@ SQL;
 	}
 
 	$updateStatement = $db->prepare($updateSQL);
-	if($updateStatement === false)
+	if(!$updateStatement)
 	{
-		throw new Exception('Invalid SQL: "' . $updateSQL . '". Error: ' . $db->error);
+		throw new OdyMaterialyAPI\QueryException($updateSQL, $db);
 	}
 	$updateStatement->bind_param('ssi', $name, $body, $id);
-	$updateStatement->execute();
-	$updateStatement->close();
-
-	if(isset($competences))
+	if(!$updateStatement->execute())
 	{
-		redoCompetences($db, $id, $competences);
+		throw new OdyMaterialyAPI\ExecutionException($updateSQL, $updateStatement);
 	}
+	$updateStatement->close();
 	$db->close();
+}
+
+try
+{
+	OdyMaterialyAPI\editorTry('rewrite', true);
 	echo(json_encode(array('success' => true)));
 }
-
-function reauth()
+catch(OdyMaterialyAPI\APIException $e)
 {
-	echo(json_encode(array('success' => false)));
+	echo($e);
 }
-
-OdyMaterialyAPI\editorTry('rewrite', 'reauth', true);

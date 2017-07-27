@@ -2,7 +2,7 @@
 
 require_once("OdyMarkdown.php");
 
-$_GET['name'] = 'Zpětná vazba a Konstruktivní kritika';
+$_GET['id'] = 7;
 ob_start();
 include('API/v0.9/get_lesson.php');
 $md = ob_get_clean();

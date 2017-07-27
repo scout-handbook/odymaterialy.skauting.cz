@@ -14,31 +14,39 @@ main h1
 	line-height: 140%;
 }
 
-table
+main .tableContainer
 {
-	border: 1px solid #DDDDDD;
-	border-collapse: collapse;
-	display: block;
 	overflow-x: auto;
 }
 
-td, th
+main table
+{
+	border: 1px solid #DDDDDD;
+	border-collapse: collapse;
+}
+
+main img
+{
+	max-width: 100%;
+}
+
+main td, main th
 {
 	border: 1px solid #DDDDDD;
 	padding: 8px 20px;
 }
 
-th
+main th
 {
 	border-bottom-width: 2px;
 }
 
-tbody tr:nth-child(2n+1)
+main tbody tr:nth-child(2n+1)
 {
 	background-color: #F9F9F9;
 }
 
-.notes
+main .notes
 {
 	display: block;
 }

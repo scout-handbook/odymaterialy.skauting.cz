@@ -11,6 +11,10 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
 
+# Fields rewrite
+RewriteCond %{REQUEST_URI} ^/field/
+RewriteRule (.*) / [QSA]
+
 # Lessons rewrite
 RewriteCond %{REQUEST_URI} ^/lesson/
 RewriteRule (.*) / [QSA]
@@ -27,8 +31,8 @@ Header always set X-Frame-Options "DENY"
 Header always set X-Content-Type-Options "nosniff"
 Header always set X-Xss-Protection "1; mode=block"
 Header always set Referrer-Policy "origin-when-cross-origin"
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:"
-Header always set Expect-CT "max-age=0"
+Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'self'; script-src 'self' https://ajax.googleapis.com/ajax/libs/webfont/; connect-src 'self' https://ajax.googleapis.com/ajax/libs/webfont/ https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:"
+Header always set Expect-CT "enforce; max-age=31536000"
 
 # Server push
 <FilesMatch "index.html">
@@ -45,6 +49,7 @@ Header always set Expect-CT "max-age=0"
 	Header add Link "</styles/handheld.css>;rel=preload;as=style"
 	Header add Link "</scripts/AfterLoadEvent.js>;rel=preload;as=script"
 	Header add Link "</scripts/auth.js>;rel=preload;as=script"
+	Header add Link "</scripts/getField.js>;rel=preload;as=script"
 	Header add Link "</scripts/getLesson.js>;rel=preload;as=script"
 	Header add Link "</scripts/history.js>;rel=preload;as=script"
 	Header add Link "</scripts/listLessons.js>;rel=preload;as=script"

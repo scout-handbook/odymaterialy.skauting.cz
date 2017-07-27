@@ -5,42 +5,54 @@ header('content-type:application/json; charset=utf-8');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Competence.php');
 
-// Prepared statements where ? will be replaced later
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
-$sql = <<<SQL
+function listCompetences()
+{
+	$SQL = <<<SQL
 SELECT id, number, name, description FROM competences ORDER BY number;
 SQL;
 
-// Open database connection
+	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
+	if ($db->connect_error)
+	{
+		throw new OdyMaterialyAPI\ConnectionException($db);
+	}
 
-$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
+	$statement = $db->prepare($SQL);
+	if(!$statement)
+	{
+		throw new OdyMaterialyAPI\QueryException($SQL, $db);
+	}
+	if(!$statement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($SQL, $statement);
+	}
 
-if ($db->connect_error)
-{
-	throw new Exception('Failed to connect to the database. Error: ' . $db->connect_error);
+	$statement->store_result();
+	$id = '';
+	$number = '';
+	$name = '';
+	$description = '';
+	$statement->bind_result($id, $number, $name, $description);
+	$competences = array();
+	while ($statement->fetch())
+	{
+		$competences[] = new OdyMaterialyAPI\Competence($id, $number, $name, $description); // Create a new field
+	}
+	$statement->close();
+	$db->close();
+	return json_encode($competences, JSON_UNESCAPED_UNICODE);
 }
 
-// Select all the fields in the database
-
-$statement = $db->prepare($sql);
-if ($statement === false)
+try
 {
-	throw new Exception('Invalid SQL: "' . $sql . '". Error: ' . $db->error);
+	echo(listCompetences());
 }
-$statement->execute();
-
-$statement->store_result();
-$id = '';
-$number = '';
-$name = '';
-$description = '';
-$statement->bind_result($id, $number, $name, $description);
-$competences = array();
-while ($statement->fetch())
+catch(OdyMaterialyAPI\APIException $e)
 {
-	$competences[] = new OdyMaterialyAPI\Competence($id, $number, $name, $description); // Create a new field
+	echo('[]'); // TODO: Error handling
 }
-$statement->close();
-$db->close();
-
-echo(json_encode($competences, JSON_UNESCAPED_UNICODE));

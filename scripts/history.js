@@ -1,27 +1,39 @@
 function historySetup()
 {
 	window.onpopstate = popback;
-	if (window.location.pathname.substring(0, 8) === "/lesson/")
+	if(window.location.pathname.substring(0, 8) === "/lesson/")
 	{
-		lessonListEvent.addCallback(showInitialLesson);
+		var query = window.location.pathname.substring(8);
+		var lessonId = query.split("/")[0];
+		getLesson(lessonId);
+	}
+	else if(window.location.pathname.substring(0, 7) === "/field/")
+	{
+		var query = window.location.pathname.substring(7);
+		var fieldId = query.split("/")[0];
+		getField(fieldId);
 	}
 	else
 	{
-		getLesson();
+		getMainPage();
 	}
-}
-
-function showInitialLesson()
-{
-	var query = window.location.pathname.substring(8);
-	var lessonId = query.split("/")[0];
-	getLesson(lessonId);
 }
 
 function popback()
 {
 	if(history.state)
 	{
-		getLesson(history.state.id, true);
+		if(window.location.pathname.substring(0, 8) === "/lesson/")
+		{
+			getLesson(history.state.id, true);
+		}
+		else if(window.location.pathname.substring(0, 7) === "/field/")
+		{
+			getField(history.state.id, true);
+		}
+		else
+		{
+			getMainPage();
+		}
 	}
 }
