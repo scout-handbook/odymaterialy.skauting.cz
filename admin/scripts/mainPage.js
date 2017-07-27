@@ -58,7 +58,11 @@ function showMainPage(noHistory)
 	{
 		nodes[l].onclick = changeCompetencesOnClick;
 	}
-
+	nodes = document.getElementsByTagName("main")[0].getElementsByClassName("deleteLesson");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		nodes[l].onclick = deleteLessonOnClick;
+	}
 
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	var stateObject = { lessonName: "" };
@@ -107,6 +111,7 @@ function renderLessonList()
 			}
 			html += "<div class=\"button mainPage" + secondLevel + " changeField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit oblast</div>";
 			html += "<div class=\"button mainPage changeCompetences\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit kompetence</div>";
+			html += "<div class=\"button mainPage deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Smazat lekci</div>";
 		}
 	}
 	return html;
