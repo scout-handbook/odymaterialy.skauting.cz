@@ -48,6 +48,10 @@ function retryActionAfter(result, url, query)
 			dialog("Byl jste odhlášen a uložení se nepodařilo. Přihlašte se prosím a zkuste to znovu.", "OK");
 		}
 	}
+	else if(result.type === "RoleException")
+	{
+		dialog("Nemáte dostatečné oprávnění k této akci.", "OK");
+	}
 	else
 	{
 		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");

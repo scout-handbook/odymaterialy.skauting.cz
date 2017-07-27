@@ -7,6 +7,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautis.secret.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/RoleException.php');
+
 function skautisTry($success, $failure, $hardCheck = true)
 {
 	$skautis = \Skautis\Skautis::getInstance(SKAUTIS_APP_ID, SKAUTIS_TEST_MODE);
@@ -41,7 +43,7 @@ function roleTry($success, $failure, $hardCheck = true, $requiredRole = Role::US
 		skautisTry($success, $failure, $hardCheck);
 		return;
 	}
-	$safeCallback = function($skautis) use ($success, $failure, $requiredRole)
+	$safeCallback = function($skautis) use ($success, $requiredRole)
 	{
 		$role = Role::parse(getRole($skautis->UserManagement->UserDetail()->ID_Person));
 		if($role >= $requiredRole)
@@ -50,7 +52,7 @@ function roleTry($success, $failure, $hardCheck = true, $requiredRole = Role::US
 		}
 		else
 		{
-			$failure($skautis);
+			throw new RoleException();
 		}
 	};
 	skautisTry($safeCallback, $failure, $hardCheck);
