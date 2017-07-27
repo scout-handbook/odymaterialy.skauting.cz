@@ -6,13 +6,10 @@ function AfterLoadEvent(threshold)
 	this.callbacks = [];
 	this.addCallback = function(callback)
 		{
+			this.callbacks.push(callback);
 			if(this.triggered)
 			{
 				callback();
-			}
-			else
-			{
-				this.callbacks.push(callback);
 			}
 		};
 	this.trigger = function()
@@ -23,7 +20,7 @@ function AfterLoadEvent(threshold)
 				this.triggered = true;
 				for(var i = 0; i < this.callbacks.length; i++)
 				{
-					this.callbacks[i]();
+					this.callbacks[i].apply(null, arguments);
 				}
 			}
 		};
