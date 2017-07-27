@@ -12,33 +12,75 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
-function changeCompetences()
+function delete()
 {
 	if(!isset($_POST['id']))
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
 	$id = $_POST['id'];
-	if(isset($_POST['competence']))
-	{
-		$competences = $_POST['competence'];
-	}
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
-
 	if ($db->connect_error)
 	{
 		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
 
-	$deleteSQL = <<<SQL
+	$copySQL = <<<SQL
+INSERT INTO deleted_lessons (name, body)
+SELECT name, body
+FROM lessons
+WHERE id = ?;
+SQL;
+	$deleteFieldSQL = <<<SQL
+DELETE FROM lessons_in_fields
+WHERE lesson_id = ?;
+SQL;
+	$deleteCompetencesSQL = <<<SQL
 DELETE FROM competences_for_lessons
 WHERE lesson_id = ?;
 SQL;
-	$insertSQL = <<<SQL
-INSERT INTO competences_for_lessons (lesson_id, competence_id)
-VALUES (?, ?);
+
+	$deleteSQL = <<<SQL
+DELETE FROM lessons
+WHERE id = ?;
 SQL;
+
+	$copyStatement = $db->prepare($copySQL);
+	if(!$copyStatement)
+	{
+		throw new OdyMaterialyAPI\QueryException($copySQL, $db);
+	}
+	$copyStatement->bind_param('i', $id);
+	if(!$copyStatement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($copySQL, $copyStatement);
+	}
+	$copyStatement->close();
+
+	$deleteFieldStatement = $db->prepare($deleteFieldSQL);
+	if(!$deleteFieldStatement)
+	{
+		throw new OdyMaterialyAPI\QueryException($deleteFieldSQL, $db);
+	}
+	$deleteFieldStatement->bind_param('i', $id);
+	if(!$deleteFieldStatement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($deleteFieldSQL, $deleteFieldStatement);
+	}
+	$deleteFieldStatement->close();
+
+	$deleteCompetencesStatement = $db->prepare($deleteCompetencesSQL);
+	if(!$deleteCompetencesStatement)
+	{
+		throw new OdyMaterialyAPI\QueryException($deleteCompetencesSQL, $db);
+	}
+	$deleteCompetencesStatement->bind_param('i', $id);
+	if(!$deleteCompetencesStatement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($deleteCompetencesSQL, $deleteCompetencesStatement);
+	}
+	$deleteCompetencesStatement->close();
 
 	$deleteStatement = $db->prepare($deleteSQL);
 	if(!$deleteStatement)
@@ -51,24 +93,6 @@ SQL;
 		throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $deleteStatement);
 	}
 	$deleteStatement->close();
-
-	if(isset($competences))
-	{
-		$insertStatement = $db->prepare($insertSQL);
-		if(!$insertStatement)
-		{
-			throw new OdyMaterialyAPI\QueryException($insertSQL, $db);
-		}
-		foreach($competences as $competence)
-		{
-			$insertStatement->bind_param('ii', $id, $competence);
-			if(!$insertStatement->execute())
-			{
-				throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $insertStatement);
-			}
-		}
-		$insertStatement->close();
-	}
 	$db->close();
 }
 
@@ -79,7 +103,7 @@ function reauth()
 
 try
 {
-	OdyMaterialyAPI\editorTry('changeCompetences', 'reauth', true);
+	OdyMaterialyAPI\administratorTry('delete', 'reauth', true);
 	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)

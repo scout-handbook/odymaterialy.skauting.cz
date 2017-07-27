@@ -16,13 +16,13 @@ abstract class Role
 	{
 		switch($str)
 		{
-		case "superuser":
+		case 'superuser':
 			return Role::SUPERUSER;
 			break;
-		case "administrator":
+		case 'administrator':
 			return Role::ADMINISTRATOR;
 			break;
-		case "editor":
+		case 'editor':
 			return Role::EDITOR;
 			break;
 		default:

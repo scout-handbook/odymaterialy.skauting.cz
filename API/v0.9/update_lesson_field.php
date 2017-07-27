@@ -66,6 +66,7 @@ SQL;
 		}
 		$insertStatement->close();
 	}
+	$db->close();
 }
 
 function reauth()
