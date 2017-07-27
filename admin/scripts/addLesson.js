@@ -13,16 +13,9 @@ function addLesson(noHistory)
 		Uložit\
 		<i class="icon-floppy"></i>\
 	</div>\
-	<div class="button" id="competenceButton">\
-		Kompetence\
-	</div>\
-</header>\
-<div id="competences">\
-	<div id="competenceWrapper"></div>\
-</div>'
+</header>'
 	html += '<div id="editor">' + defaultBody + '</div><div id="preview"><div id="preview-inner"></div></div>';
 	document.getElementsByTagName("main")[0].innerHTML = html;
-	renderCompetences([]);
 	refreshPreview(defaultName, defaultBody);
 
 	var stateObject = {};
@@ -33,7 +26,6 @@ function addLesson(noHistory)
 
 	document.getElementById("discard").onclick = discard;
 	document.getElementById("save").onclick = addCallback;
-	document.getElementById("competenceButton").onclick = showCompetences;
 
 	var editor = ace.edit("editor");
 	editor.setTheme("ace/theme/odymaterialy");
@@ -47,17 +39,6 @@ function addLesson(noHistory)
 function addCallback()
 {
 	var query = "name=" + document.getElementById("name").value;
-	var competences = parseCompetences();
-	var competenceQuery = ""
-	for(i = 0; i < competences.length; i++)
-	{
-		competenceQuery += "&competence[]=" + competences[i];
-	}
-	if(competenceQuery === "")
-	{
-		competenceQuery = "&competence[]=";
-	}
-	query += competenceQuery;
 	query += "&body=" + encodeURIComponent(ace.edit("editor").getValue());
 	retryAction("/API/v0.9/add_lesson", query);
 }

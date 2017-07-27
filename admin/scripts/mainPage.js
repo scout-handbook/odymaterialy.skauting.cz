@@ -34,7 +34,7 @@ function showMainPage(noHistory)
 {
 	var html = "<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div><div id=\"mainPageContainer\"><div id=\"mainPage\">";
 	html += "<h1>OdyMateriály - administrace</h1>";
-	html += "<div class=\"button\" id=\"addLesson\">Nová lekce</div><br>";
+	html += "<div class=\"button\" id=\"addLesson\">Přidat lekci</div><br>";
 	html += renderLessonList();
 	html += "</div></div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
