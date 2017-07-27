@@ -59,40 +59,40 @@ $anonymous_statement->bind_result($lesson_id, $lesson_name, $lesson_version);
 if($anonymous_statement->fetch())
 {
 	$fields[] = new OdymaterialyAPI\AnonymousField();
+	do
+	{
+		// Create a new Lesson in the newly-created Field
+		end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
+
+		// Find out the competences this Lesson belongs to
+
+		$competence_statement = $db->prepare($competence_sql);
+		if ($competence_statement === false)
+		{
+			throw new Exception('Invalid SQL: "' . $competence_sql . '". Error: ' . $db->error);
+		}
+		$competence_statement->bind_param('i', $lesson_id);
+		$competence_statement->execute();
+
+		$competence_id = '';
+		$competence_statement->bind_result($competence_id, $competence_number);
+		if($competence_statement->fetch())
+		{
+			end(end($fields)->lessons)->lowestCompetence = $competence_number;
+			end(end($fields)->lessons)->competences[] = $competence_id;
+		}
+		else
+		{
+			end(end($fields)->lessons)->lowestCompetence = 0;
+		}
+		while ($competence_statement->fetch())
+		{
+			end(end($fields)->lessons)->competences[] = $competence_id;
+		}
+		$competence_statement->close();
+	}
+	while($anonymous_statement->fetch());
 }
-do
-{
-	// Create a new Lesson in the newly-created Field
-	end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
-
-	// Find out the competences this Lesson belongs to
-
-	$competence_statement = $db->prepare($competence_sql);
-	if ($competence_statement === false)
-	{
-		throw new Exception('Invalid SQL: "' . $competence_sql . '". Error: ' . $db->error);
-	}
-	$competence_statement->bind_param('i', $lesson_id);
-	$competence_statement->execute();
-
-	$competence_id = '';
-	$competence_statement->bind_result($competence_id, $competence_number);
-	if($competence_statement->fetch())
-	{
-		end(end($fields)->lessons)->lowestCompetence = $competence_number;
-		end(end($fields)->lessons)->competences[] = $competence_id;
-	}
-	else
-	{
-		end(end($fields)->lessons)->lowestCompetence = 0;
-	}
-	while ($competence_statement->fetch())
-	{
-		end(end($fields)->lessons)->competences[] = $competence_id;
-	}
-	$competence_statement->close();
-}
-while($anonymous_statement->fetch());
 
 // Select all the fields in the database
 
