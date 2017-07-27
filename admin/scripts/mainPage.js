@@ -49,26 +49,26 @@ function showMainPage(noHistory)
 		{
 			addLesson();
 		};
+
 	nodes = document.getElementsByTagName("main")[0].getElementsByTagName("h3");
 	for(var l = 0; l < nodes.length; l++)
 	{
 		nodes[l].firstChild.onclick = itemOnClick;
 	}
-	nodes = document.getElementsByTagName("main")[0].getElementsByClassName("changeLessonField");
-	for(var l = 0; l < nodes.length; l++)
+
+	function addOnClicks(id, onclick)
 	{
-		nodes[l].onclick = changeLessonFieldOnClick;
+		var nodes = document.getElementsByTagName("main")[0].getElementsByClassName(id);
+		for(var l = 0; l < nodes.length; l++)
+		{
+			nodes[l].onclick = onclick;
+		}
 	}
-	nodes = document.getElementsByTagName("main")[0].getElementsByClassName("changeLessonCompetences");
-	for(var l = 0; l < nodes.length; l++)
-	{
-		nodes[l].onclick = changeLessonCompetencesOnClick;
-	}
-	nodes = document.getElementsByTagName("main")[0].getElementsByClassName("deleteLesson");
-	for(var l = 0; l < nodes.length; l++)
-	{
-		nodes[l].onclick = deleteLessonOnClick;
-	}
+	addOnClicks("changeField", changeFieldOnClick);
+	addOnClicks("changeLesson", itemOnClick);
+	addOnClicks("changeLessonField", changeLessonFieldOnClick);
+	addOnClicks("changeLessonCompetences", changeLessonCompetencesOnClick);
+	addOnClicks("deleteLesson", deleteLessonOnClick);
 
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	var stateObject = { lessonName: "" };
@@ -92,8 +92,12 @@ function renderLessonList()
 		var secondLevel = "";
 		if(FIELDS[i].name)
 		{
-			html += "<h2 class=\"mainPage\">" + FIELDS[i].name + "</h2>";
 			secondLevel = " secondLevel";
+			html += "<h2 class=\"mainPage\">" + FIELDS[i].name + "</h2>";
+			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+			{
+				html += "<div class=\"button mainPage changeField\" data-id=\"" + FIELDS[i].id + "\">Upravit oblast</div>";
+			}
 		}
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
@@ -115,7 +119,8 @@ function renderLessonList()
 				}
 				html += "</span><br>";
 			}
-			html += "<div class=\"button mainPage" + secondLevel + " changeLessonField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit oblast</div>";
+			html += "<div class=\"button mainPage" + secondLevel + " changeLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Upravit lekci</div>";
+			html += "<div class=\"button mainPage changeLessonField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit oblast</div>";
 			html += "<div class=\"button mainPage changeLessonCompetences\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit kompetence</div>";
 			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 			{

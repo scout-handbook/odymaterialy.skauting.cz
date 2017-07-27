@@ -63,7 +63,7 @@ function changeLessonFieldOnClick(event)
 	history.pushState(stateObject, "title", "/admin/");
 }
 
-function changeLessonFieldSave(event)
+function changeLessonFieldSave()
 {
 	if(lessonFieldChanged)
 	{

@@ -49,7 +49,7 @@ function changeLessonCompetencesOnClick(event)
 	history.pushState({}, "title", "/admin/");
 }
 
-function changeLessonCompetencesSave(event)
+function changeLessonCompetencesSave()
 {
 	if(lessonCompetencesChanged)
 	{
