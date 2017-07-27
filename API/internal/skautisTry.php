@@ -7,9 +7,10 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautis.secret.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/AuthenticationException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/RoleException.php');
 
-function skautisTry($success, $failure, $hardCheck = true)
+function skautisTry($callback, $hardCheck = true)
 {
 	$skautis = \Skautis\Skautis::getInstance(SKAUTIS_APP_ID, SKAUTIS_TEST_MODE);
 	if(isset($_COOKIE['skautis_token']) and isset($_COOKIE['skautis_timeout']))
@@ -25,22 +26,22 @@ function skautisTry($success, $failure, $hardCheck = true)
 		{
 			try
 			{
-				return $success($skautis);
+				return $callback($skautis);
 			}
 			catch(\Skautis\Exception $e)
 			{
-				return $failure($skautis);
+				throw new AuthenticationException();
 			}
 		}
 	}
-	return $failure($skautis);
+	throw new AuthenticationException();
 }
 
-function roleTry($success, $failure, $hardCheck = true, $requiredRole = Role::USER)
+function roleTry($success, $hardCheck = true, $requiredRole = Role::USER)
 {
 	if($requiredRole === Role::USER)
 	{
-		skautisTry($success, $failure, $hardCheck);
+		skautisTry($success, $hardCheck);
 		return;
 	}
 	$safeCallback = function($skautis) use ($success, $requiredRole)
@@ -55,19 +56,19 @@ function roleTry($success, $failure, $hardCheck = true, $requiredRole = Role::US
 			throw new RoleException();
 		}
 	};
-	skautisTry($safeCallback, $failure, $hardCheck);
+	skautisTry($safeCallback, $hardCheck);
 }
 
-function editorTry($success, $failure, $hardCheck = true)
+function editorTry($success, $hardCheck = true)
 {
-	roleTry($success, $failure, $hardCheck, Role::EDITOR);
+	roleTry($success, $hardCheck, Role::EDITOR);
 }
 
-function administratorTry($success, $failure, $hardCheck = true)
+function administratorTry($success, $hardCheck = true)
 {
-	roleTry($success, $failure, $hardCheck, Role::ADMINISTRATOR);
+	roleTry($success, $hardCheck, Role::ADMINISTRATOR);
 }
-function superuserTry($success, $failure, $hardCheck = true)
+function superuserTry($success, $hardCheck = true)
 {
-	roleTry($success, $failure, $hardCheck, Role::SUPERUSER);
+	roleTry($success, $hardCheck, Role::SUPERUSER);
 }

@@ -87,14 +87,9 @@ SQL;
 	$db->close();
 }
 
-function reauth()
-{
-	throw new OdyMaterialyAPI\AuthenticationException();
-}
-
 try
 {
-	OdyMaterialyAPI\editorTry('add', 'reauth', true);
+	OdyMaterialyAPI\editorTry('add', true);
 	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)

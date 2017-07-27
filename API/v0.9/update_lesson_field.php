@@ -69,14 +69,9 @@ SQL;
 	$db->close();
 }
 
-function reauth()
-{
-	throw new OdyMaterialyAPI\AuthenticationException();
-}
-
 try
 {
-	OdyMaterialyAPI\editorTry('moveLesson', 'reauth', true);
+	OdyMaterialyAPI\editorTry('moveLesson', true);
 	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)

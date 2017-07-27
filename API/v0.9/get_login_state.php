@@ -13,14 +13,21 @@ function showUserAccount($skautis)
 	$idPerson = $skautis->UserManagement->UserDetail()->ID_Person;
 	$response['user_name'] = $skautis->OrganizationUnit->PersonDetail(array('ID' => $idPerson))->DisplayName;
 	$response['role'] = OdyMaterialyAPI\getRole($idPerson);
-	return $response;
+	echo(json_encode($response));
 }
 
 function showGuest()
 {
 	$response = array();
 	$response['login_state'] = false;
-	return $response;
+	echo(json_encode($response));
 }
 
-echo(json_encode(OdyMaterialyAPI\skautisTry('showUserAccount', 'showGuest', false)));
+try
+{
+	OdyMaterialyAPI\skautisTry('showUserAccount', false);
+}
+catch(OdyMaterialyAPI\AuthenticationException $e)
+{
+	showGuest();
+}

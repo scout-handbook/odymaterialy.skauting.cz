@@ -96,14 +96,9 @@ SQL;
 	$db->close();
 }
 
-function reauth()
-{
-	throw new OdyMaterialyAPI\AuthenticationException();
-}
-
 try
 {
-	OdyMaterialyAPI\administratorTry('delete', 'reauth', true);
+	OdyMaterialyAPI\administratorTry('delete', true);
 	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)
