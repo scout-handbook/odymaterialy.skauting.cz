@@ -1,6 +1,7 @@
-var lessonListEvent = new AfterLoadEvent(2);
+var lessonListEvent = new AfterLoadEvent(3);
 var FIELDS = [];
 var COMPETENCES = [];
+var LOGINSTATE = [];
 
 function mainPageSetup()
 {
@@ -18,6 +19,11 @@ function lessonListSetup()
 	request("/API/v0.9/list_competences", "", function(response)
 		{
 			COMPETENCES = JSON.parse(response);
+			lessonListEvent.trigger();
+		});
+	request("/API/v0.9/get_login_state", "", function(response)
+		{
+			LOGINSTATE = JSON.parse(response);
 			lessonListEvent.trigger();
 		});
 }
@@ -111,7 +117,10 @@ function renderLessonList()
 			}
 			html += "<div class=\"button mainPage" + secondLevel + " changeField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit oblast</div>";
 			html += "<div class=\"button mainPage changeCompetences\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit kompetence</div>";
-			html += "<div class=\"button mainPage deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Smazat lekci</div>";
+			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+			{
+				html += "<div class=\"button mainPage deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Smazat lekci</div>";
+			}
 		}
 	}
 	return html;
