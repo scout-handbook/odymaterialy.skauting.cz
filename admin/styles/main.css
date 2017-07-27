@@ -56,3 +56,8 @@ main
 	height: 100%;
 	overflow-y: auto;
 }
+
+#addField
+{
+	margin-right: 20px;
+}
