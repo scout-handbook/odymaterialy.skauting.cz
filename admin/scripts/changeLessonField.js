@@ -1,6 +1,6 @@
-var fieldChanged = false;
+var lessonFieldChanged = false;
 
-function changeFieldOnClick(event)
+function changeLessonFieldOnClick(event)
 {
 	sidePanelOpen();
 	var html = "";
@@ -12,7 +12,7 @@ function changeFieldOnClick(event)
 		{
 			if(FIELDS[i].lessons[j].id == event.target.dataset.id)
 			{
-				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeFieldSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">"
+				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeLessonFieldSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">"
 				checked = true;
 				break;
 			}
@@ -48,14 +48,14 @@ function changeFieldOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeFieldSave").onclick = changeFieldSave;
+	document.getElementById("changeLessonFieldSave").onclick = changeLessonFieldSave;
 
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
 		nodes[k].onchange = function()
 			{
-				fieldChanged = true;
+				lessonFieldChanged = true;
 			};
 	}
 
@@ -63,17 +63,17 @@ function changeFieldOnClick(event)
 	history.pushState(stateObject, "title", "/admin/");
 }
 
-function changeFieldSave(event)
+function changeLessonFieldSave(event)
 {
-	if(fieldChanged)
+	if(lessonFieldChanged)
 	{
 		var fieldId = parseForm()[0];
-		var query = "lesson-id=" + document.getElementById("changeFieldSave").dataset.id;
+		var query = "lesson-id=" + document.getElementById("changeLessonFieldSave").dataset.id;
 		if(fieldId)
 		{
 			query += "&field-id=" + fieldId;
 		}
-		fieldChanged = false;
+		lessonFieldChanged = false;
 		sidePanelClose();
 		retryAction("/API/v0.9/update_lesson_field", query);
 	}

@@ -36,13 +36,13 @@ function showMainPage(noHistory)
 function renderLessonList()
 {
 	var html = "";
-	var secondLevel = "";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
+		var secondLevel = "";
 		if(FIELDS[i].name)
 		{
-			html += "<h2 class=\"mainPage\"><a title=\"" + FIELDS[i].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].id + "\">" + FIELDS[i].name + "</a></h2>";
 			secondLevel = " secondLevel";
+			html += "<h2 class=\"mainPage\"><a title=\"" + FIELDS[i].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].id + "\">" + FIELDS[i].name + "</a></h2>";
 		}
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
