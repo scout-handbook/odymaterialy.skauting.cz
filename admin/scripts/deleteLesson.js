@@ -17,7 +17,7 @@ function deleteLessonOnClick(event)
 	var stateObject = { "sidePanel": "open" };
 	history.pushState(stateObject, "title", "/admin/");
 
-	dialog("Opravdu si přejete smazat lekci \"" + FIELDS[i].lessons[j].name + "\"?", "Ano", function()
+	dialog("Opravdu si přejete smazat lekci \"" + name + "\"?", "Ano", function()
 		{
 			retryAction("/API/v0.9/delete_lesson", "id=" + event.target.dataset.id);
 		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;", function()

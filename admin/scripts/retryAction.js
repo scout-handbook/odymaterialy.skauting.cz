@@ -22,7 +22,7 @@ function retryActionAfter(result, url, query)
 {
 	if(result.success)
 	{
-		dialog("Úspěšně uloženo", "OK");
+		dialog("Akce byla úspěšná.", "OK");
 		lessonListEvent = new AfterLoadEvent(2);
 		lessonListSetup();
 		if(retry)
@@ -45,7 +45,7 @@ function retryActionAfter(result, url, query)
 		}
 		else
 		{
-			dialog("Byl jste odhlášen a uložení se nepodařilo. Přihlašte se prosím a zkuste to znovu.", "OK");
+			dialog("Byl jste odhlášen a akce se nepodařila. Přihlašte se prosím a zkuste to znovu.", "OK");
 		}
 	}
 	else if(result.type === "RoleException")

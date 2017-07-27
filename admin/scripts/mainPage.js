@@ -73,6 +73,7 @@ function showMainPage(noHistory)
 		}
 	}
 	addOnClicks("changeField", changeFieldOnClick);
+	addOnClicks("deleteField", deleteFieldOnClick);
 	addOnClicks("changeLesson", itemOnClick);
 	addOnClicks("changeLessonField", changeLessonFieldOnClick);
 	addOnClicks("changeLessonCompetences", changeLessonCompetencesOnClick);
@@ -105,6 +106,7 @@ function renderLessonList()
 			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 			{
 				html += "<div class=\"button mainPage changeField\" data-id=\"" + FIELDS[i].id + "\">Upravit oblast</div>";
+				html += "<div class=\"button mainPage deleteField\" data-id=\"" + FIELDS[i].id + "\">Smazat oblast</div>";
 			}
 		}
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
