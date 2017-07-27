@@ -64,9 +64,9 @@ SQL;
 	$lesson_name = '';
 	$lesson_version = '';
 	$anonymous_statement->bind_result($lesson_id, $lesson_name, $lesson_version);
+	$fields[] = new OdymaterialyAPI\AnonymousField();
 	if($anonymous_statement->fetch())
 	{
-		$fields[] = new OdymaterialyAPI\AnonymousField();
 		do
 		{
 			// Create a new Lesson in the newly-created Field
