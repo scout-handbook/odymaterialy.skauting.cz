@@ -2,13 +2,18 @@ function showCompetenceManager()
 {
 	var html = "<h1>OdyMateriály - Správce kompetencí</h1>";
 	html += "<div class=\"button mainPage\" id=\"lessonManager\">Správce lekcí</div>";
+	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+	{
+		html += "<div class=\"button mainPage\" id=\"addCompetence\">Přidat kompetenci</div>";
+	}
 	html += renderCompetenceList()
 	document.getElementById("mainPage").innerHTML = html;
 
-	document.getElementById("lessonManager").onclick = function()
-		{
-			showLessonManager();
-		};
+	document.getElementById("lessonManager").onclick = showLessonManager;
+	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+	{
+		document.getElementById("addCompetence").onclick = addCompetence;
+	}
 
 	addOnClicks("changeCompetence", changeCompetenceOnClick);
 }

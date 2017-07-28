@@ -10,21 +10,12 @@ function showLessonManager()
 	html += renderLessonList();
 	document.getElementById("mainPage").innerHTML = html;
 
-	document.getElementById("competenceManager").onclick = function()
-		{
-			showCompetenceManager();
-		};
+	document.getElementById("competenceManager").onclick = showCompetenceManager;
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
-		document.getElementById("addField").onclick = function()
-			{
-				addField();
-			};
+		document.getElementById("addField").onclick = addField;
 	}
-	document.getElementById("addLesson").onclick = function()
-		{
-			addLesson();
-		};
+	document.getElementById("addLesson").onclick = addLesson;
 
 	addOnClicks("changeField", changeFieldOnClick);
 	addOnClicks("deleteField", deleteFieldOnClick);
