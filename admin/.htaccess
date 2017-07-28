@@ -29,6 +29,7 @@ Allow from 127.0.0.1
 	Header add Link "</admin/scripts/deleteLesson.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/getLesson.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/history.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/lessonManager.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/main.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/mainPage.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/refreshPreview.js>;rel=preload;as=script"

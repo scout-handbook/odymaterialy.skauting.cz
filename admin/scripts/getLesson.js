@@ -1,6 +1,12 @@
 var changed;
 var competences = false;
 
+function changeLessonOnClick(event)
+{
+	getLesson(event.target.dataset.id);
+	return false;
+}
+
 function getLesson(id, noHistory)
 {
 	request("/API/v0.9/get_lesson", "id=" + id, function(response)
@@ -47,14 +53,13 @@ function showLesson(id, markdown, noHistory)
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(lesson.name, markdown);
 
-	var stateObject = { "id": id };
 	if(!noHistory)
 	{
-		history.pushState(stateObject, "title", "/admin/");
+		history.pushState({"id": id}, "title", "/admin/");
 	}
 
 	document.getElementById("discard").onclick = discard;
-	document.getElementById("save").onclick = saveCallback;
+	document.getElementById("save").onclick = save;
 
 	var editor = ace.edit("editor");
 	editor.setTheme("ace/theme/odymaterialy");
@@ -86,7 +91,7 @@ function discard()
 	}
 }
 
-function saveCallback()
+function save()
 {
 	if(changed)
 	{
