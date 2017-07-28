@@ -41,7 +41,7 @@ function showLesson(id, markdown, noHistory)
 		Zrušit\
 	</div>\
 	<form>\
-		<input type="text" id="name" value="' + lesson.name + '" autocomplete="off">\
+		<input type="text" class="formText" id="name" value="' + lesson.name + '" autocomplete="off">\
 	</form>\
 	<div class="button" id="save" data-id="' + id + '">\
 		Uložit\

@@ -3,9 +3,9 @@ function showLessonManager()
 	var html = "<h1>OdyMateriály - Správce lekcí</h1>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
-		html += "<div class=\"button\" id=\"addField\">Přidat oblast</div>";
+		html += "<div class=\"button mainPage\" id=\"addField\">Přidat oblast</div>";
 	}
-	html += "<div class=\"button\" id=\"addLesson\">Přidat lekci</div><br>";
+	html += "<div class=\"button mainPage\" id=\"addLesson\">Přidat lekci</div><br>";
 	html += renderLessonList();
 	document.getElementById("mainPage").innerHTML = html;
 
