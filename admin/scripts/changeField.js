@@ -2,6 +2,7 @@ var fieldChanged = false;
 
 function changeFieldOnClick(event)
 {
+	fieldChanged = false;
 	sidePanelOpen();
 	var html = "";
 	for(var i = 0; i < FIELDS.length; i++)
@@ -40,7 +41,6 @@ function changeFieldSave()
 	{
 		var query = "id=" + document.getElementById("changeFieldSave").dataset.id;
 		query += "&name=" + document.getElementById("fieldName").value;
-		fieldChanged = false;
 		sidePanelClose();
 		retryAction("/API/v0.9/update_field", query);
 	}

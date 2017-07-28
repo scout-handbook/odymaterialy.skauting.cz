@@ -2,6 +2,7 @@ var competenceChanged = false;
 
 function changeCompetenceOnClick(event)
 {
+	competenceChanged = false;
 	sidePanelOpen();
 	var html = "";
 	for(var i = 0; i < COMPETENCES.length; i++)
@@ -24,10 +25,33 @@ function changeCompetenceOnClick(event)
 		};
 	document.getElementById("changeCompetenceSave").onclick = changeCompetenceSave;
 
+	function addOnChange(id)
+	{
+		document.getElementById(id).oninput = function()
+			{
+				competenceChanged = true;
+			};
+		document.getElementById(id).onchange = function()
+			{
+				competenceChanged = true;
+			};
+	}
+	addOnChange("competenceNumber");
+	addOnChange("competenceName");
+	addOnChange("competenceDescription");
+
 	history.pushState({"sidePanel": "open"}, "title", "/admin/");
 }
 
 function changeCompetenceSave()
 {
-	console.log("SAVE");
+	if(competenceChanged)
+	{
+		var query = "id=" + document.getElementById("changeCompetenceSave").dataset.id;
+		query += "&number=" + document.getElementById("competenceNumber").value;
+		query += "&name=" + document.getElementById("competenceName").value;
+		query += "&description=" + document.getElementById("competenceDescription").value;
+		sidePanelClose();
+		retryAction("/API/v0.9/update_competence", query);
+	}
 }

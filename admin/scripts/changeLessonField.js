@@ -2,6 +2,7 @@ var lessonFieldChanged = false;
 
 function changeLessonFieldOnClick(event)
 {
+	lessonFieldChanged = false;
 	sidePanelOpen();
 	var html = "";
 	var form = "";
@@ -73,7 +74,6 @@ function changeLessonFieldSave()
 		{
 			query += "&field-id=" + fieldId;
 		}
-		lessonFieldChanged = false;
 		sidePanelClose();
 		retryAction("/API/v0.9/update_lesson_field", query);
 	}

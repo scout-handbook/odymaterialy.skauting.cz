@@ -2,6 +2,7 @@ var lessonCompetencesChanged = false;
 
 function changeLessonCompetencesOnClick(event)
 {
+	lessonCompetencesChanged = false;
 	sidePanelOpen();
 	var html = "";
 	var checkedCompetences = [];
@@ -59,7 +60,6 @@ function changeLessonCompetencesSave()
 		{
 			query += "&competence[]=" + competences[i];
 		}
-		lessonCompetencesChanged = false;
 		sidePanelClose();
 		retryAction("/API/v0.9/update_lesson_competences", query);
 	}
