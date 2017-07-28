@@ -1,5 +1,6 @@
 function showCompetenceManager()
 {
+	mainPageTab = "competences";
 	var html = "<h1>OdyMateriály - Správce kompetencí</h1>";
 	html += "<div class=\"button mainPage\" id=\"lessonManager\">Správce lekcí</div>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")

@@ -1,4 +1,5 @@
 var lessonListEvent = new AfterLoadEvent(3);
+var mainPageTab = "lessons";
 var FIELDS = [];
 var COMPETENCES = [];
 var LOGINSTATE = [];
@@ -42,7 +43,14 @@ function showMainPage(noHistory)
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 
-	showLessonManager();
+	if(mainPageTab == "competences")
+	{
+		showCompetenceManager();
+	}
+	else
+	{
+		showLessonManager();
+	}
 
 	if(!noHistory)
 	{
