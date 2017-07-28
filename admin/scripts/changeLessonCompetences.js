@@ -54,11 +54,11 @@ function changeLessonCompetencesSave()
 {
 	if(lessonCompetencesChanged)
 	{
-		var query = "id=" + document.getElementById("changeLessonCompetencesSave").dataset.id;
+		var query = "id=" + encodeURIComponent(document.getElementById("changeLessonCompetencesSave").dataset.id);
 		var competences = parseForm();
 		for(i = 0; i < competences.length; i++)
 		{
-			query += "&competence[]=" + competences[i];
+			query += "&competence[]=" + encodeURIComponent(competences[i]);
 		}
 		sidePanelClose();
 		retryAction("/API/v0.9/update_lesson_competences", query);

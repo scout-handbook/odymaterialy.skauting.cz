@@ -47,10 +47,10 @@ function changeCompetenceSave()
 {
 	if(competenceChanged)
 	{
-		var query = "id=" + document.getElementById("changeCompetenceSave").dataset.id;
-		query += "&number=" + document.getElementById("competenceNumber").value;
-		query += "&name=" + document.getElementById("competenceName").value;
-		query += "&description=" + document.getElementById("competenceDescription").value;
+		var query = "id=" + encodeURIComponent(document.getElementById("changeCompetenceSave").dataset.id);
+		query += "&number=" + encodeURIComponent(document.getElementById("competenceNumber").value);
+		query += "&name=" + encodeURIComponent(document.getElementById("competenceName").value);
+		query += "&description=" + encodeURIComponent(document.getElementById("competenceDescription").value);
 		sidePanelClose();
 		retryAction("/API/v0.9/update_competence", query);
 	}

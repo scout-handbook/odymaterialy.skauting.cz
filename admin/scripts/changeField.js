@@ -39,8 +39,8 @@ function changeFieldSave()
 {
 	if(fieldChanged)
 	{
-		var query = "id=" + document.getElementById("changeFieldSave").dataset.id;
-		query += "&name=" + document.getElementById("fieldName").value;
+		var query = "id=" + encodeURIComponent(document.getElementById("changeFieldSave").dataset.id);
+		query += "&name=" + encodeURIComponent(document.getElementById("fieldName").value);
 		sidePanelClose();
 		retryAction("/API/v0.9/update_field", query);
 	}

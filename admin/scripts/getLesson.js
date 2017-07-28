@@ -95,8 +95,8 @@ function save()
 {
 	if(changed)
 	{
-		var query = "id=" + document.getElementById("save").dataset.id;
-		query += "&name=" + document.getElementById("name").value;
+		var query = "id=" + encodeURIComponent(document.getElementById("save").dataset.id);
+		query += "&name=" + encodeURIComponent(document.getElementById("name").value);
 		query += "&body=" + encodeURIComponent(ace.edit("editor").getValue());
 		retryAction("/API/v0.9/update_lesson", query);
 	}

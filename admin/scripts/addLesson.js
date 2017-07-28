@@ -7,7 +7,7 @@ function addLesson(noHistory)
 		Zrušit\
 	</div>\
 	<form>\
-		<input type="text" id="name" value="' + defaultName + '" autocomplete=off>\
+		<input type="text" class="formText formName" id="name" value="' + defaultName + '" autocomplete=off>\
 	</form>\
 	<div class="button" id="save">\
 		Uložit\
@@ -38,7 +38,7 @@ function addLesson(noHistory)
 
 function addCallback()
 {
-	var query = "name=" + document.getElementById("name").value;
+	var query = "name=" + encodeURIComponent(document.getElementById("name").value);
 	query += "&body=" + encodeURIComponent(ace.edit("editor").getValue());
 	retryAction("/API/v0.9/add_lesson", query);
 }

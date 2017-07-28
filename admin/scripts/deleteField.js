@@ -15,7 +15,7 @@ function deleteFieldOnClick(event)
 
 	dialog("Opravdu si přejete smazat oblast \"" + name + "\"?", "Ano", function()
 		{
-			retryAction("/API/v0.9/delete_field", "id=" + event.target.dataset.id);
+			retryAction("/API/v0.9/delete_field", "id=" + encodeURIComponent(event.target.dataset.id));
 		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;", function()
 		{
 			history.back();
