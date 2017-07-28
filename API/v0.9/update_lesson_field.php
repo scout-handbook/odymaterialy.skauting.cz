@@ -13,6 +13,15 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
 function moveLesson()
 {
+	$deleteSQL = <<<SQL
+DELETE FROM lessons_in_fields
+WHERE lesson_id = ?;
+SQL;
+	$insertSQL = <<<SQL
+INSERT INTO lessons_in_fields (field_id, lesson_id)
+VALUES (?, ?);
+SQL;
+
 	if(!isset($_POST['lesson-id']))
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'lesson-id');
@@ -24,20 +33,11 @@ function moveLesson()
 	}
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
-
-	if ($db->connect_error)
+	if($db->connect_error)
 	{
 		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
-
-	$deleteSQL = <<<SQL
-DELETE FROM lessons_in_fields
-WHERE lesson_id = ?;
-SQL;
-	$insertSQL = <<<SQL
-INSERT INTO lessons_in_fields (field_id, lesson_id)
-VALUES (?, ?);
-SQL;
+	$db->autocommit(false);
 
 	$deleteStatement = $db->prepare($deleteSQL);
 	if(!$deleteStatement)
@@ -65,6 +65,7 @@ SQL;
 		}
 		$insertStatement->close();
 	}
+	$db->commit();
 	$db->close();
 }
 

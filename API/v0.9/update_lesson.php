@@ -13,13 +13,22 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
 function rewrite()
 {
+	$selectSQL = <<<SQL
+SELECT name, body
+FROM lessons
+WHERE id = ?;
+SQL;
+	$updateSQL = <<<SQL
+UPDATE lessons
+SET name = ?, version = version + 1, body = ?
+WHERE id = ?;
+SQL;
+
 	if(!isset($_POST['id']))
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
-
 	$id = $_POST['id'];
-
 	if(isset($_POST['name']))
 	{
 		$name = $_POST['name'];
@@ -30,21 +39,10 @@ function rewrite()
 	}
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
-
-	if ($db->connect_error)
+	if($db->connect_error)
 	{
 		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
-
-	$selectSQL = <<<SQL
-SELECT name, body FROM lessons WHERE id = ?;
-SQL;
-
-	$updateSQL = <<<SQL
-UPDATE lessons
-SET name = ?, version = version + 1, body = ?
-WHERE id = ?;
-SQL;
 
 	if(!isset($name) or !isset($body))
 	{

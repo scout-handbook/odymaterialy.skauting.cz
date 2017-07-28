@@ -13,6 +13,11 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
 function updateField()
 {
+	$SQL = <<<SQL
+INSERT INTO fields (name)
+VALUES (?);
+SQL;
+
 	if(!isset($_POST['name']))
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'name');
@@ -20,16 +25,10 @@ function updateField()
 	$name = $_POST['name'];
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
-
-	if ($db->connect_error)
+	if($db->connect_error)
 	{
 		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
-
-	$SQL = <<<SQL
-INSERT INTO fields (name)
-VALUES (?);
-SQL;
 
 	$statement = $db->prepare($SQL);
 	if(!$statement)
