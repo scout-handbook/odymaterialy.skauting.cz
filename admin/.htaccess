@@ -28,6 +28,7 @@ Allow from 127.0.0.1
 	Header add Link "</admin/scripts/changeLessonField.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/competenceManager.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/default.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/deleteCompetence.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/deleteField.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/deleteLesson.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/getLesson.js>;rel=preload;as=script"

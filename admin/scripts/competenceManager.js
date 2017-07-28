@@ -16,6 +16,7 @@ function showCompetenceManager()
 	}
 
 	addOnClicks("changeCompetence", changeCompetenceOnClick);
+	addOnClicks("deleteCompetence", deleteCompetenceOnClick);
 }
 
 function renderCompetenceList()
@@ -27,6 +28,7 @@ function renderCompetenceList()
 		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 		{
 			html += "<div class=\"button mainPage changeCompetence\" data-id=\"" + COMPETENCES[i].id + "\">Upravit kompetenci</div>";
+			html += "<div class=\"button mainPage deleteCompetence\" data-id=\"" + COMPETENCES[i].id + "\">Smazat kompetenci</div>";
 		}
 	}
 	return html;
