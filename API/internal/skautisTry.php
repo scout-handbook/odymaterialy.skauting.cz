@@ -59,6 +59,11 @@ function roleTry($success, $hardCheck = true, $requiredRole = Role::USER)
 	skautisTry($safeCallback, $hardCheck);
 }
 
+function userTry($success, $hardCheck = true)
+{
+	roleTry($success, $hardCheck, Role::USER);
+}
+
 function editorTry($success, $hardCheck = true)
 {
 	roleTry($success, $hardCheck, Role::EDITOR);
