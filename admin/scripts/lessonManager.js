@@ -1,6 +1,7 @@
 function showLessonManager()
 {
 	var html = "<h1>OdyMateriály - Správce lekcí</h1>";
+	html += "<div class=\"button mainPage\" id=\"competenceManager\">Správce kompetencí</div>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
 		html += "<div class=\"button mainPage\" id=\"addField\">Přidat oblast</div>";
@@ -9,6 +10,10 @@ function showLessonManager()
 	html += renderLessonList();
 	document.getElementById("mainPage").innerHTML = html;
 
+	document.getElementById("competenceManager").onclick = function()
+		{
+			showCompetenceManager();
+		};
 	document.getElementById("addField").onclick = function()
 		{
 			addField();
@@ -17,12 +22,6 @@ function showLessonManager()
 		{
 			addLesson();
 		};
-
-	var nodes = document.getElementsByTagName("main")[0].getElementsByTagName("h3");
-	for(var l = 0; l < nodes.length; l++)
-	{
-		nodes[l].firstChild.onclick = changeLessonOnClick;
-	}
 
 	function addOnClicks(id, onclick)
 	{
@@ -58,7 +57,7 @@ function renderLessonList()
 		}
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			html += "<h3 class=\"mainPage" + secondLevel + "\"><a title=\"" + FIELDS[i].lessons[j].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + FIELDS[i].lessons[j].name + "</a></h3>";
+			html += "<h3 class=\"mainPage" + secondLevel + "\">" + FIELDS[i].lessons[j].name + "</h3>";
 			if(FIELDS[i].lessons[j].competences.length > 0)
 			{
 				var competences = [];
