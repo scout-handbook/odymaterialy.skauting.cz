@@ -100,7 +100,7 @@ SQL;
 
 try
 {
-	OdyMaterialyAPI\editorTry('rewrite', true);
+	OdyMaterialyAPI\administratorTry('rewrite', true);
 	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)
