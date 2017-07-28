@@ -39,7 +39,20 @@ function getMainPage(noHistory)
 
 function showMainPage(noHistory)
 {
-	var html = "<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div><div id=\"mainPageContainer\"><div id=\"mainPage\"></div></div>";
+	var html = "<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>";
+	html += "<div id=\"topBar\"><div id=\"userAccount\"><img id=\"userAvatar\" alt=\"Account avatar\" src=\"";
+	if(LOGINSTATE.user_avatar)
+	{
+		html += "data:image/png;base64," + LOGINSTATE.user_avatar;
+	}
+	else
+	{
+		html += "/images/avatar.png";
+	}
+	html += "\"><div id=\"userName\">";
+	html += LOGINSTATE.user_name;
+	html += "</div><div id=\"logLink\"><a href=\"/auth/logout.php\">Odhlásit</a></div></div></div>";
+	html += "<div id=\"mainPageContainer\"><div id=\"mainPage\"></div></div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 
