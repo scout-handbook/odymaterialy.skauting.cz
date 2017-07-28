@@ -14,13 +14,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 function rewrite()
 {
 	$selectSQL = <<<SQL
-SELECT name, body
-FROM lessons
+SELECT number, name, description
+FROM competences
 WHERE id = ?;
 SQL;
 	$updateSQL = <<<SQL
-UPDATE lessons
-SET name = ?, version = version + 1, body = ?
+UPDATE competences
+SET number = ?, name = ?, description = ?
 WHERE id = ?;
 SQL;
 
@@ -29,13 +29,17 @@ SQL;
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
 	$id = $_POST['id'];
+	if(isset($_POST['number']))
+	{
+		$number = $_POST['number'];
+	}
 	if(isset($_POST['name']))
 	{
 		$name = $_POST['name'];
 	}
-	if(isset($_POST['body']))
+	if(isset($_POST['description']))
 	{
-		$body = $_POST['body'];
+		$description = $_POST['description'];
 	}
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
@@ -44,7 +48,7 @@ SQL;
 		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
 
-	if(!isset($name) or !isset($body))
+	if(!isset($number) or !isset($name) or !isset($description))
 	{
 		$selectStatement = $db->prepare($selectSQL);
 		if(!$selectStatement)
@@ -57,20 +61,25 @@ SQL;
 			throw new OdyMaterialyAPI\ExecutionException($selectSQL, $selectStatement);
 		}
 		$selectStatement->store_result();
+		$origNumber = '';
 		$origName = '';
-		$origBody = '';
-		$selectStatement->bind_result($origName, $origBody);
+		$origDescription = '';
+		$selectStatement->bind_result($origNumber, $origName, $origDescription);
 		if(!$selectStatement->fetch())
 		{
 			throw new OdyMaterialyAPI\APIException('No lesson with id "' * strval($id) * '" found.');
+		}
+		if(!isset($number))
+		{
+			$number = $origNumber;
 		}
 		if(!isset($name))
 		{
 			$name = $origName;
 		}
-		if(!isset($body))
+		if(!isset($description))
 		{
-			$body = $origBody;
+			$description = $origDescription;
 		}
 		$selectStatement->close();
 	}
@@ -80,7 +89,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($updateSQL, $db);
 	}
-	$updateStatement->bind_param('ssi', $name, $body, $id);
+	$updateStatement->bind_param('issi', $number, $name, $description, $id);
 	if(!$updateStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($updateSQL, $updateStatement);
@@ -91,7 +100,7 @@ SQL;
 
 try
 {
-	OdyMaterialyAPI\editorTry('rewrite', true);
+	OdyMaterialyAPI\administratorTry('rewrite', true);
 	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)

@@ -13,11 +13,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 function listCompetences()
 {
 	$SQL = <<<SQL
-SELECT id, number, name, description FROM competences ORDER BY number;
+SELECT id, number, name, description
+FROM competences
+ORDER BY number;
 SQL;
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
-	if ($db->connect_error)
+	if($db->connect_error)
 	{
 		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
@@ -39,7 +41,7 @@ SQL;
 	$description = '';
 	$statement->bind_result($id, $number, $name, $description);
 	$competences = array();
-	while ($statement->fetch())
+	while($statement->fetch())
 	{
 		$competences[] = new OdyMaterialyAPI\Competence($id, $number, $name, $description); // Create a new field
 	}

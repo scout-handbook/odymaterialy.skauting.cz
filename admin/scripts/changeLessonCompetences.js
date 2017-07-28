@@ -1,7 +1,8 @@
-var competencesChanged = false;
+var lessonCompetencesChanged = false;
 
-function changeCompetencesOnClick(event)
+function changeLessonCompetencesOnClick(event)
 {
+	lessonCompetencesChanged = false;
 	sidePanelOpen();
 	var html = "";
 	var checkedCompetences = [];
@@ -12,7 +13,7 @@ function changeCompetencesOnClick(event)
 		{
 			if(FIELDS[i].lessons[j].id == event.target.dataset.id)
 			{
-				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeCompetencesSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">"
+				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeLessonCompetencesSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">"
 				checkedCompetences = FIELDS[i].lessons[j].competences;
 				break outer;
 			}
@@ -35,31 +36,30 @@ function changeCompetencesOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeCompetencesSave").onclick = changeCompetencesSave;
+	document.getElementById("changeLessonCompetencesSave").onclick = changeLessonCompetencesSave;
 
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
 		nodes[k].onchange = function()
 			{
-				competencesChanged = true;
+				lessonCompetencesChanged = true;
 			};
 	}
 
 	history.pushState({}, "title", "/admin/");
 }
 
-function changeCompetencesSave(event)
+function changeLessonCompetencesSave()
 {
-	if(competencesChanged)
+	if(lessonCompetencesChanged)
 	{
-		var query = "id=" + document.getElementById("changeCompetencesSave").dataset.id;
+		var query = "id=" + encodeURIComponent(document.getElementById("changeLessonCompetencesSave").dataset.id);
 		var competences = parseForm();
 		for(i = 0; i < competences.length; i++)
 		{
-			query += "&competence[]=" + competences[i];
+			query += "&competence[]=" + encodeURIComponent(competences[i]);
 		}
-		competencesChanged = false;
 		sidePanelClose();
 		retryAction("/API/v0.9/update_lesson_competences", query);
 	}

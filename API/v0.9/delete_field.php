@@ -11,26 +11,22 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
-function moveLesson()
+function delete()
 {
-	$deleteSQL = <<<SQL
+	$deleteLessonsSQL = <<<SQL
 DELETE FROM lessons_in_fields
-WHERE lesson_id = ?;
+WHERE field_id = ?;
 SQL;
-	$insertSQL = <<<SQL
-INSERT INTO lessons_in_fields (field_id, lesson_id)
-VALUES (?, ?);
+	$deleteSQL = <<<SQL
+DELETE FROM fields
+WHERE id = ?;
 SQL;
 
-	if(!isset($_POST['lesson-id']))
+	if(!isset($_POST['id']))
 	{
-		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'lesson-id');
+		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
-	$lessonId = $_POST['lesson-id'];
-	if(isset($_POST['field-id']))
-	{
-		$fieldId = $_POST['field-id'];
-	}
+	$id = $_POST['id'];
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
 	if($db->connect_error)
@@ -39,39 +35,36 @@ SQL;
 	}
 	$db->autocommit(false);
 
+	$deleteLessonsStatement = $db->prepare($deleteLessonsSQL);
+	if(!$deleteLessonsStatement)
+	{
+		throw new OdyMaterialyAPI\QueryException($deleteLessonsSQL, $db);
+	}
+	$deleteLessonsStatement->bind_param('i', $id);
+	if(!$deleteLessonsStatement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($deleteLessonsSQL, $deleteLessonsStatement);
+	}
+	$deleteLessonsStatement->close();
+
 	$deleteStatement = $db->prepare($deleteSQL);
 	if(!$deleteStatement)
 	{
 		throw new OdyMaterialyAPI\QueryException($deleteSQL, $db);
 	}
-	$deleteStatement->bind_param('i', $lessonId);
+	$deleteStatement->bind_param('i', $id);
 	if(!$deleteStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $deleteStatement);
 	}
 	$deleteStatement->close();
-
-	if(isset($fieldId))
-	{
-		$insertStatement = $db->prepare($insertSQL);
-		if(!$insertStatement)
-		{
-			throw new OdyMaterialyAPI\QueryException($insertSQL, $db);
-		}
-		$insertStatement->bind_param('ii', $fieldId, $lessonId);
-		if(!$insertStatement->execute())
-		{
-			throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $insertStatement);
-		}
-		$insertStatement->close();
-	}
 	$db->commit();
 	$db->close();
 }
 
 try
 {
-	OdyMaterialyAPI\editorTry('moveLesson', true);
+	OdyMaterialyAPI\administratorTry('delete', true);
 	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)

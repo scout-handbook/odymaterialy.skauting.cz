@@ -11,23 +11,27 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
-function add()
+function addCompetence()
 {
 	$SQL = <<<SQL
-INSERT INTO lessons (name, body)
-VALUES (?, ?);
+INSERT INTO competences (number, name, description)
+VALUES (?, ?, ?);
 SQL;
 
+	if(!isset($_POST['number']))
+	{
+		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'number');
+	}
+	$number = $_POST['number'];
 	if(!isset($_POST['name']))
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'name');
 	}
 	$name = $_POST['name'];
-
-	$body = "";
-	if(isset($_POST['body']))
+	$description = "";
+	if(isset($_POST['description']))
 	{
-		$body = $_POST['body'];
+		$description = $_POST['description'];
 	}
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
@@ -41,7 +45,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($SQL, $db);
 	}
-	$statement->bind_param('ss', $name, $body);
+	$statement->bind_param('iss', $number, $name, $description);
 	if(!$statement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($SQL, $statement);
@@ -52,7 +56,7 @@ SQL;
 
 try
 {
-	OdyMaterialyAPI\editorTry('add', true);
+	OdyMaterialyAPI\administratorTry('addCompetence', true);
 	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)

@@ -1,6 +1,12 @@
 var changed;
 var competences = false;
 
+function changeLessonOnClick(event)
+{
+	getLesson(event.target.dataset.id);
+	return false;
+}
+
 function getLesson(id, noHistory)
 {
 	request("/API/v0.9/get_lesson", "id=" + id, function(response)
@@ -35,7 +41,7 @@ function showLesson(id, markdown, noHistory)
 		Zrušit\
 	</div>\
 	<form>\
-		<input type="text" id="name" value="' + lesson.name + '" autocomplete=off>\
+		<input type="text" class="formText formName" id="name" value="' + lesson.name + '" autocomplete="off">\
 	</form>\
 	<div class="button" id="save" data-id="' + id + '">\
 		Uložit\
@@ -47,14 +53,13 @@ function showLesson(id, markdown, noHistory)
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(lesson.name, markdown);
 
-	var stateObject = { "id": id };
 	if(!noHistory)
 	{
-		history.pushState(stateObject, "title", "/admin/");
+		history.pushState({"id": id}, "title", "/admin/");
 	}
 
 	document.getElementById("discard").onclick = discard;
-	document.getElementById("save").onclick = saveCallback;
+	document.getElementById("save").onclick = save;
 
 	var editor = ace.edit("editor");
 	editor.setTheme("ace/theme/odymaterialy");
@@ -86,12 +91,12 @@ function discard()
 	}
 }
 
-function saveCallback()
+function save()
 {
 	if(changed)
 	{
-		var query = "id=" + document.getElementById("save").dataset.id;
-		query += "&name=" + document.getElementById("name").value;
+		var query = "id=" + encodeURIComponent(document.getElementById("save").dataset.id);
+		query += "&name=" + encodeURIComponent(document.getElementById("name").value);
 		query += "&body=" + encodeURIComponent(ace.edit("editor").getValue());
 		retryAction("/API/v0.9/update_lesson", query);
 	}

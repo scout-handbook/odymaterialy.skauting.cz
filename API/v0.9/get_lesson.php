@@ -12,6 +12,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
 function getLesson()
 {
+	$SQL = <<<SQL
+SELECT body
+FROM lessons
+WHERE id = ?;
+SQL;
+
 	if(!isset($_GET['id']))
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::GET, 'id');
@@ -19,14 +25,10 @@ function getLesson()
 	$id = $_GET['id'];
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
-	if ($db->connect_error)
+	if($db->connect_error)
 	{
 		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
-
-	$SQL = <<<SQL
-SELECT body FROM lessons WHERE id = ?;
-SQL;
 
 	$statement = $db->prepare($SQL);
 	if(!$statement)

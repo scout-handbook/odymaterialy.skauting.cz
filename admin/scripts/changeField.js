@@ -2,46 +2,19 @@ var fieldChanged = false;
 
 function changeFieldOnClick(event)
 {
+	fieldChanged = false;
 	sidePanelOpen();
 	var html = "";
-	var form = "";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
-		var checked = false;
-		for(var j = 0; j < FIELDS[i].lessons.length; j++)
+		if(FIELDS[i].id == event.target.dataset.id)
 		{
-			if(FIELDS[i].lessons[j].id == event.target.dataset.id)
-			{
-				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeFieldSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">"
-				checked = true;
-				break;
-			}
+			html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeFieldSave\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
+			html += "<input type=\"text\" class=\"formText formName\" id=\"fieldName\" value=\"" + FIELDS[i].name + "\" autocomplete=\"off\">";
+			break;
 		}
-		form += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"field\"";
-		if(checked)
-		{
-			form += " checked";
-		}
-		if(FIELDS[i].id)
-		{
-			form += " data-id=\"" + FIELDS[i].id + "\"";
-		}
-		else
-		{
-			form += " data-id=\"\"";
-		}
-		form += "><span class=\"formCustom formRadio\"></span></label>";
-		if(FIELDS[i].id)
-		{
-			form += FIELDS[i].name;
-		}
-		else
-		{
-			form += "<i>Nezařazeno</i>"
-		}
-		form += "</div>";
 	}
-	html += form + "</form>";
+	html += "</form>";
 	document.getElementById("sidePanel").innerHTML = html;
 
 	document.getElementById("sidePanelCancel").onclick = function()
@@ -50,35 +23,25 @@ function changeFieldOnClick(event)
 		};
 	document.getElementById("changeFieldSave").onclick = changeFieldSave;
 
-	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
-	for(var k = 0; k < nodes.length; k++)
-	{
-		nodes[k].onchange = function()
-			{
-				fieldChanged = true;
-			};
-	}
+	document.getElementById("fieldName").oninput = function()
+		{
+			fieldChanged = true;
+		};
+	document.getElementById("fieldName").onchange = function()
+		{
+			fieldChanged = true;
+		};
 
-	var stateObject = { "sidePanel": "open" };
-	history.pushState(stateObject, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/");
 }
 
-function changeFieldSave(event)
+function changeFieldSave()
 {
 	if(fieldChanged)
 	{
-		var fieldId = parseForm()[0];
-		var query = "lesson-id=" + document.getElementById("changeFieldSave").dataset.id;
-		if(fieldId)
-		{
-			query += "&field-id=" + fieldId;
-		}
-		fieldChanged = false;
+		var query = "id=" + encodeURIComponent(document.getElementById("changeFieldSave").dataset.id);
+		query += "&name=" + encodeURIComponent(document.getElementById("fieldName").value);
 		sidePanelClose();
-		retryAction("/API/v0.9/update_lesson_field", query);
-	}
-	else
-	{
-		history.back();
+		retryAction("/API/v0.9/update_field", query);
 	}
 }

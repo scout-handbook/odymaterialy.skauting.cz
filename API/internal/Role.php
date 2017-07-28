@@ -5,12 +5,18 @@ namespace OdyMaterialyAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
+
 abstract class Role
 {
-	const USER = 0;
-	const EDITOR = 1;
-	const ADMINISTRATOR = 2;
-	const SUPERUSER = 3;
+	const GUEST = 0;
+	const USER = 1;
+	const EDITOR = 2;
+	const ADMINISTRATOR = 3;
+	const SUPERUSER = 4;
 
 	public static function parse($str)
 	{
@@ -25,8 +31,11 @@ abstract class Role
 		case 'editor':
 			return Role::EDITOR;
 			break;
-		default:
+		case 'user':
 			return Role::USER;
+			break;
+		default:
+			return Role::GUEST;
 			break;
 		}
 	}
@@ -34,28 +43,34 @@ abstract class Role
 
 function getRole($idPerson)
 {
-	$getRoleSQL = <<<SQL
-SELECT role FROM users WHERE id = ?;
+	$SQL = <<<SQL
+SELECT role
+FROM users
+WHERE id = ?;
 SQL;
 
 	$db = new \mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
 	if ($db->connect_error)
 	{
-		throw new \Exception('Failed to connect to the database. Error: ' . $db->connect_error);
+		throw new ConnectionException($db);
 	}
-	$statement = $db->prepare($getRoleSQL);
-	if($statement === false)
+
+	$statement = $db->prepare($SQL);
+	if(!$statement)
 	{
-		throw new \Exception('Invalid SQL: "' . $getRoleSQL . '". Error: ' . $db->error);
+		throw new QueryException($SQL, $db);
 	}
 	$statement->bind_param('i', $idPerson);
-	$statement->execute();
+	if(!$statement->execute())
+	{
+		throw new ExecutionException($SQL, $statement);
+	}
 	$statement->store_result();
 	$role = '';
 	$statement->bind_result($role);
 	if(!$statement->fetch())
 	{
-		throw new \Exception('Error: User not in database even though they are logged in.');
+		throw new APIException('Error: User not in database even though they are logged in. This should never happen.');
 		return 0;
 	}
 	return $role;

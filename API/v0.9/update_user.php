@@ -12,17 +12,20 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 function updateUser($skautis)
 {
 	$updateUserSQL = <<<SQL
-INSERT INTO users (id, name) values (?, ?)
-ON DUPLICATE KEY UPDATE name=VALUES(name)
+INSERT INTO users (id, name)
+VALUES (?, ?)
+ON DUPLICATE KEY UPDATE name = VALUES(name)
 SQL;
 
 	$idPerson = $skautis->UserManagement->UserDetail()->ID_Person;
 	$namePerson = $skautis->OrganizationUnit->PersonDetail(array('ID' => $idPerson))->DisplayName;
+
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
-	if ($db->connect_error)
+	if($db->connect_error)
 	{
 		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
+
 	$statement = $db->prepare($updateUserSQL);
 	if(!$statement)
 	{
@@ -33,6 +36,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\ExecutionException($updateUserSQL, $statement);
 	}
+	$statement->close();
 }
 
 try
