@@ -9,11 +9,11 @@ function changeFieldOnClick(event)
 		if(FIELDS[i].id == event.target.dataset.id)
 		{
 			html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeFieldSave\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
-			html += "<input type=\"text\" class=\"formText\" id=\"fieldName\" value=\"" + FIELDS[i].name + "\" autocomplete=\"off\">";
-			html += "</form>";
+			html += "<input type=\"text\" class=\"formText formName\" id=\"fieldName\" value=\"" + FIELDS[i].name + "\" autocomplete=\"off\">";
 			break;
 		}
 	}
+	html += "</form>";
 	document.getElementById("sidePanel").innerHTML = html;
 
 	document.getElementById("sidePanelCancel").onclick = function()
@@ -31,8 +31,7 @@ function changeFieldOnClick(event)
 			fieldChanged = true;
 		};
 
-	var stateObject = { "sidePanel": "open" };
-	history.pushState(stateObject, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/");
 }
 
 function changeFieldSave()

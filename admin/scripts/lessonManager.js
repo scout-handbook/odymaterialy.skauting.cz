@@ -14,23 +14,18 @@ function showLessonManager()
 		{
 			showCompetenceManager();
 		};
-	document.getElementById("addField").onclick = function()
-		{
-			addField();
-		};
+	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+	{
+		document.getElementById("addField").onclick = function()
+			{
+				addField();
+			};
+	}
 	document.getElementById("addLesson").onclick = function()
 		{
 			addLesson();
 		};
 
-	function addOnClicks(id, onclick)
-	{
-		var nodes = document.getElementsByTagName("main")[0].getElementsByClassName(id);
-		for(var l = 0; l < nodes.length; l++)
-		{
-			nodes[l].onclick = onclick;
-		}
-	}
 	addOnClicks("changeField", changeFieldOnClick);
 	addOnClicks("deleteField", deleteFieldOnClick);
 	addOnClicks("changeLesson", changeLessonOnClick);
