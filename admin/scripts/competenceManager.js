@@ -1,8 +1,13 @@
 function showCompetenceManager()
 {
 	mainPageTab = "competences";
-	var html = "<h1>OdyMateriály - Správce kompetencí</h1>";
-	html += "<div class=\"button mainPage\" id=\"lessonManager\">Správce lekcí</div>";
+	var nodes = document.getElementsByClassName("topBarTab");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		nodes[l].className = "topBarTab";
+	}
+	document.getElementById("competenceManager").className += " activeTopBarTab";
+	var html = "<h1>OdyMateriály - Kompetence</h1>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
 		html += "<div class=\"button mainPage\" id=\"addCompetence\">Přidat kompetenci</div>";
@@ -10,7 +15,6 @@ function showCompetenceManager()
 	html += renderCompetenceList()
 	document.getElementById("mainPage").innerHTML = html;
 
-	document.getElementById("lessonManager").onclick = showLessonManager;
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
 		document.getElementById("addCompetence").onclick = addCompetence;

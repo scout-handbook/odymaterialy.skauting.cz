@@ -51,10 +51,16 @@ function showMainPage(noHistory)
 	}
 	html += "\"><div id=\"userName\">";
 	html += LOGINSTATE.user_name;
-	html += "</div><div id=\"logLink\"><a href=\"/auth/logout.php\">Odhlásit</a></div></div></div>";
+	html += "</div><div id=\"logLink\"><a href=\"/auth/logout.php\">Odhlásit</a></div></div>";
+	html += "<div class=\"topBarTab\" id=\"lessonManager\">Lekce</div>"
+	html += "<div class=\"topBarTab\" id=\"competenceManager\">Kompetence</div>"
+	html += "</div>";
 	html += "<div id=\"mainPageContainer\"><div id=\"mainPage\"></div></div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	document.getElementsByTagName("main")[0].scrollTop = 0;
+
+	document.getElementById("lessonManager").onclick = showLessonManager;
+	document.getElementById("competenceManager").onclick = showCompetenceManager;
 
 	if(mainPageTab == "competences")
 	{
