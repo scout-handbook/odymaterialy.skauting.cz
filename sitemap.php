@@ -11,6 +11,10 @@ $baseUrl = 'https://odymaterialy.skauting.cz';
 echo($baseUrl . "\n");
 foreach($list as $field)
 {
+	if(isset($field->id))
+	{
+		echo($baseUrl . '/field/' . $field->id . '/' . rawurlencode($field->name) . "\n");
+	}
 	foreach($field->lessons as $lesson)
 	{
 		echo($baseUrl . '/lesson/' . $lesson->id . '/' . rawurlencode($lesson->name) . "\n");
