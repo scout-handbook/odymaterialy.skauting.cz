@@ -25,7 +25,6 @@ function listUsers($skautis)
 		$innerSQL .= ', \'administrator\', \'superuser\'';
 	}
 
-	// TODO: LIMIT
 	$selectSQL = <<<SQL
 SELECT SQL_CALC_FOUND_ROWS id, role, name
 FROM users
