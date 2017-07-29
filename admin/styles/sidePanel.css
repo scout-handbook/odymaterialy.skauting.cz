@@ -87,6 +87,16 @@
 	margin-top: 20px;
 }
 
+.roleHelpName
+{
+	font-weight: bold;
+}
+
+.anonymousField
+{
+	font-style: italic;
+}
+
 .formRow
 {
 	margin-top: 30px;

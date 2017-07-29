@@ -38,7 +38,7 @@ function changeLessonFieldOnClick(event)
 		}
 		else
 		{
-			form += "<i>Nezařazeno</i>"
+			form += "<span class=\"anonymousField\">Nezařazeno</span>"
 		}
 		form += "</div>";
 	}

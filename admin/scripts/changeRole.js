@@ -20,16 +20,16 @@ function changeRoleOnClick(event)
 	}
 	html += "</select>";
 	html += "</form>";
-	html += "<div class=\"roleHelp\"><i class=\"icon-info-circled\"></i><b>Host</b> - Kdokoliv, kdo se někdy přihlásil do OdyMateriálů pomocí skautISu. Nemá žádná oprávnění navíc oproti nepřihlášeným návštěvníkům.</div>";
-	html += "<div class=\"roleHelp\"><i class=\"icon-info-circled\"></i><b>Uživatel</b> - Účastník kurzu, může zobrazit i lekce, které jsou nepřihlášeným a hostům skryté.</div>";
+	html += "<div class=\"roleHelp\"><i class=\"icon-info-circled\"></i><span class=\"roleHelpName\">Host</span> - Kdokoliv, kdo se někdy přihlásil do OdyMateriálů pomocí skautISu. Nemá žádná oprávnění navíc oproti nepřihlášeným návštěvníkům.</div>";
+	html += "<div class=\"roleHelp\"><i class=\"icon-info-circled\"></i><span class=\"roleHelpName\">Uživatel</span> - Účastník kurzu, může zobrazit i lekce, které jsou nepřihlášeným a hostům skryté.</div>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
-		html += "<div class=\"roleHelp\"><i class=\"icon-info-circled\"></i><b>Editor</b> - Instruktor, který má základní přístup k správě OdyMateriálů. Může přidávat lekce, měnit jejich obsah, kompetence a přesouvat je mezi oblastmi. Editor má přístup ke správě uživatelů, avšak může prohlížet a měnit pouze hosty a uživatele.</div>";
+		html += "<div class=\"roleHelp\"><i class=\"icon-info-circled\"></i><span class=\"roleHelpName\">Editor</span> - Instruktor, který má základní přístup k správě OdyMateriálů. Může přidávat lekce, měnit jejich obsah, kompetence a přesouvat je mezi oblastmi. Editor má přístup ke správě uživatelů, avšak může prohlížet a měnit pouze hosty a uživatele.</div>";
 	}
 	if(LOGINSTATE.role == "superuser")
 	{
-		html += "<div class=\"roleHelp\"><i class=\"icon-info-circled\"></i><b>Administrátor</b> - Instruktor, mající všechna práva editora. Navíc může i mazat lekce a přidávat, upravovat a mazat oblasti a kompetence. Administrátor může navíc přidělovat a odebírat práva editorů.</div>";
-		html += "<div class=\"roleHelp\"><i class=\"icon-info-circled\"></i><b>Superuser</b> - Uživatel-polobůh.</div>";
+		html += "<div class=\"roleHelp\"><i class=\"icon-info-circled\"></i><span class=\"roleHelpName\">Administrátor</span> - Instruktor, mající všechna práva editora. Navíc může i mazat lekce a přidávat, upravovat a mazat oblasti a kompetence. Administrátor může navíc přidělovat a odebírat práva editorů.</div>";
+		html += "<div class=\"roleHelp\"><i class=\"icon-info-circled\"></i><span class=\"roleHelpName\">Superuser</span> - Uživatel-polobůh.</div>";
 	}
 	document.getElementById("sidePanel").innerHTML = html;
 
