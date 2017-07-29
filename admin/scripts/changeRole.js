@@ -58,4 +58,8 @@ function changeRoleSave()
 		sidePanelClose();
 		retryAction("/API/v0.9/update_user_role", query);
 	}
+	else
+	{
+		history.back();
+	}
 }
