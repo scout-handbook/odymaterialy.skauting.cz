@@ -10,35 +10,69 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
-abstract class Role
+class Role implements \JsonSerializable
 {
-	const GUEST = 0;
-	const USER = 1;
-	const EDITOR = 2;
-	const ADMINISTRATOR = 3;
-	const SUPERUSER = 4;
+	private const GUEST = 0;
+	private const USER = 1;
+	private const EDITOR = 2;
+	private const ADMINISTRATOR = 3;
+	private const SUPERUSER = 4;
 
-	public static function parse($str)
+	public $role;
+
+	public function __construct($str)
 	{
 		switch($str)
 		{
 		case 'superuser':
-			return Role::SUPERUSER;
+			$this->role = self::SUPERUSER;
 			break;
 		case 'administrator':
-			return Role::ADMINISTRATOR;
+			$this->role = self::ADMINISTRATOR;
 			break;
 		case 'editor':
-			return Role::EDITOR;
+			$this->role = self::EDITOR;
 			break;
 		case 'user':
-			return Role::USER;
+			$this->role = self::USER;
 			break;
 		default:
-			return Role::GUEST;
+			$this->role = self::GUEST;
 			break;
 		}
 	}
+
+	public function __toString()
+	{
+		switch($this->role)
+		{
+		case self::SUPERUSER:
+			return 'superuser';
+			break;
+		case self::ADMINISTRATOR:
+			return 'administrator';
+			break;
+		case self::EDITOR:
+			return 'editor';
+			break;
+		case self::USER:
+			return 'user';
+			break;
+		default:
+			return 'guest';
+			break;
+		}
+	}
+
+	public function jsonSerialize()
+	{
+		return $this->__toString();
+	}
+}
+
+function Role_cmp($first, $second)
+{
+	return $first->role <=> $second->role;
 }
 
 function getRole($idPerson)
@@ -73,5 +107,5 @@ SQL;
 		throw new APIException('Error: User not in database even though they are logged in. This should never happen.');
 		return 0;
 	}
-	return $role;
+	return new Role($role);
 }
