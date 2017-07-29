@@ -37,15 +37,13 @@ function showLesson(id, markdown, noHistory)
 	var html = '\
 <header>\
 	<div class="button" id="discard">\
-		<i class="icon-cancel"></i>\
-		Zrušit\
+		<i class="icon-cancel"></i>Zrušit\
 	</div>\
 	<form>\
 		<input type="text" class="formText formName" id="name" value="' + lesson.name + '" autocomplete="off">\
 	</form>\
 	<div class="button" id="save" data-id="' + id + '">\
-		Uložit\
-		<i class="icon-floppy"></i>\
+		Uložit<i class="icon-floppy"></i>\
 	</div>\
 </header>'
 	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';

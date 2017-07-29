@@ -45,8 +45,10 @@ function showUserList(list)
 				html += "Host";
 				break;
 		}
-		html += "</td><td><div class=\"button changeRole\" data-id=\"" + users[i].id + "\">Změnit roli</div></td></tr>";
+		html += "</td><td><div class=\"button changeRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\">Změnit roli</div></td></tr>";
 	}
 	html += "</table>";
 	document.getElementById("userList").innerHTML = html;
+
+	addOnClicks("changeRole", changeRoleOnClick);
 }
