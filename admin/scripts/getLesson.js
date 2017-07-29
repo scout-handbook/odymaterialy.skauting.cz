@@ -37,7 +37,7 @@ function showLesson(id, markdown, noHistory)
 	var html = '\
 <header>\
 	<div class="button" id="discard">\
-		<i class="icon-left-big"></i>\
+		<i class="icon-cancel"></i>\
 		Zrušit\
 	</div>\
 	<form>\
