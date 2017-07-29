@@ -40,4 +40,5 @@ Allow from 127.0.0.1
 	Header add Link "</admin/scripts/request.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/retryAction.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/sidePanel.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/userManager.js>;rel=preload;as=script"
 </FilesMatch>

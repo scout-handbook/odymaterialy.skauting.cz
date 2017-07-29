@@ -74,6 +74,11 @@ main
 	left: 452px;
 }
 
+#userManager
+{
+	left: 603px;
+}
+
 #userAccount
 {
 	height: 80px;
@@ -126,4 +131,32 @@ main
 	color: #6534ad;
 	border-color: #6534ad;
 	background-color: #f5f5f5;
+}
+
+.userTable
+{
+	border: none;
+}
+
+.userTable th
+{
+	border: none;
+	border-bottom: 1px solid #bfbfbf;
+	text-align: left;
+}
+
+.userTable td
+{
+	border: none;
+	padding: 15px 20px;
+}
+
+.userTable td + td, .userTable th + th
+{
+	padding-left: 150px;
+}
+
+.userTable tr:nth-child(2n+1)
+{
+	background-color: #ffffff;
 }
