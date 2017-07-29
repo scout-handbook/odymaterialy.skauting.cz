@@ -47,7 +47,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'role');
 	}
-	$new_role = new Role($_POST['role']);
+	$new_role = new OdymaterialyAPI\Role($_POST['role']);
 
 	$my_role = new OdyMaterialyAPI\Role(OdymaterialyAPI\getRole($skautis->UserManagement->UserDetail()->ID_Person));
 	checkRole($my_role, $new_role);
@@ -75,7 +75,7 @@ SQL;
 	{
 		throw new OdymaterialyAPI\APIException('No user with such id exists.');
 	}
-	checkRole($my_role, $old_role);
+	checkRole($my_role, new OdymaterialyAPI\Role($old_role));
 	$selectStatement->close();
 
 	$updateStatement = $db->prepare($updateSQL);
@@ -83,7 +83,8 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($updateSQL, $db);
 	}
-	$selectStatement->bind_param('si', $new_role, $id);
+	$new_role_str = $new_role->__toString();
+	$updateStatement->bind_param('si', $new_role_str, $id);
 	if(!$updateStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($updateSQL, $updateStatement);
