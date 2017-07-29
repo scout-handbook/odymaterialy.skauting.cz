@@ -33,7 +33,8 @@ WHERE name LIKE CONCAT('%', ?, '%') AND role IN ('guest', 'user'
 SQL
 	. $innerSQL . <<<SQL
 )
-ORDER BY name;
+ORDER BY name
+LIMIT ?, ?;
 SQL;
 
 	$countSQL = <<<SQL
@@ -44,6 +45,16 @@ SQL;
 	if(isset($_GET['name']))
 	{
 		$searchName = $_GET['name'];
+	}
+	$per_page = 100;
+	if(isset($_GET['per-page']))
+	{
+		$per_page = $_GET['per-page'];
+	}
+	$start = 0;
+	if(isset($_GET['page']))
+	{
+		$start = $per_page * ($_GET['page'] - 1);
 	}
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
@@ -57,7 +68,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($selectSQL, $db);
 	}
-	$selectStatement->bind_param('s', $searchName);
+	$selectStatement->bind_param('sii', $searchName, $start, $per_page);
 	if(!$selectStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($selectSQL, $selectStatement);
