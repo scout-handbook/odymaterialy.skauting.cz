@@ -24,7 +24,7 @@ SQL;
 	}
 	$name = $_POST['name'];
 
-	$body = "";
+	$body = '';
 	if(isset($_POST['body']))
 	{
 		$body = $_POST['body'];

@@ -14,15 +14,33 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
 function listUsers($skautis)
 {
+	$role = new OdyMaterialyAPI\Role(OdymaterialyAPI\getRole($skautis->UserManagement->UserDetail()->ID_Person));
+	$innerSQL = '';
+	if(OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('administrator')) >= 0)
+	{
+		$innerSQL .= ', \'editor\'';
+	}
+	if(OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('superuser')) === 0)
+	{
+		$innerSQL .= ', \'administrator\', \'superuser\'';
+	}
+
 	// TODO: LIMIT
-	$SQL = <<<SQL
-SELECT id, role, name
+	$selectSQL = <<<SQL
+SELECT SQL_CALC_FOUND_ROWS id, role, name
 FROM users
-WHERE name LIKE CONCAT('%',?,'%')
+WHERE name LIKE CONCAT('%', ?, '%') AND role IN ('guest', 'user'
+SQL
+	. $innerSQL . <<<SQL
+)
 ORDER BY name;
 SQL;
 
-	$searchName = "";
+	$countSQL = <<<SQL
+SELECT FOUND_ROWS();
+SQL;
+
+	$searchName = '';
 	if(isset($_GET['name']))
 	{
 		$searchName = $_GET['name'];
@@ -34,43 +52,48 @@ SQL;
 		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
 
-	$role = new OdyMaterialyAPI\Role(OdymaterialyAPI\getRole($skautis->UserManagement->UserDetail()->ID_Person));
-
-	$statement = $db->prepare($SQL);
-	if(!$statement)
+	$selectStatement = $db->prepare($selectSQL);
+	if(!$selectStatement)
 	{
-		throw new OdyMaterialyAPI\QueryException($SQL, $db);
+		throw new OdyMaterialyAPI\QueryException($selectSQL, $db);
 	}
-	$statement->bind_param('s', $searchName);
-	if(!$statement->execute())
+	$selectStatement->bind_param('s', $searchName);
+	if(!$selectStatement->execute())
 	{
-		throw new OdyMaterialyAPI\ExecutionException($SQL, $statement);
+		throw new OdyMaterialyAPI\ExecutionException($selectSQL, $selectStatement);
 	}
-	$statement->store_result();
-	$users = array();
+	$selectStatement->store_result();
+	$response = array('users' => array());
 	$user_id = '';
 	$user_role = '';
 	$user_name = '';
-	$statement->bind_result($user_id, $user_role, $user_name);
-	while($statement->fetch())
+	$selectStatement->bind_result($user_id, $user_role, $user_name);
+	while($selectStatement->fetch())
 	{
-		$user = new OdymaterialyAPI\User($user_id, $user_role, $user_name);
-		if(OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('superuser')) === 0)
-		{
-			$users[] = $user;
-		}
-		elseif((OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('administrator')) === 0) and (OdyMaterialyAPI\Role_cmp($user->role, new OdyMaterialyAPI\Role('administrator')) < 0))
-		{
-			$users[] = $user;
-		}
-		elseif((OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('editor')) === 0) and (OdyMaterialyAPI\Role_cmp($user->role, new OdyMaterialyAPI\Role('user')) <= 0))
-		{
-			$users[] = $user;
-		}
+		$response['users'][] = new OdymaterialyAPI\User($user_id, $user_role, $user_name);
 	}
-	$statement->close();
+	$selectStatement->close();
+
+	$countStatement = $db->prepare($countSQL);
+	if(!$countStatement)
+	{
+		throw new OdyMaterialyAPI\QueryException($countSQL, $db);
+	}
+	if(!$countStatement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($countSQL, $countStatement);
+	}
+	$countStatement->store_result();
+	$count = 0;
+	$countStatement->bind_result($count);
+	if(!$countStatement->fetch())
+	{
+		throw new OdymaterialyAPI\APIException('Couldn\'t retrieve user count.');
+	}
+	$response['count'] = $count;
+	$countStatement->close();
 	$db->close();
-	echo(json_encode($users, JSON_UNESCAPED_UNICODE));
+	echo(json_encode($response, JSON_UNESCAPED_UNICODE));
 }
 
 try

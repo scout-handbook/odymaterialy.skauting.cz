@@ -28,7 +28,7 @@ SQL;
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'name');
 	}
 	$name = $_POST['name'];
-	$description = "";
+	$description = '';
 	if(isset($_POST['description']))
 	{
 		$description = $_POST['description'];
