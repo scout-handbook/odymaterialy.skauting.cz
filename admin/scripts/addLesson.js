@@ -3,7 +3,7 @@ function addLesson(noHistory)
 	var html = '\
 <header>\
 	<div class="button" id="discard">\
-		<i class="icon-left-big"></i>\
+		<i class="icon-cancel"></i>\
 		Zrušit\
 	</div>\
 	<form>\
@@ -28,6 +28,7 @@ function addLesson(noHistory)
 	document.getElementById("save").onclick = addCallback;
 
 	var editor = ace.edit("editor");
+	editor.setOption("scrollPastEnd", 0.9);
 	editor.setTheme("ace/theme/odymaterialy");
 	editor.getSession().setMode("ace/mode/markdown");
 	editor.getSession().setUseWrapMode(true);

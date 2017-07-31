@@ -17,9 +17,9 @@ Když píšu text, tak se automaticky dělají odstavce, kde když tam bude spou
 \n\
 začít nový odstavec, musím vynechat jeden řádek. Můžu udělat kus textu *kurzívou, když okol něj dám hvězdičky*, nebo taky **tučně dvojitýma hvězdičkama** a nebo i ***tučně a kurzívou***.\n\
 \n\
- - Můžu\n\
- - Dělat\n\
- * Seznamy\n\
+- Můžu\n\
+- Dělat\n\
+* Seznamy\n\
 \n\
 1. A taky\n\
 2. číslované\n\
