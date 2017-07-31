@@ -12,15 +12,24 @@ function showUserManager()
 	getUserList();
 }
 
-function getUserList()
+function getUserList(page, perPage)
 {
-	request("/API/v0.9/list_users", "", function(response)
+	if(!page)
+	{
+		page = 1;
+	}
+	if(!perPage)
+	{
+		perPage = 25;
+	}
+	var query = "page=" + page + "&per-page=" + perPage;
+	request("/API/v0.9/list_users", query, function(response)
 		{
-			showUserList(JSON.parse(response));
+			showUserList(JSON.parse(response), page, perPage);
 		});
 }
 
-function showUserList(list)
+function showUserList(list, page, perPage)
 {
 	users = list.users;
 	var html = "<table class=\"userTable\"><th>Jméno</th><th>Role</th><th>Akce</th></tr>";
@@ -48,7 +57,57 @@ function showUserList(list)
 		html += "</td><td><div class=\"button changeRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\">Změnit roli</div></td></tr>";
 	}
 	html += "</table>";
+	if(list.count > perPage)
+	{
+		var maxPage = Math.ceil(list.count / perPage);
+
+		function renderPage(page)
+		{
+			html += "<div class=\"paginationButton\" data-page=\"" + page + "\">" + page + "</div>";
+		}
+
+		html += "<div id=\"pagination\">";
+		if(page > 3)
+		{
+			renderPage(1);
+			html += " ... ";
+		}
+		if(page > 2)
+		{
+			renderPage(page - 2);
+		}
+		if(page > 1)
+		{
+			renderPage(page - 1);
+		}
+		html += "<div class=\"paginationButton active\">" + page + "</div>";
+		if(page < maxPage)
+		{
+			renderPage(page + 1);
+		}
+		if(page < maxPage - 1)
+		{
+			renderPage(page + 2);
+		}
+		if(page < maxPage - 2)
+		{
+			html += " ... ";
+			renderPage(maxPage);
+		}
+		html += "</div>";
+	}
 	document.getElementById("userList").innerHTML = html;
 
+	var nodes = document.getElementsByClassName("paginationButton");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		nodes[l].onclick = showUserPage;
+	}
+
 	addOnClicks("changeRole", changeRoleOnClick);
+}
+
+function showUserPage(event)
+{
+	getUserList(parseInt(event.target.dataset.page));
 }

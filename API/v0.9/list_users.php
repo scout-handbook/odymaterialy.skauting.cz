@@ -45,7 +45,7 @@ SQL;
 	{
 		$searchName = $_GET['name'];
 	}
-	$per_page = 100;
+	$per_page = 25;
 	if(isset($_GET['per-page']))
 	{
 		$per_page = $_GET['per-page'];
