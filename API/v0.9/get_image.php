@@ -28,7 +28,7 @@ function getImage()
 		return;
 	}
 
-	header('content-type: image/jpeg');
+	header('content-type: ' . mime_content_type($file));
 	header('content-length: ' . filesize($file));
 
 	$modified = filemtime($file);
