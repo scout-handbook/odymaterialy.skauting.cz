@@ -75,7 +75,7 @@ SQL;
 			{
 				throw new OdyMaterialyAPI\QueryException($competence_sql, $db);
 			}
-			$competence_statement->bind_param('i', $lesson_id);
+			$competence_statement->bind_param('s', $lesson_id);
 			if(!$competence_statement->execute())
 			{
 				throw new OdyMaterialyAPI\ExecutionException($competence_sql, $competence_statement);
@@ -146,7 +146,7 @@ SQL;
 			{
 				throw new OdyMaterialyAPI\QueryException($competence_sql, $db);
 			}
-			$competence_statement->bind_param('i', $lesson_id);
+			$competence_statement->bind_param('s', $lesson_id);
 			if(!$competence_statement->execute())
 			{
 				throw new OdyMaterialyAPI\ExecutionException($competence_sql, $competence_statement);

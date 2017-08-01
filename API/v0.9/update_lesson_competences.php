@@ -2,6 +2,7 @@
 const _API_EXEC = 1;
 
 header('content-type:application/json; charset=utf-8');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
@@ -10,6 +11,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
+
+use Ramsey\Uuid\Uuid;
 
 function changeCompetences()
 {
@@ -26,7 +29,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
-	$id = $_POST['id'];
+	$id = Uuid::fromString($_POST['id'])->getBytes();
 	if(isset($_POST['competence']))
 	{
 		$competences = $_POST['competence'];
@@ -44,7 +47,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($deleteSQL, $db);
 	}
-	$deleteStatement->bind_param('i', $id);
+	$deleteStatement->bind_param('s', $id);
 	if(!$deleteStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $deleteStatement);
@@ -58,7 +61,7 @@ SQL;
 		{
 			throw new OdyMaterialyAPI\QueryException($insertSQL, $db);
 		}
-		$insertStatement->bind_param('ii', $id, $competence);
+		$insertStatement->bind_param('si', $id, $competence);
 		foreach($competences as $competence)
 		{
 			if(!$insertStatement->execute())

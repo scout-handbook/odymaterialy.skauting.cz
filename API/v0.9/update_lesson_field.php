@@ -2,6 +2,7 @@
 const _API_EXEC = 1;
 
 header('content-type:application/json; charset=utf-8');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
@@ -10,6 +11,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
+
+use Ramsey\Uuid\Uuid;
 
 function moveLesson()
 {
@@ -27,7 +30,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'lesson-id');
 	}
-	$lessonId = $_POST['lesson-id'];
+	$lessonId = Uuid::fromString($_POST['lesson-id'])->getBytes();
 	if(isset($_POST['field-id']))
 	{
 		$fieldId = $_POST['field-id'];
@@ -45,7 +48,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($deleteSQL, $db);
 	}
-	$deleteStatement->bind_param('i', $lessonId);
+	$deleteStatement->bind_param('s', $lessonId);
 	if(!$deleteStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $deleteStatement);
@@ -59,7 +62,7 @@ SQL;
 		{
 			throw new OdyMaterialyAPI\QueryException($insertSQL, $db);
 		}
-		$insertStatement->bind_param('ii', $fieldId, $lessonId);
+		$insertStatement->bind_param('is', $fieldId, $lessonId);
 		if(!$insertStatement->execute())
 		{
 			throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $insertStatement);

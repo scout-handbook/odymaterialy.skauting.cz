@@ -2,6 +2,7 @@
 const _API_EXEC = 1;
 
 header('content-type:application/json; charset=utf-8');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
@@ -11,11 +12,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
+use Ramsey\Uuid\Uuid;
+
 function add()
 {
 	$SQL = <<<SQL
-INSERT INTO lessons (name, body)
-VALUES (?, ?);
+INSERT INTO lessons (id, name, body)
+VALUES (?, ?, ?);
 SQL;
 
 	if(!isset($_POST['name']))
@@ -41,7 +44,8 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($SQL, $db);
 	}
-	$statement->bind_param('ss', $name, $body);
+	$uuid = Uuid::uuid4()->getBytes();
+	$statement->bind_param('sss', $uuid, $name, $body);
 	if(!$statement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($SQL, $statement);

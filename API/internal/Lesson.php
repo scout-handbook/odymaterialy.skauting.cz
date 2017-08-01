@@ -3,6 +3,10 @@ namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+
+use Ramsey\Uuid\Uuid;
+
 class Lesson implements \JsonSerializable
 {
 	public $id;
@@ -20,7 +24,7 @@ class Lesson implements \JsonSerializable
 
 	public function jsonSerialize()
 	{
-		return ['id' => $this->id, 'name' => $this->name, 'version' => $this->version, 'competences' => $this->competences];
+		return ['id' => Uuid::fromBytes($this->id), 'name' => $this->name, 'version' => $this->version, 'competences' => $this->competences];
 	}
 }
 
