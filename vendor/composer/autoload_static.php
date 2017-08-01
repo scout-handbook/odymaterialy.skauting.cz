@@ -6,6 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
 {
+    public static $files = array (
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'c' => 
         array (
@@ -15,6 +19,10 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
         'S' => 
         array (
             'Skautis\\' => 8,
+        ),
+        'R' => 
+        array (
+            'Ramsey\\Uuid\\' => 12,
         ),
     );
 
@@ -30,6 +38,10 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
         'Skautis\\' => 
         array (
             0 => __DIR__ . '/..' . '/skautis/skautis/src',
+        ),
+        'Ramsey\\Uuid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/uuid/src',
         ),
     );
 
