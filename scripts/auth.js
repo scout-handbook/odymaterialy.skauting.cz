@@ -35,7 +35,7 @@ function showUserAccount(response)
 	}
 	else
 	{
-		document.getElementById("userAvatar").src = "/images/avatar.png";
+		document.getElementById("userAvatar").src = "/avatar.png";
 	}
 }
 
@@ -43,6 +43,6 @@ function showLoginForm(response)
 {
 	document.getElementById("userName").innerHTML = "Uživatel nepřihlášen";
 	document.getElementById("logLink").innerHTML = "<a href=\"/auth/login.php\">Přihlásit</a>";
-	document.getElementById("userAvatar").src = "/images/avatar.png";
+	document.getElementById("userAvatar").src = "/avatar.png";
 }
 

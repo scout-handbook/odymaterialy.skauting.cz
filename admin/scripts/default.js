@@ -15,7 +15,7 @@ var defaultBody = "# Velký nadpis\n\
 Když píšu text, tak se automaticky dělají odstavce, kde když tam bude spousta textu tak se to samozřejmě samo dá  na nový řádek, ale když nový\n\
 řádek udělám sám, tak to nevadí. Když chci\n\
 \n\
-začít nový odstavec, musím vynechat jeden řádek. Můžu udělat kus textu *kurzívou, když okol něj dám hvězdičky*, nebo taky **tučně dvojitýma hvězdičkama** a nebo i ***tučně a kurzívou***.\n\
+začít nový odstavec, musím vynechat jeden řádek. Můžu udělat kus textu *kurzívou, když okolo něj dám hvězdičky*, nebo taky **tučně dvojitýma hvězdičkama** a nebo i ***tučně a kurzívou***.\n\
 \n\
 - Můžu\n\
 - Dělat\n\
