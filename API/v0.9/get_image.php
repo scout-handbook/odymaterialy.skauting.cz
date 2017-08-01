@@ -14,8 +14,13 @@ function getImage()
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::GET, 'id');
 	}
 	$id = Uuid::fromString($_GET['id'])->__toString();
+	$quality = "web";
+	if(isset($_GET['quality']) and in_array($_GET['quality'], ['original', 'web', 'thumbnail']))
+	{
+		$quality = $_GET['quality'];
+	}
 
-	$file = $_SERVER['DOCUMENT_ROOT'] . '/images/' . $id . '.jpg';
+	$file = $_SERVER['DOCUMENT_ROOT'] . '/images/' . $quality . '/' . $id . '.jpg';
 
 	if(!file_exists($file))
 	{
