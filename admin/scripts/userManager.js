@@ -12,8 +12,12 @@ function showUserManager()
 	getUserList();
 }
 
-function getUserList(page, perPage)
+function getUserList(searchName, page, perPage)
 {
+	if(!searchName)
+	{
+		searchName = "";
+	}
 	if(!page)
 	{
 		page = 1;
@@ -22,17 +26,23 @@ function getUserList(page, perPage)
 	{
 		perPage = 25;
 	}
-	var query = "page=" + page + "&per-page=" + perPage;
+	var query = "name=" + searchName + "&page=" + page + "&per-page=" + perPage;
 	request("/API/v0.9/list_users", query, function(response)
 		{
-			showUserList(JSON.parse(response), page, perPage);
+			showUserList(JSON.parse(response), searchName, page, perPage);
 		});
 }
 
-function showUserList(list, page, perPage)
+function showUserList(list, searchName, page, perPage)
 {
 	users = list.users;
-	var html = "<table class=\"userTable\"><th>Jméno</th><th>Role</th><th>Akce</th></tr>";
+	var html = "<form id=\"userSearchForm\"><input type=\"text\" class=\"formText\" id=\"userSearchBox\" placeholder=\"Jméno uživatele\"><div class=\"button\" id=\"userSearchButton\">Vyhledat</div>";
+	if(searchName)
+	{
+		html += "<div class=\"button\" id=\"userSearchCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	}
+	html += "</form>";
+	html += "<table class=\"userTable\"><th>Jméno</th><th>Role</th><th>Akce</th></tr>";
 	for(var i = 0; i < users.length; i++)
 	{
 		html += "<tr><td>" + users[i].name + "</td><td>";
@@ -98,16 +108,30 @@ function showUserList(list, page, perPage)
 	}
 	document.getElementById("userList").innerHTML = html;
 
+	document.getElementById("userSearchForm").onsubmit = function()
+		{
+			getUserList(document.getElementById("userSearchBox").value, 1, perPage);
+			return false;
+		}
+	document.getElementById("userSearchButton").onclick = function()
+		{
+			getUserList(document.getElementById("userSearchBox").value, 1, perPage);
+		};
+	if(searchName)
+		{
+			document.getElementById("userSearchCancel").onclick = function()
+				{
+					getUserList("", 1, perPage);
+				};
+		}
 	var nodes = document.getElementsByClassName("paginationButton");
 	for(var l = 0; l < nodes.length; l++)
 	{
-		nodes[l].onclick = showUserPage;
+		nodes[l].onclick = function(event)
+			{
+				getUserList(searchName, parseInt(event.target.dataset.page), perPage);
+			};
 	}
 
 	addOnClicks("changeRole", changeRoleOnClick);
-}
-
-function showUserPage(event)
-{
-	getUserList(parseInt(event.target.dataset.page));
 }

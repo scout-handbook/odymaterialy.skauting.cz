@@ -189,3 +189,19 @@ main
 	border-color: #6534ad;
 	background-color: #f5f5f5;
 }
+
+#userSearchForm
+{
+	margin-top: 20px;
+	margin-bottom: 50px;
+}
+
+#userSearchBox
+{
+	width: 200px;
+}
+
+#userSearchButton, #userSearchCancel
+{
+	margin-left: 20px;
+}
