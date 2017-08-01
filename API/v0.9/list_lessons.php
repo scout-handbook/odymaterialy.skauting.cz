@@ -126,7 +126,7 @@ SQL;
 		{
 			throw new OdyMaterialyAPI\QueryException($lesson_sql, $db);
 		}
-		$lesson_statement->bind_param('i', $field_id);
+		$lesson_statement->bind_param('s', $field_id);
 		if(!$lesson_statement->execute())
 		{
 			throw new OdyMaterialyAPI\ExecutionException($lesson_sql, $lesson_statement);

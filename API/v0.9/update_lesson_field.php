@@ -33,7 +33,7 @@ SQL;
 	$lessonId = Uuid::fromString($_POST['lesson-id'])->getBytes();
 	if(isset($_POST['field-id']))
 	{
-		$fieldId = $_POST['field-id'];
+		$fieldId = Uuid::fromString($_POST['field-id'])->getBytes();
 	}
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
@@ -62,7 +62,7 @@ SQL;
 		{
 			throw new OdyMaterialyAPI\QueryException($insertSQL, $db);
 		}
-		$insertStatement->bind_param('is', $fieldId, $lessonId);
+		$insertStatement->bind_param('ss', $fieldId, $lessonId);
 		if(!$insertStatement->execute())
 		{
 			throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $insertStatement);
