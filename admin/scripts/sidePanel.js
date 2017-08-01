@@ -13,7 +13,7 @@ function sidePanelClose()
 {
 	var sidePanel = document.getElementById("sidePanel");
 	var overlay = document.getElementById("sidePanelOverlay");
-	sidePanel.style.right = "-631px";
+	sidePanel.style.right = "-600px";
 	overlay.style.display = "none";
 	sidePanelState = false;
 }

@@ -2,11 +2,12 @@
 {
 	position: absolute;
 	top:0;
-	right: -631px;
+	right: -600px;
 	bottom: 0;
-	width: 600px;
+	width: 539px;
 	padding-top: 30px;
 	padding-left: 30px;
+	padding-right: 30px;
 	border-left: solid 1px #bfbfbf;
 	background: white;
 	transition: right ease 0.3s;
