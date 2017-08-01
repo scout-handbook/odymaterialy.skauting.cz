@@ -21,7 +21,8 @@ SQL;
 	$updateSQL = <<<SQL
 UPDATE competences
 SET number = ?, name = ?, description = ?
-WHERE id = ?;
+WHERE id = ?
+LIMIT 1;
 SQL;
 
 	if(!isset($_POST['id']))

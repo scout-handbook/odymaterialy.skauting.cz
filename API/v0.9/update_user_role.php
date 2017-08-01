@@ -35,7 +35,8 @@ SQL;
 	$updateSQL = <<<SQL
 UPDATE users
 SET role = ?
-WHERE id = ?;
+WHERE id = ?
+LIMIT 1;
 SQL;
 
 	if(!isset($_POST['id']))

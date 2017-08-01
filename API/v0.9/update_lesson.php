@@ -21,7 +21,8 @@ SQL;
 	$updateSQL = <<<SQL
 UPDATE lessons
 SET name = ?, version = version + 1, body = ?
-WHERE id = ?;
+WHERE id = ?
+LIMIT 1;
 SQL;
 
 	if(!isset($_POST['id']))

@@ -19,7 +19,8 @@ WHERE field_id = ?;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM fields
-WHERE id = ?;
+WHERE id = ?
+LIMIT 1;
 SQL;
 
 	if(!isset($_POST['id']))

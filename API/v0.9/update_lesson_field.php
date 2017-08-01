@@ -15,7 +15,8 @@ function moveLesson()
 {
 	$deleteSQL = <<<SQL
 DELETE FROM lessons_in_fields
-WHERE lesson_id = ?;
+WHERE lesson_id = ?
+LIMIT 1;
 SQL;
 	$insertSQL = <<<SQL
 INSERT INTO lessons_in_fields (field_id, lesson_id)

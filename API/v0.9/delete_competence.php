@@ -19,7 +19,8 @@ WHERE competence_id = ?;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM competences
-WHERE id = ?;
+WHERE id = ?
+LIMIT 1;
 SQL;
 
 	if(!isset($_POST['id']))

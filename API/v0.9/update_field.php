@@ -16,7 +16,8 @@ function updateField()
 	$SQL = <<<SQL
 UPDATE fields
 SET name = ?
-WHERE id = ?;
+WHERE id = ?
+LIMIT 1;
 SQL;
 
 	if(!isset($_POST['id']))
