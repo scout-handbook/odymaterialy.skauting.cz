@@ -33,10 +33,9 @@ function showField(id, noHistory)
 	}
 
 	document.getElementsByTagName("main")[0].scrollTop = 0;
-	var stateObject = { "id": id };
 	if(!noHistory)
 	{
-		history.pushState(stateObject, "title", "/field/" + id + "/" + encodeURIComponent(field.name));
+		history.pushState({"id": id}, "title", "/field/" + id + "/" + encodeURIComponent(field.name));
 	}
 	document.getElementById("offlineSwitch").style.display = "none";
 }

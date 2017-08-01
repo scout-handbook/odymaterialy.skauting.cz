@@ -18,10 +18,9 @@ function addLesson(noHistory)
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(defaultName, defaultBody);
 
-	var stateObject = {};
 	if(!noHistory)
 	{
-		history.pushState(stateObject, "title", "/admin/");
+		history.pushState({}, "title", "/admin/");
 	}
 
 	document.getElementById("discard").onclick = discard;
