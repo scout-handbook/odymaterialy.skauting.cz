@@ -32,7 +32,10 @@ SQL;
 	$id = Uuid::fromString($_POST['id'])->getBytes();
 	if(isset($_POST['competence']))
 	{
-		$competences = $_POST['competence'];
+		foreach($_POST['competence'] as $competence)
+		{
+			$competences[] = Uuid::fromString($competence)->getBytes();
+		}
 	}
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
@@ -61,7 +64,7 @@ SQL;
 		{
 			throw new OdyMaterialyAPI\QueryException($insertSQL, $db);
 		}
-		$insertStatement->bind_param('si', $id, $competence);
+		$insertStatement->bind_param('ss', $id, $competence);
 		foreach($competences as $competence)
 		{
 			if(!$insertStatement->execute())

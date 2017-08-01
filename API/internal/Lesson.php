@@ -24,7 +24,12 @@ class Lesson implements \JsonSerializable
 
 	public function jsonSerialize()
 	{
-		return ['id' => Uuid::fromBytes($this->id), 'name' => $this->name, 'version' => $this->version, 'competences' => $this->competences];
+		$ucomp = array();
+		foreach($this->competences as $competence)
+		{
+			$ucomp[] = Uuid::fromBytes($competence);
+		}
+		return ['id' => Uuid::fromBytes($this->id), 'name' => $this->name, 'version' => $this->version, 'competences' => $ucomp];
 	}
 }
 
