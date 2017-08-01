@@ -66,7 +66,7 @@ function showLesson(id, markdown, noHistory, second)
 	{
 		if(!noHistory)
 		{
-			history.pushState({"id": id}, "title", "/lesson/" + id + "/" + encodeURIComponent(lesson.name));
+			history.pushState({"id": id}, "title", "/lesson/" + id + "/" + urlEscape(lesson.name));
 
 		}
 	}
