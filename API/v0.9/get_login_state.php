@@ -13,14 +13,12 @@ function showUserAccount($skautis)
 	$idPerson = $skautis->UserManagement->UserDetail()->ID_Person;
 	$response['user_name'] = $skautis->OrganizationUnit->PersonDetail(array('ID' => $idPerson))->DisplayName;
 	$response['role'] = OdyMaterialyAPI\getRole($idPerson);
-	echo(json_encode($response));
+	echo(json_encode($response, JSON_UNESCAPED_UNICODE));
 }
 
 function showGuest()
 {
-	$response = array();
-	$response['login_state'] = false;
-	echo(json_encode($response));
+	echo(json_encode(array('login_state' => false)));
 }
 
 try
