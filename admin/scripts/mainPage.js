@@ -47,7 +47,7 @@ function showMainPage(noHistory)
 	}
 	else
 	{
-		html += "/images/avatar.png";
+		html += "/avatar.png";
 	}
 	html += "\"><div id=\"userName\">";
 	html += LOGINSTATE.user_name;
