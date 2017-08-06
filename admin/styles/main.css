@@ -78,9 +78,14 @@ main
 	left: 452px;
 }
 
-#userManager
+#imageManager
 {
 	left: 603px;
+}
+
+#userManager
+{
+	left: 754px;
 }
 
 #userAccount

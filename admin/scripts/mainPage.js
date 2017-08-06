@@ -54,6 +54,7 @@ function showMainPage(noHistory)
 	html += "</div><div id=\"logLink\"><a href=\"/auth/logout.php\">Odhlásit</a></div></div>";
 	html += "<div class=\"topBarTab\" id=\"lessonManager\">Lekce</div>"
 	html += "<div class=\"topBarTab\" id=\"competenceManager\">Kompetence</div>"
+	html += "<div class=\"topBarTab\" id=\"imageManager\">Obrázky</div>"
 	html += "<div class=\"topBarTab\" id=\"userManager\">Uživatelé</div>"
 	html += "</div>";
 	html += "<div id=\"mainPageContainer\"><div id=\"mainPage\"></div></div>";
@@ -62,11 +63,16 @@ function showMainPage(noHistory)
 
 	document.getElementById("lessonManager").onclick = showLessonManager;
 	document.getElementById("competenceManager").onclick = showCompetenceManager;
+	document.getElementById("imageManager").onclick = showImageManager;
 	document.getElementById("userManager").onclick = showUserManager;
 
 	if(mainPageTab == "competences")
 	{
 		showCompetenceManager();
+	}
+	else if(mainPageTab == "images")
+	{
+		showImageManager();
 	}
 	else if(mainPageTab == "users")
 	{
