@@ -13,7 +13,13 @@ function addLesson(noHistory)
 		Uložit\
 		<i class="icon-floppy"></i>\
 	</div>\
-</header>'
+	<div class="button" id="addImageButton">\
+		Vložit obrázek\
+	</div>\
+</header>\
+<div id="imageSelector">\
+	<div id="imageWrapper"></div>\
+</div>'
 	html += '<div id="editor">' + defaultBody + '</div><div id="preview"><div id="preview-inner"></div></div>';
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(defaultName, defaultBody);
@@ -25,6 +31,7 @@ function addLesson(noHistory)
 
 	document.getElementById("discard").onclick = discard;
 	document.getElementById("save").onclick = addCallback;
+	document.getElementById("addImageButton").onclick = showImageSelector;
 
 	var editor = ace.edit("editor");
 	editor.setOption("scrollPastEnd", 0.9);
@@ -34,6 +41,8 @@ function addLesson(noHistory)
 	editor.getSession().on("change", change);
 	document.getElementById("name").oninput = change;
 	document.getElementById("name").onchange = change;
+
+	getImageSelector();
 }
 
 function addCallback()

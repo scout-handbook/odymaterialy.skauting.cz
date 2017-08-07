@@ -7,7 +7,7 @@ function showImageManager()
 		nodes[l].className = "topBarTab";
 	}
 	document.getElementById("imageManager").className += " activeTopBarTab";
-	var html = "<h1>OdyMateriály - Obrázky</h1><div id=\"userList\">";
+	var html = "<h1>OdyMateriály - Obrázky</h1>";
 	html += "<div class=\"button mainPage\" id=\"addImage\">Nahrát obrázek</div>";
 	html += "<div id=\"imageList\"></div>";
 	document.getElementById("mainPage").innerHTML = html;
