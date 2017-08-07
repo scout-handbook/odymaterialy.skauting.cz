@@ -6,26 +6,46 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
 use Ramsey\Uuid\Uuid;
 
 function listImages()
 {
-	$files = scandir($_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/');
-	$images = array();
-	foreach($files as $file)
+	$SQL = <<<SQL
+SELECT id
+FROM images
+ORDER BY time DESC;
+SQL;
+
+	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
+	if($db->connect_error)
 	{
-		if($file == '.' or $file == '..')
-		{
-			continue;
-		}
-		$name = pathinfo($file, PATHINFO_FILENAME);
-		try
-		{
-			$images[] = Uuid::fromString($name)->__toString();
-		}
-		catch(Ramsey\Uuid\Exception\InvalidUuidStringException $e) {}
+		throw new OdyMaterialyAPI\ConnectionException($db);
 	}
+
+	$statement = $db->prepare($SQL);
+	if(!$statement)
+	{
+		throw new OdyMaterialyAPI\QueryException($SQL, $db);
+	}
+	if(!$statement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($SQL, $statement);
+	}
+
+	$statement->store_result();
+	$id = '';
+	$statement->bind_result($id);
+	$images = array();
+	while($statement->fetch())
+	{
+		$images[] = Uuid::fromBytes($id)->__toString();
+	}
+	$statement->close();
+	$db->close();
 	echo(json_encode($images, JSON_UNESCAPED_UNICODE));
 }
 

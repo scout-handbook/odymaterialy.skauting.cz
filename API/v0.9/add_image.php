@@ -3,13 +3,22 @@ const _API_EXEC = 1;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
+
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
 use Ramsey\Uuid\Uuid;
 
 function addImage()
 {
+	$SQL = <<<SQL
+INSERT INTO images (id)
+VALUES (?);
+SQL;
+
 	if(!isset($_FILES['image']))
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'image');
@@ -22,14 +31,35 @@ function addImage()
 	{
 		throw new OdyMaterialyAPI\APIException('Invalid image type. Use PNG or JPEG files.');
 	}
-	$uuid = Uuid::uuid4()->__toString();
-	$orig = $_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid . '.jpg';
+	$uuid = Uuid::uuid4();
+	$orig = $_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg';
 	if(!move_uploaded_file($_FILES['image']['tmp_name'], $orig))
 	{
 		throw new OdyMaterialyAPI\APIException('File upload failed.');
 	}
-	$web = $_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $uuid . '.jpg';
-	$thumbnail = $_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $uuid . '.jpg';
+
+	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
+	if($db->connect_error)
+	{
+		throw new OdyMaterialyAPI\ConnectionException($db);
+	}
+
+	$statement = $db->prepare($SQL);
+	if(!$statement)
+	{
+		throw new OdyMaterialyAPI\QueryException($SQL, $db);
+	}
+	$uuidBin = $uuid->getBytes();
+	$statement->bind_param('s', $uuidBin);
+	if(!$statement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($SQL, $statement);
+	}
+	$statement->close();
+	$db->close();
+
+	$web = $_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $uuid->__toString() . '.jpg';
+	$thumbnail = $_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $uuid->__toString() . '.jpg';
 
 	$webmagick = new Imagick($orig);
 	$webmagick->thumbnailImage(770, 1400, true);
