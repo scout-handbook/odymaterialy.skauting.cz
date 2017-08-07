@@ -32,4 +32,26 @@ function showImageList(list)
 		html += "<img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\">";
 	}
 	document.getElementById("imageList").innerHTML = html;
+
+	var	nodes = document.getElementById("imageList").getElementsByTagName("img");
+	for(var k = 0; k < nodes.length; k++)
+	{
+		nodes[k].onclick = showImagePreview;
+	}
+}
+
+function showImagePreview(event)
+{
+	var overlay = document.getElementById("overlay");
+	overlay.style.display = "inline";
+	overlay.style.cursor = "pointer";
+	var html = "<img src=\"/API/v0.9/image/" + event.target.dataset.id + "\" class=\"previewImage\">";
+	overlay.innerHTML = html;
+	overlay.onclick = function()
+		{
+			overlay.style.display = "none";
+			overlay.style.cursor = "auto";
+			overlay.innerHTML = "";
+			overlay.onclick = undefined;
+		};
 }
