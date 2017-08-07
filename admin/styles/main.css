@@ -210,3 +210,16 @@ main
 {
 	margin-left: 20px;
 }
+
+.thumbnailImage
+{
+	margin-top: 50px;
+	cursor: pointer;
+	transform: scale(0.9);
+	transition: transform ease 0.15s;
+}
+
+.thumbnailImage:hover
+{
+	transform: scale(1.0);
+}
