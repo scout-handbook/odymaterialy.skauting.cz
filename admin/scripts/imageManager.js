@@ -29,7 +29,7 @@ function showImageList(list)
 	var html = "";
 	for(var i = 0; i < list.length; i++)
 	{
-		html += "<img src=\"/API/v0.9/get_image?id=" + list[i] + "&quality=thumbnail\" class=\"thumbnailImage\">";
+		html += "<img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\">";
 	}
 	document.getElementById("imageList").innerHTML = html;
 }

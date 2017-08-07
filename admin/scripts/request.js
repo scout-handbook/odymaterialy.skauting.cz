@@ -28,5 +28,9 @@ function POSTrequest(url, formData, callback)
 			}
 		}
 	xhr.open("POST", url, true);
+	if(typeof formData == "string")
+	{
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	}
 	xhr.send(formData);
 }

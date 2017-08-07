@@ -3,6 +3,7 @@ const _API_EXEC = 1; // Required by includes
 
 header('content-type:application/json; charset=utf-8');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
 
@@ -30,7 +31,7 @@ function listImages()
 
 try
 {
-	listImages();
+	OdyMaterialyAPI\editorTry('listImages', true);
 }
 catch(OdymaterialyAPI\APIException $e)
 {
