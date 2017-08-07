@@ -1,6 +1,7 @@
 function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCallback)
 {
 	document.getElementById("overlay").style.display = "inline";
+	document.getElementById("dialog").style.display = "block";
 	document.getElementById("dialogText").innerHTML = mainText;
 	document.getElementById("confirmText").innerHTML = confirmText;
 	var confirmCallbackWrapped;
@@ -41,5 +42,6 @@ function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCall
 function dismissDialog()
 {
 	document.getElementById("overlay").style.display = "none";
+	document.getElementById("dialog").style.display = "none";
 	document.getElementById("dismissText").style.display = "none";
 }
