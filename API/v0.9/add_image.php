@@ -2,6 +2,7 @@
 const _API_EXEC = 1;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ArgumentException.php');
 
@@ -17,7 +18,7 @@ function addImage()
 	{
 		throw new OdyMaterialyAPI\APIException('File is not an image.');
 	}
-	if(!in_array(pathinfo($_FILES['image']['tmp_name']), ['jpg', 'jpeg', 'png']))
+	if(!in_array(strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png']))
 	{
 		throw new OdyMaterialyAPI\APIException('Invalid image type. Use PNG or JPEG files.');
 	}
@@ -31,7 +32,7 @@ function addImage()
 	$thumbnail = $_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $uuid . '.jpg';
 
 	$webmagick = new Imagick($orig);
-	$webmagick->thumbnailImage(770, 0, true);
+	$webmagick->thumbnailImage(770, 1400, true);
 	$webmagick->setImageCompressionQuality(60);
 	$webmagick->setFormat('JPEG');
 	$webmagick->writeImage($web);
@@ -45,7 +46,8 @@ function addImage()
 
 try
 {
-	addImage();
+	OdyMaterialyAPI\editorTry('addImage', true);
+	echo(json_encode(array('success' => true)));
 }
 catch(OdyMaterialyAPI\APIException $e)
 {

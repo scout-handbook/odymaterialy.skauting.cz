@@ -16,6 +16,7 @@ tags
 
 # End of https://www.gitignore.io/api/vim
 
-images/*
-!images/.htaccess
+images/original/*
+images/thumbnail/*
+images/web/*
 *.secret.php
