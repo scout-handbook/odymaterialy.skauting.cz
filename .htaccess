@@ -56,3 +56,9 @@ Header always set Expect-CT "enforce; max-age=31536000"
 	Header add Link "</scripts/request.js>;rel=preload;as=script"
 	Header add Link "</scripts/topUI.js>;rel=preload;as=script"
 </FilesMatch>
+
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/json
