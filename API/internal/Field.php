@@ -5,7 +5,7 @@ namespace OdyMaterialyAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 
-use Ramsey\Uuid\Uuid;
+use \Ramsey\Uuid\Uuid;
 
 class Field implements \JsonSerializable
 {
