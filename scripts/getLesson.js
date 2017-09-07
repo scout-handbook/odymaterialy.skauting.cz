@@ -52,7 +52,7 @@ function showLesson(id, markdown, noHistory, second)
 	activeCompetence = null;
 	for(var k = 0; k < competences.length; k++)
 	{
-		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><p>" + competences[k].number + "</p></span><span class=\"competenceBubbleText\">" + competences[k].name + "</span><a title=\"Seznam lekcí\" href=\"/error/enableJS.html\" data-id=\"" + competences[k].id + "\" class=\"competenceBubbleLessons\">Seznam lekcí</a></span>";
+		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><p>" + competences[k].number + "</p></span><span class=\"competenceBubbleText\">" + competences[k].name + "</span><span class=\"competenceBubbleLessons\"><a title=\"Detail kompetence\" href=\"/error/enableJS.html\" data-id=\"" + competences[k].id + "\">Detail kompetence</a></span></span>";
 	}
 	html += converter.makeHtml(markdown);
 	document.getElementById("content").innerHTML = html;
