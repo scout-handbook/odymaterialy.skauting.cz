@@ -1,17 +1,23 @@
 function historySetup()
 {
 	window.onpopstate = popback;
-	if(window.location.pathname.substring(0, 8) === "/lesson/")
+	if(window.location.pathname.substring(0, 12) === "/competence/")
 	{
-		var query = window.location.pathname.substring(8);
-		var lessonId = query.split("/")[0];
-		getLesson(lessonId);
+		var query = window.location.pathname.substring(12);
+		var competenceId = query.split("/")[0];
+		getCompetence(competenceId);
 	}
 	else if(window.location.pathname.substring(0, 7) === "/field/")
 	{
 		var query = window.location.pathname.substring(7);
 		var fieldId = query.split("/")[0];
 		getField(fieldId);
+	}
+	else if(window.location.pathname.substring(0, 8) === "/lesson/")
+	{
+		var query = window.location.pathname.substring(8);
+		var lessonId = query.split("/")[0];
+		getLesson(lessonId);
 	}
 	else
 	{
@@ -23,13 +29,17 @@ function popback()
 {
 	if(history.state)
 	{
-		if(window.location.pathname.substring(0, 8) === "/lesson/")
+		if(window.location.pathname.substring(0, 12) === "/competence/")
 		{
-			getLesson(history.state.id, true);
+			getCompetence(history.state.id, true);
 		}
 		else if(window.location.pathname.substring(0, 7) === "/field/")
 		{
 			getField(history.state.id, true);
+		}
+		else if(window.location.pathname.substring(0, 8) === "/lesson/")
+		{
+			getLesson(history.state.id, true);
 		}
 		else
 		{
@@ -129,7 +139,7 @@ function urlEscape(str)
 		{"base": "z", "letters": /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g}
 	];
 
-	str = str.trim().toLowerCase();
+	str = str.toString().trim().toLowerCase();
 	for(var i = 0; i < lookupTable.length; i++)
 	{
 		str = str.replace(lookupTable[i].letters, lookupTable[i].base);
