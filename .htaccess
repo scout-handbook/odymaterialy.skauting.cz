@@ -11,8 +11,8 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
 
-# Fields nad lessons rewrite
-RewriteCond %{REQUEST_URI} ^/(field|lesson)/
+# Competences, fields and lessons rewrite
+RewriteCond %{REQUEST_URI} ^/(competence|field|lesson)/
 RewriteRule (.*) / [QSA]
 
 # Login & logout redirect uri
@@ -45,6 +45,7 @@ Header always set Expect-CT "enforce; max-age=31536000"
 	Header add Link "</styles/handheld.css>;rel=preload;as=style"
 	Header add Link "</scripts/AfterLoadEvent.js>;rel=preload;as=script"
 	Header add Link "</scripts/auth.js>;rel=preload;as=script"
+	Header add Link "</scripts/getCompetence.js>;rel=preload;as=script"
 	Header add Link "</scripts/getField.js>;rel=preload;as=script"
 	Header add Link "</scripts/getLesson.js>;rel=preload;as=script"
 	Header add Link "</scripts/history.js>;rel=preload;as=script"
@@ -57,6 +58,7 @@ Header always set Expect-CT "enforce; max-age=31536000"
 	Header add Link "</scripts/topUI.js>;rel=preload;as=script"
 </FilesMatch>
 
+# Compression
 AddOutputFilterByType DEFLATE text/plain
 AddOutputFilterByType DEFLATE text/html
 AddOutputFilterByType DEFLATE text/css
