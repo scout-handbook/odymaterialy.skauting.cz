@@ -17,8 +17,8 @@ use Ramsey\Uuid\Uuid;
 function delete()
 {
 	$copySQL = <<<SQL
-INSERT INTO deleted_lessons (name, body)
-SELECT name, body
+INSERT INTO deleted_lessons (id, name, version, body)
+SELECT id, name, version, body
 FROM lessons
 WHERE id = ?;
 SQL;

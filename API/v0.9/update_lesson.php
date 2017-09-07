@@ -16,6 +16,12 @@ use Ramsey\Uuid\Uuid;
 
 function rewrite()
 {
+	$copySQL = <<<SQL
+INSERT INTO deleted_lessons (id, name, version, body)
+SELECT id, name, version, body
+FROM lessons
+WHERE id = ?;
+SQL;
 	$selectSQL = <<<SQL
 SELECT name, body
 FROM lessons
@@ -78,6 +84,18 @@ SQL;
 		}
 		$selectStatement->close();
 	}
+
+	$copyStatement = $db->prepare($copySQL);
+	if(!$copyStatement)
+	{
+		throw new OdyMaterialyAPI\QueryException($copySQL, $db);
+	}
+	$copyStatement->bind_param('s', $id);
+	if(!$copyStatement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($copySQL, $copyStatement);
+	}
+	$copyStatement->close();
 
 	$updateStatement = $db->prepare($updateSQL);
 	if(!$updateStatement)
