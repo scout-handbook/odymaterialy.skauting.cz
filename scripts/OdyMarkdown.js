@@ -69,6 +69,7 @@ function parseArguments(argumentString)
 // Specific commands
 function notes_command(argumentObject)
 {
-	return "<textarea class=\"notes\" placeholder=\"Tvoje poznámky\"></textarea>";
+	//return "<textarea class=\"notes\" placeholder=\"Tvoje poznámky\"></textarea>";
+	return "";
 }
 

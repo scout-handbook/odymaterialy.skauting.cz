@@ -52,7 +52,7 @@ function showLesson(id, markdown, noHistory, second)
 	activeCompetence = null;
 	for(var k = 0; k < competences.length; k++)
 	{
-		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><span><p>" + competences[k].number + "</p></span></span><span class=\"competenceBubbleText\">" + competences[k].name + "</span></span>";
+		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><p>" + competences[k].number + "</p></span><span class=\"competenceBubbleText\">" + competences[k].name + "</span><span class=\"competenceBubbleLessons\">Seznam lekcí</span></span>";
 	}
 	html += converter.makeHtml(markdown);
 	document.getElementById("content").innerHTML = html;
@@ -126,7 +126,8 @@ function competenceReflow()
 	if(activeCompetence)
 	{
 		activeCompetence.childNodes[1].style.width = Math.min(360, activeCompetence.parentElement.clientWidth - 40) + "px";
+		activeCompetence.childNodes[2].style.width = Math.min(360, activeCompetence.parentElement.clientWidth - 40) + "px";
 		activeCompetence.style.width = Math.min(400, activeCompetence.parentElement.clientWidth) + "px";
-		activeCompetence.style.height = activeCompetence.childNodes[1].offsetHeight + "px";
+		activeCompetence.style.height = (activeCompetence.childNodes[1].offsetHeight + 30) + "px";
 	}
 }
