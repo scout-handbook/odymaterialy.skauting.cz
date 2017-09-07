@@ -14,6 +14,11 @@ main h1
 	line-height: 140%;
 }
 
+main img
+{
+	max-width: 100%;
+}
+
 main .tableContainer
 {
 	overflow-x: auto;
@@ -21,18 +26,13 @@ main .tableContainer
 
 main table
 {
-	border: 1px solid #DDDDDD;
+	border: 1px solid #dddddd;
 	border-collapse: collapse;
-}
-
-main img
-{
-	max-width: 100%;
 }
 
 main td, main th
 {
-	border: 1px solid #DDDDDD;
+	border: 1px solid #dddddd;
 	padding: 8px 20px;
 }
 
@@ -43,7 +43,7 @@ main th
 
 main tbody tr:nth-child(2n+1)
 {
-	background-color: #F9F9F9;
+	background-color: #f9f9f9;
 }
 
 main .notes

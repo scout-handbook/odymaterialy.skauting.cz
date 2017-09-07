@@ -39,13 +39,44 @@ function getMainPage(noHistory)
 
 function showMainPage(noHistory)
 {
-	var html = "<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div><div id=\"mainPageContainer\"><div id=\"mainPage\"></div></div>";
+	var html = "<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>";
+	html += "<div id=\"topBar\"><div id=\"userAccount\"><img id=\"userAvatar\" alt=\"Account avatar\" src=\"";
+	if(LOGINSTATE.user_avatar)
+	{
+		html += "data:image/png;base64," + LOGINSTATE.user_avatar;
+	}
+	else
+	{
+		html += "/avatar.png";
+	}
+	html += "\"><div id=\"userName\">";
+	html += LOGINSTATE.user_name;
+	html += "</div><div id=\"logLink\"><a href=\"/auth/logout.php\">Odhlásit</a></div></div>";
+	html += "<div class=\"topBarTab\" id=\"lessonManager\">Lekce</div>"
+	html += "<div class=\"topBarTab\" id=\"competenceManager\">Kompetence</div>"
+	html += "<div class=\"topBarTab\" id=\"imageManager\">Obrázky</div>"
+	html += "<div class=\"topBarTab\" id=\"userManager\">Uživatelé</div>"
+	html += "</div>";
+	html += "<div id=\"mainPageContainer\"><div id=\"mainPage\"></div></div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	document.getElementsByTagName("main")[0].scrollTop = 0;
+
+	document.getElementById("lessonManager").onclick = showLessonManager;
+	document.getElementById("competenceManager").onclick = showCompetenceManager;
+	document.getElementById("imageManager").onclick = showImageManager;
+	document.getElementById("userManager").onclick = showUserManager;
 
 	if(mainPageTab == "competences")
 	{
 		showCompetenceManager();
+	}
+	else if(mainPageTab == "images")
+	{
+		showImageManager();
+	}
+	else if(mainPageTab == "users")
+	{
+		showUserManager();
 	}
 	else
 	{

@@ -15,6 +15,7 @@ function updateUser($skautis)
 INSERT INTO users (id, name)
 VALUES (?, ?)
 ON DUPLICATE KEY UPDATE name = VALUES(name)
+LIMIT 1;
 SQL;
 
 	$idPerson = $skautis->UserManagement->UserDetail()->ID_Person;

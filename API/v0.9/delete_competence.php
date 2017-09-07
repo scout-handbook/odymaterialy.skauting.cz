@@ -2,6 +2,7 @@
 const _API_EXEC = 1;
 
 header('content-type:application/json; charset=utf-8');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
@@ -11,6 +12,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
+use Ramsey\Uuid\Uuid;
+
 function delete()
 {
 	$deleteLessonsSQL = <<<SQL
@@ -19,14 +22,15 @@ WHERE competence_id = ?;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM competences
-WHERE id = ?;
+WHERE id = ?
+LIMIT 1;
 SQL;
 
 	if(!isset($_POST['id']))
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
-	$id = $_POST['id'];
+	$id = Uuid::fromString($_POST['id'])->getBytes();
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
 	if($db->connect_error)
@@ -40,7 +44,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($deleteLessonsSQL, $db);
 	}
-	$deleteLessonsStatement->bind_param('i', $id);
+	$deleteLessonsStatement->bind_param('s', $id);
 	if(!$deleteLessonsStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($deleteLessonsSQL, $deleteLessonsStatement);
@@ -52,7 +56,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($deleteSQL, $db);
 	}
-	$deleteStatement->bind_param('i', $id);
+	$deleteStatement->bind_param('s', $id);
 	if(!$deleteStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $deleteStatement);

@@ -2,6 +2,7 @@
 const _API_EXEC = 1;
 
 header('content-type:application/json; charset=utf-8');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
@@ -11,11 +12,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
+use Ramsey\Uuid\Uuid;
+
 function delete()
 {
 	$copySQL = <<<SQL
-INSERT INTO deleted_lessons (name, body)
-SELECT name, body
+INSERT INTO deleted_lessons (id, name, version, body)
+SELECT id, name, version, body
 FROM lessons
 WHERE id = ?;
 SQL;
@@ -37,7 +40,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
-	$id = $_POST['id'];
+	$id = Uuid::fromString($_POST['id'])->getBytes();
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
 	if($db->connect_error)
@@ -51,7 +54,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($copySQL, $db);
 	}
-	$copyStatement->bind_param('i', $id);
+	$copyStatement->bind_param('s', $id);
 	if(!$copyStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($copySQL, $copyStatement);
@@ -63,7 +66,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($deleteFieldSQL, $db);
 	}
-	$deleteFieldStatement->bind_param('i', $id);
+	$deleteFieldStatement->bind_param('s', $id);
 	if(!$deleteFieldStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($deleteFieldSQL, $deleteFieldStatement);
@@ -75,7 +78,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($deleteCompetencesSQL, $db);
 	}
-	$deleteCompetencesStatement->bind_param('i', $id);
+	$deleteCompetencesStatement->bind_param('s', $id);
 	if(!$deleteCompetencesStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($deleteCompetencesSQL, $deleteCompetencesStatement);
@@ -87,7 +90,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($deleteSQL, $db);
 	}
-	$deleteStatement->bind_param('i', $id);
+	$deleteStatement->bind_param('s', $id);
 	if(!$deleteStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($deleteSQL, $deleteStatement);

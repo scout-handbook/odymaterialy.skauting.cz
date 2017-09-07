@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /API/
+Disallow: /auth/
+Disallow: /vendor/
+Disallow: composer.json
+Disallow: composer.lock
+Disallow: package.json
+Disallow: README.md

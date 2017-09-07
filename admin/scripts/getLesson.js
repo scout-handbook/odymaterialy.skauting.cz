@@ -1,5 +1,5 @@
 var changed;
-var competences = false;
+var imageSelectorOpen = false;
 
 function changeLessonOnClick(event)
 {
@@ -37,17 +37,21 @@ function showLesson(id, markdown, noHistory)
 	var html = '\
 <header>\
 	<div class="button" id="discard">\
-		<i class="icon-left-big"></i>\
-		Zrušit\
+		<i class="icon-cancel"></i>Zrušit\
 	</div>\
 	<form>\
 		<input type="text" class="formText formName" id="name" value="' + lesson.name + '" autocomplete="off">\
 	</form>\
 	<div class="button" id="save" data-id="' + id + '">\
-		Uložit\
-		<i class="icon-floppy"></i>\
+		Uložit<i class="icon-floppy"></i>\
 	</div>\
-</header>'
+	<div class="button" id="addImageButton">\
+		Vložit obrázek\
+	</div>\
+</header>\
+<div id="imageSelector">\
+	<div id="imageWrapper"></div>\
+</div>'
 	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
@@ -60,14 +64,18 @@ function showLesson(id, markdown, noHistory)
 
 	document.getElementById("discard").onclick = discard;
 	document.getElementById("save").onclick = save;
+	document.getElementById("addImageButton").onclick = showImageSelector;
 
 	var editor = ace.edit("editor");
+	editor.setOption("scrollPastEnd", 0.9);
 	editor.setTheme("ace/theme/odymaterialy");
 	editor.getSession().setMode("ace/mode/markdown");
 	editor.getSession().setUseWrapMode(true);
 	editor.getSession().on("change", change);
 	document.getElementById("name").oninput = change;
 	document.getElementById("name").onchange = change;
+
+	getImageSelector();
 }
 
 function change()
@@ -104,4 +112,49 @@ function save()
 	{
 		discard();
 	}
+}
+
+function showImageSelector()
+{
+	if(imageSelectorOpen)
+	{
+		document.getElementById("imageSelector").style.top = "-100%";
+	}
+	else
+	{
+		document.getElementById("imageSelector").style.top = "-91px";
+	}
+	imageSelectorOpen = !imageSelectorOpen;
+}
+
+function getImageSelector()
+{
+	request("/API/v0.9/list_images", "", function(response)
+		{
+			renderImageSelector(JSON.parse(response));
+		});
+}
+
+function renderImageSelector(list)
+{
+	var html = "";
+	for(var i = 0; i < list.length; i++)
+	{
+		html += "<img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\">";
+	}
+	document.getElementById("imageWrapper").innerHTML = html;
+
+	var	nodes = document.getElementById("imageWrapper").getElementsByTagName("img");
+	for(var k = 0; k < nodes.length; k++)
+	{
+		nodes[k].onclick = insertImage;
+	}
+}
+
+function insertImage(event)
+{
+	var markdown = "![Text po najetí kurzorem](https://odymaterialy.skauting.cz/API/v0.9/image/" + event.target.dataset.id + ")"
+	var editor = ace.edit("editor");
+	editor.session.insert(editor.getCursorPosition(), markdown);
+	showImageSelector();
 }

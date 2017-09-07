@@ -11,12 +11,8 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
 
-# Fields rewrite
-RewriteCond %{REQUEST_URI} ^/field/
-RewriteRule (.*) / [QSA]
-
-# Lessons rewrite
-RewriteCond %{REQUEST_URI} ^/lesson/
+# Fields nad lessons rewrite
+RewriteCond %{REQUEST_URI} ^/(field|lesson)/
 RewriteRule (.*) / [QSA]
 
 # Login & logout redirect uri
@@ -60,3 +56,9 @@ Header always set Expect-CT "enforce; max-age=31536000"
 	Header add Link "</scripts/request.js>;rel=preload;as=script"
 	Header add Link "</scripts/topUI.js>;rel=preload;as=script"
 </FilesMatch>
+
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/json

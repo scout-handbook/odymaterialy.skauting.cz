@@ -1,8 +1,13 @@
 function showLessonManager()
 {
 	mainPageTab = "lessons";
-	var html = "<h1>OdyMateriály - Správce lekcí</h1>";
-	html += "<div class=\"button mainPage\" id=\"competenceManager\">Správce kompetencí</div>";
+	var nodes = document.getElementsByClassName("topBarTab");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		nodes[l].className = "topBarTab";
+	}
+	document.getElementById("lessonManager").className += " activeTopBarTab";
+	var html = "<h1>OdyMateriály - Lekce</h1>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
 		html += "<div class=\"button mainPage\" id=\"addField\">Přidat oblast</div>";
@@ -11,7 +16,6 @@ function showLessonManager()
 	html += renderLessonList();
 	document.getElementById("mainPage").innerHTML = html;
 
-	document.getElementById("competenceManager").onclick = showCompetenceManager;
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
 		document.getElementById("addField").onclick = addField;

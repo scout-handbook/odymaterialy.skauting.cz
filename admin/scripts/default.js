@@ -15,11 +15,11 @@ var defaultBody = "# Velký nadpis\n\
 Když píšu text, tak se automaticky dělají odstavce, kde když tam bude spousta textu tak se to samozřejmě samo dá  na nový řádek, ale když nový\n\
 řádek udělám sám, tak to nevadí. Když chci\n\
 \n\
-začít nový odstavec, musím vynechat jeden řádek. Můžu udělat kus textu *kurzívou, když okol něj dám hvězdičky*, nebo taky **tučně dvojitýma hvězdičkama** a nebo i ***tučně a kurzívou***.\n\
+začít nový odstavec, musím vynechat jeden řádek. Můžu udělat kus textu *kurzívou, když okolo něj dám hvězdičky*, nebo taky **tučně dvojitýma hvězdičkama** a nebo i ***tučně a kurzívou***.\n\
 \n\
- - Můžu\n\
- - Dělat\n\
- * Seznamy\n\
+- Můžu\n\
+- Dělat\n\
+* Seznamy\n\
 \n\
 1. A taky\n\
 2. číslované\n\
@@ -31,7 +31,7 @@ začít nový odstavec, musím vynechat jeden řádek. Můžu udělat kus textu 
 \n\
 Můžu do textu vložit [odkaz](http://tiny.cc/PAIN), i když ten nevím, jak bych ho vytisknul :D. Fungují i obrázky:\n\
 \n\
-![Text po najetí kurzorem](https://thumb1.shutterstock.com/display_pic_with_logo/265489/103792607/stock-vector-internet-troll-using-a-computer-vector-illustration-wit-simple-gradients-all-in-a-single-layer-103792607.jpg)\n\
+![Text po najetí kurzorem](https://odymaterialy.skauting.cz/API/v0.9/image/590e43e4-e2ed-47c1-8520-2d3a9c594efd)\n\
 \n\
 Akorát jsem ještě neudělal nahrávání vlastních (a vlastně nevím, jak je vytisknout, tak mi je asi budete muset poslat...)...\n\
 \n\

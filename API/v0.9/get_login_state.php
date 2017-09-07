@@ -16,14 +16,12 @@ function showUserAccount($skautis)
 	$response['user_avatar'] = base64_encode($skautis->OrganizationUnit->PersonPhoto(array(
 		'ID' => $idPerson,
 		'Size' => 'small'))->PhotoSmallContent);
-	echo(json_encode($response));
+	echo(json_encode($response, JSON_UNESCAPED_UNICODE));
 }
 
 function showGuest()
 {
-	$response = array();
-	$response['login_state'] = false;
-	echo(json_encode($response));
+	echo(json_encode(array('login_state' => false)));
 }
 
 try

@@ -38,7 +38,7 @@ function changeLessonFieldOnClick(event)
 		}
 		else
 		{
-			form += "<i>Nezařazeno</i>"
+			form += "<span class=\"anonymousField\">Nezařazeno</span>"
 		}
 		form += "</div>";
 	}
@@ -60,8 +60,7 @@ function changeLessonFieldOnClick(event)
 			};
 	}
 
-	var stateObject = { "sidePanel": "open" };
-	history.pushState(stateObject, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/");
 }
 
 function changeLessonFieldSave()

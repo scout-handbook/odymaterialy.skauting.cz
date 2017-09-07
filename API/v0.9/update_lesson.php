@@ -2,6 +2,7 @@
 const _API_EXEC = 1;
 
 header('content-type:application/json; charset=utf-8');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
@@ -11,8 +12,16 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
+use Ramsey\Uuid\Uuid;
+
 function rewrite()
 {
+	$copySQL = <<<SQL
+INSERT INTO deleted_lessons (id, name, version, body)
+SELECT id, name, version, body
+FROM lessons
+WHERE id = ?;
+SQL;
 	$selectSQL = <<<SQL
 SELECT name, body
 FROM lessons
@@ -21,14 +30,15 @@ SQL;
 	$updateSQL = <<<SQL
 UPDATE lessons
 SET name = ?, version = version + 1, body = ?
-WHERE id = ?;
+WHERE id = ?
+LIMIT 1;
 SQL;
 
 	if(!isset($_POST['id']))
 	{
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
 	}
-	$id = $_POST['id'];
+	$id = Uuid::fromString($_POST['id'])->getBytes();
 	if(isset($_POST['name']))
 	{
 		$name = $_POST['name'];
@@ -51,7 +61,7 @@ SQL;
 		{
 			throw new OdyMaterialyAPI\QueryException($selectSQL, $db);
 		}
-		$selectStatement->bind_param('i', $id);
+		$selectStatement->bind_param('s', $id);
 		if(!$selectStatement->execute())
 		{
 			throw new OdyMaterialyAPI\ExecutionException($selectSQL, $selectStatement);
@@ -75,12 +85,24 @@ SQL;
 		$selectStatement->close();
 	}
 
+	$copyStatement = $db->prepare($copySQL);
+	if(!$copyStatement)
+	{
+		throw new OdyMaterialyAPI\QueryException($copySQL, $db);
+	}
+	$copyStatement->bind_param('s', $id);
+	if(!$copyStatement->execute())
+	{
+		throw new OdyMaterialyAPI\ExecutionException($copySQL, $copyStatement);
+	}
+	$copyStatement->close();
+
 	$updateStatement = $db->prepare($updateSQL);
 	if(!$updateStatement)
 	{
 		throw new OdyMaterialyAPI\QueryException($updateSQL, $db);
 	}
-	$updateStatement->bind_param('ssi', $name, $body, $id);
+	$updateStatement->bind_param('sss', $name, $body, $id);
 	if(!$updateStatement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($updateSQL, $updateStatement);

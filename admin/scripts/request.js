@@ -17,7 +17,7 @@ function request(url, query, callback)
 	xhr.send();
 }
 
-function POSTrequest(url, query, callback)
+function POSTrequest(url, formData, callback)
 {
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function()
@@ -28,6 +28,9 @@ function POSTrequest(url, query, callback)
 			}
 		}
 	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhr.send(query);
+	if(typeof formData == "string")
+	{
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	}
+	xhr.send(formData);
 }

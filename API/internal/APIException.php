@@ -14,6 +14,6 @@ class APIException extends \Exception implements \JsonSerializable
 
 	public function __toString()
 	{
-		return json_encode($this);
+		return json_encode($this, JSON_UNESCAPED_UNICODE);
 	}
 }

@@ -2,6 +2,7 @@
 const _API_EXEC = 1;
 
 header('content-type:application/json; charset=utf-8');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
@@ -11,11 +12,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php'
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
 
+use Ramsey\Uuid\Uuid;
+
 function addCompetence()
 {
 	$SQL = <<<SQL
-INSERT INTO competences (number, name, description)
-VALUES (?, ?, ?);
+INSERT INTO competences (id, number, name, description)
+VALUES (?, ?, ?, ?);
 SQL;
 
 	if(!isset($_POST['number']))
@@ -28,7 +31,7 @@ SQL;
 		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'name');
 	}
 	$name = $_POST['name'];
-	$description = "";
+	$description = '';
 	if(isset($_POST['description']))
 	{
 		$description = $_POST['description'];
@@ -45,7 +48,8 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\QueryException($SQL, $db);
 	}
-	$statement->bind_param('iss', $number, $name, $description);
+	$uuid = Uuid::uuid4()->getBytes();
+	$statement->bind_param('siss', $uuid, $number, $name, $description);
 	if(!$statement->execute())
 	{
 		throw new OdyMaterialyAPI\ExecutionException($SQL, $statement);

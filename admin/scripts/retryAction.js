@@ -23,7 +23,7 @@ function retryActionAfter(result, url, query)
 	if(result.success)
 	{
 		dialog("Akce byla úspěšná.", "OK");
-		lessonListEvent = new AfterLoadEvent(2);
+		lessonListEvent = new AfterLoadEvent(3);
 		lessonListSetup();
 		if(retry)
 		{

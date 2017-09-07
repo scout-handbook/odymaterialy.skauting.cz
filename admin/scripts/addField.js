@@ -12,8 +12,7 @@ function addField()
 		};
 	document.getElementById("addFieldSave").onclick = addFieldSave;
 
-	var stateObject = { "sidePanel": "open" };
-	history.pushState(stateObject, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/");
 }
 
 function addFieldSave()

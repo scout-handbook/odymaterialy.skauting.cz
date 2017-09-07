@@ -64,10 +64,9 @@ function showLesson(id, markdown, noHistory, second)
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	if(!second)
 	{
-		var stateObject = { "id": id };
 		if(!noHistory)
 		{
-			history.pushState(stateObject, "title", "/lesson/" + id + "/" + encodeURIComponent(lesson.name));
+			history.pushState({"id": id}, "title", "/lesson/" + id + "/" + urlEscape(lesson.name));
 
 		}
 	}

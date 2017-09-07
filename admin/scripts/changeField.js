@@ -44,4 +44,8 @@ function changeFieldSave()
 		sidePanelClose();
 		retryAction("/API/v0.9/update_field", query);
 	}
+	else
+	{
+		history.back();
+	}
 }

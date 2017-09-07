@@ -14,8 +14,7 @@ function deleteLessonOnClick(event)
 		}
 	}
 
-	var stateObject = { "sidePanel": "open" };
-	history.pushState(stateObject, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/");
 
 	dialog("Opravdu si přejete smazat lekci \"" + name + "\"?", "Ano", function()
 		{
