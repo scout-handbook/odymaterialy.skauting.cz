@@ -127,20 +127,67 @@ function showImageSelector()
 	imageSelectorOpen = !imageSelectorOpen;
 }
 
-function getImageSelector()
+function getImageSelector(page, perPage)
 {
+	if(!page)
+	{
+		page = 1;
+	}
+	if(!perPage)
+	{
+		perPage = 15;
+	}
 	request("/API/v0.9/list_images", "", function(response)
 		{
-			renderImageSelector(JSON.parse(response));
+			renderImageSelector(JSON.parse(response), page, perPage);
 		});
 }
 
-function renderImageSelector(list)
+function renderImageSelector(list, page, perPage)
 {
 	var html = "";
-	for(var i = 0; i < list.length; i++)
+	var start = perPage * (page - 1);
+	for(var i = start; i < Math.min(list.length, start + perPage); i++)
 	{
 		html += "<img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\">";
+	}
+	if(list.length > perPage)
+	{
+		var maxPage = Math.ceil(list.length / perPage);
+
+		function renderPage(page)
+		{
+			html += "<div class=\"paginationButton\" data-page=\"" + page + "\">" + page + "</div>";
+		}
+		html += "<div id=\"pagination\">";
+		if(page > 3)
+		{
+			renderPage(1);
+			html += " ... ";
+		}
+		if(page > 2)
+		{
+			renderPage(page - 2);
+		}
+		if(page > 1)
+		{
+			renderPage(page - 1);
+		}
+		html += "<div class=\"paginationButton active\">" + page + "</div>";
+		if(page < maxPage)
+		{
+			renderPage(page + 1);
+		}
+		if(page < maxPage - 1)
+		{
+			renderPage(page + 2);
+		}
+		if(page < maxPage - 2)
+		{
+			html += " ... ";
+			renderPage(maxPage);
+		}
+		html += "</div>";
 	}
 	document.getElementById("imageWrapper").innerHTML = html;
 
@@ -148,6 +195,14 @@ function renderImageSelector(list)
 	for(var k = 0; k < nodes.length; k++)
 	{
 		nodes[k].onclick = insertImage;
+	}
+	nodes = document.getElementsByClassName("paginationButton");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		nodes[l].onclick = function(event)
+			{
+				getImageSelector(parseInt(event.target.dataset.page), perPage);
+			};
 	}
 }
 
