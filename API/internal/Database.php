@@ -27,6 +27,10 @@ class Database
 	public function prepare($SQL)
 	{
 		$this->SQL = $SQL;
+		if(isset($this->statement))
+		{
+			$this->statement->close();
+		}
 		$this->statement = $this->db->prepare($this->SQL);
 		if(!$this->statement)
 		{
@@ -45,11 +49,11 @@ class Database
 		{
 			throw new ExecutionException($this->SQL, $this->statement);
 		}
-		$this->statement->store_result();
 	}
 
 	public function bind_result(&...$vars)
 	{
+		$this->statement->store_result();
 		$this->statement->bind_result(...$vars);
 	}
 
@@ -57,7 +61,16 @@ class Database
 	{
 		if(!$this->statement->fetch())
 		{
-			throw new Exception('Error: User not in database even though they are logged in. This should never happen.'); // TODO: Dedicated class
+			throw new Exception('Error: User not in database even though they are logged in. This should never happen.'); // TODO: Dedicated class, proper message
 		}
+	}
+
+	public function __destruct()
+	{
+		if(isset($this->statement))
+		{
+			$this->statement->close();
+		}
+		$this->db->close();
 	}
 }
