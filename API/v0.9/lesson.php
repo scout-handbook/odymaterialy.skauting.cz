@@ -11,6 +11,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Field.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Lesson.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/NotFoundException.php');
+
 use Ramsey\Uuid\Uuid;
 
 $endpoint = new OdyMaterialyAPI\Endpoint('lesson');
@@ -51,36 +54,38 @@ SQL;
 	$db->bind_result($lesson_id, $lesson_name, $lesson_version);
 	$fields = [new OdymaterialyAPI\AnonymousField()];
 
-	$db->fetch();
-	do
+	if($db->fetch())
 	{
-		// Create a new Lesson in the newly-created Field
-		end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
+		do
+		{
+			// Create a new Lesson in the newly-created Field
+			end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
 
-		// Find out the competences this Lesson belongs to
-		$db2 = new OdymaterialyAPI\Database();
-		$db2->prepare($competence_sql);
-		$db2->bind_param('s', $lesson_id);
-		$db2->execute();
-		$competence_id = '';
-		$competence_number = '';
-		$db2->bind_result($competence_id, $competence_number);
-		end(end($fields)->lessons)->lowestCompetence = 0;
-		if($db2->fetch())
-		{
-			end(end($fields)->lessons)->lowestCompetence = $competence_number;
-			end(end($fields)->lessons)->competences[] = $competence_id;
-		}
-		else
-		{
+			// Find out the competences this Lesson belongs to
+			$db2 = new OdymaterialyAPI\Database();
+			$db2->prepare($competence_sql);
+			$db2->bind_param('s', $lesson_id);
+			$db2->execute();
+			$competence_id = '';
+			$competence_number = '';
+			$db2->bind_result($competence_id, $competence_number);
 			end(end($fields)->lessons)->lowestCompetence = 0;
+			if($db2->fetch())
+			{
+				end(end($fields)->lessons)->lowestCompetence = $competence_number;
+				end(end($fields)->lessons)->competences[] = $competence_id;
+			}
+			else
+			{
+				end(end($fields)->lessons)->lowestCompetence = 0;
+			}
+			while($db2->fetch())
+			{
+				end(end($fields)->lessons)->competences[] = $competence_id;
+			}
 		}
-		while($db2->fetch())
-		{
-			end(end($fields)->lessons)->competences[] = $competence_id;
-		}
+		while($db->fetch());
 	}
-	while($db->fetch());
 
 	// Select all the fields in the database
 	$db->prepare($field_sql);
@@ -159,5 +164,142 @@ SQL;
 	return ['status'=> 200, 'result' => $body];
 };
 $endpoint->setGetMethod(new OdyMaterialyAPI\Role('guest'), $getLesson);
+
+$addLesson = function($skautis, $data)
+{
+	$SQL = <<<SQL
+INSERT INTO lessons (id, name, body)
+VALUES (?, ?, ?);
+SQL;
+
+	if(!isset($data['name']))
+	{
+		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'name');
+	}
+	$name = $data['name'];
+	$body = '';
+	if(isset($data['body']))
+	{
+		$body = $data['body'];
+	}
+	$uuid = Uuid::uuid4()->getBytes();
+
+	$db = new OdymaterialyAPI\Database();
+	$db->prepare($SQL);
+	$db->bind_param('sss', $uuid, $name, $body);
+	$db->execute();
+};
+$endpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addLesson);
+
+$updateLesson = function($skautis, $data)
+{
+	$copySQL = <<<SQL
+INSERT INTO deleted_lessons (id, name, version, body)
+SELECT id, name, version, body
+FROM lessons
+WHERE id = ?;
+SQL;
+	$selectSQL = <<<SQL
+SELECT name, body
+FROM lessons
+WHERE id = ?;
+SQL;
+	$updateSQL = <<<SQL
+UPDATE lessons
+SET name = ?, version = version + 1, body = ?
+WHERE id = ?
+LIMIT 1;
+SQL;
+
+	$id = Uuid::fromString($data['id'])->getBytes();
+	if(isset($data['name']))
+	{
+		$name = $data['name'];
+	}
+	if(isset($data['body']))
+	{
+		$body = $data['body'];
+	}
+
+	$db = new OdymaterialyAPI\Database();
+
+	if(!isset($name) or !isset($body))
+	{
+		$db->prepare($selectSQL);
+		$db->bind_param('s', $id);
+		$db->execute();
+		$origName = '';
+		$origBody = '';
+		$db->bind_result($origName, $origBody);
+		if(!$db->fetch())
+		{
+			throw new OdymaterialyAPI\NotFoundException('lesson');
+		}
+		if(!isset($name))
+		{
+			$name = $origName;
+		}
+		if(!isset($body))
+		{
+			$body = $origBody;
+		}
+	}
+
+	$db->prepare($copySQL);
+	$db->bind_param('s', $id);
+	$db->execute();
+
+	$db->prepare($updateSQL);
+	$db->bind_param('sss', $name, $body, $id);
+	$db->execute();
+};
+$endpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateLesson);
+
+$deleteLesson = function($skautis, $data)
+{
+	$copySQL = <<<SQL
+INSERT INTO deleted_lessons (id, name, version, body)
+SELECT id, name, version, body
+FROM lessons
+WHERE id = ?;
+SQL;
+	$deleteFieldSQL = <<<SQL
+DELETE FROM lessons_in_fields
+WHERE lesson_id = ?;
+SQL;
+	$deleteCompetencesSQL = <<<SQL
+DELETE FROM competences_for_lessons
+WHERE lesson_id = ?;
+SQL;
+
+	$deleteSQL = <<<SQL
+DELETE FROM lessons
+WHERE id = ?;
+SQL;
+
+	$id = Uuid::fromString($data['id'])->getBytes();
+
+	$db = new Database();
+	$db->start_transaction();
+
+	$db->prepare($copySQL);
+	$db->bind_param('s', $id);
+	$db->execute();
+
+	$db->prepare($deleteFieldSQL);
+	$db->bind_param('s', $id);
+	$db->execute();
+
+	$db->prepare($deleteCompetencesSQL);
+	$db->bind_param('s', $id);
+	$db->execute();
+
+	$db->prepare($deleteSQL);
+	$db->bind_param('s', $id);
+	$db->execute();
+
+	$db->finish_transaction();
+};
+$endpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteLesson);
 
 $endpoint->handle();
