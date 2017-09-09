@@ -7,12 +7,17 @@ class Exception extends \Exception implements \JsonSerializable
 {
 	const TYPE = 'Exception';
 
-	public function jsonSerialize()
+	public function handle()
 	{
 		return ['success' => false, 'type' => static::TYPE, 'message' => $this->getMessage()];
 	}
 
-	public function __toString()
+	public function jsonSerialize() // TODO: Remove
+	{
+		return handle();
+	}
+
+	public function __toString() // TODO: Remove
 	{
 		return json_encode($this, JSON_UNESCAPED_UNICODE);
 	}
