@@ -8,6 +8,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php
 class ArgumentException extends Exception
 {
 	const TYPE = 'ArgumentException';
+	const STATUS = 400;
 
 	const GET = "GET";
 	const POST = "POST";

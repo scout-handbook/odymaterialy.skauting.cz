@@ -6,15 +6,17 @@ namespace OdyMaterialyAPI;
 class Exception extends \Exception implements \JsonSerializable
 {
 	const TYPE = 'Exception';
+	const STATUS = 500;
 
 	public function handle()
 	{
-		return ['success' => false, 'type' => static::TYPE, 'message' => $this->getMessage()];
+		http_response_code(static::STATUS);
+		return ['status' => static::STATUS, 'type' => static::TYPE, 'message' => $this->getMessage()];
 	}
 
 	public function jsonSerialize() // TODO: Remove
 	{
-		return handle();
+		return ['success' => false, 'type' => static::TYPE, 'message' => $this->getMessage()];
 	}
 
 	public function __toString() // TODO: Remove

@@ -6,6 +6,7 @@ namespace OdyMaterialyAPI;
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/NotImplementedException.php');
 
 class Endpoint
 {
@@ -19,11 +20,11 @@ class Endpoint
 	public function __construct($resourceName)
 	{
 		$this->resourceName = $resourceName;
-		$this->list = function() {return [];};
-		$this->get = function() {return [];};
-		$this->put = function() {return [];};
-		$this->post = function() {return [];};
-		$this->delete = function() {return [];};
+		$this->list = function() {throw new NotImplementedException();};
+		$this->get = function() {throw new NotImplementedException();};
+		$this->put = function() {throw new NotImplementedException();};
+		$this->post = function() {throw new NotImplementedException();};
+		$this->delete = function() {throw new NotImplementedException();};
 	}
 
 	public function setListMethod($minimalRole, $callback)

@@ -5,13 +5,13 @@ namespace OdyMaterialyAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 
-class AuthenticationException extends Exception
+class NotImplementedException extends Exception
 {
-	const TYPE = 'AuthenticationException';
-	const STATUS = 403;
+	const TYPE = 'NotImplementedException';
+	const STATUS = 501;
 
 	public function __construct()
 	{
-		parent::__construct('Authentication failed.');
+		parent::__construct('The requested feature has not been implemented.');
 	}
 }
