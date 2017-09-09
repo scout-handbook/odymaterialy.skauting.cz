@@ -74,6 +74,17 @@ class Database
 		}
 	}
 
+	public function start_transaction()
+	{
+		self::$db->autocommit(false);
+	}
+
+	public function finish_transaction()
+	{
+		self::$db->commit();
+		self::$db->autocommit(true);
+	}
+
 	public function __destruct()
 	{
 		if(isset($this->statement))
