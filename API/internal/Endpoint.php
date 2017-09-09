@@ -30,66 +30,66 @@ class Endpoint
 	public function setListMethod($minimalRole, $callback)
 	{
 		$this->list = function($data) use ($minimalRole, $callback)
+		{
+			$wrapper = function($skautis) use ($data, $callback)
 			{
-				$wrapper = function($skautis) use ($data, $callback)
-					{
-						return $callback($skautis, $data);
-					};
-				$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
-				return roleTry($wrapper, $hardCheck, $minimalRole);
+				return $callback($skautis, $data);
 			};
+			$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
+			return roleTry($wrapper, $hardCheck, $minimalRole);
+		};
 	}
 
 	public function setGetMethod($minimalRole, $callback)
 	{
 		$this->get = function($data) use ($minimalRole, $callback)
+		{
+			$wrapper = function($skautis) use ($data, $callback)
 			{
-				$wrapper = function($skautis) use ($data, $callback)
-					{
-						return $callback($skautis, $data);
-					};
-				$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
-				return roleTry($wrapper, $hardCheck, $minimalRole);
+				return $callback($skautis, $data);
 			};
+			$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
+			return roleTry($wrapper, $hardCheck, $minimalRole);
+		};
 	}
 
 	public function setPutMethod($minimalRole, $callback)
 	{
 		$this->put = function($data) use ($minimalRole, $callback)
+		{
+			$wrapper = function($skautis) use ($data)
 			{
-				$wrapper = function($skautis) use ($data)
-					{
-						return $callback($skautis, $data);
-					};
-				$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
-				return roleTry($wrapper, $hardCheck, $minimalRole);
+				return $callback($skautis, $data);
 			};
+			$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
+			return roleTry($wrapper, $hardCheck, $minimalRole);
+		};
 	}
 
 	public function setPostMethod($minimalRole, $callback)
 	{
 		$this->post = function($data) use ($minimalRole, $callback)
+		{
+			$wrapper = function($skautis) use ($data)
 			{
-				$wrapper = function($skautis) use ($data)
-					{
-						return $callback($skautis, $data);
-					};
-				$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
-				return roleTry($wrapper, $hardCheck, $minimalRole);
+				return $callback($skautis, $data);
 			};
+			$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
+			return roleTry($wrapper, $hardCheck, $minimalRole);
+		};
 	}
 
 	public function setDeleteMethod($minimalRole, $callback)
 	{
 		$this->delete = function($data) use ($minimalRole, $callback)
+		{
+			$wrapper = function($skautis) use ($data)
 			{
-				$wrapper = function($skautis) use ($data)
-					{
-						return $callback($skautis, $data);
-					};
-				$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
-				return roleTry($wrapper, $hardCheck, $minimalRole);
+				return $callback($skautis, $data);
 			};
+			$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
+			return roleTry($wrapper, $hardCheck, $minimalRole);
+		};
 	}
 
 	public function handle()

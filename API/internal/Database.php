@@ -12,16 +12,19 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryExceptio
 
 class Database
 {
-	private $db;
+	private static $db;
 	private $SQL;
 	private $statement;
 
 	public function __construct()
 	{
-		$this->db = new \mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
-		if($this->db->connect_error)
+		if(!isset(self::$db))
 		{
-			throw new ConnectionException($this->db);
+			self::$db = new \mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
+			if(self::$db->connect_error)
+			{
+				throw new ConnectionException(self::$db);
+			}
 		}
 	}
 
@@ -32,10 +35,10 @@ class Database
 		{
 			$this->statement->close();
 		}
-		$this->statement = $this->db->prepare($this->SQL);
+		$this->statement = self::$db->prepare($this->SQL);
 		if(!$this->statement)
 		{
-			throw new QueryException($this->SQL, $this->db);
+			throw new QueryException($this->SQL, self::$db);
 		}
 	}
 
@@ -58,9 +61,14 @@ class Database
 		$this->statement->bind_result(...$vars);
 	}
 
+	public function fetch()
+	{
+		return $this->statement->fetch();
+	}
+
 	public function fetch_require($resource_name)
 	{
-		if(!$this->statement->fetch())
+		if(!$this->fetch())
 		{
 			throw new NotFoundException($resource_name);
 		}
@@ -72,6 +80,5 @@ class Database
 		{
 			$this->statement->close();
 		}
-		$this->db->close();
 	}
 }
