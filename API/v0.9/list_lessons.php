@@ -7,7 +7,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/AnonymousField.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Field.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Lesson.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
@@ -184,7 +184,7 @@ try
 {
 	echo(listLessons());
 }
-catch(OdymaterialyAPI\APIException $e)
+catch(OdymaterialyAPI\Exception $e)
 {
 	echo('[]'); // TODO: Error handling
 }

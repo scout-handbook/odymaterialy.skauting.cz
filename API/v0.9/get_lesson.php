@@ -5,7 +5,7 @@ header('content-type:text/markdown; charset=utf-8');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
@@ -49,7 +49,7 @@ SQL;
 	$statement->bind_result($body);
 	if(!$statement->fetch())
 	{
-		throw new OdyMaterialyAPI\APIException('No lesson with the id "' . $id . '" found.');
+		throw new OdyMaterialyAPI\Exception('No lesson with the id "' . $id . '" found.'); // TODO: Dedicated class
 	}
 	$statement->close();
 	$db->close();
@@ -60,7 +60,7 @@ try
 {
 	echo(getLesson());
 }
-catch(OdyMaterialyAPI\APIException $e)
+catch(OdyMaterialyAPI\Exception $e)
 {
 	echo("Požadovanou lekci se nepodařilo načíst. Chybová hláška:\n" . $e);
 }

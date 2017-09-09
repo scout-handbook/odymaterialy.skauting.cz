@@ -3,9 +3,9 @@ namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 
-class ConnectionException extends APIException
+class ConnectionException extends Exception
 {
 	const TYPE = 'ConnectionException';
 

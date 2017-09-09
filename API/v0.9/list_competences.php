@@ -5,7 +5,7 @@ header('content-type:application/json; charset=utf-8');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Competence.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
@@ -54,7 +54,7 @@ try
 {
 	echo(listCompetences());
 }
-catch(OdyMaterialyAPI\APIException $e)
+catch(OdyMaterialyAPI\Exception $e)
 {
 	echo('[]'); // TODO: Error handling
 }

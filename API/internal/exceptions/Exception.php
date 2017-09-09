@@ -3,9 +3,9 @@ namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
-class APIException extends \Exception implements \JsonSerializable
+class Exception extends \Exception implements \JsonSerializable
 {
-	const TYPE = 'APIException';
+	const TYPE = 'Exception';
 
 	public function jsonSerialize()
 	{

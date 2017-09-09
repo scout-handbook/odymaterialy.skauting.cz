@@ -7,7 +7,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/User.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
@@ -98,7 +98,7 @@ SQL;
 	$countStatement->bind_result($count);
 	if(!$countStatement->fetch())
 	{
-		throw new OdymaterialyAPI\APIException('Couldn\'t retrieve user count.');
+		throw new OdymaterialyAPI\Exception('Couldn\'t retrieve user count.'); // TODO: Dedicated class
 	}
 	$response['count'] = $count;
 	$countStatement->close();
@@ -110,7 +110,7 @@ try
 {
 	OdymaterialyAPI\editorTry('listUsers', true);
 }
-catch(OdymaterialyAPI\APIException $e)
+catch(OdymaterialyAPI\Exception $e)
 {
 	echo('[]'); // TODO: Error handling
 }

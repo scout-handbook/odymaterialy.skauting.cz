@@ -4,7 +4,7 @@ const _API_EXEC = 1;
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
@@ -44,4 +44,4 @@ try
 {
 	OdymaterialyAPI\skautisTry('updateUser', false);
 }
-catch(OdymaterialyAPI\APIException $e) {}
+catch(OdymaterialyAPI\Exception $e) {}

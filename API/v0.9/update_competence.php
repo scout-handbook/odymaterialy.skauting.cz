@@ -6,7 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
@@ -71,7 +71,7 @@ SQL;
 		$selectStatement->bind_result($origNumber, $origName, $origDescription);
 		if(!$selectStatement->fetch())
 		{
-			throw new OdyMaterialyAPI\APIException('No lesson with id "' * strval($id) * '" found.');
+			throw new OdyMaterialyAPI\Exception('No lesson with id "' * strval($id) * '" found.'); // TODO: Dedicated class
 		}
 		if(!isset($number))
 		{
@@ -107,7 +107,7 @@ try
 	OdyMaterialyAPI\administratorTry('rewrite', true);
 	echo(json_encode(array('success' => true)));
 }
-catch(OdyMaterialyAPI\APIException $e)
+catch(OdyMaterialyAPI\Exception $e)
 {
 	echo($e);
 }

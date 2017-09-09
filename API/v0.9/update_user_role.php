@@ -6,7 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
@@ -74,7 +74,7 @@ SQL;
 	$selectStatement->bind_result($old_role);
 	if(!$selectStatement->fetch())
 	{
-		throw new OdymaterialyAPI\APIException('No user with such id exists.');
+		throw new OdymaterialyAPI\Exception('No user with such id exists.'); // TODO: Dedicated class
 	}
 	checkRole($my_role, new OdymaterialyAPI\Role($old_role));
 	$selectStatement->close();
@@ -99,7 +99,7 @@ try
 	OdymaterialyAPI\editorTry('updateUser', true);
 	echo(json_encode(array('success' => true)));
 }
-catch(OdymaterialyAPI\APIException $e)
+catch(OdymaterialyAPI\Exception $e)
 {
 	echo($e);
 }

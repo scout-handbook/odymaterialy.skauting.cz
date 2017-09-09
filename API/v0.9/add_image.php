@@ -4,7 +4,7 @@ const _API_EXEC = 1;
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
@@ -25,17 +25,17 @@ SQL;
 	}
 	if(!getimagesize($_FILES['image']['tmp_name']))
 	{
-		throw new OdyMaterialyAPI\APIException('File is not an image.');
+		throw new OdyMaterialyAPI\Exception('File is not an image.'); // TODO: Dedicated class
 	}
 	if(!in_array(strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png']))
 	{
-		throw new OdyMaterialyAPI\APIException('Invalid image type. Use PNG or JPEG files.');
+		throw new OdyMaterialyAPI\Exception('Invalid image type. Use PNG or JPEG files.'); // TODO: Dedicated class
 	}
 	$uuid = Uuid::uuid4();
 	$orig = $_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg';
 	if(!move_uploaded_file($_FILES['image']['tmp_name'], $orig))
 	{
-		throw new OdyMaterialyAPI\APIException('File upload failed.');
+		throw new OdyMaterialyAPI\Exception('File upload failed.'); // TODO: Dedicated class
 	}
 
 	$db = new mysqli(OdyMaterialyAPI\DB_SERVER, OdyMaterialyAPI\DB_USER, OdyMaterialyAPI\DB_PASSWORD, OdyMaterialyAPI\DB_DBNAME);
@@ -79,7 +79,7 @@ try
 	OdyMaterialyAPI\editorTry('addImage', true);
 	echo(json_encode(array('success' => true)));
 }
-catch(OdyMaterialyAPI\APIException $e)
+catch(OdyMaterialyAPI\Exception $e)
 {
 	echo($e);
 }

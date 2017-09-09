@@ -5,7 +5,7 @@ namespace OdyMaterialyAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
@@ -104,7 +104,7 @@ SQL;
 	$statement->bind_result($role);
 	if(!$statement->fetch())
 	{
-		throw new APIException('Error: User not in database even though they are logged in. This should never happen.');
+		throw new Exception('Error: User not in database even though they are logged in. This should never happen.');
 		return 0;
 	}
 	return new Role($role);

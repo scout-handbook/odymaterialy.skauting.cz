@@ -6,7 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
@@ -15,7 +15,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryExceptio
 use Ramsey\Uuid\Uuid;
 
 function changeCompetences()
-{
+{88888
 	$deleteSQL = <<<SQL
 DELETE FROM competences_for_lessons
 WHERE lesson_id = ?;
@@ -83,7 +83,7 @@ try
 	OdyMaterialyAPI\editorTry('changeCompetences', true);
 	echo(json_encode(array('success' => true)));
 }
-catch(OdyMaterialyAPI\APIException $e)
+catch(OdyMaterialyAPI\Exception $e)
 {
 	echo($e);
 }
