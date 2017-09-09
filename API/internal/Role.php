@@ -84,6 +84,6 @@ SQL;
 	$db->execute();
 	$role = '';
 	$db->bind_result($role);
-	$db->fetch_require(); // TODO: Message
+	$db->fetch_require('user');
 	return new Role($role);
 }

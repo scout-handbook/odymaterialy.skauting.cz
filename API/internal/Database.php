@@ -7,6 +7,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/NotFoundException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
 
 class Database
@@ -57,11 +58,11 @@ class Database
 		$this->statement->bind_result(...$vars);
 	}
 
-	public function fetch_require()
+	public function fetch_require($resource_name)
 	{
 		if(!$this->statement->fetch())
 		{
-			throw new Exception('Error: User not in database even though they are logged in. This should never happen.'); // TODO: Dedicated class, proper message
+			throw new NotFoundException($resource_name);
 		}
 	}
 
