@@ -32,6 +32,7 @@ if(isset($_COOKIE['skautis_token']) and isset($_COOKIE['skautis_timeout']))
 		if($role !== "editor" and $role !== "administrator" and $role !== "superuser")
 		{
 			header('Location: https://odymaterialy.skauting.cz');
+			die();
 		}
 		include("main.html");
 	}

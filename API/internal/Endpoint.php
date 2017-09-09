@@ -5,6 +5,8 @@ namespace OdyMaterialyAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
+
 class Endpoint
 {
 	private $resourceName;

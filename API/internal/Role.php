@@ -3,12 +3,7 @@ namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
-
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Database.php');
 
 class Role implements \JsonSerializable
 {
@@ -83,29 +78,12 @@ FROM users
 WHERE id = ?;
 SQL;
 
-	$db = new \mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
-	if ($db->connect_error)
-	{
-		throw new ConnectionException($db);
-	}
-
-	$statement = $db->prepare($SQL);
-	if(!$statement)
-	{
-		throw new QueryException($SQL, $db);
-	}
-	$statement->bind_param('i', $idPerson);
-	if(!$statement->execute())
-	{
-		throw new ExecutionException($SQL, $statement);
-	}
-	$statement->store_result();
+	$db = new Database();
+	$db->prepare($SQL);
+	$db->bind_param('i', $idPerson);
+	$db->execute();
 	$role = '';
-	$statement->bind_result($role);
-	if(!$statement->fetch())
-	{
-		throw new Exception('Error: User not in database even though they are logged in. This should never happen.');
-		return 0;
-	}
+	$db->bind_result($role);
+	$db->fetch_require();
 	return new Role($role);
 }
