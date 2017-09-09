@@ -29,7 +29,7 @@ SQL;
 	$body = '';
 	$db->bind_result($body);
 	$db->fetch_require(); // TODO: Message
-	return ['success' => true, 'body' => $body];
+	return ['status'=> 200, 'body' => $body];
 };
 $endpoint->setGetMethod(new OdyMaterialyAPI\Role('guest'), $getLesson);
 

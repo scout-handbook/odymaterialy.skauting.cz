@@ -112,35 +112,41 @@ class Endpoint
 		}
 		try
 		{
-			switch($method)
+			if(isset($data['id']))
 			{
+				switch($method)
+				{
 				case 'GET':
-					if(isset($data['id']))
-					{
-						$ret = ($this->get)($data);
-					}
-					else
-					{
-						$ret = ($this->list)($data);
-					}
+					$ret = ($this->get)($data);
 					break;
 				case 'PUT':
 					$ret = ($this->put)($data);
 					break;
 				case 'POST':
-					if(!isset($data['id']))
-					{
-						throw new ArgumentException(ArgumentException::GET, 'id');
-					}
 					$ret = ($this->post)($data);
 					break;
 				case 'DELETE':
-					if(!isset($data['id']))
-					{
-						throw new ArgumentException(ArgumentException::GET, 'id');
-					}
 					$ret = ($this->delete)($data);
 					break;
+				}
+			}
+			else
+			{
+				switch($method)
+				{
+				case 'GET':
+					$ret = ($this->list)($data);
+					break;
+				case 'PUT':
+					$ret = ($this->put)($data);
+					break;
+				case 'POST':
+					throw new ArgumentException(ArgumentException::POST, 'id');
+					break;
+				case 'DELETE':
+					throw new ArgumentException(ArgumentException::GET, 'id');
+					break;
+				}
 			}
 		}
 		catch(Exception $e)
