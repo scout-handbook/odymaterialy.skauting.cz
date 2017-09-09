@@ -13,8 +13,8 @@ class Endpoint
 	private $resourceName;
 	private $list;
 	private $get;
-	private $put;
-	private $post;
+	private $update;
+	private $add;
 	private $delete;
 
 	public function __construct($resourceName)
@@ -22,8 +22,8 @@ class Endpoint
 		$this->resourceName = $resourceName;
 		$this->list = function() {throw new NotImplementedException();};
 		$this->get = function() {throw new NotImplementedException();};
-		$this->put = function() {throw new NotImplementedException();};
-		$this->post = function() {throw new NotImplementedException();};
+		$this->update = function() {throw new NotImplementedException();};
+		$this->add = function() {throw new NotImplementedException();};
 		$this->delete = function() {throw new NotImplementedException();};
 	}
 
@@ -53,9 +53,9 @@ class Endpoint
 		};
 	}
 
-	public function setPutMethod($minimalRole, $callback)
+	public function setUpdateMethod($minimalRole, $callback)
 	{
-		$this->put = function($data) use ($minimalRole, $callback)
+		$this->update = function($data) use ($minimalRole, $callback)
 		{
 			$wrapper = function($skautis) use ($data)
 			{
@@ -66,9 +66,9 @@ class Endpoint
 		};
 	}
 
-	public function setPostMethod($minimalRole, $callback)
+	public function setAddMethod($minimalRole, $callback)
 	{
-		$this->post = function($data) use ($minimalRole, $callback)
+		$this->add = function($data) use ($minimalRole, $callback)
 		{
 			$wrapper = function($skautis) use ($data)
 			{
@@ -120,10 +120,10 @@ class Endpoint
 					$ret = ($this->get)($data);
 					break;
 				case 'PUT':
-					$ret = ($this->put)($data);
+					$ret = ($this->update)($data);
 					break;
 				case 'POST':
-					$ret = ($this->post)($data);
+					$ret = ($this->add)($data);
 					break;
 				case 'DELETE':
 					$ret = ($this->delete)($data);
@@ -138,7 +138,7 @@ class Endpoint
 					$ret = ($this->list)($data);
 					break;
 				case 'PUT':
-					$ret = ($this->put)($data);
+					$ret = ($this->update)($data);
 					break;
 				case 'POST':
 					throw new ArgumentException(ArgumentException::POST, 'id');
