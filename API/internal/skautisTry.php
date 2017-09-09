@@ -7,8 +7,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautis.secret.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/AuthenticationException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/RoleException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/AuthenticationException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/RoleException.php');
 
 function skautisTry($callback, $hardCheck = true)
 {

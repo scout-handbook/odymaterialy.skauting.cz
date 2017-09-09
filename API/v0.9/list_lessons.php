@@ -7,10 +7,10 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/AnonymousField.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Field.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Lesson.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
 
 function listLessons()
 {

@@ -2,8 +2,9 @@
 const _API_EXEC = 1;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ArgumentException.php');
+
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
 
 use Ramsey\Uuid\Uuid;
 

@@ -5,11 +5,11 @@ header('content-type:text/markdown; charset=utf-8');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/APIException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ArgumentException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ConnectionException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/ExecutionException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/QueryException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/APIException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
 
 use Ramsey\Uuid\Uuid;
 
