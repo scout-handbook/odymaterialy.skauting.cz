@@ -37,43 +37,42 @@ function skautisTry($callback, $hardCheck = true)
 	throw new AuthenticationException();
 }
 
-function roleTry($success, $hardCheck = true, $requiredRole)
+function roleTry($success, $hardCheck, $requiredRole)
 {
 	if(Role_cmp($requiredRole, new Role('user')) === 0)
 	{
-		skautisTry($success, $hardCheck);
-		return;
+		return skautisTry($success, $hardCheck);
 	}
 	$safeCallback = function($skautis) use ($success, $requiredRole)
 	{
 		$role = new Role(getRole($skautis->UserManagement->UserDetail()->ID_Person));
 		if(Role_cmp($role, $requiredRole) >= 0)
 		{
-			$success($skautis);
+			return $success($skautis);
 		}
 		else
 		{
 			throw new RoleException();
 		}
 	};
-	skautisTry($safeCallback, $hardCheck);
+	return skautisTry($safeCallback, $hardCheck);
 }
 
 function userTry($success, $hardCheck = true)
 {
-	roleTry($success, $hardCheck, new Role('user'));
+	return roleTry($success, $hardCheck, new Role('user'));
 }
 
 function editorTry($success, $hardCheck = true)
 {
-	roleTry($success, $hardCheck, new Role('editor'));
+	return roleTry($success, $hardCheck, new Role('editor'));
 }
 
 function administratorTry($success, $hardCheck = true)
 {
-	roleTry($success, $hardCheck, new Role('administrator'));
+	return roleTry($success, $hardCheck, new Role('administrator'));
 }
 function superuserTry($success, $hardCheck = true)
 {
-	roleTry($success, $hardCheck, new Role('superuser'));
+	return roleTry($success, $hardCheck, new Role('superuser'));
 }
