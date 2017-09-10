@@ -10,7 +10,6 @@ class Exception extends \Exception implements \JsonSerializable
 
 	public function handle()
 	{
-		http_response_code(static::STATUS);
 		return ['status' => static::STATUS, 'type' => static::TYPE, 'message' => $this->getMessage()];
 	}
 

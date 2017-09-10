@@ -153,6 +153,7 @@ class Endpoint
 		{
 			$ret = $e->handle();
 		}
+		http_response_code($ret['status']);
 		echo(json_encode($ret, JSON_UNESCAPED_UNICODE));
 	}
 }
