@@ -161,7 +161,7 @@ SQL;
 	$body = '';
 	$db->bind_result($body);
 	$db->fetch_require('lesson');
-	return ['status'=> 200, 'result' => $body];
+	return ['status' => 200, 'result' => $body];
 };
 $endpoint->setGetMethod(new OdyMaterialyAPI\Role('guest'), $getLesson);
 
@@ -188,6 +188,7 @@ SQL;
 	$db->prepare($SQL);
 	$db->bind_param('sss', $uuid, $name, $body);
 	$db->execute();
+	return ['status' => 201];
 };
 $endpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addLesson);
 
@@ -252,6 +253,7 @@ SQL;
 	$db->prepare($updateSQL);
 	$db->bind_param('sss', $name, $body, $id);
 	$db->execute();
+	return ['status' => 200];
 };
 $endpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateLesson);
 
@@ -299,6 +301,7 @@ SQL;
 	$db->execute();
 
 	$db->finish_transaction();
+	return ['status' => 200];
 };
 $endpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteLesson);
 
