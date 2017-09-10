@@ -152,7 +152,7 @@ FROM lessons
 WHERE id = ?;
 SQL;
 
-	$id = Uuid::fromString($data['id'])->getBytes();
+	$id = $data['id']->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
@@ -182,11 +182,11 @@ SQL;
 	{
 		$body = $data['body'];
 	}
-	$uuid = Uuid::uuid4()->getBytes();
+	$id = Uuid::uuid4()->getBytes();
 
 	$db = new OdymaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('sss', $uuid, $name, $body);
+	$db->bind_param('sss', $id, $name, $body);
 	$db->execute();
 	return ['status' => 201];
 };
@@ -212,7 +212,7 @@ WHERE id = ?
 LIMIT 1;
 SQL;
 
-	$id = Uuid::fromString($data['id'])->getBytes();
+	$id = $data['id']->getBytes();
 	if(isset($data['name']))
 	{
 		$name = $data['name'];
@@ -279,7 +279,7 @@ DELETE FROM lessons
 WHERE id = ?;
 SQL;
 
-	$id = Uuid::fromString($data['id'])->getBytes();
+	$id = $data['id']->getBytes();
 
 	$db = new Database();
 	$db->start_transaction();

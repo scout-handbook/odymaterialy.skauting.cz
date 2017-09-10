@@ -114,6 +114,15 @@ class Endpoint
 		{
 			if(isset($data['id']))
 			{
+				try
+				{
+					$data['id'] = \Ramsey\Uuid\Uuid::fromString($data['id']);
+				}
+				catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
+				{
+					throw new NotFoundException("lesson");
+				}
+
 				switch($method)
 				{
 				case 'GET':
