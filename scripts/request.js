@@ -27,7 +27,14 @@ function request(url, query, headers)
 			{
 				if(this.status === 200)
 				{
-					ret.trigger(this.responseText);
+					if(JSON.parse(this.responseText).response)
+					{
+						ret.trigger(JSON.parse(this.responseText).response)
+					}
+					else // TODO: Remove
+					{
+						ret.trigger(this.responseText);
+					}
 				}
 			}
 		}

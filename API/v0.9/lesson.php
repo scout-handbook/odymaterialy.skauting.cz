@@ -140,7 +140,7 @@ SQL;
 		usort(end($fields)->lessons, "OdyMaterialyAPI\Lesson_cmp");
 	}
 	usort($fields, 'OdyMaterialyAPI\Field_cmp'); // Sort all the Fields by lowest competence in the Field low-to-high
-	return ['status' => 200, 'result' => $fields];
+	return ['status' => 200, 'response' => $fields];
 };
 $endpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $listLessons);
 
@@ -161,7 +161,7 @@ SQL;
 	$body = '';
 	$db->bind_result($body);
 	$db->fetch_require('lesson');
-	return ['status' => 200, 'result' => $body];
+	return ['status' => 200, 'response' => $body];
 };
 $endpoint->setGetMethod(new OdyMaterialyAPI\Role('guest'), $getLesson);
 

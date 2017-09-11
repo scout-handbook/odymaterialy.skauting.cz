@@ -2,9 +2,9 @@ var lessonListEvent = new AfterLoadEvent(2);
 
 function listLessonsSetup()
 {
-	cacheThenNetworkRequest("/API/v0.9/list_lessons", "", function(response, second)
+	cacheThenNetworkRequest("/API/v0.9/lesson", "", function(response, second)
 		{
-			FIELDS = JSON.parse(response);
+			FIELDS = response;
 			if(!second)
 			{
 				lessonListEvent.trigger();
