@@ -17,9 +17,9 @@ function lessonListSetup()
 			FIELDS = response;
 			lessonListEvent.trigger();
 		});
-	request("/API/v0.9/list_competences", "GET", "", function(response)
+	request("/API/v0.9/competence", "GET", "", function(response)
 		{
-			COMPETENCES = JSON.parse(response);
+			COMPETENCES = response;
 			lessonListEvent.trigger();
 		});
 	request("/API/v0.9/get_login_state", "GET", "", function(response)
