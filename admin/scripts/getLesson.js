@@ -9,7 +9,7 @@ function changeLessonOnClick(event)
 
 function getLesson(id, noHistory)
 {
-	request("/API/v0.9/get_lesson", "GET", "id=" + id, function(response)
+	request("/API/v0.9/lesson/" + id, "GET", "", function(response)
 		{
 			lessonListEvent.addCallback(function()
 				{
@@ -105,8 +105,8 @@ function save()
 {
 	if(changed)
 	{
-		var payload = {"id": encodeURIComponent(document.getElementById("save").dataset.id), "name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
-		retryAction("/API/v0.9/update_lesson", "POST", payload);
+		var payload = {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
+		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("save").dataset.id), "PUT", payload);
 	}
 	else
 	{

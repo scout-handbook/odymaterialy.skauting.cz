@@ -57,7 +57,7 @@ class Endpoint
 	{
 		$this->update = function($data) use ($minimalRole, $callback)
 		{
-			$wrapper = function($skautis) use ($data)
+			$wrapper = function($skautis) use ($data, $callback)
 			{
 				return $callback($skautis, $data);
 			};
@@ -70,7 +70,7 @@ class Endpoint
 	{
 		$this->add = function($data) use ($minimalRole, $callback)
 		{
-			$wrapper = function($skautis) use ($data)
+			$wrapper = function($skautis) use ($data, $callback)
 			{
 				return $callback($skautis, $data);
 			};
@@ -83,7 +83,7 @@ class Endpoint
 	{
 		$this->delete = function($data) use ($minimalRole, $callback)
 		{
-			$wrapper = function($skautis) use ($data)
+			$wrapper = function($skautis) use ($data, $callback)
 			{
 				return $callback($skautis, $data);
 			};
@@ -102,9 +102,15 @@ class Endpoint
 				$data = $_GET;
 				break;
 			case 'PUT':
+				parse_str(file_get_contents("php://input"), $data);
+				break;
 			case 'POST':
 				$data = $_POST;
 				break;
+		}
+		if(isset($_GET['id']))
+		{
+			$data['id'] = $_GET['id'];
 		}
 		if(isset($data['id']) and $data['id'] == '')
 		{
@@ -147,10 +153,10 @@ class Endpoint
 					$ret = ($this->list)($data);
 					break;
 				case 'PUT':
-					$ret = ($this->update)($data);
+					throw new ArgumentException(ArgumentException::POST, 'id');
 					break;
 				case 'POST':
-					throw new ArgumentException(ArgumentException::POST, 'id');
+					$ret = ($this->add)($data);
 					break;
 				case 'DELETE':
 					throw new ArgumentException(ArgumentException::GET, 'id');

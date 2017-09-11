@@ -20,7 +20,7 @@ function retryAction(url, method, payload)
 
 function retryActionAfter(result, url, method, payload)
 {
-	if(result.success)
+	if(result.success || Math.floor(result.status / 100) === 2) // TODO: Remove
 	{
 		dialog("Akce byla úspěšná.", "OK");
 		lessonListEvent = new AfterLoadEvent(3);

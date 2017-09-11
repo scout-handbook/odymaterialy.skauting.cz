@@ -12,9 +12,9 @@ function mainPageSetup()
 
 function lessonListSetup()
 {
-	request("/API/v0.9/list_lessons", "GET", "", function(response)
+	request("/API/v0.9/lesson", "GET", "", function(response)
 		{
-			FIELDS = JSON.parse(response);
+			FIELDS = response;
 			lessonListEvent.trigger();
 		});
 	request("/API/v0.9/list_competences", "GET", "", function(response)

@@ -281,7 +281,7 @@ SQL;
 
 	$id = $data['id']->getBytes();
 
-	$db = new Database();
+	$db = new OdymaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($copySQL);
