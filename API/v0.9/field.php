@@ -24,7 +24,7 @@ SQL;
 	$name = $data['name'];
 	$uuid = Uuid::uuid4()->getBytes();
 
-	$db = new Database();
+	$db = new OdymaterialyAPI\Database();
 	$db->prepare($SQL);
 	$db->bind_param('ss', $uuid, $name);
 	$db->execute();
