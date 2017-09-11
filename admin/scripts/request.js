@@ -1,36 +1,73 @@
-function request(url, query, callback)
+function request(url, method, payload, callback)
 {
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function()
 		{
 			if(this.readyState === 4 && this.status === 200)
 			{
-				callback(this.responseText);
+				if(JSON.parse(this.responseText).response)
+				{
+					callback(JSON.parse(this.responseText).response);
+				}
+				else // TODO: Remove
+				{
+					callback(this.responseText);
+				}
 			}
 		}
-	if(query !== undefined && query !== "")
+	if(payload)
 	{
-		url += "?" + query;
-	}
-	xhr.open("GET", url, true);
-	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhr.send();
-}
-
-function POSTrequest(url, formData, callback)
-{
-	var xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = function()
+		if(method === "GET" || method === "DELETE" || payload.toString() != "[object FormData]")
 		{
-			if(this.readyState === 4 && this.status === 200)
+			var query = "";
+			var first = true;
+			for(key in payload)
 			{
-				callback(this.responseText);
+				if(payload.hasOwnProperty(key))
+				{
+					if(payload[key].constructor === Array)
+					{
+						for(var i = 0; i < payload[key].length; i++)
+						{
+							if(!first)
+							{
+								query += "&";
+							}
+							query += key + "[]=" + payload[key][i];
+						}
+					}
+					else
+					{
+						if(!first)
+						{
+							query += "&";
+						}
+						query += key + "=" + payload[key];
+					}
+					first = false;
+				}
 			}
 		}
-	xhr.open("POST", url, true);
-	if(typeof formData == "string")
+		if(method === "GET" || method === "DELETE")
+		{
+			url += "?" + query;
+		}
+	}
+	xhr.open(method, url, true);
+	if(method === "GET" || method === "DELETE" || payload.toString() != "[object FormData]")
 	{
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	}
-	xhr.send(formData);
+	if(method === "GET" || method === "DELETE")
+	{
+		xhr.send();
+	}
+	else if(payload.toString() != "[object FormData]")
+	{
+		xhr.send(query);
+	}
+	else
+	{
+		xhr.send(payload);
+	}
 }

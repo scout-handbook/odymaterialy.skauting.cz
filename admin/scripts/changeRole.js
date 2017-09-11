@@ -52,11 +52,10 @@ function changeRoleSave()
 {
 	if(roleChanged)
 	{
-		var query = "id=" + encodeURIComponent(document.getElementById("changeRoleSave").dataset.id);
 		var sel = document.getElementById("roleSelect");
-		query += "&role=" + encodeURIComponent(sel.options[sel.selectedIndex].value);
+		var payload = {"id": encodeURIComponent(document.getElementById("changeRoleSave").dataset.id), "role": encodeURIComponent(sel.options[sel.selectedIndex].value)};
 		sidePanelClose();
-		retryAction("/API/v0.9/update_user_role", query);
+		retryAction("/API/v0.9/update_user_role", payload);
 	}
 	else
 	{

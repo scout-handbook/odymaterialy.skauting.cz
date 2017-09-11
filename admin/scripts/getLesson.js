@@ -9,7 +9,7 @@ function changeLessonOnClick(event)
 
 function getLesson(id, noHistory)
 {
-	request("/API/v0.9/get_lesson", "id=" + id, function(response)
+	request("/API/v0.9/get_lesson", "GET", "id=" + id, function(response)
 		{
 			lessonListEvent.addCallback(function()
 				{
@@ -103,10 +103,8 @@ function save()
 {
 	if(changed)
 	{
-		var query = "id=" + encodeURIComponent(document.getElementById("save").dataset.id);
-		query += "&name=" + encodeURIComponent(document.getElementById("name").value);
-		query += "&body=" + encodeURIComponent(ace.edit("editor").getValue());
-		retryAction("/API/v0.9/update_lesson", query);
+		var payload = {"id": encodeURIComponent(document.getElementById("save").dataset.id), "name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
+		retryAction("/API/v0.9/update_lesson", payload);
 	}
 	else
 	{
@@ -137,7 +135,7 @@ function getImageSelector(page, perPage)
 	{
 		perPage = 15;
 	}
-	request("/API/v0.9/list_images", "", function(response)
+	request("/API/v0.9/list_images", "GET", "", function(response)
 		{
 			renderImageSelector(JSON.parse(response), page, perPage);
 		});

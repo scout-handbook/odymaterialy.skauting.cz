@@ -15,7 +15,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryExceptio
 use Ramsey\Uuid\Uuid;
 
 function changeCompetences()
-{88888
+{
 	$deleteSQL = <<<SQL
 DELETE FROM competences_for_lessons
 WHERE lesson_id = ?;

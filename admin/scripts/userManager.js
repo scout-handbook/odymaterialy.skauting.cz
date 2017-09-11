@@ -26,8 +26,8 @@ function getUserList(searchName, page, perPage)
 	{
 		perPage = 25;
 	}
-	var query = "name=" + searchName + "&page=" + page + "&per-page=" + perPage;
-	request("/API/v0.9/list_users", query, function(response)
+	var payload = {"name": searchName, "page": page, "per-page": perPage}
+	request("/API/v0.9/list_users", "GET", payload, function(response)
 		{
 			showUserList(JSON.parse(response), searchName, page, perPage);
 		});

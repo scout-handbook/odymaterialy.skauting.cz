@@ -26,7 +26,7 @@ function getImageList(page, perPage)
 	{
 		perPage = 15;
 	}
-	request("/API/v0.9/list_images", "", function(response)
+	request("/API/v0.9/list_images", "GET", "", function(response)
 		{
 			showImageList(JSON.parse(response), page, perPage);
 		});

@@ -68,13 +68,13 @@ function changeLessonFieldSave()
 	if(lessonFieldChanged)
 	{
 		var fieldId = parseForm()[0];
-		var query = "lesson-id=" + encodeURIComponent(document.getElementById("changeLessonFieldSave").dataset.id);
+		var payload = {"lesson-id": encodeURIComponent(document.getElementById("changeLessonFieldSave").dataset.id)};
 		if(fieldId)
 		{
-			query += "&field-id=" + encodeURIComponent(fieldId);
+			payload["field-id"] = encodeURIComponent(fieldId);
 		}
 		sidePanelClose();
-		retryAction("/API/v0.9/update_lesson_field", query);
+		retryAction("/API/v0.9/update_lesson_field", payload);
 	}
 	else
 	{

@@ -12,17 +12,17 @@ function mainPageSetup()
 
 function lessonListSetup()
 {
-	request("/API/v0.9/list_lessons", "", function(response)
+	request("/API/v0.9/list_lessons", "GET", "", function(response)
 		{
 			FIELDS = JSON.parse(response);
 			lessonListEvent.trigger();
 		});
-	request("/API/v0.9/list_competences", "", function(response)
+	request("/API/v0.9/list_competences", "GET", "", function(response)
 		{
 			COMPETENCES = JSON.parse(response);
 			lessonListEvent.trigger();
 		});
-	request("/API/v0.9/get_login_state", "", function(response)
+	request("/API/v0.9/get_login_state", "GET", "", function(response)
 		{
 			LOGINSTATE = JSON.parse(response);
 			lessonListEvent.trigger();

@@ -19,9 +19,7 @@ function addCompetence()
 
 function addCompetenceSave()
 {
-	var query = "number=" + encodeURIComponent(document.getElementById("competenceNumber").value);
-	query += "&name=" + encodeURIComponent(document.getElementById("competenceName").value);
-	query += "&description=" + encodeURIComponent(document.getElementById("competenceDescription").value);
+	var payload = {"number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
 	sidePanelClose();
-	retryAction("/API/v0.9/add_competence", query);
+	retryAction("/API/v0.9/add_competence", payload);
 }

@@ -47,12 +47,9 @@ function changeCompetenceSave()
 {
 	if(competenceChanged)
 	{
-		var query = "id=" + encodeURIComponent(document.getElementById("changeCompetenceSave").dataset.id);
-		query += "&number=" + encodeURIComponent(document.getElementById("competenceNumber").value);
-		query += "&name=" + encodeURIComponent(document.getElementById("competenceName").value);
-		query += "&description=" + encodeURIComponent(document.getElementById("competenceDescription").value);
+		var payload = {"id": encodeURIComponent(document.getElementById("changeCompetenceSave").dataset.id), "number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
 		sidePanelClose();
-		retryAction("/API/v0.9/update_competence", query);
+		retryAction("/API/v0.9/update_competence", payload);
 	}
 	else
 	{

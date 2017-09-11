@@ -54,14 +54,16 @@ function changeLessonCompetencesSave()
 {
 	if(lessonCompetencesChanged)
 	{
-		var query = "id=" + encodeURIComponent(document.getElementById("changeLessonCompetencesSave").dataset.id);
+		var payload = {"id": encodeURIComponent(document.getElementById("changeLessonCompetencesSave").dataset.id)}
 		var competences = parseForm();
+		var encodedCompetences = [];
 		for(i = 0; i < competences.length; i++)
 		{
-			query += "&competence[]=" + encodeURIComponent(competences[i]);
+			encodedCompetences.push(encodeURIComponent(competences[i]));
 		}
+		payload["competence"] = encodedCompetences;
 		sidePanelClose();
-		retryAction("/API/v0.9/update_lesson_competences", query);
+		retryAction("/API/v0.9/update_lesson_competences", payload);
 	}
 	else
 	{
