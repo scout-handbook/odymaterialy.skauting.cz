@@ -48,5 +48,5 @@ function addLesson(noHistory)
 function addCallback()
 {
 	var payload = {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
-	retryAction("/API/v0.9/add_lesson", payload);
+	retryAction("/API/v0.9/add_lesson", "POST", payload);
 }

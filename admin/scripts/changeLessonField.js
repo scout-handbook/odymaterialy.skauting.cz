@@ -74,7 +74,7 @@ function changeLessonFieldSave()
 			payload["field-id"] = encodeURIComponent(fieldId);
 		}
 		sidePanelClose();
-		retryAction("/API/v0.9/update_lesson_field", payload);
+		retryAction("/API/v0.9/update_lesson_field", "POST", payload);
 	}
 	else
 	{

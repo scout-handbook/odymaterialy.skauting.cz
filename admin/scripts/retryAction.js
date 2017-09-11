@@ -5,20 +5,20 @@ function retryActionSetup()
 	if(window.sessionStorage && sessionStorage.getItem("retryActionUrl"))
 	{
 		retry = true;
-		retryAction(sessionStorage.getItem("retryActionUrl"), JSON.parse(sessionStorage.getItem("retryActionPayload")));
+		retryAction(sessionStorage.getItem("retryActionUrl"), sessionStorage.getItem("retryActionMethod"), JSON.parse(sessionStorage.getItem("retryActionPayload")));
 		sessionStorage.clear();
 	}
 }
 
-function retryAction(url, payload)
+function retryAction(url, method, payload)
 {
-	request(url, "POST", payload, function(response)
+	request(url, method, payload, function(response)
 		{
-			retryActionAfter(JSON.parse(response), url, payload);
+			retryActionAfter(JSON.parse(response), url, method, payload);
 		})
 }
 
-function retryActionAfter(result, url, payload)
+function retryActionAfter(result, url, method, payload)
 {
 	if(result.success)
 	{
@@ -40,6 +40,7 @@ function retryActionAfter(result, url, payload)
 		if(!retry && window.sessionStorage)
 		{
 			sessionStorage.setItem("retryActionUrl", url);
+			sessionStorage.setItem("retryActionMethod", method);
 			sessionStorage.setItem("retryActionPayload", JSON.stringify(payload));
 			window.location.replace("https://odymaterialy.skauting.cz/auth/login.php");
 		}

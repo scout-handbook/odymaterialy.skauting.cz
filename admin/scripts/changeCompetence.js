@@ -49,7 +49,7 @@ function changeCompetenceSave()
 	{
 		var payload = {"id": encodeURIComponent(document.getElementById("changeCompetenceSave").dataset.id), "number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
 		sidePanelClose();
-		retryAction("/API/v0.9/update_competence", payload);
+		retryAction("/API/v0.9/update_competence", "POST", payload);
 	}
 	else
 	{

@@ -17,7 +17,7 @@ function deleteCompetenceOnClick(event)
 	dialog("Opravdu si přejete smazat kompetenci " + number + ": \"" + name + "\"?", "Ano", function()
 		{
 			var payload = {"id": encodeURIComponent(event.target.dataset.id)}
-			retryAction("/API/v0.9/delete_competence", payload);
+			retryAction("/API/v0.9/delete_competence", "POST", payload);
 		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;", function()
 		{
 			history.back();

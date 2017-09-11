@@ -63,7 +63,7 @@ function changeLessonCompetencesSave()
 		}
 		payload["competence"] = encodedCompetences;
 		sidePanelClose();
-		retryAction("/API/v0.9/update_lesson_competences", payload);
+		retryAction("/API/v0.9/update_lesson_competences", "POST", payload);
 	}
 	else
 	{
