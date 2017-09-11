@@ -168,6 +168,7 @@ class Endpoint
 		{
 			$ret = $e->handle();
 		}
+		header('content-type:application/json; charset=utf-8');
 		http_response_code($ret['status']);
 		echo(json_encode($ret, JSON_UNESCAPED_UNICODE));
 	}
