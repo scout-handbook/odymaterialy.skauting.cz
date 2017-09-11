@@ -18,7 +18,9 @@ function addLesson(noHistory)
 	</div>\
 </header>\
 <div id="imageSelector">\
-	<div id="imageWrapper"></div>\
+	<div id="imageScroller">\
+		<div id="imageWrapper"></div>\
+	</div>\
 </div>'
 	html += '<div id="editor">' + defaultBody + '</div><div id="preview"><div id="preview-inner"></div></div>';
 	document.getElementsByTagName("main")[0].innerHTML = html;

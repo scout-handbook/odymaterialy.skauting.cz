@@ -78,12 +78,19 @@ header
 	top: -100%;
 }
 
-#imageWrapper
+#imageScroller
 {
 	position: absolute;
 	top: 91px;
 	left: 0;
 	right: 0;
+	bottom: 0;
+	padding-bottom: 30px;
+	overflow-y: auto;
+}
+
+#imageWrapper
+{
 	margin: 0 auto;
 	max-width: 770px;
 }

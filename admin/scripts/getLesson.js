@@ -50,7 +50,9 @@ function showLesson(id, markdown, noHistory)
 	</div>\
 </header>\
 <div id="imageSelector">\
-	<div id="imageWrapper"></div>\
+	<div id="imageScroller">\
+		<div id="imageWrapper"></div>\
+	</div>\
 </div>'
 	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
 
