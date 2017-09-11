@@ -10,9 +10,9 @@ function listLessonsSetup()
 				lessonListEvent.trigger();
 			}
 		});
-	cacheThenNetworkRequest("/API/v0.9/list_competences", "", function(response, second)
+	cacheThenNetworkRequest("/API/v0.9/competence", "", function(response, second)
 		{
-			COMPETENCES = JSON.parse(response);
+			COMPETENCES = response;
 			if(!second)
 			{
 				lessonListEvent.trigger();

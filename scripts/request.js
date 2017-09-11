@@ -23,19 +23,9 @@ function request(url, query, headers)
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function()
 		{
-			if(this.readyState === 4)
+			if(this.readyState === 4 && this.status === 200)
 			{
-				if(this.status === 200)
-				{
-					if(JSON.parse(this.responseText).response)
-					{
-						ret.trigger(JSON.parse(this.responseText).response)
-					}
-					else // TODO: Remove
-					{
-						ret.trigger(this.responseText);
-					}
-				}
+				ret.trigger(JSON.parse(this.responseText).response)
 			}
 		}
 	if(query !== undefined && query !== "")
