@@ -11,85 +11,85 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/NotImplemente
 class Endpoint
 {
 	private $resourceName;
-	private $list;
-	private $get;
-	private $update;
-	private $add;
-	private $delete;
+
+	private $listFunction;
+	private $listRole;
+	private $listType;
+	
+	private $getFunction;
+	private $getRole;
+	private $getType;
+
+	private $updateFunction;
+	private $updateRole;
+	private $updateType;
+
+	private $addFunction;
+	private $addRole;
+	private $addType;
+
+	private $deleteFunction;
+	private $deleteRole;
+	private $deleteType;
 
 	public function __construct($resourceName)
 	{
 		$this->resourceName = $resourceName;
-		$this->list = function() {throw new NotImplementedException();};
-		$this->get = function() {throw new NotImplementedException();};
-		$this->update = function() {throw new NotImplementedException();};
-		$this->add = function() {throw new NotImplementedException();};
-		$this->delete = function() {throw new NotImplementedException();};
+
+		$this->listFunction = function() {throw new NotImplementedException();};
+		$this->listRole = new Role('guest');
+		$this->listType = 'application/json';
+
+		$this->getFunction = function() {throw new NotImplementedException();};
+		$this->getRole = new Role('guest');
+		$this->listType = 'application/json';
+
+		$this->updateFunction = function() {throw new NotImplementedException();};
+		$this->updateRole = new Role('guest');
+		$this->listType = 'application/json';
+
+		$this->addFunction = function() {throw new NotImplementedException();};
+		$this->addRole = new Role('guest');
+		$this->listType = 'application/json';
+
+		$this->deleteFunction = function() {throw new NotImplementedException();};
+		$this->deleteRole = new Role('guest');
+		$this->listType = 'application/json';
 	}
 
-	public function setListMethod($minimalRole, $callback)
+	public function setListMethod($minimalRole, $callback, $type = 'application/json')
 	{
-		$this->list = function($data) use ($minimalRole, $callback)
-		{
-			$wrapper = function($skautis) use ($data, $callback)
-			{
-				return $callback($skautis, $data);
-			};
-			$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
-			return roleTry($wrapper, $hardCheck, $minimalRole);
-		};
+		$this->listRole = $minimalRole;
+		$this->listFunction = $callback;
+		$this->listType = $type;
 	}
 
-	public function setGetMethod($minimalRole, $callback)
+	public function setGetMethod($minimalRole, $callback, $type = 'application/json')
 	{
-		$this->get = function($data) use ($minimalRole, $callback)
-		{
-			$wrapper = function($skautis) use ($data, $callback)
-			{
-				return $callback($skautis, $data);
-			};
-			$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
-			return roleTry($wrapper, $hardCheck, $minimalRole);
-		};
+		$this->getRole = $minimalRole;
+		$this->getFunction = $callback;
+		$this->getType = $type;
 	}
 
-	public function setUpdateMethod($minimalRole, $callback)
+	public function setUpdateMethod($minimalRole, $callback, $type = 'application/json')
 	{
-		$this->update = function($data) use ($minimalRole, $callback)
-		{
-			$wrapper = function($skautis) use ($data, $callback)
-			{
-				return $callback($skautis, $data);
-			};
-			$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
-			return roleTry($wrapper, $hardCheck, $minimalRole);
-		};
+		$this->updateRole = $minimalRole;
+		$this->updateFunction = $callback;
+		$this->updateType = $type;
 	}
 
-	public function setAddMethod($minimalRole, $callback)
+	public function setAddMethod($minimalRole, $callback, $type = 'application/json')
 	{
-		$this->add = function($data) use ($minimalRole, $callback)
-		{
-			$wrapper = function($skautis) use ($data, $callback)
-			{
-				return $callback($skautis, $data);
-			};
-			$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
-			return roleTry($wrapper, $hardCheck, $minimalRole);
-		};
+		$this->addRole = $minimalRole;
+		$this->addFunction = $callback;
+		$this->addType = $type;
 	}
 
-	public function setDeleteMethod($minimalRole, $callback)
+	public function setDeleteMethod($minimalRole, $callback, $type = 'application/json')
 	{
-		$this->delete = function($data) use ($minimalRole, $callback)
-		{
-			$wrapper = function($skautis) use ($data, $callback)
-			{
-				return $callback($skautis, $data);
-			};
-			$hardCheck = (Role_cmp($minimalRole, new Role('user')) > 0);
-			return roleTry($wrapper, $hardCheck, $minimalRole);
-		};
+		$this->deleteRole = $minimalRole;
+		$this->deleteFunction = $callback;
+		$this->deleteType = $type;
 	}
 
 	public function handle()
@@ -132,16 +132,24 @@ class Endpoint
 				switch($method)
 				{
 				case 'GET':
-					$ret = ($this->get)($data);
+					$func = $this->getFunction;
+					$role = $this->getRole;
+					$type = $this->getType;
 					break;
 				case 'PUT':
-					$ret = ($this->update)($data);
+					$func = $this->updateFunction;
+					$role = $this->updateRole;
+					$type = $this->updateType;
 					break;
 				case 'POST':
-					$ret = ($this->add)($data);
+					$func = $this->addFunction;
+					$role = $this->addRole;
+					$type = $this->addType;
 					break;
 				case 'DELETE':
-					$ret = ($this->delete)($data);
+					$func = $this->deleteFunction;
+					$role = $this->deleteRole;
+					$type = $this->deleteType;
 					break;
 				}
 			}
@@ -150,25 +158,36 @@ class Endpoint
 				switch($method)
 				{
 				case 'GET':
-					$ret = ($this->list)($data);
+					$func = $this->listFunction;
+					$role = $this->listRole;
+					$type = $this->listType;
 					break;
 				case 'PUT':
 					throw new ArgumentException(ArgumentException::POST, 'id');
 					break;
 				case 'POST':
-					$ret = ($this->add)($data);
+					$func = $this->addFunction;
+					$role = $this->addRole;
+					$type = $this->addType;
 					break;
 				case 'DELETE':
 					throw new ArgumentException(ArgumentException::GET, 'id');
 					break;
 				}
 			}
+			$wrapper = function($skautis) use ($data, $func)
+			{
+				return $func($skautis, $data);
+			};
+			$hardCheck = (Role_cmp($role, new Role('user')) > 0);
+			$ret = roleTry($wrapper, $hardCheck, $role);
+			header('content-type:' . $type . '; charset=utf-8');
 		}
 		catch(Exception $e)
 		{
 			$ret = $e->handle();
+			header('content-type:application/json; charset=utf-8');
 		}
-		header('content-type:application/json; charset=utf-8');
 		http_response_code($ret['status']);
 		echo(json_encode($ret, JSON_UNESCAPED_UNICODE));
 	}
