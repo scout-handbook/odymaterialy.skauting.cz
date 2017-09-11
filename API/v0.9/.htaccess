@@ -3,6 +3,6 @@ RewriteEngine On
 RewriteRule ^(add_field|add_image|delete_field|get_image|get_login_state|list_images|list_users|update_field|update_lesson_competences|update_lesson_field|update_user|update_user_role)$ /API/v0.9/$1.php [QSA]
 
 # REST API
-RewriteRule ^(competence|lesson)(/(.*)$|$) /API/v0.9/$1.php?id=$3 [QSA]
+RewriteRule ^(competence|field|lesson)(/(.*)$|$) /API/v0.9/$1.php?id=$3 [QSA]
 
 RewriteRule image/(.*) /API/v0.9/get_image?id=$1 [QSA]
