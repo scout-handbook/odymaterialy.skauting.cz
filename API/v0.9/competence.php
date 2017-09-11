@@ -7,6 +7,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Endpoint.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
 
+use Ramsey\Uuid\Uuid;
+
 $endpoint = new OdyMaterialyAPI\Endpoint('lesson');
 
 $listCompetences = function($skautis, $data)
@@ -124,6 +126,7 @@ SQL;
 	$db->prepare($updateSQL);
 	$db->bind_param('isss', $number, $name, $description, $id);
 	$db->execute();
+	return ['status' => 200];
 };
 $endpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateCompetence);
 

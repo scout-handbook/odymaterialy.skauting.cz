@@ -47,9 +47,9 @@ function changeCompetenceSave()
 {
 	if(competenceChanged)
 	{
-		var payload = {"id": encodeURIComponent(document.getElementById("changeCompetenceSave").dataset.id), "number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
+		var payload = {"number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
 		sidePanelClose();
-		retryAction("/API/v0.9/update_competence", "POST", payload);
+		retryAction("/API/v0.9/competence/" + encodeURIComponent(document.getElementById("changeCompetenceSave").dataset.id), "PUT", payload);
 	}
 	else
 	{
