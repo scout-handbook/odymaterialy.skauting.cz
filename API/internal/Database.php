@@ -13,6 +13,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryExceptio
 class Database
 {
 	private static $db;
+	private static $instanceCount;
 	private $SQL;
 	private $statement;
 
@@ -26,6 +27,7 @@ class Database
 				throw new ConnectionException(self::$db);
 			}
 		}
+		self::$instanceCount = self::$instanceCount + 1;
 	}
 
 	public function prepare($SQL)
@@ -90,6 +92,12 @@ class Database
 		if(isset($this->statement))
 		{
 			$this->statement->close();
+		}
+		self::$instanceCount = self::$instanceCount - 1;
+		if(self::$instanceCount === 0)
+		{
+			self::$db->close();
+			self::$db = null;
 		}
 	}
 }
