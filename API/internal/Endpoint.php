@@ -79,6 +79,71 @@ class Endpoint
 		$this->deleteFunction = $callback;
 	}
 
+	public function call($method, $data)
+	{
+		if(isset($data['id']))
+		{
+			try
+			{
+				$data['id'] = \Ramsey\Uuid\Uuid::fromString($data['id']);
+			}
+			catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
+			{
+				throw new NotFoundException($this->resourceName);
+			}
+
+			switch($method)
+			{
+			case 'GET':
+				$func = $this->getFunction;
+				$role = $this->getRole;
+				break;
+			case 'PUT':
+				$func = $this->updateFunction;
+				$role = $this->updateRole;
+				break;
+			case 'POST':
+				$func = $this->addFunction;
+				$role = $this->addRole;
+				break;
+			case 'DELETE':
+				$func = $this->deleteFunction;
+				$role = $this->deleteRole;
+				break;
+			}
+		}
+		else
+		{
+			switch($method)
+			{
+			case 'GET':
+				$func = $this->listFunction;
+				$role = $this->listRole;
+				break;
+			case 'PUT':
+				throw new MissingArgumentException(MissingArgumentException::POST, 'id');
+				break;
+			case 'POST':
+				$func = $this->addFunction;
+				$role = $this->addRole;
+				break;
+			case 'DELETE':
+				throw new MissingArgumentException(MissingArgumentException::GET, 'id');
+				break;
+			}
+		}
+		$wrapper = function($skautis) use ($data, $func)
+		{
+			return $func($skautis, $data);
+		};
+		$hardCheck = (Role_cmp($role, new Role('user')) > 0);
+		$ret = roleTry($wrapper, $hardCheck, $role);
+		if(isset($ret))
+		{
+			return $ret;
+		}
+	}
+
 	public function handle()
 	{
 		$method = $_SERVER['REQUEST_METHOD'];
@@ -105,69 +170,13 @@ class Endpoint
 		}
 		try
 		{
-			if(isset($data['id']))
-			{
-				try
-				{
-					$data['id'] = \Ramsey\Uuid\Uuid::fromString($data['id']);
-				}
-				catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
-				{
-					throw new NotFoundException($this->resourceName);
-				}
-
-				switch($method)
-				{
-				case 'GET':
-					$func = $this->getFunction;
-					$role = $this->getRole;
-					break;
-				case 'PUT':
-					$func = $this->updateFunction;
-					$role = $this->updateRole;
-					break;
-				case 'POST':
-					$func = $this->addFunction;
-					$role = $this->addRole;
-					break;
-				case 'DELETE':
-					$func = $this->deleteFunction;
-					$role = $this->deleteRole;
-					break;
-				}
-			}
-			else
-			{
-				switch($method)
-				{
-				case 'GET':
-					$func = $this->listFunction;
-					$role = $this->listRole;
-					break;
-				case 'PUT':
-					throw new MissingArgumentException(MissingArgumentException::POST, 'id');
-					break;
-				case 'POST':
-					$func = $this->addFunction;
-					$role = $this->addRole;
-					break;
-				case 'DELETE':
-					throw new MissingArgumentException(MissingArgumentException::GET, 'id');
-					break;
-				}
-			}
-			$wrapper = function($skautis) use ($data, $func)
-			{
-				return $func($skautis, $data);
-			};
-			$hardCheck = (Role_cmp($role, new Role('user')) > 0);
 			header('content-type: application/json; charset=utf-8');
-			$ret = roleTry($wrapper, $hardCheck, $role);
+			$ret = $this->call($method, $data);
 		}
 		catch(Exception $e)
 		{
-			$ret = $e->handle();
 			header('content-type:application/json; charset=utf-8');
+			$ret = $e->handle();
 		}
 		if(isset($ret))
 		{
