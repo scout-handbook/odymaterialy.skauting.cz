@@ -12,9 +12,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/MissingArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/NotFoundException.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonFieldEndpoint.php');
+
 use Ramsey\Uuid\Uuid;
 
 $lessonEndpoint = new OdyMaterialyAPI\Endpoint('lesson');
+$lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 
 $listLessons = function($skautis, $data)
 {
