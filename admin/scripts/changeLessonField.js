@@ -68,13 +68,8 @@ function changeLessonFieldSave()
 	if(lessonFieldChanged)
 	{
 		var fieldId = parseForm()[0];
-		var payload = {"lesson-id": encodeURIComponent(document.getElementById("changeLessonFieldSave").dataset.id)};
-		if(fieldId)
-		{
-			payload["field-id"] = encodeURIComponent(fieldId);
-		}
 		sidePanelClose();
-		retryAction("/API/v0.9/update_lesson_field", "POST", payload);
+		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("changeLessonFieldSave").dataset.id) + "/field/" + encodeURIComponent(fieldId), "PUT", {});
 	}
 	else
 	{
