@@ -90,15 +90,6 @@ class Endpoint
 	{
 		if(isset($data['id']))
 		{
-			try
-			{
-				$data['id'] = \Ramsey\Uuid\Uuid::fromString($data['id']);
-			}
-			catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
-			{
-				throw new NotFoundException($this->resourceName);
-			}
-
 			switch($method)
 			{
 			case 'GET':
@@ -155,6 +146,28 @@ class Endpoint
 	{
 		try
 		{
+			if(isset($data['parent-id']))
+			{
+				try
+				{
+					$data['parent-id'] = \Ramsey\Uuid\Uuid::fromString($data['parent-id']);
+				}
+				catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
+				{
+					throw new NotFoundException($this->resourceName);
+				}
+			}
+			if(isset($data['id']))
+			{
+				try
+				{
+					$data['id'] = \Ramsey\Uuid\Uuid::fromString($data['id']);
+				}
+				catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
+				{
+					throw new NotFoundException($this->resourceName);
+				}
+			}
 			header('content-type: application/json; charset=utf-8');
 			$ret = $this->call($method, $data);
 		}
