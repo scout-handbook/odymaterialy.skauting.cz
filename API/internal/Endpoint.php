@@ -88,47 +88,46 @@ class Endpoint
 
 	public function call($method, $data)
 	{
-		if(isset($data['id']))
+		switch($method)
 		{
-			switch($method)
+		case 'GET':
+			if(isset($data['id']))
 			{
-			case 'GET':
 				$func = $this->getFunction;
 				$role = $this->getRole;
-				break;
-			case 'PUT':
-				$func = $this->updateFunction;
-				$role = $this->updateRole;
-				break;
-			case 'POST':
-				$func = $this->addFunction;
-				$role = $this->addRole;
-				break;
-			case 'DELETE':
-				$func = $this->deleteFunction;
-				$role = $this->deleteRole;
-				break;
 			}
-		}
-		else
-		{
-			switch($method)
+			else
 			{
-			case 'GET':
 				$func = $this->listFunction;
 				$role = $this->listRole;
-				break;
-			case 'PUT':
-				throw new MissingArgumentException(MissingArgumentException::POST, 'id');
-				break;
-			case 'POST':
-				$func = $this->addFunction;
-				$role = $this->addRole;
-				break;
-			case 'DELETE':
-				throw new MissingArgumentException(MissingArgumentException::GET, 'id');
-				break;
 			}
+			break;
+		case 'PUT':
+			if(isset($data['id']) or isset($data['parent-id']))
+			{
+				$func = $this->updateFunction;
+				$role = $this->updateRole;
+			}
+			else
+			{
+				throw new MissingArgumentException(MissingArgumentException::POST, 'id');
+			}
+			break;
+		case 'POST':
+			$func = $this->addFunction;
+			$role = $this->addRole;
+			break;
+		case 'DELETE':
+			if(isset($data['id']) or isset($data['parent-id']))
+			{
+				$func = $this->deleteFunction;
+				$role = $this->deleteRole;
+			}
+			else
+			{
+				throw new MissingArgumentException(MissingArgumentException::GET, 'id');
+			}
+			break;
 		}
 		$wrapper = function($skautis) use ($data, $func)
 		{
