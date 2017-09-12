@@ -76,7 +76,7 @@ function showMainPage(noHistory)
 	}
 	html += "\"><div id=\"userName\">";
 	html += LOGINSTATE.name;
-	html += "</div><div id=\"logLink\"><a href=\"/auth/logout.php\">Odhlásit</a></div></div>";
+	html += "</div><div id=\"logLink\"><a href=\"/API/v0.9/logout\">Odhlásit</a></div></div>";
 	html += "<div class=\"topBarTab\" id=\"lessonManager\">Lekce</div>"
 	html += "<div class=\"topBarTab\" id=\"competenceManager\">Kompetence</div>"
 	html += "<div class=\"topBarTab\" id=\"imageManager\">Obrázky</div>"

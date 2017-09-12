@@ -28,7 +28,7 @@ function getLoginState()
 function showUserAccount(response)
 {
 	document.getElementById("userName").innerHTML = response.name;
-	document.getElementById("logLink").innerHTML = "<a href=\"/auth/logout.php\">Odhlásit</a>";
+	document.getElementById("logLink").innerHTML = "<a href=\"/API/v0.9/logout\">Odhlásit</a>";
 	if(response.hasOwnProperty("avatar"))
 	{
 		document.getElementById("userAvatar").src = "data:image/png;base64," + response.avatar;

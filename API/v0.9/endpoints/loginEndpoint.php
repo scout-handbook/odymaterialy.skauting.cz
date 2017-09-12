@@ -1,6 +1,7 @@
 <?php
 @_API_EXEC === 1 or die('Restricted access.');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Endpoint.php');
 
 $loginEndpoint = new OdyMaterialyAPI\Endpoint('user');
