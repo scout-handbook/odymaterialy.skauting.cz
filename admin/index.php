@@ -1,8 +1,10 @@
 <?php
 const _AUTH_EXEC = 1;
+const _API_EXEC = 1; // TODO: Remove
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/auth/skautis.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.php');
 
 function login($skautis)
 {
@@ -24,17 +26,14 @@ if(isset($_COOKIE['skautis_token']) and isset($_COOKIE['skautis_timeout']))
 	$skautis->setLoginData($reconstructedPost);
 	if($skautis->getUser()->isLoggedIn(true))
 	{
-		ob_start();
-		include($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/get_login_state.php');
-		$loginState = ob_get_clean();
-		header("content-type:text/html");
-		$role = json_decode($loginState)->role;
-		if($role !== "editor" and $role !== "administrator" and $role !== "superuser")
+		$loginState = $accountEndpoint->call('GET', []);
+		$role = $loginState['response']['role'];
+		if($role != 'editor' and $role != 'administrator' and $role != 'superuser')
 		{
 			header('Location: https://odymaterialy.skauting.cz');
 			die();
 		}
-		include("main.html");
+		require('main.html');
 	}
 	else
 	{

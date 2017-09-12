@@ -22,9 +22,9 @@ function lessonListSetup()
 			COMPETENCES = response;
 			lessonListEvent.trigger();
 		});
-	request("/API/v0.9/get_login_state", "GET", "", function(response)
+	request("/API/v0.9/account", "GET", "", function(response)
 		{
-			LOGINSTATE = JSON.parse(response);
+			LOGINSTATE = response;
 			lessonListEvent.trigger();
 		});
 }
@@ -41,16 +41,16 @@ function showMainPage(noHistory)
 {
 	var html = "<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>";
 	html += "<div id=\"topBar\"><div id=\"userAccount\"><img id=\"userAvatar\" alt=\"Account avatar\" src=\"";
-	if(LOGINSTATE.user_avatar)
+	if(LOGINSTATE.avatar)
 	{
-		html += "data:image/png;base64," + LOGINSTATE.user_avatar;
+		html += "data:image/png;base64," + LOGINSTATE.avatar;
 	}
 	else
 	{
 		html += "/avatar.png";
 	}
 	html += "\"><div id=\"userName\">";
-	html += LOGINSTATE.user_name;
+	html += LOGINSTATE.name;
 	html += "</div><div id=\"logLink\"><a href=\"/auth/logout.php\">Odhlásit</a></div></div>";
 	html += "<div class=\"topBarTab\" id=\"lessonManager\">Lekce</div>"
 	html += "<div class=\"topBarTab\" id=\"competenceManager\">Kompetence</div>"

@@ -8,30 +8,30 @@ function getLoginState()
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function()
 		{
-			if (this.readyState === 4 && this.status === 200)
+			if (this.readyState === 4)
 			{
 				response = JSON.parse(this.responseText);
-				if(response.login_state)
+				if(response.status === 200)
 				{
-					showUserAccount(response);
+					showUserAccount(response.response);
 				}
 				else
 				{
-					showLoginForm(response);
+					showLoginForm();
 				}
 			}
 		}
-	xhttp.open("GET", "/API/v0.9/get_login_state?returnUri=" + window.location.pathname, true);
+	xhttp.open("GET", "/API/v0.9/account", true);
 	xhttp.send();
 }
 
 function showUserAccount(response)
 {
-	document.getElementById("userName").innerHTML = response.user_name;
+	document.getElementById("userName").innerHTML = response.name;
 	document.getElementById("logLink").innerHTML = "<a href=\"/auth/logout.php\">Odhlásit</a>";
-	if(response.hasOwnProperty("user_avatar"))
+	if(response.hasOwnProperty("avatar"))
 	{
-		document.getElementById("userAvatar").src = "data:image/png;base64," + response.user_avatar;
+		document.getElementById("userAvatar").src = "data:image/png;base64," + response.avatar;
 	}
 	else
 	{
@@ -39,7 +39,7 @@ function showUserAccount(response)
 	}
 }
 
-function showLoginForm(response)
+function showLoginForm()
 {
 	document.getElementById("userName").innerHTML = "Uživatel nepřihlášen";
 	document.getElementById("logLink").innerHTML = "<a href=\"/auth/login.php\">Přihlásit</a>";
