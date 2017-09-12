@@ -2,14 +2,11 @@ Order Deny,Allow
 Deny from all
 Allow from 127.0.0.1
 
-<FilesMatch "^(account|competence|field|image|lesson|user|get_login_state|update_user)(\.php)?$">
+<FilesMatch "^(account|competence|field|image|lesson|user)(\.php)?$">
 	Order Allow,Deny
 	Allow from all
 </FilesMatch>
 
-# Add .php automatically
-RewriteEngine On
-RewriteRule ^(get_login_state|update_user)$ /API/v0.9/$1.php [QSA]
-
 # REST API
+RewriteEngine On
 RewriteRule ^(account|competence|field|image|lesson|user)(/(.*?)(/(.*?)(/(.*)|$)|$)|$) /API/v0.9/$1.php?id=$3&sub-resource=$5&sub-id=$7 [QSA]
