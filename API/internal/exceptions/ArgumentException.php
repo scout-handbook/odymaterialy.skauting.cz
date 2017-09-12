@@ -12,6 +12,7 @@ class ArgumentException extends Exception
 
 	const GET = "GET";
 	const POST = "POST";
+	const FILE = "FILE";
 
 	public function __construct($type, $name)
 	{

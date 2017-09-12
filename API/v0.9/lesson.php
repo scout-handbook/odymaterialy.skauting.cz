@@ -1,6 +1,7 @@
 <?php
 const _API_EXEC = 1;
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/AnonymousField.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Endpoint.php');
