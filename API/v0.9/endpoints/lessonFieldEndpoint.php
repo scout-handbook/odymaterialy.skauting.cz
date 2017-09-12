@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonFieldEndpoint = new OdyMaterialyAPI\Endpoint('field');
 
-$updateLessonField = function($skautis, $data)
+$updateLessonField = function($skautis, $data, $endpoint)
 {
 	$deleteSQL = <<<SQL
 DELETE FROM lessons_in_fields
@@ -21,10 +21,10 @@ INSERT INTO lessons_in_fields (field_id, lesson_id)
 VALUES (?, ?);
 SQL;
 
-	$lessonId = $data['parent-id']->getBytes();
+	$lessonId = $endpoint->parseUuid($data['parent-id'])->getBytes();
 	if(isset($data['field']) and $data['field'] !== '')
 	{
-		$fieldId = Uuid::fromString($data['field'])->getBytes();
+		$fieldId = $endpoint->parseUuid($data['field'])->getBytes();
 	}
 
 	$db = new OdymaterialyAPI\Database();

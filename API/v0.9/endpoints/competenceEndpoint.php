@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 $competenceEndpoint = new OdyMaterialyAPI\Endpoint('competence');
 
-$listCompetences = function($skautis, $data)
+$listCompetences = function($skautis, $data, $endpoint)
 {
 	$SQL = <<<SQL
 SELECT id, number, name, description
@@ -37,7 +37,7 @@ SQL;
 };
 $competenceEndpoint->setListMethod(new OdymaterialyAPI\Role('guest'), $listCompetences);
 
-$addCompetence = function($skautis, $data)
+$addCompetence = function($skautis, $data, $endpoint)
 {
 	$SQL = <<<SQL
 INSERT INTO competences (id, number, name, description)
@@ -69,7 +69,7 @@ SQL;
 };
 $competenceEndpoint->setAddMethod(new OdymaterialyAPI\Role('administrator'), $addCompetence);
 
-$updateCompetence = function($skautis, $data)
+$updateCompetence = function($skautis, $data, $endpoint)
 {
 	$selectSQL = <<<SQL
 SELECT number, name, description
@@ -83,7 +83,7 @@ WHERE id = ?
 LIMIT 1;
 SQL;
 
-	$id = $data['id']->getBytes();
+	$id = $endpoint->parseUuid($data['id'])->getBytes();
 	if(isset($data['number']))
 	{
 		$number = $data['number'];
@@ -131,7 +131,7 @@ SQL;
 };
 $competenceEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateCompetence);
 
-$deleteCompetence = function($skautis, $data)
+$deleteCompetence = function($skautis, $data, $endpoint)
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM competences_for_lessons
@@ -143,7 +143,7 @@ WHERE id = ?
 LIMIT 1;
 SQL;
 
-	$id = $data['id']->getBytes();
+	$id = $endpoint->parseUuid($data['id'])->getBytes();
 
 	$db = new OdymaterialyAPI\Database();
 	$db->start_transaction();

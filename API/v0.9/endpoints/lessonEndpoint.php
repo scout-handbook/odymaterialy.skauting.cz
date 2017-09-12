@@ -21,7 +21,7 @@ $lessonEndpoint = new OdyMaterialyAPI\Endpoint('lesson');
 $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 
-$listLessons = function($skautis, $data)
+$listLessons = function($skautis, $data, $endpoint)
 {
 	$field_sql = <<<SQL
 SELECT id, name
@@ -147,7 +147,7 @@ SQL;
 };
 $lessonEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $listLessons);
 
-$getLesson = function($skautis, $data)
+$getLesson = function($skautis, $data, $endpoint)
 {
 	$SQL = <<<SQL
 SELECT body
@@ -155,7 +155,7 @@ FROM lessons
 WHERE id = ?;
 SQL;
 
-	$id = $data['id']->getBytes();
+	$id = $endpoint->parseUuid($data['id'])->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
@@ -168,7 +168,7 @@ SQL;
 };
 $lessonEndpoint->setGetMethod(new OdyMaterialyAPI\Role('guest'), $getLesson);
 
-$addLesson = function($skautis, $data)
+$addLesson = function($skautis, $data, $endpoint)
 {
 	$SQL = <<<SQL
 INSERT INTO lessons (id, name, body)
@@ -195,7 +195,7 @@ SQL;
 };
 $lessonEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addLesson);
 
-$updateLesson = function($skautis, $data)
+$updateLesson = function($skautis, $data, $endpoint)
 {
 	$copySQL = <<<SQL
 INSERT INTO deleted_lessons (id, name, version, body)
@@ -215,7 +215,7 @@ WHERE id = ?
 LIMIT 1;
 SQL;
 
-	$id = $data['id']->getBytes();
+	$id = $endpoint->parseUuid($data['id'])->getBytes();
 	if(isset($data['name']))
 	{
 		$name = $data['name'];
@@ -260,7 +260,7 @@ SQL;
 };
 $lessonEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateLesson);
 
-$deleteLesson = function($skautis, $data)
+$deleteLesson = function($skautis, $data, $endpoint)
 {
 	$copySQL = <<<SQL
 INSERT INTO deleted_lessons (id, name, version, body)
@@ -282,7 +282,7 @@ DELETE FROM lessons
 WHERE id = ?;
 SQL;
 
-	$id = $data['id']->getBytes();
+	$id = $endpoint->parseUuid($data['id'])->getBytes();
 
 	$db = new OdymaterialyAPI\Database();
 	$db->start_transaction();

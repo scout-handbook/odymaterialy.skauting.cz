@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
 
 $imageEndpoint = new OdymaterialyAPI\Endpoint('image');
 
-$listImages = function($skautis, $data)
+$listImages = function($skautis, $data, $endpoint)
 {
 	$SQL = <<<SQL
 SELECT id
@@ -26,7 +26,7 @@ SQL;
 	$db->execute();
 	$id = '';
 	$db->bind_result($id);
-	$images = array();
+	$images = [];
 	while($db->fetch())
 	{
 		$images[] = Uuid::fromBytes($id)->__toString();
@@ -35,9 +35,9 @@ SQL;
 };
 $imageEndpoint->setListMethod(new OdymaterialyAPI\Role('editor'), $listImages);
 
-$getImage = function($skautis, $data)
+$getImage = function($skautis, $data, $endpoint)
 {
-	$id = $data['id']->__toString();
+	$id = $endpoint->parseUuid($data['id'])->__toString();
 	$quality = "web";
 	if(isset($data['quality']) and in_array($data['quality'], ['original', 'web', 'thumbnail']))
 	{
@@ -70,7 +70,7 @@ $getImage = function($skautis, $data)
 };
 $imageEndpoint->setGetMethod(new OdymaterialyAPI\Role('guest'), $getImage);
 
-$addImage = function($skautis, $data)
+$addImage = function($skautis, $data, $endpoint)
 {
 	$SQL = <<<SQL
 INSERT INTO images (id)

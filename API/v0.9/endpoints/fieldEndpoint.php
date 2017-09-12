@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
 
 $fieldEndpoint = new OdyMaterialyAPI\Endpoint('field');
 
-$addField = function($skautis, $data)
+$addField = function($skautis, $data, $endpoint)
 {
 	$SQL = <<<SQL
 INSERT INTO fields (id, name)
@@ -33,7 +33,7 @@ SQL;
 };
 $fieldEndpoint->setAddMethod(new OdymaterialyAPI\Role('administrator'), $addField);
 
-$updateField = function($skautis, $data)
+$updateField = function($skautis, $data, $endpoint)
 {
 	$SQL = <<<SQL
 UPDATE fields
@@ -42,7 +42,7 @@ WHERE id = ?
 LIMIT 1;
 SQL;
 
-	$id = $data['id']->getBytes();
+	$id = $endpoint->parseUuid($data['id'])->getBytes();
 	if(!isset($data['name']))
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
@@ -57,7 +57,7 @@ SQL;
 };
 $fieldEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateField);
 
-$deleteField = function($skautis, $data)
+$deleteField = function($skautis, $data, $endpoint)
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM lessons_in_fields
@@ -69,7 +69,7 @@ WHERE id = ?
 LIMIT 1;
 SQL;
 
-	$id = $data['id']->getBytes();
+	$id = $endpoint->parseUuid($data['id'])->getBytes();
 
 	$db = new OdymaterialyAPI\Database();
 	$db->start_transaction();

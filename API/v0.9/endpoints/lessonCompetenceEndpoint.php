@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonCompetenceEndpoint = new OdyMaterialyAPI\Endpoint('competence');
 
-$updateLessonCompetence = function($skautis, $data)
+$updateLessonCompetence = function($skautis, $data, $endpoint)
 {
 	$deleteSQL = <<<SQL
 DELETE FROM competences_for_lessons
@@ -20,12 +20,12 @@ INSERT INTO competences_for_lessons (lesson_id, competence_id)
 VALUES (?, ?);
 SQL;
 
-	$id = $data['parent-id']->getBytes();
+	$id = $endpoint->parseUuid($data['parent-id'])->getBytes();
 	if(isset($data['competence']))
 	{
 		foreach($data['competence'] as $competence)
 		{
-			$competences[] = Uuid::fromString($competence)->getBytes();
+			$competences[] = $endpoint->parseUuid($competence)->getBytes();
 		}
 	}
 

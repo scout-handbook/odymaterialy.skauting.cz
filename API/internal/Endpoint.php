@@ -86,6 +86,18 @@ class Endpoint
 		$this->deleteFunction = $callback;
 	}
 
+	public function parseUuid($id)
+	{
+		try
+		{
+			return \Ramsey\Uuid\Uuid::fromString($id);
+		}
+		catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
+		{
+			throw new NotFoundException($this->resourceName);
+		}
+	}
+
 	public function call($method, $data)
 	{
 		switch($method)
@@ -129,9 +141,10 @@ class Endpoint
 			}
 			break;
 		}
-		$wrapper = function($skautis) use ($data, $func)
+		$self = $this;
+		$wrapper = function($skautis) use ($data, $func, $self)
 		{
-			return $func($skautis, $data);
+			return $func($skautis, $data, $self);
 		};
 		$hardCheck = (Role_cmp($role, new Role('user')) > 0);
 		$ret = roleTry($wrapper, $hardCheck, $role);
@@ -145,28 +158,6 @@ class Endpoint
 	{
 		try
 		{
-			if(isset($data['parent-id']))
-			{
-				try
-				{
-					$data['parent-id'] = \Ramsey\Uuid\Uuid::fromString($data['parent-id']);
-				}
-				catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
-				{
-					throw new NotFoundException('resource'); // TODO: FIX
-				}
-			}
-			if(isset($data['id']))
-			{
-				try
-				{
-					$data['id'] = \Ramsey\Uuid\Uuid::fromString($data['id']);
-				}
-				catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
-				{
-					throw new NotFoundException($this->resourceName);
-				}
-			}
 			header('content-type: application/json; charset=utf-8');
 			$ret = $this->call($method, $data);
 		}
