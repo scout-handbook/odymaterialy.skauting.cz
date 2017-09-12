@@ -5,14 +5,7 @@ function request(url, method, payload, callback)
 		{
 			if(this.readyState === 4)
 			{
-				if(JSON.parse(this.responseText).response) // TODO: return status
-				{
-					callback(JSON.parse(this.responseText).response);
-				}
-				else // TODO: Remove
-				{
-					callback(this.responseText);
-				}
+				callback(JSON.parse(this.responseText));
 			}
 		}
 	if(payload)

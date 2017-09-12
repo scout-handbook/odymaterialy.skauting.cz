@@ -14,13 +14,13 @@ function retryAction(url, method, payload)
 {
 	request(url, method, payload, function(response)
 		{
-			retryActionAfter(JSON.parse(response), url, method, payload);
+			retryActionAfter(response, url, method, payload);
 		})
 }
 
-function retryActionAfter(result, url, method, payload)
+function retryActionAfter(response, url, method, payload)
 {
-	if(result.success || Math.floor(result.status / 100) === 2) // TODO: Remove
+	if(Math.floor(response.status / 100) === 2)
 	{
 		dialog("Akce byla úspěšná.", "OK");
 		lessonListEvent = new AfterLoadEvent(3);
@@ -35,7 +35,7 @@ function retryActionAfter(result, url, method, payload)
 		}
 		retry = false;
 	}
-	else if(result.type === "AuthenticationException")
+	else if(response.type === "AuthenticationException")
 	{
 		if(!retry && window.sessionStorage)
 		{
@@ -49,12 +49,12 @@ function retryActionAfter(result, url, method, payload)
 			dialog("Byl jste odhlášen a akce se nepodařila. Přihlašte se prosím a zkuste to znovu.", "OK");
 		}
 	}
-	else if(result.type === "RoleException")
+	else if(response.type === "RoleException")
 	{
 		dialog("Nemáte dostatečné oprávnění k této akci.", "OK");
 	}
 	else
 	{
-		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 	}
 }

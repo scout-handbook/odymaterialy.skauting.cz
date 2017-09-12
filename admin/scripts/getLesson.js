@@ -11,10 +11,17 @@ function getLesson(id, noHistory)
 {
 	request("/API/v0.9/lesson/" + id, "GET", "", function(response)
 		{
-			lessonListEvent.addCallback(function()
-				{
-					showLesson(id, response, noHistory);
-				});
+			if(response.status === 200)
+			{
+				lessonListEvent.addCallback(function()
+					{
+						showLesson(id, response.response, noHistory);
+					});
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 
@@ -139,7 +146,14 @@ function getImageSelector(page, perPage)
 	}
 	request("/API/v0.9/image", "GET", "", function(response)
 		{
-			renderImageSelector(response, page, perPage);
+			if(response.status === 200)
+			{
+				renderImageSelector(response.response, page, perPage);
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 

@@ -29,7 +29,18 @@ function getUserList(searchName, page, perPage)
 	var payload = {"name": searchName, "page": page, "per-page": perPage}
 	request("/API/v0.9/user", "GET", payload, function(response)
 		{
-			showUserList(response, searchName, page, perPage);
+			if(response.status === 200)
+			{
+				showUserList(response.response, searchName, page, perPage);
+			}
+			else if(response.type === "AuthenticationException")
+			{
+				window.location.replace("https://odymaterialy.skauting.cz/auth/login.php");
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 

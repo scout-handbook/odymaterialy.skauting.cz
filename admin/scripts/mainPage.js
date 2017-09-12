@@ -14,18 +14,43 @@ function lessonListSetup()
 {
 	request("/API/v0.9/lesson", "GET", "", function(response)
 		{
-			FIELDS = response;
-			lessonListEvent.trigger();
+			if(response.status === 200)
+			{
+				FIELDS = response.response;
+				lessonListEvent.trigger();
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 	request("/API/v0.9/competence", "GET", "", function(response)
 		{
-			COMPETENCES = response;
-			lessonListEvent.trigger();
+			if(response.status === 200)
+			{
+				COMPETENCES = response.response;
+				lessonListEvent.trigger();
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 	request("/API/v0.9/account", "GET", "", function(response)
 		{
-			LOGINSTATE = response;
-			lessonListEvent.trigger();
+			if(response.status === 200)
+			{
+				LOGINSTATE = response.response;
+				lessonListEvent.trigger();
+			}
+			else if(response.status === 401)
+			{
+				window.location.replace("https://odymaterialy.skauting.cz/auth/login.php");
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 
