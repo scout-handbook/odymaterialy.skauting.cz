@@ -137,9 +137,9 @@ function getImageSelector(page, perPage)
 	{
 		perPage = 15;
 	}
-	request("/API/v0.9/list_images", "GET", "", function(response)
+	request("/API/v0.9/image", "GET", "", function(response)
 		{
-			renderImageSelector(JSON.parse(response), page, perPage);
+			renderImageSelector(response, page, perPage);
 		});
 }
 
