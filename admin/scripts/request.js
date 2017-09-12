@@ -34,6 +34,7 @@ function request(url, method, payload, callback)
 								query += "&";
 							}
 							query += key + "[]=" + payload[key][i];
+							first = false;
 						}
 					}
 					else
