@@ -27,9 +27,9 @@ function getUserList(searchName, page, perPage)
 		perPage = 25;
 	}
 	var payload = {"name": searchName, "page": page, "per-page": perPage}
-	request("/API/v0.9/list_users", "GET", payload, function(response)
+	request("/API/v0.9/user", "GET", payload, function(response)
 		{
-			showUserList(JSON.parse(response), searchName, page, perPage);
+			showUserList(response, searchName, page, perPage);
 		});
 }
 
