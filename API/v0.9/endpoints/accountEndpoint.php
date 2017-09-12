@@ -30,13 +30,12 @@ $listAccount = function($skautis, $data, $endpoint)
 };
 $accountEndpoint->setListMethod(new OdymaterialyAPI\Role('guest'), $listAccount);
 
-$updateAccount = function($skautis, $data, $endpoint)
+$addAccount = function($skautis, $data, $endpoint)
 {
 	$SQL = <<<SQL
 INSERT INTO users (id, name)
 VALUES (?, ?)
-ON DUPLICATE KEY UPDATE name = VALUES(name)
-LIMIT 1;
+ON DUPLICATE KEY UPDATE name = VALUES(name);
 SQL;
 
 	$idPerson = $skautis->UserManagement->UserDetail()->ID_Person;
@@ -47,4 +46,4 @@ SQL;
 	$db->bind_param('is', $idPerson, $namePerson);
 	$db->execute();
 };
-$accountEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('guest'), $listAccount);
+$accountEndpoint->setAddMethod(new OdymaterialyAPI\Role('user'), $addAccount);

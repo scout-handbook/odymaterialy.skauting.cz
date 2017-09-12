@@ -1,4 +1,9 @@
 <?php
+
+const _API_EXEC = 1; // TODO: Remove
+
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.php');
+
 function startsWith($haystack, $needle)
 {
 	$length = strlen($needle);
@@ -28,9 +33,7 @@ setcookie('skautis_timeout', $timeout, intval($timeout), "/", "odymaterialy.skau
 $_COOKIE['skautis_token'] = $token;
 $_COOKIE['skautis_timeout'] = $timeout;
 
-ob_start();
-include($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/update_user.php');
-ob_end_flush();
+$accountEndpoint->call('POST', []);
 
 header('Location: ' . $redirect);
 die();
