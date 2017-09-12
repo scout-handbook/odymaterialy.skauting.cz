@@ -1,6 +1,12 @@
 <?php
 @_API_EXEC === 1 or die('Restricted access.');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Database.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Endpoint.php');
+
+use Ramsey\Uuid\Uuid;
+
 $lessonFieldEndpoint = new OdyMaterialyAPI\Endpoint('field');
 
 $updateLessonField = function($skautis, $data)

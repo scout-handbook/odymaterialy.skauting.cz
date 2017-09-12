@@ -153,7 +153,7 @@ class Endpoint
 				}
 				catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
 				{
-					throw new NotFoundException($this->resourceName);
+					throw new NotFoundException('resource'); // TODO: FIX
 				}
 			}
 			if(isset($data['id']))
