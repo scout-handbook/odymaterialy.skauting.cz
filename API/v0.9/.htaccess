@@ -3,4 +3,4 @@ RewriteEngine On
 RewriteRule ^(get_login_state|list_users|update_lesson_competences|update_lesson_field|update_user|update_user_role)$ /API/v0.9/$1.php [QSA]
 
 # REST API
-RewriteRule ^(competence|field|image|lesson)(/(.*)$|$) /API/v0.9/$1.php?id=$3 [QSA]
+RewriteRule ^(competence|field|image|lesson)(/(.*?)(/(.*?)(/(.*)|$)|$)|$) /API/v0.9/$1.php?id=$3&sub-resource=$5&sub-id=$7 [QSA]

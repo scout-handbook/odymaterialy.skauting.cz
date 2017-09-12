@@ -13,6 +13,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/NotImplemente
 class Endpoint
 {
 	private $resourceName;
+	private $subEndpoints;
 
 	private $listFunction;
 	private $listRole;
@@ -32,6 +33,7 @@ class Endpoint
 	public function __construct($resourceName)
 	{
 		$this->resourceName = $resourceName;
+		$this->subEndpoints = [];
 
 		$this->listFunction = function() {throw new NotImplementedException();};
 		$this->listRole = new Role('guest');
@@ -47,6 +49,11 @@ class Endpoint
 
 		$this->deleteFunction = function() {throw new NotImplementedException();};
 		$this->deleteRole = new Role('guest');
+	}
+
+	public function addSubEndpoint($name, $endpoint)
+	{
+		$this->subEndpoints[$name] = $endpoint;
 	}
 
 	public function setListMethod($minimalRole, $callback)
@@ -144,6 +151,25 @@ class Endpoint
 		}
 	}
 
+	public function handle_self($method, $data)
+	{
+		try
+		{
+			header('content-type: application/json; charset=utf-8');
+			$ret = $this->call($method, $data);
+		}
+		catch(Exception $e)
+		{
+			header('content-type:application/json; charset=utf-8');
+			$ret = $e->handle();
+		}
+		if(isset($ret))
+		{
+			http_response_code($ret['status']);
+			echo(json_encode($ret, JSON_UNESCAPED_UNICODE));
+		}
+	}
+
 	public function handle()
 	{
 		$method = $_SERVER['REQUEST_METHOD'];
@@ -160,28 +186,41 @@ class Endpoint
 				$data = $_POST;
 				break;
 		}
-		if(isset($_GET['id']))
+		if(isset($_GET['id']) and $_GET['id'] !== '')
 		{
 			$data['id'] = $_GET['id'];
 		}
-		if(isset($data['id']) and $data['id'] == '')
+		else
 		{
 			unset($data['id']);
 		}
-		try
+
+		if(isset($data['id']) and isset($_GET['sub-resource']) and $_GET['sub-resource'] !== '')
 		{
-			header('content-type: application/json; charset=utf-8');
-			$ret = $this->call($method, $data);
+		   	if(isset($this->subEndpoints[$_GET['sub-resource']]))
+			{
+				$data['parent-id'] = $data['id'];
+				if(isset($_GET['sub-id']) and $_GET['sub-id'] !== '')
+				{
+					$data['id'] = $_GET['sub-id'];
+				}
+				else
+				{
+					unset($data['id']);
+				}
+				unset($data['sub-id']);
+				$this->subEndpoints[$_GET['sub-resource']]->handle_self($method, $data);
+			}
+			else
+			{
+				http_response_code(404);
+				include_once($_SERVER['DOCUMENT_ROOT'] . '/error/404.html');
+				die();
+			}
 		}
-		catch(Exception $e)
+		else
 		{
-			header('content-type:application/json; charset=utf-8');
-			$ret = $e->handle();
-		}
-		if(isset($ret))
-		{
-			http_response_code($ret['status']);
-			echo(json_encode($ret, JSON_UNESCAPED_UNICODE));
+			$this->handle_self($method, $data);
 		}
 	}
 }
