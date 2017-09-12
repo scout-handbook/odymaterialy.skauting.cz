@@ -57,11 +57,8 @@ function showUserList(list, searchName, page, perPage)
 			case "editor":
 				html += "Editor";
 				break;
-			case "user":
-				html += "Uživatel";
-				break;
 			default:
-				html += "Host";
+				html += "Uživatel";
 				break;
 		}
 		html += "</td><td><div class=\"button changeRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\">Změnit roli</div></td></tr>";
