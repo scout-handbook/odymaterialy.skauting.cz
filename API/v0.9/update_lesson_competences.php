@@ -7,9 +7,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/MissingArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
 
 use Ramsey\Uuid\Uuid;
@@ -27,7 +27,7 @@ SQL;
 
 	if(!isset($_POST['id']))
 	{
-		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
+		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'id');
 	}
 	$id = Uuid::fromString($_POST['id'])->getBytes();
 	if(isset($_POST['competence']))

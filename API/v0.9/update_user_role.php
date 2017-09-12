@@ -7,9 +7,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/database.secret.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ConnectionException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ExecutionException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/MissingArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/QueryException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/RoleException.php');
 
@@ -41,12 +41,12 @@ SQL;
 
 	if(!isset($_POST['id']))
 	{
-		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'id');
+		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'id');
 	}
 	$id = $_POST['id'];
 	if(!isset($_POST['role']))
 	{
-		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'role');
+		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'role');
 	}
 	$new_role = new OdymaterialyAPI\Role($_POST['role']);
 

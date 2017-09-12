@@ -5,7 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Endpoint.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/MissingArgumentException.php');
 
 use Ramsey\Uuid\Uuid;
 
@@ -20,7 +20,7 @@ SQL;
 
 	if(!isset($data['name']))
 	{
-		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'name');
+		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
 	$name = $data['name'];
 	$uuid = Uuid::uuid4()->getBytes();
@@ -45,7 +45,7 @@ SQL;
 	$id = $data['id']->getBytes();
 	if(!isset($data['name']))
 	{
-		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::POST, 'name');
+		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
 	$name = $data['name'];
 

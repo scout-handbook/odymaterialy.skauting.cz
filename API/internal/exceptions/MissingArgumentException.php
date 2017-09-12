@@ -5,9 +5,9 @@ namespace OdyMaterialyAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
 
-class ArgumentException extends Exception
+class MissingArgumentException extends Exception
 {
-	const TYPE = 'ArgumentException';
+	const TYPE = 'MissingArgumentException';
 	const STATUS = 400;
 
 	const GET = "GET";

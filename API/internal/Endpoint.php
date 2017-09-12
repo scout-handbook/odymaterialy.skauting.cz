@@ -6,6 +6,8 @@ namespace OdyMaterialyAPI;
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautisTry.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/MissingArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/NotFoundException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/NotImplementedException.php');
 
 class Endpoint
@@ -143,14 +145,14 @@ class Endpoint
 					$role = $this->listRole;
 					break;
 				case 'PUT':
-					throw new ArgumentException(ArgumentException::POST, 'id');
+					throw new MissingArgumentException(MissingArgumentException::POST, 'id');
 					break;
 				case 'POST':
 					$func = $this->addFunction;
 					$role = $this->addRole;
 					break;
 				case 'DELETE':
-					throw new ArgumentException(ArgumentException::GET, 'id');
+					throw new MissingArgumentException(MissingArgumentException::GET, 'id');
 					break;
 				}
 			}

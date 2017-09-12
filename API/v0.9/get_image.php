@@ -4,7 +4,7 @@ const _API_EXEC = 1;
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/Exception.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/ArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/MissingArgumentException.php');
 
 use Ramsey\Uuid\Uuid;
 
@@ -12,7 +12,7 @@ function getImage()
 {
 	if(!isset($_GET['id']))
 	{
-		throw new OdyMaterialyAPI\ArgumentException(OdyMaterialyAPI\ArgumentException::GET, 'id');
+		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::GET, 'id');
 	}
 	$id = Uuid::fromString($_GET['id'])->__toString();
 	$quality = "web";
