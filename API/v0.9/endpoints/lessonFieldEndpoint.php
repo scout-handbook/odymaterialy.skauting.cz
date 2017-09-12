@@ -22,9 +22,9 @@ VALUES (?, ?);
 SQL;
 
 	$lessonId = $data['parent-id']->getBytes();
-	if(isset($data['id']))
+	if(isset($data['field']) and $data['field'] !== '')
 	{
-		$fieldId = $data['id']->getBytes();
+		$fieldId = Uuid::fromString($data['field'])->getBytes();
 	}
 
 	$db = new OdymaterialyAPI\Database();
