@@ -41,7 +41,7 @@ function roleTry($callback, $hardCheck, $requiredRole)
 {
 	if(Role_cmp($requiredRole, new Role('guest')) === 0)
 	{
-		return $callback(null);
+		return $callback(\Skautis\Skautis::getInstance(SKAUTIS_APP_ID, SKAUTIS_TEST_MODE));
 	}
 	if(Role_cmp($requiredRole, new Role('user')) === 0)
 	{

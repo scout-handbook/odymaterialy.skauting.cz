@@ -35,7 +35,7 @@ function getUserList(searchName, page, perPage)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace("https://odymaterialy.skauting.cz/auth/login.php");
+				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
 			}
 			else
 			{

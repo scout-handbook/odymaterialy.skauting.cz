@@ -42,7 +42,7 @@ function showUserAccount(response)
 function showLoginForm()
 {
 	document.getElementById("userName").innerHTML = "Uživatel nepřihlášen";
-	document.getElementById("logLink").innerHTML = "<a href=\"/auth/login.php\">Přihlásit</a>";
+	document.getElementById("logLink").innerHTML = "<a href=\"/API/v0.9/login\">Přihlásit</a>";
 	document.getElementById("userAvatar").src = "/avatar.png";
 }
 

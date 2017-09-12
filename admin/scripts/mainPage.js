@@ -45,7 +45,7 @@ function lessonListSetup()
 			}
 			else if(response.status === 401)
 			{
-				window.location.replace("https://odymaterialy.skauting.cz/auth/login.php");
+				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
 			}
 			else
 			{
