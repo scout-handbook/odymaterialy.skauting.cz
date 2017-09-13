@@ -18,7 +18,7 @@ function deleteLessonOnClick(event)
 
 	dialog("Opravdu si přejete smazat lekci \"" + name + "\"?", "Ano", function()
 		{
-			retryAction("/API/v0.9/delete_lesson", "id=" + encodeURIComponent(event.target.dataset.id));
+			retryAction("/API/v0.9/lesson/" + encodeURIComponent(event.target.dataset.id), "DELETE", {});
 		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;", function()
 		{
 			history.back();

@@ -16,7 +16,7 @@ RewriteCond %{REQUEST_URI} ^/(competence|field|lesson)/
 RewriteRule (.*) / [QSA]
 
 # Login & logout redirect uri
-RewriteRule ^log(in|out)$ /auth/log$1_redirect\.php
+RewriteRule ^log(in|out)$ /API/v0.9/log$1
 
 # Sitemap rewrite
 RewriteRule ^sitemap$ sitemap.php

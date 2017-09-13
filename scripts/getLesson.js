@@ -16,7 +16,7 @@ function getLesson(id, noHistory)
 		navOpen = false;
 		reflow();
 	}
-	cacheThenNetworkRequest("/API/v0.9/get_lesson", "id=" + id, function(response, second)
+	cacheThenNetworkRequest("/API/v0.9/lesson/" + id, "", function(response, second)
 		{
 			lessonListEvent.addCallback(function()
 				{

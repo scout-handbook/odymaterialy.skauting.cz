@@ -1,5 +1,12 @@
-# Add .php automatically
-RewriteEngine On
-RewriteRule ^(add_competence|add_field|add_image|add_lesson|delete_competence|delete_field|delete_lesson|get_image|get_lesson|get_login_state|list_competences|list_images|list_lessons|list_users|update_competence|update_field|update_lesson_competences|update_lesson_field|update_lesson|update_user|update_user_role)$ /API/v0.9/$1.php [QSA]
+Order Deny,Allow
+Deny from all
+Allow from 127.0.0.1
 
-RewriteRule image/(.*) /API/v0.9/get_image?id=$1 [QSA]
+<FilesMatch "^(account|competence|field|image|lesson|login|logout|user)(\.php)?$">
+	Order Allow,Deny
+	Allow from all
+</FilesMatch>
+
+# REST API
+RewriteEngine On
+RewriteRule ^(account|competence|field|image|lesson|login|logout|user)(/(.*?)(/(.*?)(/(.*)|$)|$)|$) /API/v0.9/$1.php?id=$3&sub-resource=$5&sub-id=$7 [QSA]

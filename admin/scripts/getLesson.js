@@ -9,12 +9,19 @@ function changeLessonOnClick(event)
 
 function getLesson(id, noHistory)
 {
-	request("/API/v0.9/get_lesson", "id=" + id, function(response)
+	request("/API/v0.9/lesson/" + id, "GET", "", function(response)
 		{
-			lessonListEvent.addCallback(function()
-				{
-					showLesson(id, response, noHistory);
-				});
+			if(response.status === 200)
+			{
+				lessonListEvent.addCallback(function()
+					{
+						showLesson(id, response.response, noHistory);
+					});
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 
@@ -50,7 +57,9 @@ function showLesson(id, markdown, noHistory)
 	</div>\
 </header>\
 <div id="imageSelector">\
-	<div id="imageWrapper"></div>\
+	<div id="imageScroller">\
+		<div id="imageWrapper"></div>\
+	</div>\
 </div>'
 	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
 
@@ -103,10 +112,8 @@ function save()
 {
 	if(changed)
 	{
-		var query = "id=" + encodeURIComponent(document.getElementById("save").dataset.id);
-		query += "&name=" + encodeURIComponent(document.getElementById("name").value);
-		query += "&body=" + encodeURIComponent(ace.edit("editor").getValue());
-		retryAction("/API/v0.9/update_lesson", query);
+		var payload = {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
+		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("save").dataset.id), "PUT", payload);
 	}
 	else
 	{
@@ -127,20 +134,74 @@ function showImageSelector()
 	imageSelectorOpen = !imageSelectorOpen;
 }
 
-function getImageSelector()
+function getImageSelector(page, perPage)
 {
-	request("/API/v0.9/list_images", "", function(response)
+	if(!page)
+	{
+		page = 1;
+	}
+	if(!perPage)
+	{
+		perPage = 15;
+	}
+	request("/API/v0.9/image", "GET", "", function(response)
 		{
-			renderImageSelector(JSON.parse(response));
+			if(response.status === 200)
+			{
+				renderImageSelector(response.response, page, perPage);
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 
-function renderImageSelector(list)
+function renderImageSelector(list, page, perPage)
 {
 	var html = "";
-	for(var i = 0; i < list.length; i++)
+	var start = perPage * (page - 1);
+	for(var i = start; i < Math.min(list.length, start + perPage); i++)
 	{
 		html += "<img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\">";
+	}
+	if(list.length > perPage)
+	{
+		var maxPage = Math.ceil(list.length / perPage);
+
+		function renderPage(page)
+		{
+			html += "<div class=\"paginationButton\" data-page=\"" + page + "\">" + page + "</div>";
+		}
+		html += "<div id=\"pagination\">";
+		if(page > 3)
+		{
+			renderPage(1);
+			html += " ... ";
+		}
+		if(page > 2)
+		{
+			renderPage(page - 2);
+		}
+		if(page > 1)
+		{
+			renderPage(page - 1);
+		}
+		html += "<div class=\"paginationButton active\">" + page + "</div>";
+		if(page < maxPage)
+		{
+			renderPage(page + 1);
+		}
+		if(page < maxPage - 1)
+		{
+			renderPage(page + 2);
+		}
+		if(page < maxPage - 2)
+		{
+			html += " ... ";
+			renderPage(maxPage);
+		}
+		html += "</div>";
 	}
 	document.getElementById("imageWrapper").innerHTML = html;
 
@@ -148,6 +209,14 @@ function renderImageSelector(list)
 	for(var k = 0; k < nodes.length; k++)
 	{
 		nodes[k].onclick = insertImage;
+	}
+	nodes = document.getElementsByClassName("paginationButton");
+	for(var l = 0; l < nodes.length; l++)
+	{
+		nodes[l].onclick = function(event)
+			{
+				getImageSelector(parseInt(event.target.dataset.page), perPage);
+			};
 	}
 }
 
