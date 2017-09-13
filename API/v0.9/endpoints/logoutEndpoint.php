@@ -8,8 +8,14 @@ $logoutEndpoint = new OdyMaterialyAPI\Endpoint('user');
 
 $logoutUser = function($skautis, $data, $endpoint)
 {
-	if(isset($_COOKIE['skautis_token']))
+	if(isset($data['return-uri']) and isset($_COOKIE['skautis_token']))
 	{
+		if($data['return-uri'] != '')
+		{
+			setcookie('return-uri', $data['return-uri'], time() + 30, "/", "odymaterialy.skauting.cz", true, true);
+			$_COOKIE['return-uri'] = $data['return-uri'];
+		}
+
 		$reconstructedPost = array(
 			'skautIS_Token' => $_COOKIE['skautis_token'],
 			'skautIS_IDRole' => '',
@@ -18,8 +24,24 @@ $logoutUser = function($skautis, $data, $endpoint)
 				->setTimezone(new \DateTimeZone('Europe/Prague'))->format('j. n. Y H:i:s'));
 		$skautis->setLoginData($reconstructedPost);
 		header('Location: ' . $skautis->getLogoutUrl());
+		die();
 	}
-	header('Location: https://odymaterialy.skauting.cz/logout');
+	setcookie('skautis_token', "", time() - 3600, "/", "odymaterialy.skauting.cz", true, true);
+	setcookie('skautis_timeout', "", time() - 3600, "/", "odymaterialy.skauting.cz", true, true);
+	unset($_COOKIE['skautis_token']);
+	unset($_COOKIE['skautis_timeout']);
+
+	if(isset($_COOKIE['return-uri']))
+	{
+		$redirect = $_COOKIE['return-uri'];
+		setcookie('return-uri', "", time() - 3600, "/", "odymaterialy.skauting.cz", true, true);
+		unset($_COOKIE['return-uri']);
+		echo $redirect;
+		header('Location: ' . $redirect);
+		die();
+	}
+	header('Location: https://odymaterialy.skauting.cz/');
 	die();
 };
 $logoutEndpoint->setListMethod(new OdymaterialyAPI\Role('guest'), $logoutUser);
+$logoutEndpoint->setAddMethod(new OdymaterialyAPI\Role('guest'), $logoutUser);

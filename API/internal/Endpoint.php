@@ -156,6 +156,8 @@ class Endpoint
 
 	public function handle_self($method, $data)
 	{
+		unset($data['sub-id']);
+		unset($data['sub-resource']);
 		try
 		{
 			header('content-type: application/json; charset=utf-8');
@@ -211,7 +213,6 @@ class Endpoint
 				{
 					unset($data['id']);
 				}
-				unset($data['sub-id']);
 				$this->subEndpoints[$_GET['sub-resource']]->handle_self($method, $data);
 			}
 			else

@@ -28,7 +28,8 @@ function getLoginState()
 function showUserAccount(response)
 {
 	document.getElementById("userName").innerHTML = response.name;
-	document.getElementById("logLink").innerHTML = "<a href=\"/API/v0.9/logout\">Odhlásit</a>";
+	document.getElementById("logLink").innerHTML = "<a href=\"/error/enableJS.html\">Odhlásit</a>";
+	document.getElementById("logLink").firstChild.onclick = logoutRedirect;
 	if(response.hasOwnProperty("avatar"))
 	{
 		document.getElementById("userAvatar").src = "data:image/png;base64," + response.avatar;
@@ -50,5 +51,11 @@ function showLoginForm()
 function loginRedirect()
 {
 	window.location = "/API/v0.9/login?return-uri=" + encodeURIComponent(window.location.href);
+	return false;
+}
+
+function logoutRedirect()
+{
+	window.location = "/API/v0.9/logout?return-uri=" + encodeURIComponent(window.location.href);
 	return false;
 }
