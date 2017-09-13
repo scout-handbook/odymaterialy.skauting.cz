@@ -42,7 +42,13 @@ function showUserAccount(response)
 function showLoginForm()
 {
 	document.getElementById("userName").innerHTML = "Uživatel nepřihlášen";
-	document.getElementById("logLink").innerHTML = "<a href=\"/API/v0.9/login\">Přihlásit</a>";
+	document.getElementById("logLink").innerHTML = "<a href=\"/error/enableJS.html\">Přihlásit</a>";
+	document.getElementById("logLink").firstChild.onclick = loginRedirect;
 	document.getElementById("userAvatar").src = "/avatar.png";
 }
 
+function loginRedirect()
+{
+	window.location = "/API/v0.9/login?return-uri=" + encodeURIComponent(window.location.href);
+	return false;
+}
