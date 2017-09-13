@@ -26,10 +26,21 @@ function getUserList(searchName, page, perPage)
 	{
 		perPage = 25;
 	}
-	var query = "name=" + searchName + "&page=" + page + "&per-page=" + perPage;
-	request("/API/v0.9/list_users", query, function(response)
+	var payload = {"name": searchName, "page": page, "per-page": perPage}
+	request("/API/v0.9/user", "GET", payload, function(response)
 		{
-			showUserList(JSON.parse(response), searchName, page, perPage);
+			if(response.status === 200)
+			{
+				showUserList(response.response, searchName, page, perPage);
+			}
+			else if(response.type === "AuthenticationException")
+			{
+				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 
@@ -57,11 +68,8 @@ function showUserList(list, searchName, page, perPage)
 			case "editor":
 				html += "Editor";
 				break;
-			case "user":
-				html += "Uživatel";
-				break;
 			default:
-				html += "Host";
+				html += "Uživatel";
 				break;
 		}
 		html += "</td><td><div class=\"button changeRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\">Změnit roli</div></td></tr>";

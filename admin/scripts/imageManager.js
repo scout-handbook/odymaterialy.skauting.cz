@@ -26,9 +26,20 @@ function getImageList(page, perPage)
 	{
 		perPage = 15;
 	}
-	request("/API/v0.9/list_images", "", function(response)
+	request("/API/v0.9/image", "GET", "", function(response)
 		{
-			showImageList(JSON.parse(response), page, perPage);
+			if(response.status === 200)
+			{
+				showImageList(response.response, page, perPage);
+			}
+			else if(response.type === "AuthenticationException")
+			{
+				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 

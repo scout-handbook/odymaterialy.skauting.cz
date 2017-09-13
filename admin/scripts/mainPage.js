@@ -12,20 +12,45 @@ function mainPageSetup()
 
 function lessonListSetup()
 {
-	request("/API/v0.9/list_lessons", "", function(response)
+	request("/API/v0.9/lesson", "GET", "", function(response)
 		{
-			FIELDS = JSON.parse(response);
-			lessonListEvent.trigger();
+			if(response.status === 200)
+			{
+				FIELDS = response.response;
+				lessonListEvent.trigger();
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
-	request("/API/v0.9/list_competences", "", function(response)
+	request("/API/v0.9/competence", "GET", "", function(response)
 		{
-			COMPETENCES = JSON.parse(response);
-			lessonListEvent.trigger();
+			if(response.status === 200)
+			{
+				COMPETENCES = response.response;
+				lessonListEvent.trigger();
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
-	request("/API/v0.9/get_login_state", "", function(response)
+	request("/API/v0.9/account", "GET", "", function(response)
 		{
-			LOGINSTATE = JSON.parse(response);
-			lessonListEvent.trigger();
+			if(response.status === 200)
+			{
+				LOGINSTATE = response.response;
+				lessonListEvent.trigger();
+			}
+			else if(response.status === 401)
+			{
+				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 
@@ -41,17 +66,17 @@ function showMainPage(noHistory)
 {
 	var html = "<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>";
 	html += "<div id=\"topBar\"><div id=\"userAccount\"><img id=\"userAvatar\" alt=\"Account avatar\" src=\"";
-	if(LOGINSTATE.user_avatar)
+	if(LOGINSTATE.avatar)
 	{
-		html += "data:image/png;base64," + LOGINSTATE.user_avatar;
+		html += "data:image/png;base64," + LOGINSTATE.avatar;
 	}
 	else
 	{
 		html += "/avatar.png";
 	}
 	html += "\"><div id=\"userName\">";
-	html += LOGINSTATE.user_name;
-	html += "</div><div id=\"logLink\"><a href=\"/auth/logout.php\">Odhlásit</a></div></div>";
+	html += LOGINSTATE.name;
+	html += "</div><div id=\"logLink\"><a href=\"/API/v0.9/logout?redirect-uri=" + encodeURIComponent("https://odymaterialy.skauting.cz") + "\">Odhlásit</a></div></div>";
 	html += "<div class=\"topBarTab\" id=\"lessonManager\">Lekce</div>"
 	html += "<div class=\"topBarTab\" id=\"competenceManager\">Kompetence</div>"
 	html += "<div class=\"topBarTab\" id=\"imageManager\">Obrázky</div>"

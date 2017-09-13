@@ -9,12 +9,19 @@ function changeLessonOnClick(event)
 
 function getLesson(id, noHistory)
 {
-	request("/API/v0.9/get_lesson", "id=" + id, function(response)
+	request("/API/v0.9/lesson/" + id, "GET", "", function(response)
 		{
-			lessonListEvent.addCallback(function()
-				{
-					showLesson(id, response, noHistory);
-				});
+			if(response.status === 200)
+			{
+				lessonListEvent.addCallback(function()
+					{
+						showLesson(id, response.response, noHistory);
+					});
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 
@@ -50,7 +57,9 @@ function showLesson(id, markdown, noHistory)
 	</div>\
 </header>\
 <div id="imageSelector">\
-	<div id="imageWrapper"></div>\
+	<div id="imageScroller">\
+		<div id="imageWrapper"></div>\
+	</div>\
 </div>'
 	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
 
@@ -103,10 +112,8 @@ function save()
 {
 	if(changed)
 	{
-		var query = "id=" + encodeURIComponent(document.getElementById("save").dataset.id);
-		query += "&name=" + encodeURIComponent(document.getElementById("name").value);
-		query += "&body=" + encodeURIComponent(ace.edit("editor").getValue());
-		retryAction("/API/v0.9/update_lesson", query);
+		var payload = {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
+		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("save").dataset.id), "PUT", payload);
 	}
 	else
 	{
@@ -137,9 +144,16 @@ function getImageSelector(page, perPage)
 	{
 		perPage = 15;
 	}
-	request("/API/v0.9/list_images", "", function(response)
+	request("/API/v0.9/image", "GET", "", function(response)
 		{
-			renderImageSelector(JSON.parse(response), page, perPage);
+			if(response.status === 200)
+			{
+				renderImageSelector(response.response, page, perPage);
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+			}
 		});
 }
 

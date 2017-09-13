@@ -17,7 +17,7 @@ function addField()
 
 function addFieldSave()
 {
-	var query = "name=" + encodeURIComponent(document.getElementById("fieldName").value);
+	var payload = {"name": encodeURIComponent(document.getElementById("fieldName").value)};
 	sidePanelClose();
-	retryAction("/API/v0.9/add_field", query);
+	retryAction("/API/v0.9/field", "POST", payload);
 }
