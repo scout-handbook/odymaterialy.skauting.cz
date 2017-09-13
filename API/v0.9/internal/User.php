@@ -1,7 +1,7 @@
 <?php
 namespace OdyMaterialyAPI;
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 @_API_EXEC === 1 or die('Restricted access.');
 

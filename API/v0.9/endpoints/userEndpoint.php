@@ -2,9 +2,9 @@
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Endpoint.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/User.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/User.php');
 
 $userEndpoint = new OdyMaterialyAPI\Endpoint('user');
 

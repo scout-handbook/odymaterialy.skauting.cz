@@ -2,15 +2,15 @@
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/AnonymousField.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Database.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Endpoint.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Field.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Lesson.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/AnonymousField.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Field.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Lesson.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/MissingArgumentException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/NotFoundException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonCompetenceEndpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonFieldEndpoint.php');

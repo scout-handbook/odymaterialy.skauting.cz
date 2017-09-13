@@ -4,11 +4,11 @@ namespace OdyMaterialyAPI;
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/Role.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/skautis.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/skautis.secret.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/AuthenticationException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/internal/exceptions/RoleException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/AuthenticationException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RoleException.php');
 
 function skautisTry($callback, $hardCheck = true)
 {
