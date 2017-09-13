@@ -20,7 +20,7 @@ if(isset($loginState['status']))
 	}
 	else if($loginState['status'] == 401)
 	{
-		header('Location: https://odymaterialy.skauting.cz/API/v0.9/login?return-uri=' . urlencode('https://odymaterialy.skauting.cz/admin/')); // TODO: Remove trailing /
+		header('Location: https://odymaterialy.skauting.cz/API/v0.9/login?return-uri=' . urlencode('https://odymaterialy.skauting.cz/admin'));
 		die();
 	}
 }
