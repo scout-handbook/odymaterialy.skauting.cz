@@ -28,7 +28,14 @@ function getLoginState()
 function showUserAccount(response)
 {
 	document.getElementById("userName").innerHTML = response.name;
-	document.getElementById("logLink").innerHTML = "<a href=\"/error/enableJS.html\">Odhlásit</a>";
+	if(response.role == "editor" || response.role == "administrator" || response.role == "superuser")
+	{
+		document.getElementById("logLink").innerHTML = "<a href=\"/error/enableJS.html\">Odhlásit</a><a href=\"/admin\" id=\"adminLink\">Administrace</a>";
+	}
+	else
+	{
+		document.getElementById("logLink").innerHTML = "<a href=\"/error/enableJS.html\">Odhlásit</a>";
+	}
 	document.getElementById("logLink").firstChild.onclick = logoutRedirect;
 	if(response.hasOwnProperty("avatar"))
 	{

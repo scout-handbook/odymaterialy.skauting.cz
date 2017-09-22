@@ -119,6 +119,12 @@ main
 	margin-top: 5px;
 }
 
+#frontendLink
+{
+	float: right;
+	margin-right: 20px;
+}
+
 .topBarTab
 {
 	cursor: pointer;

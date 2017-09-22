@@ -64,7 +64,7 @@ function showLesson(id, markdown, noHistory, second)
 	nodes = document.getElementById("content").getElementsByClassName("competenceBubbleLessons");
 	for(var l = 0; l < nodes.length; l++)
 	{
-		nodes[l].onclick = competenceLessonsOnClick;
+		nodes[l].firstChild.onclick = competenceLessonsOnClick;
 	}
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	if(!second)

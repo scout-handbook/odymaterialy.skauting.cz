@@ -47,6 +47,12 @@ nav a:hover
 	margin-top: 5px;
 }
 
+#adminLink
+{
+	float: right;
+	margin-right: 20px;
+}
+
 #navContainer
 {
 	padding-top: 20px;
