@@ -6,6 +6,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/User.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
+
 $userEndpoint = new OdyMaterialyAPI\Endpoint('user');
 
 $listUsers = function($skautis, $data, $endpoint)
