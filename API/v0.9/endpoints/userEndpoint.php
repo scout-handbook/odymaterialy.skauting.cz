@@ -50,20 +50,20 @@ SQL;
 	$per_page = 25;
 	if(isset($data['per-page']))
 	{
-		if(!is_int($data['per-page']))
+		$per_page = ctype_digit($data['per-page']) ? intval($data['per-page']) : null;
+		if($per_page === null)
 		{
 			throw new OdyMaterialyAPI\InvalidArgumentTypeException('per-page', ['Integer']);
 		}
-		$per_page = $data['per-page'];
 	}
 	$start = 0;
 	if(isset($data['page']))
 	{
-		if(!is_int($data['page']))
+		$start = ctype_digit($data['page']) ? ($per_page * (intval($data['page']) - 1)) : null;
+		if($start === null)
 		{
 			throw new OdyMaterialyAPI\InvalidArgumentTypeException('page', ['Integer']);
 		}
-		$start = $per_page * ($data['page'] - 1);
 	}
 
 	$db = new OdymaterialyAPI\Database();
@@ -115,11 +115,11 @@ WHERE id = ?
 LIMIT 1;
 SQL;
 
-	if(!is_int($data['id']))
+	$id = ctype_digit($data['id']) ? intval($data['id']) : null;
+	if($id === null)
 	{
-		throw new OdyMaterialyAPI\InvalidArgumentTypeException('id', ['Integer']);
+		throw new OdyMaterialyAPI\InvalidArgumentTypeException('per-page', ['Integer']);
 	}
-	$id = $data['id'];
 	if(!isset($data['role']))
 	{
 		if(!is_string($data['role']))
