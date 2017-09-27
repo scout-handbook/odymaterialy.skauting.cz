@@ -6,7 +6,6 @@ var LOGINSTATE = [];
 
 function mainPageSetup()
 {
-	getMainPage();
 	lessonListSetup();
 }
 
@@ -86,31 +85,26 @@ function showMainPage(noHistory)
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 
-	document.getElementById("lessonManager").onclick = showLessonManager;
-	document.getElementById("competenceManager").onclick = showCompetenceManager;
-	document.getElementById("imageManager").onclick = showImageManager;
-	document.getElementById("userManager").onclick = showUserManager;
+	document.getElementById("lessonManager").onclick = function() {showLessonManager()};
+	document.getElementById("competenceManager").onclick = function() {showCompetenceManager()};
+	document.getElementById("imageManager").onclick = function() {showImageManager()};
+	document.getElementById("userManager").onclick = function() {showUserManager()};
 
 	if(mainPageTab == "competences")
 	{
-		showCompetenceManager();
+		showCompetenceManager(noHistory);
 	}
 	else if(mainPageTab == "images")
 	{
-		showImageManager();
+		showImageManager(noHistory);
 	}
 	else if(mainPageTab == "users")
 	{
-		showUserManager();
+		showUserManager(noHistory);
 	}
 	else
 	{
-		showLessonManager();
-	}
-
-	if(!noHistory)
-	{
-		history.pushState({"lessonName": ""}, "title", "/admin/");
+		showLessonManager(noHistory);
 	}
 }
 

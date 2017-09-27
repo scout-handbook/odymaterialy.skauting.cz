@@ -1,4 +1,4 @@
-function showLessonManager()
+function showLessonManager(noHistory)
 {
 	mainPageTab = "lessons";
 	var nodes = document.getElementsByClassName("topBarTab");
@@ -28,6 +28,10 @@ function showLessonManager()
 	addOnClicks("changeLessonField", changeLessonFieldOnClick);
 	addOnClicks("changeLessonCompetences", changeLessonCompetencesOnClick);
 	addOnClicks("deleteLesson", deleteLessonOnClick);
+	if(!noHistory)
+	{
+		history.pushState({"page": "lessons"}, "title", "/admin/lessons");
+	}
 }
 
 function renderLessonList()

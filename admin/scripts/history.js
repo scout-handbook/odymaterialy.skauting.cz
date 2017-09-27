@@ -1,6 +1,11 @@
 function historySetup()
 {
 	window.onpopstate = popback;
+	if(window.location.pathname.substring(7))
+	{
+		mainPageTab = window.location.pathname.substring(7);
+	}
+	getMainPage();
 }
 
 function popback()
@@ -13,6 +18,11 @@ function popback()
 				{
 					getLesson(history.state.id, true);
 				});
+		}
+		else if(history.state.page)
+		{
+			mainPageTab = history.state.page;
+			getMainPage(true)
 		}
 		else if(sidePanelState)
 		{

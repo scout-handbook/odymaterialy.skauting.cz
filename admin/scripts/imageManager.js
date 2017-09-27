@@ -1,4 +1,4 @@
-function showImageManager()
+function showImageManager(noHistory)
 {
 	mainPageTab = "images";
 	var nodes = document.getElementsByClassName("topBarTab");
@@ -14,6 +14,10 @@ function showImageManager()
 
 	document.getElementById("addImage").onclick = addImage;
 	getImageList();
+	if(!noHistory)
+	{
+		history.pushState({"page": "images"}, "title", "/admin/images");
+	}
 }
 
 function getImageList(page, perPage)

@@ -4,6 +4,10 @@
 	Allow from 127.0.0.1
 </FilesMatch>
 
+# Pages rewrite
+RewriteCond %{REQUEST_URI} ^/admin/(lessons|competences|images|users)$
+RewriteRule (.*) /admin/ [QSA,L]
+
 # Server push
 <FilesMatch "index.php">
 	Header add Link "</styles/fontello.css>;rel=preload;as=style"
