@@ -52,11 +52,23 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
+	if(!is_int($data['number']))
+	{
+		throw new OdyMaterialyAPI\InvalidArgumentTypeException('number', ['Integer']);
+	}
+	if(!is_string($data['name']))
+	{
+		throw new OdyMaterialyAPI\InvalidArgumentTypeException('name', ['String']);
+	}
 	$number = $data['number'];
 	$name = $data['name'];
 	$description = '';
 	if(isset($data['description']))
 	{
+		if(!is_string($data['description']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('description', ['String']);
+		}
 		$description = $data['description'];
 	}
 	$uuid = Uuid::uuid4()->getBytes();
@@ -86,14 +98,26 @@ SQL;
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 	if(isset($data['number']))
 	{
+		if(!is_int($data['number']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('number', ['Integer']);
+		}
 		$number = $data['number'];
 	}
 	if(isset($data['name']))
 	{
+		if(!is_string($data['name']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('name', ['String']);
+		}
 		$name = $data['name'];
 	}
 	if(isset($data['description']))
 	{
+		if(!is_string($data['description']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('description', ['String']);
+		}
 		$description = $data['description'];
 	}
 

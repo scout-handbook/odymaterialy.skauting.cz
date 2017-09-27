@@ -179,10 +179,18 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
+	if(!is_string($data['name']))
+	{
+		throw new OdyMaterialyAPI\InvalidArgumentTypeException('name', ['String']);
+	}
 	$name = $data['name'];
 	$body = '';
 	if(isset($data['body']))
 	{
+		if(!is_string($data['body']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('body', ['String']);
+		}
 		$body = $data['body'];
 	}
 	$id = Uuid::uuid4()->getBytes();
@@ -218,10 +226,18 @@ SQL;
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 	if(isset($data['name']))
 	{
+		if(!is_string($data['name']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('name', ['String']);
+		}
 		$name = $data['name'];
 	}
 	if(isset($data['body']))
 	{
+		if(!is_string($data['body']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('body', ['String']);
+		}
 		$body = $data['body'];
 	}
 

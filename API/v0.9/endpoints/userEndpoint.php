@@ -39,16 +39,28 @@ SQL;
 	$searchName = '';
 	if(isset($data['name']))
 	{
+		if(!is_string($data['name']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('name', ['String']);
+		}
 		$searchName = $data['name'];
 	}
 	$per_page = 25;
 	if(isset($data['per-page']))
 	{
+		if(!is_int($data['per-page']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('per-page', ['Integer']);
+		}
 		$per_page = $data['per-page'];
 	}
 	$start = 0;
 	if(isset($data['page']))
 	{
+		if(!is_int($data['page']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('page', ['Integer']);
+		}
 		$start = $per_page * ($data['page'] - 1);
 	}
 
@@ -101,9 +113,17 @@ WHERE id = ?
 LIMIT 1;
 SQL;
 
+	if(!is_int($data['id']))
+	{
+		throw new OdyMaterialyAPI\InvalidArgumentTypeException('id', ['Integer']);
+	}
 	$id = $data['id'];
 	if(!isset($data['role']))
 	{
+		if(!is_string($data['role']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('role', ['String']);
+		}
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'role');
 	}
 	$new_role = new OdymaterialyAPI\Role($data['role']);

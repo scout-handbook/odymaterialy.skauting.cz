@@ -10,6 +10,10 @@ $logoutUser = function($skautis, $data, $endpoint)
 {
 	if(isset($data['return-uri']) and isset($_COOKIE['skautis_token']))
 	{
+		if(!is_string($data['return-uri']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('return-uri', ['String']);
+		}
 		if($data['return-uri'] != '')
 		{
 			setcookie('return-uri', $data['return-uri'], time() + 30, "/", "odymaterialy.skauting.cz", true, true);

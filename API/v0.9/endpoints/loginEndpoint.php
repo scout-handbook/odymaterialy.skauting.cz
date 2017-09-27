@@ -20,6 +20,10 @@ $loginUser = function($skautis, $data, $endpoint) use ($accountEndpoint)
 
 	if(isset($data['return-uri']))
 	{
+		if(!is_string($data['return-uri']))
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('return-uri', ['String']);
+		}
 		$redirect = $skautis->getLoginUrl($data['return-uri']);
 	}
 	else if($startsWith($_SERVER['HTTP_REFERER'], $localPrefix))
