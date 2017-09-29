@@ -53,7 +53,7 @@ function showImageList(list, page, perPage)
 	var start = perPage * (page - 1);
 	for(var i = start; i < Math.min(list.length, start + perPage); i++)
 	{
-		html += "<div class=\"thumbnailContainer\"><img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"><div class=\"button mainPage deleteImage\">Smazat</div></div>";
+		html += "<div class=\"thumbnailContainer\"><img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"><div class=\"button mainPage deleteImage\" data-id=\"" + list[i] + "\">Smazat</div></div>";
 	}
 	if(list.length > perPage)
 	{
@@ -99,6 +99,11 @@ function showImageList(list, page, perPage)
 	for(var k = 0; k < nodes.length; k++)
 	{
 		nodes[k].onclick = showImagePreview;
+	}
+	nodes = document.getElementsByClassName("deleteImage");
+	for(var k = 0; k < nodes.length; k++)
+	{
+		nodes[k].onclick = deleteImageOnClick;
 	}
 	nodes = document.getElementsByClassName("paginationButton");
 	for(var l = 0; l < nodes.length; l++)

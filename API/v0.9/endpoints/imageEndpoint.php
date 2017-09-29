@@ -123,21 +123,23 @@ $imageEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addImage);
 $deleteImage = function($skautis, $data, $endpoint)
 {
 	$SQL = <<<SQL
-INSERT INTO images (id)
-VALUES (?);
+DELETE FROM images
+WHERE id = ?
+LIMIT 1;
 SQL;
 
+	$id = $endpoint->parseUuid($data['id']);
+
 	$db = new OdymaterialyAPI\Database();
-	$db->start_transaction();
 	$db->prepare($SQL);
-	$uuidBin = $uuid->getBytes();
+	$uuidBin = $id->getBytes();
 	$db->bind_param('s', $uuidBin);
 	$db->execute();
 
-	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg');
-	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $uuid->__toString() . '.jpg');
-	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $uuid->__toString() . '.jpg');
+	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $id->__toString() . '.jpg');
+	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $id->__toString() . '.jpg');
+	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $id->__toString() . '.jpg');
 
-	$db->finish_transaction();
+	return ['status' => 200];
 };
 $imageEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteImage);
