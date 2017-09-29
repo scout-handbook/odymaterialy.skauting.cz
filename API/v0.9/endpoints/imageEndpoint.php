@@ -119,3 +119,25 @@ SQL;
 	return ['status' => 201];
 };
 $imageEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addImage);
+
+$deleteImage = function($skautis, $data, $endpoint)
+{
+	$SQL = <<<SQL
+INSERT INTO images (id)
+VALUES (?);
+SQL;
+
+	$db = new OdymaterialyAPI\Database();
+	$db->start_transaction();
+	$db->prepare($SQL);
+	$uuidBin = $uuid->getBytes();
+	$db->bind_param('s', $uuidBin);
+	$db->execute();
+
+	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg');
+	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $uuid->__toString() . '.jpg');
+	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $uuid->__toString() . '.jpg');
+
+	$db->finish_transaction();
+}
+$imageEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteImage);
