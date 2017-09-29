@@ -41,10 +41,6 @@ SQL;
 	$searchName = '';
 	if(isset($data['name']))
 	{
-		if(!is_string($data['name']))
-		{
-			throw new OdyMaterialyAPI\InvalidArgumentTypeException('name', ['String']);
-		}
 		$searchName = $data['name'];
 	}
 	$per_page = 25;
@@ -122,10 +118,6 @@ SQL;
 	}
 	if(!isset($data['role']))
 	{
-		if(!is_string($data['role']))
-		{
-			throw new OdyMaterialyAPI\InvalidArgumentTypeException('role', ['String']);
-		}
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'role');
 	}
 	$new_role = new OdymaterialyAPI\Role($data['role']);

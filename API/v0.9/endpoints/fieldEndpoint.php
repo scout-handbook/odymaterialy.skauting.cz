@@ -23,10 +23,6 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	if(!is_string($data['name']))
-	{
-		throw new OdyMaterialyAPI\InvalidArgumentTypeException('name', ['String']);
-	}
 	$name = $data['name'];
 	$uuid = Uuid::uuid4()->getBytes();
 
@@ -51,10 +47,6 @@ SQL;
 	if(!isset($data['name']))
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
-	}
-	if(!is_string($data['name']))
-	{
-		throw new OdyMaterialyAPI\InvalidArgumentTypeException('name', ['String']);
 	}
 	$name = $data['name'];
 
