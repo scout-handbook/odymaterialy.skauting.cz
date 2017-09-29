@@ -139,5 +139,5 @@ SQL;
 	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $uuid->__toString() . '.jpg');
 
 	$db->finish_transaction();
-}
+};
 $imageEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteImage);
