@@ -78,7 +78,7 @@ function showLesson(id, markdown, noHistory, second)
 	}
 	if("serviceWorker" in navigator)
 	{
-		caches.match("/API/v0.9/get_lesson?id=" + id).then(function(response)
+		caches.match("/API/v0.9/lesson/" + id).then(function(response)
 			{
 				if(response === undefined)
 				{

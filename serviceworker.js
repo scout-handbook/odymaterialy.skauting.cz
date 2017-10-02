@@ -26,12 +26,17 @@ var cacheNonBlocking = [
 ];
 
 var cacheUpdating = [
-	"/API/v0.9/list_lessons"
+	"/API/v0.9/lesson"
 ];
 
-var cacheOnDemand = [
-	"/API/v0.9/get_lesson"
-];
+// Polyfill
+if(!String.prototype.startsWith)
+{
+	String.prototype.startsWith = function(searchString, position)
+		{
+			return this.substr(position || 0, searchString.length) === searchString;
+		};
+}
 
 self.addEventListener("install", function(event)
 	{
@@ -51,7 +56,7 @@ self.addEventListener("fetch", function(event)
 		{
 			event.respondWith(cacheUpdatingResponse(event.request));
 		}
-		else if(cacheOnDemand.indexOf(url.pathname) !== -1)
+		else if(url.pathname.startsWith("/API/v0.9/lesson"))
 		{
 			event.respondWith(cacheOnDemandResponse(event.request));
 		}
