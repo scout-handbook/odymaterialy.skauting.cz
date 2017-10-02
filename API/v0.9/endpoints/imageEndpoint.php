@@ -97,6 +97,7 @@ SQL;
 	}
 
 	$db = new OdymaterialyAPI\Database();
+	$db->start_transaction();
 	$db->prepare($SQL);
 	$uuidBin = $uuid->getBytes();
 	$db->bind_param('s', $uuidBin);
@@ -116,6 +117,7 @@ SQL;
 	$thumbmagick->setImageCompressionQuality(60);
 	$thumbmagick->setFormat('JPEG');
 	$thumbmagick->writeImage($thumbnail);
+	$db->finish_transaction();
 	return ['status' => 201];
 };
 $imageEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addImage);
