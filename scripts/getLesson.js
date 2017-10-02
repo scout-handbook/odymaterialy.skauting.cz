@@ -11,6 +11,7 @@ function getLessonSetup()
 
 function getLesson(id, noHistory)
 {
+	document.getElementById("content").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(screen.width < 700)
 	{
 		navOpen = false;
