@@ -22,6 +22,7 @@ function showImageManager(noHistory)
 
 function getImageList(page, perPage)
 {
+	document.getElementById("imageList").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(!page)
 	{
 		page = 1;

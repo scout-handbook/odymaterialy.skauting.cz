@@ -18,6 +18,7 @@ function showUserManager(noHistory)
 
 function getUserList(searchName, page, perPage)
 {
+	document.getElementById("userList").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(!searchName)
 	{
 		searchName = "";
