@@ -53,6 +53,7 @@ function changeRoleSave()
 		var sel = document.getElementById("roleSelect");
 		var payload = {"role": encodeURIComponent(sel.options[sel.selectedIndex].value)};
 		sidePanelClose();
+		spinner();
 		retryAction("/API/v0.9/user/" + encodeURIComponent(document.getElementById("changeRoleSave").dataset.id), "PUT", payload);
 	}
 	else

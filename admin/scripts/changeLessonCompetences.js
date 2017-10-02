@@ -62,6 +62,7 @@ function changeLessonCompetencesSave()
 		}
 		var payload = {"competence": encodedCompetences};
 		sidePanelClose();
+		spinner();
 		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("changeLessonCompetencesSave").dataset.id) + "/competence", "PUT", payload);
 	}
 	else

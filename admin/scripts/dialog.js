@@ -10,8 +10,8 @@ function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCall
 	{
 		confirmCallbackWrapped = function()
 			{
-				confirmCallback();
 				dismissDialog();
+				confirmCallback();
 			}
 	}
 	else
@@ -28,8 +28,8 @@ function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCall
 		{
 			dismissCallbackWrapped = function()
 				{
-					dismissCallback();
 					dismissDialog();
+					dismissCallback();
 				}
 		}
 		else

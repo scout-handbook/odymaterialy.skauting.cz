@@ -9,6 +9,7 @@ function changeLessonOnClick(event)
 
 function getLesson(id, noHistory)
 {
+	spinner();
 	request("/API/v0.9/lesson/" + id, "GET", "", function(response)
 		{
 			if(response.status === 200)
@@ -27,6 +28,7 @@ function getLesson(id, noHistory)
 
 function showLesson(id, markdown, noHistory)
 {
+	dismissSpinner();
 	changed = false;
 	var lesson = {};
 	outer:
@@ -113,6 +115,7 @@ function save()
 	if(changed)
 	{
 		var payload = {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
+		spinner();
 		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("save").dataset.id), "PUT", payload);
 	}
 	else

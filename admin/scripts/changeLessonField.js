@@ -70,6 +70,7 @@ function changeLessonFieldSave()
 		var fieldId = parseForm()[0];
 		var payload = {"field": encodeURIComponent(fieldId)};
 		sidePanelClose();
+		spinner();
 		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("changeLessonFieldSave").dataset.id) + "/field", "PUT", payload);
 	}
 	else

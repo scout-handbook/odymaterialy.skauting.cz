@@ -34,6 +34,7 @@ function addImageSave()
 		var formData = new FormData()
 		formData.append("image", document.getElementById("addImageFile").files[0])
 		sidePanelClose();
+		spinner();
 		request("/API/v0.9/image", "POST", formData, addImageAfter);
 	}
 }
