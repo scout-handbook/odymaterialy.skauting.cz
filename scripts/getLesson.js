@@ -55,7 +55,7 @@ function showLesson(id, markdown, noHistory, second)
 	{
 		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><p>" + competences[k].number + "</p></span><span class=\"competenceBubbleText\">" + competences[k].name + "</span><span class=\"competenceBubbleLessons\"><a title=\"Detail kompetence\" href=\"/error/enableJS.html\" data-id=\"" + competences[k].id + "\">Detail kompetence</a></span></span>";
 	}
-	html += converter.makeHtml(markdown);
+	html += filterXSS(converter.makeHtml(markdown));
 	document.getElementById("content").innerHTML = html;
 	nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
 	for(var l = 0; l < nodes.length; l++)

@@ -1,4 +1,4 @@
-var converter
+var converter;
 
 function main()
 {
