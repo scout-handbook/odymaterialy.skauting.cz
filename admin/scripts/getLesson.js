@@ -63,7 +63,7 @@ function showLesson(id, markdown, noHistory)
 		<div id="imageWrapper"></div>\
 	</div>\
 </div>'
-	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
+	html += '<div id="editor"></div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(lesson.name, markdown);
@@ -78,6 +78,8 @@ function showLesson(id, markdown, noHistory)
 	document.getElementById("addImageButton").onclick = showImageSelector;
 
 	var editor = ace.edit("editor");
+	editor.$blockScrolling = Infinity;
+	editor.setValue(markdown, -1);
 	editor.setOption("scrollPastEnd", 0.9);
 	editor.setTheme("ace/theme/odymaterialy");
 	editor.getSession().setMode("ace/mode/markdown");
