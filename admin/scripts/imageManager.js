@@ -50,6 +50,10 @@ function getImageList(page, perPage)
 
 function showImageList(list, page, perPage)
 {
+	if(mainPageTab != "images")
+	{
+		return;
+	}
 	var html = "";
 	var start = perPage * (page - 1);
 	for(var i = start; i < Math.min(list.length, start + perPage); i++)

@@ -51,6 +51,10 @@ function getUserList(searchName, page, perPage)
 
 function showUserList(list, searchName, page, perPage)
 {
+	if(mainPageTab != "users")
+	{
+		return;
+	}
 	users = list.users;
 	var html = "<form id=\"userSearchForm\"><input type=\"text\" class=\"formText\" id=\"userSearchBox\" placeholder=\"Jméno uživatele\"><div class=\"button\" id=\"userSearchButton\">Vyhledat</div>";
 	if(searchName)
