@@ -10,7 +10,7 @@ function refreshPreviewSetup()
 		worker = new Worker("scripts/previewWorker.js");
 		worker.onmessage = function(message)
 		{
-			document.getElementById("preview-inner").innerHTML = message.data;
+			document.getElementById("preview-inner").innerHTML = filterXSS(message.data);
 			if(queue)
 			{
 				worker.postMessage(queue);
@@ -49,7 +49,7 @@ function refreshPreview(name, markdown)
 	else
 	{
 		var html = "<h1>" + name + "</h1>";
-		html += converter.makeHtml(markdown);
+		html += filterXSS(converter.makeHtml(markdown));
 		document.getElementById("preview").innerHTML = html;
 	}
 }

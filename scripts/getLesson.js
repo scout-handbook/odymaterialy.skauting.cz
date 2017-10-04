@@ -11,6 +11,7 @@ function getLessonSetup()
 
 function getLesson(id, noHistory)
 {
+	document.getElementById("content").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(screen.width < 700)
 	{
 		navOpen = false;
@@ -54,7 +55,7 @@ function showLesson(id, markdown, noHistory, second)
 	{
 		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><p>" + competences[k].number + "</p></span><span class=\"competenceBubbleText\">" + competences[k].name + "</span><span class=\"competenceBubbleLessons\"><a title=\"Detail kompetence\" href=\"/error/enableJS.html\" data-id=\"" + competences[k].id + "\">Detail kompetence</a></span></span>";
 	}
-	html += converter.makeHtml(markdown);
+	html += filterXSS(converter.makeHtml(markdown));
 	document.getElementById("content").innerHTML = html;
 	nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
 	for(var l = 0; l < nodes.length; l++)
@@ -77,7 +78,7 @@ function showLesson(id, markdown, noHistory, second)
 	}
 	if("serviceWorker" in navigator)
 	{
-		caches.match("/API/v0.9/get_lesson?id=" + id).then(function(response)
+		caches.match("/API/v0.9/lesson/" + id).then(function(response)
 			{
 				if(response === undefined)
 				{

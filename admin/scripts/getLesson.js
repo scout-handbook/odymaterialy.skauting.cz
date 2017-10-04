@@ -9,6 +9,7 @@ function changeLessonOnClick(event)
 
 function getLesson(id, noHistory)
 {
+	spinner();
 	request("/API/v0.9/lesson/" + id, "GET", "", function(response)
 		{
 			if(response.status === 200)
@@ -27,6 +28,7 @@ function getLesson(id, noHistory)
 
 function showLesson(id, markdown, noHistory)
 {
+	dismissSpinner();
 	changed = false;
 	var lesson = {};
 	outer:
@@ -61,7 +63,7 @@ function showLesson(id, markdown, noHistory)
 		<div id="imageWrapper"></div>\
 	</div>\
 </div>'
-	html += '<div id="editor">' + markdown + '</div><div id="preview"><div id="preview-inner"></div></div>';
+	html += '<div id="editor"></div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(lesson.name, markdown);
@@ -76,6 +78,8 @@ function showLesson(id, markdown, noHistory)
 	document.getElementById("addImageButton").onclick = showImageSelector;
 
 	var editor = ace.edit("editor");
+	editor.$blockScrolling = Infinity;
+	editor.setValue(markdown, -1);
 	editor.setOption("scrollPastEnd", 0.9);
 	editor.setTheme("ace/theme/odymaterialy");
 	editor.getSession().setMode("ace/mode/markdown");
@@ -113,6 +117,7 @@ function save()
 	if(changed)
 	{
 		var payload = {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
+		spinner();
 		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("save").dataset.id), "PUT", payload);
 	}
 	else

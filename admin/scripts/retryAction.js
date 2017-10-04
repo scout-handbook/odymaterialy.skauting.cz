@@ -42,7 +42,7 @@ function retryActionAfter(response, url, method, payload)
 			sessionStorage.setItem("retryActionUrl", url);
 			sessionStorage.setItem("retryActionMethod", method);
 			sessionStorage.setItem("retryActionPayload", JSON.stringify(payload));
-			window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+			window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login?return-uri=/admin/" + mainPageTab);
 		}
 		else
 		{

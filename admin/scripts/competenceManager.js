@@ -1,4 +1,4 @@
-function showCompetenceManager()
+function showCompetenceManager(noHistory)
 {
 	mainPageTab = "competences";
 	var nodes = document.getElementsByClassName("topBarTab");
@@ -22,6 +22,10 @@ function showCompetenceManager()
 
 	addOnClicks("changeCompetence", changeCompetenceOnClick);
 	addOnClicks("deleteCompetence", deleteCompetenceOnClick);
+	if(!noHistory)
+	{
+		history.pushState({"page": "competences"}, "title", "/admin/competences");
+	}
 }
 
 function renderCompetenceList()

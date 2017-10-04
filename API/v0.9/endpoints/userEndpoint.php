@@ -6,6 +6,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/User.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
+
 $userEndpoint = new OdyMaterialyAPI\Endpoint('user');
 
 $listUsers = function($skautis, $data, $endpoint)
@@ -44,12 +46,20 @@ SQL;
 	$per_page = 25;
 	if(isset($data['per-page']))
 	{
-		$per_page = $data['per-page'];
+		$per_page = ctype_digit($data['per-page']) ? intval($data['per-page']) : null;
+		if($per_page === null)
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('per-page', ['Integer']);
+		}
 	}
 	$start = 0;
 	if(isset($data['page']))
 	{
-		$start = $per_page * ($data['page'] - 1);
+		$start = ctype_digit($data['page']) ? ($per_page * (intval($data['page']) - 1)) : null;
+		if($start === null)
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('page', ['Integer']);
+		}
 	}
 
 	$db = new OdymaterialyAPI\Database();
@@ -101,7 +111,11 @@ WHERE id = ?
 LIMIT 1;
 SQL;
 
-	$id = $data['id'];
+	$id = ctype_digit($data['id']) ? intval($data['id']) : null;
+	if($id === null)
+	{
+		throw new OdyMaterialyAPI\InvalidArgumentTypeException('per-page', ['Integer']);
+	}
 	if(!isset($data['role']))
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'role');

@@ -97,6 +97,7 @@ SQL;
 	}
 
 	$db = new OdymaterialyAPI\Database();
+	$db->start_transaction();
 	$db->prepare($SQL);
 	$uuidBin = $uuid->getBytes();
 	$db->bind_param('s', $uuidBin);
@@ -116,6 +117,31 @@ SQL;
 	$thumbmagick->setImageCompressionQuality(60);
 	$thumbmagick->setFormat('JPEG');
 	$thumbmagick->writeImage($thumbnail);
+	$db->finish_transaction();
 	return ['status' => 201];
 };
 $imageEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addImage);
+
+$deleteImage = function($skautis, $data, $endpoint)
+{
+	$SQL = <<<SQL
+DELETE FROM images
+WHERE id = ?
+LIMIT 1;
+SQL;
+
+	$id = $endpoint->parseUuid($data['id']);
+
+	$db = new OdymaterialyAPI\Database();
+	$db->prepare($SQL);
+	$uuidBin = $id->getBytes();
+	$db->bind_param('s', $uuidBin);
+	$db->execute();
+
+	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $id->__toString() . '.jpg');
+	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $id->__toString() . '.jpg');
+	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $id->__toString() . '.jpg');
+
+	return ['status' => 200];
+};
+$imageEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteImage);

@@ -1,5 +1,6 @@
 function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCallback)
 {
+	dismissSpinner();
 	document.getElementById("overlay").style.display = "inline";
 	document.getElementById("dialog").style.display = "block";
 	document.getElementById("dialogText").innerHTML = mainText;
@@ -9,8 +10,8 @@ function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCall
 	{
 		confirmCallbackWrapped = function()
 			{
-				confirmCallback();
 				dismissDialog();
+				confirmCallback();
 			}
 	}
 	else
@@ -27,8 +28,8 @@ function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCall
 		{
 			dismissCallbackWrapped = function()
 				{
-					dismissCallback();
 					dismissDialog();
+					dismissCallback();
 				}
 		}
 		else
@@ -44,4 +45,16 @@ function dismissDialog()
 	document.getElementById("overlay").style.display = "none";
 	document.getElementById("dialog").style.display = "none";
 	document.getElementById("dismissText").style.display = "none";
+}
+
+function spinner()
+{
+	document.getElementById("overlay").style.display = "inline";
+	document.getElementById("spinner").style.display = "block";
+}
+
+function dismissSpinner()
+{
+	document.getElementById("overlay").style.display = "none";
+	document.getElementById("spinner").style.display = "none";
 }

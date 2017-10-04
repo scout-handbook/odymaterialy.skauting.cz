@@ -1,4 +1,4 @@
-function showImageManager()
+function showImageManager(noHistory)
 {
 	mainPageTab = "images";
 	var nodes = document.getElementsByClassName("topBarTab");
@@ -14,10 +14,15 @@ function showImageManager()
 
 	document.getElementById("addImage").onclick = addImage;
 	getImageList();
+	if(!noHistory)
+	{
+		history.pushState({"page": "images"}, "title", "/admin/images");
+	}
 }
 
 function getImageList(page, perPage)
 {
+	document.getElementById("imageList").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(!page)
 	{
 		page = 1;
@@ -45,11 +50,15 @@ function getImageList(page, perPage)
 
 function showImageList(list, page, perPage)
 {
+	if(mainPageTab != "images")
+	{
+		return;
+	}
 	var html = "";
 	var start = perPage * (page - 1);
 	for(var i = start; i < Math.min(list.length, start + perPage); i++)
 	{
-		html += "<img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\">";
+		html += "<div class=\"thumbnailContainer\"><img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"><div class=\"button mainPage deleteImage\" data-id=\"" + list[i] + "\">Smazat</div></div>";
 	}
 	if(list.length > perPage)
 	{
@@ -95,6 +104,11 @@ function showImageList(list, page, perPage)
 	for(var k = 0; k < nodes.length; k++)
 	{
 		nodes[k].onclick = showImagePreview;
+	}
+	nodes = document.getElementsByClassName("deleteImage");
+	for(var k = 0; k < nodes.length; k++)
+	{
+		nodes[k].onclick = deleteImageOnClick;
 	}
 	nodes = document.getElementsByClassName("paginationButton");
 	for(var l = 0; l < nodes.length; l++)

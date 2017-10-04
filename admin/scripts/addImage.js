@@ -34,6 +34,30 @@ function addImageSave()
 		var formData = new FormData()
 		formData.append("image", document.getElementById("addImageFile").files[0])
 		sidePanelClose();
-		retryAction("/API/v0.9/image", "POST", formData);
+		spinner();
+		request("/API/v0.9/image", "POST", formData, addImageAfter);
+	}
+}
+
+function addImageAfter(response)
+{
+	if(Math.floor(response.status / 100) === 2)
+	{
+		dialog("Akce byla úspěšná.", "OK");
+		lessonListEvent = new AfterLoadEvent(3);
+		lessonListSetup();
+		history.back();
+	}
+	else if(response.type === "AuthenticationException")
+	{
+		dialog("Byl jste odhlášen a akce se nepodařila. Přihlašte se prosím a zkuste to znovu.", "OK");
+	}
+	else if(response.type === "RoleException")
+	{
+		dialog("Nemáte dostatečné oprávnění k této akci.", "OK");
+	}
+	else
+	{
+		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 	}
 }

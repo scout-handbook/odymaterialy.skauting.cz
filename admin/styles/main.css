@@ -219,6 +219,12 @@ main
 	margin-left: 20px;
 }
 
+.thumbnailContainer
+{
+	display: inline;
+	position: relative;
+}
+
 .thumbnailImage
 {
 	margin-top: 50px;
@@ -230,6 +236,13 @@ main
 .thumbnailImage:hover
 {
 	transform: scale(1.0);
+}
+
+.deleteImage
+{
+	position: absolute;
+	right: -2px;
+	bottom: 18px;
 }
 
 .previewImage

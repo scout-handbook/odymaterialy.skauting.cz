@@ -6,6 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Competence.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
 
 use Ramsey\Uuid\Uuid;
@@ -52,12 +53,16 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$number = $data['number'];
-	$name = $data['name'];
+	$number = ctype_digit($data['number']) ? intval($data['number']) : null;
+	if($number === null)
+	{
+		throw new OdyMaterialyAPI\InvalidArgumentTypeException('number', ['Integer']);
+	}
+	$name = $endpoint->xss_sanitize($data['name']);
 	$description = '';
 	if(isset($data['description']))
 	{
-		$description = $data['description'];
+		$description = $endpoint->xss_sanitize($data['description']);
 	}
 	$uuid = Uuid::uuid4()->getBytes();
 
@@ -86,15 +91,19 @@ SQL;
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 	if(isset($data['number']))
 	{
-		$number = $data['number'];
+		$number = ctype_digit($data['number']) ? intval($data['number']) : null;
+		if($number === null)
+		{
+			throw new OdyMaterialyAPI\InvalidArgumentTypeException('number', ['Integer']);
+		}
 	}
 	if(isset($data['name']))
 	{
-		$name = $data['name'];
+		$name = $endpoint->xss_sanitize($data['name']);
 	}
 	if(isset($data['description']))
 	{
-		$description = $data['description'];
+		$description = $endpoint->xss_sanitize($data['description']);
 	}
 
 	$db = new OdymaterialyAPI\Database();

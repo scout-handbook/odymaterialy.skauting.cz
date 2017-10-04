@@ -98,6 +98,11 @@ class Endpoint
 		}
 	}
 
+	public function xss_sanitize($input)
+	{
+		return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+	}
+
 	public function call($method, $data)
 	{
 		switch($method)

@@ -4,6 +4,8 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
+
 $logoutEndpoint = new OdyMaterialyAPI\Endpoint('user');
 
 $logoutUser = function($skautis, $data, $endpoint)

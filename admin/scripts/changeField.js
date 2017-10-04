@@ -41,6 +41,7 @@ function changeFieldSave()
 	{
 		var payload = {"name": encodeURIComponent(document.getElementById("fieldName").value)};
 		sidePanelClose();
+		spinner();
 		retryAction("/API/v0.9/field/" + encodeURIComponent(document.getElementById("changeFieldSave").dataset.id), "PUT", payload);
 	}
 	else
