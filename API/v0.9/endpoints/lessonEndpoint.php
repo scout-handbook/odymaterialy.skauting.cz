@@ -180,7 +180,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $data['name'];
+	$name = $endpoint->xss_sanitize($data['name']);
 	$body = '';
 	if(isset($data['body']))
 	{
@@ -219,7 +219,7 @@ SQL;
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 	if(isset($data['name']))
 	{
-		$name = $data['name'];
+		$name = $endpoint->xss_sanitize($data['name']);
 	}
 	if(isset($data['body']))
 	{

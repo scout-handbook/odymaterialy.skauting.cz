@@ -23,7 +23,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $data['name'];
+	$name = $endpoint->xss_sanitize($data['name']);
 	$uuid = Uuid::uuid4()->getBytes();
 
 	$db = new OdymaterialyAPI\Database();
@@ -48,7 +48,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $data['name'];
+	$name = $endpoint->xss_sanitize($data['name']);
 
 	$db = new OdymaterialyAPI\Database();
 	$db->prepare($SQL);
