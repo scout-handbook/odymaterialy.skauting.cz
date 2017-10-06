@@ -114,7 +114,7 @@ SQL;
 	$id = ctype_digit($data['id']) ? intval($data['id']) : null;
 	if($id === null)
 	{
-		throw new OdyMaterialyAPI\InvalidArgumentTypeException('per-page', ['Integer']);
+		throw new OdyMaterialyAPI\InvalidArgumentTypeException('id', ['Integer']);
 	}
 	if(!isset($data['role']))
 	{

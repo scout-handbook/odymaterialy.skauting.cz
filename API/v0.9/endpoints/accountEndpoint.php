@@ -45,5 +45,6 @@ SQL;
 	$db->prepare($SQL);
 	$db->bind_param('is', $idPerson, $namePerson);
 	$db->execute();
+	return ['status' => 200];
 };
 $accountEndpoint->setAddMethod(new OdymaterialyAPI\Role('user'), $addAccount);

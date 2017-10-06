@@ -85,4 +85,4 @@ SQL;
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$fieldEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administra_POSTtor'), $deleteField);
+$fieldEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteField);
