@@ -867,7 +867,7 @@ paths:
   /user/{id}:
     put:
       summary: Update user's role
-      description: User role must be **administrator** or higher! Superuser can change any user, administrator may change only between editor and user and editor can change between user (**TODO**).
+      description: User role must be **administrator** or higher! Superuser can change any user, administrator may change only between editor and user.
       tags:
         - user
       security:
@@ -878,7 +878,7 @@ paths:
           schema:
             type: integer
           required: true
-          description: The id of the user
+          description: The id of the user whose role is to be changed
       requestBody:
         required: true
         content:

@@ -89,11 +89,7 @@ $updateUser = function($skautis, $data, $endpoint)
 {
 	$checkRole = function($my_role, $role)
 	{
-		if((OdyMaterialyAPI\Role_cmp($my_role, new OdyMaterialyAPI\Role('editor')) === 0) and (OdymaterialyAPI\Role_cmp($role, new OdymaterialyAPI\Role('user')) > 0))
-		{
-			throw new OdymaterialyAPI\RoleException();
-		}
-		elseif((OdyMaterialyAPI\Role_cmp($my_role, new OdyMaterialyAPI\Role('administrator')) === 0) and (OdymaterialyAPI\Role_cmp($role, new OdymaterialyAPI\Role('administrator')) >= 0))
+		if((OdyMaterialyAPI\Role_cmp($my_role, new OdyMaterialyAPI\Role('administrator')) === 0) and (OdymaterialyAPI\Role_cmp($role, new OdymaterialyAPI\Role('administrator')) >= 0))
 		{
 			throw new OdymaterialyAPI\RoleException();
 		}
@@ -140,4 +136,4 @@ SQL;
 	$db->execute();
 	return ['status' => 200];
 };
-$userEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateUser);
+$userEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateUser);
