@@ -1,0 +1,1057 @@
+openapi: 3.0.0
+info:
+  title: OdyMateriály API
+  description:
+    See [Github](https://github.com/GenaBitu/OdyMaterialy) or [OdyMateriály](https://odymaterialy.skauting.cz/) for more details.
+  version: "0.9"
+  contact:
+    email: odymaterialy@skaut.cz
+  license:
+    name: MIT License
+    url: 'https://github.com/GenaBitu/OdyMaterialy/blob/master/LICENSE.md'
+servers:
+  - url: https://odymaterialy.skauting.cz/API/v0.9
+tags:
+  - name: lesson
+    description: Lessons, their fields and competences
+  - name: competence
+  - name: authentication
+    description: Login & logout
+  - name: account
+    description: Login state and account details
+  - name: image
+  - name: field
+  - name: user
+    description: Other users and their roles
+paths:
+  /lesson:
+    get:
+      summary: Get a list of all lessons
+      tags:
+        - lesson
+      responses:
+        '200':
+          description: A list of all fields, their lessons and their competences
+          content:
+            'aplication/json':
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                        name:
+                          type: string
+                          example: Field 1
+                        lessons:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                format: uuid
+                                example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                              name:
+                                type: string
+                                example: Lesson 1
+                              version:
+                                type: integer
+                                example: 1
+                              competences:
+                                type: array
+                                items:
+                                  type: string
+                                  format: uuid
+                                  example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                            required:
+                              - id
+                              - name
+                              - version
+                              - competences
+                      required:
+                        - lessons
+                required:
+                  - status
+                  - response
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Add a lesson
+      description: User role must be **editor** or higher!
+      tags:
+        - lesson
+      security:
+        - apiKey: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'A new lesson'
+                body:
+                  type: string
+                  format: markdown
+                  example: 'Body of the new lesson'
+              required:
+                - name
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /lesson/{id}:
+    get:
+      summary: Get the body of a lesson
+      description: '**Warning:** Lesson body is **not** XSS sanitized. You need to do your own sanitization - see [here](https://github.com/showdownjs/showdown/wiki/Markdown%27s-XSS-Vulnerability-(and-how-to-mitigate-it)) for more details on how to do that.'
+      tags:
+        - lesson
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      responses:
+        '200':
+          description: The body of the lesson
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: integer
+                    enum:
+                      - 200
+                    example: 200
+                  response:
+                    type: string
+                    format: markdown
+                    example: 'The body of Lesson 1'
+                required:
+                  - status
+                  - response
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: Update name and/or body of a lesson
+      description: User role must be **editor** or higher!
+      tags:
+        - lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: A changed lesson
+                body:
+                  type: string
+                  format: markdown
+                  example: New body of the lesson
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Remove a lesson
+      description: User role must be **administrator** or higher!
+      tags:
+        - lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /lesson/{id}/field:
+    put:
+      summary: Update the field the lesson is in
+      description: User role must be **editor** or higher!
+      tags:
+        - lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                field:
+                  type: string
+                  format: uuid
+                  example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+              required:
+                - field
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /lesson/{id}/competence:
+    put:
+      summary: Update the competences fulfilled by this lesson
+      description: User role must be **editor** or higher!
+      tags:
+        - lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                competence:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                    example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+              required:
+                - competence
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /competence:
+    get:
+      summary: Get a list of all competences
+      tags:
+        - competence
+      responses:
+        '200':
+          description: A list of all competences
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                        number:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: A competence
+                        description:
+                          type: string
+                          example: Competence description
+                      required:
+                        - id
+                        - number
+                        - name
+                        - description
+                required:
+                  - status
+                  - response
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Add a competence
+      description: User role must be **administrator** or higher!
+      tags:
+        - competence
+      security:
+        - apiKey: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: A competence
+                description:
+                  type: string
+                  example: Competence description
+              required:
+                - number
+                - name
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '415':
+          $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
+  /competence/{id}:
+    put:
+      summary: Update a competence
+      description: User role must be **administrator** or higher!
+      tags:
+        - competence
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the competence
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: A competence
+                description:
+                  type: string
+                  example: Competence description
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '415':
+          $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Remove a competence
+      description: User role must be **administrator** or higher!
+      tags:
+        - competence
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the competence
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /login:
+    get:
+      summary: Login to OdyMateriály
+      description: This page redirects to login via [SkautIS](https://is.skaut.cz). After login, `POST /account` is called and the page redirects to a specified URL. If no URL is specified (by neither `return-uri` nor `referer`), [https://odymaterialy.skauting.cz](https://odymaterialy.skauting.cz) is used.
+      tags:
+        - authentication
+      parameters:
+        - in: query
+          name: return-uri
+          schema:
+            type: string
+            format: uri
+          required: false
+          description: The URL the page is redirected to after login.
+        - in: header
+          name: referer
+          schema:
+            type: string
+            format: uri
+          required: false
+          description: If (and only if) `return-uri` isn't present, the page is redirected to this URL after login.
+      responses:
+        '302':
+          description: Redirect back to the desired page
+  /logout:
+    get:
+      summary: Logout of OdyMateriály
+      description: Delete all login information. A round-trip to [SkautIS](https://is.skaut.cz) may occur. After logout, the page redirects to a specified URL. If no URL is specified by `return-uri`, [https://odymaterialy.skauting.cz](https://odymaterialy.skauting.cz) is used.
+      tags:
+        - authentication
+      parameters:
+        - in: query
+          name: return-uri
+          schema:
+            type: string
+            format: uri
+          required: false
+          description: The URL the page is redirected to after login.
+      responses:
+        '302':
+          description: Redirect back to the desired page
+  /account:
+    get:
+      summary: Get login state and account information
+      tags:
+        - account
+      responses:
+        '200':
+          description: Account information
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: "Alice"
+                      role:
+                        type: string
+                        enum:
+                          - user
+                          - editor
+                          - administrator
+                          - superuser
+                    required:
+                      - name
+                      - role
+                required:
+                  - status
+                  - response
+        '401':
+          description: No user logged in.
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 401
+                required:
+                  - status
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Add current user to OdyMateriály / update account details
+      tags:
+        - account
+      security:
+        - apiKey: []
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /image:
+    get:
+      summary: Get a list of all images
+      description: User role must be **editor** or higher!
+      tags:
+        - image
+      security:
+        - apiKey: []
+      responses:
+        '200':
+          description: A list of all images
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+                      example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Upload an image
+      description: User role must be **editor** or higher!
+      tags:
+        - image
+      security:
+        - apiKey: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  example:
+            encoding:
+              image:
+                contentType: image/jpeg, image/png
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '415':
+          $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
+  /image/{id}:
+    get:
+      summary: Get an image
+      description: Get an image in the desired quality. `original` returns the image as it was uploaded, `web` is ≤ 770×1440px, `thumbnail` is ≤ 256×256px. Both `web` and `thumbnail` return 60% quality JPEG.
+      tags:
+        - image
+      parameters:
+        - in: query
+          name: quality
+          schema:
+            type: string
+            enum:
+              - original
+              - web
+              - thumbnail
+            default: web
+          required: false
+          description: The desired quality. Must be one of `original`, `web` (default) or `thumbnail`.
+        - in: header
+          name: if-modified-since
+          schema:
+            type: string
+            example: Mon, 07 Aug 2017 20:24:52 GMT
+          required: false
+          description: If provided, `304` will be returned if the image hasn't been changed since
+      responses:
+        '200':
+          description: The desired image
+          headers:
+            last-modified:
+              schema:
+                type: string
+                example: Mon, 07 Aug 2017 20:24:52 GMT
+              description: Date of the last modification of the image
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+                example:
+            image/png:
+              schema:
+                type: string
+                format: binary
+                example:
+        '304':
+          description: Not modified since `if-modified-since`.
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Remove an image
+      description: User role must be **administrator** or higher!
+      tags:
+        - image
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the image
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /field:
+    post:
+      summary: Add a field
+      description: User role must be **administrator** or higher!
+      tags:
+        - field
+      security:
+        - apiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Field 1
+              required:
+                - name
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /field/{id}:
+    put:
+      summary: Update a field
+      description: User role must be **administrator** or higher!
+      tags:
+        - field
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the field
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Field 1
+              required:
+                - name
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Remove a field
+      description: User role must be **administrator** or higher!
+      tags:
+        - field
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the field
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /user:
+    get:
+      summary: Get a list of users.
+      description: User role must be **editor** or higher! The list will be different depending on the role of the logged in user. Superuser will see all users. Administrator will see users and editors. Editor will see only users. This command also supports paging with the `per-page` and `page` parameters.
+      tags:
+        - user
+      security:
+        - apiKey: []
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+            example: Alice
+          required: false
+          description: If present, only users with names matching this (even partialy) will be returned.
+        - in: query
+          name: per-page
+          schema:
+            type: integer
+            default: 25
+          required: false
+          description: How many entries should be returned per-page
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          required: false
+          description: Which page (paged by `per-page` entries) should be returned
+      responses:
+        '200':
+          description: A list of users
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        example: 3
+                        description: Total number of entries
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 150000
+                            role:
+                              type: string
+                              enum:
+                                - user
+                                - editor
+                                - administrator
+                                - superuser
+                            name:
+                              type: string
+                              example: Alice
+                          required:
+                            - id
+                            - role
+                            - name
+                    required:
+                      - count
+                      - users
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '415':
+          $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
+  /user/{id}:
+    put:
+      summary: Update user's role
+      description: User role must be **administrator** or higher! Superuser can change any user, administrator may change only between editor and user and editor can change between user (**TODO**).
+      tags:
+        - user
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The id of the user
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  enum:
+                    - user
+                    - editor
+                    - administrator
+                    - superuser
+              required:
+                - role
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '415':
+          $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
+components:
+  responses:
+    200:
+      description: Operation successful
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                enum:
+                  - 200
+            required:
+              - status
+    201:
+      description: Added successfully
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                enum:
+                  - 201
+            required:
+              - status
+    400:
+      description: A required argument is missing
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                enum:
+                  - 400
+              type:
+                type: string
+                enum:
+                  - MissingArgumentException
+              message:
+                type: string
+                example: An error message.
+            required:
+              - status
+              - type
+              - message
+    403:
+      description: Authentication failed. This may be caused by login timeout or insufficient role.
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                enum:
+                  - 403
+              type:
+                type: string
+                enum:
+                  - AuthenticationException
+                  - RoleException
+              message:
+                type: string
+                example: An error message.
+            required:
+              - status
+              - type
+              - message
+    404:
+      description: Resource not found
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                enum:
+                  - 404
+              type:
+                type: string
+                enum:
+                  - NotFoundException
+              message:
+                type: string
+                example: An error message.
+            required:
+              - status
+              - type
+              - message
+    415:
+      description: An argument with wrong type has been passed
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                enum:
+                  - 415
+              type:
+                type: string
+                enum:
+                  - InvalidArgumentTypeException
+              message:
+                type: string
+                example: An error message.
+            required:
+              - status
+              - type
+              - message
+    500:
+      description: Internal server error
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                enum:
+                  - 500
+              type:
+                type: string
+                enum:
+                  - ConnectionException
+                  - Exception
+                  - ExecutionException
+                  - QueryException
+              message:
+                type: string
+                example: An error message.
+            required:
+              - status
+              - type
+              - message
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: cookie
+      name: skautis_token

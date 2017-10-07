@@ -48,4 +48,4 @@ SQL;
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$lessonCompetenceEndpoint->setUpdateMethod(new OdymaterialyAPI\Role(''), $updateLessonCompetence);
+$lessonCompetenceEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateLessonCompetence);
