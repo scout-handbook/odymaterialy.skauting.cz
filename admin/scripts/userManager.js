@@ -62,7 +62,12 @@ function showUserList(list, searchName, page, perPage)
 		html += "<div class=\"button\" id=\"userSearchCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	}
 	html += "</form>";
-	html += "<table class=\"userTable\"><th>Jméno</th><th>Role</th><th>Akce</th></tr>";
+	html += "<table class=\"userTable\"><th>Jméno</th><th>Role</th>";
+	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+	{
+		html += "<th>Akce</th>";
+	}
+	html += "</tr>";
 	for(var i = 0; i < users.length; i++)
 	{
 		html += "<tr><td>" + users[i].name + "</td><td>";
@@ -81,7 +86,12 @@ function showUserList(list, searchName, page, perPage)
 				html += "Uživatel";
 				break;
 		}
-		html += "</td><td><div class=\"button changeRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\">Změnit roli</div></td></tr>";
+		html += "</td>";
+		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+		{
+			html += "<td><div class=\"button changeRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\">Změnit roli</div></td>";
+		}
+		html += "</tr>";
 	}
 	html += "</table>";
 	if(list.count > perPage)
