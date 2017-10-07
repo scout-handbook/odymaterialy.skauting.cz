@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "node"
-script: deploy.sh
+script: ./deploy.sh
 deploy:
   provider: pages
   skip_cleanup: true
