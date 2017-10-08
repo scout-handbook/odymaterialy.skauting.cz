@@ -129,14 +129,31 @@ DELETE FROM images
 WHERE id = ?
 LIMIT 1;
 SQL;
+	$countSQL = <<<SQL
+SELECT ROW_COUNT();
+SQL;
 
 	$id = $endpoint->parseUuid($data['id']);
 
 	$db = new OdymaterialyAPI\Database();
+	$db->start_transaction();
+
 	$db->prepare($SQL);
 	$uuidBin = $id->getBytes();
 	$db->bind_param('s', $uuidBin);
 	$db->execute();
+
+	$db->prepare($countSQL);
+	$db->execute();
+	$count = 0;
+	$db->bind_result($count);
+	$db->fetch_require('image');
+	if($count != 1)
+	{
+		throw new OdymaterialyAPI\NotFoundException("image");
+	}
+
+	$db->finish_transaction();
 
 	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $id->__toString() . '.jpg');
 	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $id->__toString() . '.jpg');

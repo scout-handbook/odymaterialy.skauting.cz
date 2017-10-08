@@ -42,7 +42,7 @@ SQL;
 		foreach($competences as $competence)
 		{
 			$db->bind_param('ss', $id, $competence);
-			$db->execute();
+			$db->execute("lesson or competence");
 		}
 	}
 	$db->finish_transaction();

@@ -623,6 +623,14 @@ paths:
       tags:
         - image
       parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+            example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+          required: true
+          description: The id of the image
         - in: query
           name: quality
           schema:

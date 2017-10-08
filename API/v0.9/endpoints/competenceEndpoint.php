@@ -87,6 +87,9 @@ SET number = ?, name = ?, description = ?
 WHERE id = ?
 LIMIT 1;
 SQL;
+	$countSQL = <<<SQL
+SELECT ROW_COUNT();
+SQL;
 
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 	if(isset($data['number']))
@@ -133,9 +136,23 @@ SQL;
 		}
 	}
 
+	$db->start_transaction();
+
 	$db->prepare($updateSQL);
 	$db->bind_param('isss', $number, $name, $description, $id);
 	$db->execute();
+
+	$db->prepare($countSQL);
+	$db->execute();
+	$count = 0;
+	$db->bind_result($count);
+	$db->fetch_require('competence');
+	if($count != 1)
+	{
+		throw new OdymaterialyAPI\NotFoundException("competence");
+	}
+
+	$db->finish_transaction();
 	return ['status' => 200];
 };
 $competenceEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateCompetence);
@@ -151,6 +168,9 @@ DELETE FROM competences
 WHERE id = ?
 LIMIT 1;
 SQL;
+	$countSQL = <<<SQL
+SELECT ROW_COUNT();
+SQL;
 
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 
@@ -164,6 +184,16 @@ SQL;
 	$db->prepare($deleteSQL);
 	$db->bind_param('s', $id);
 	$db->execute();
+
+	$db->prepare($countSQL);
+	$db->execute();
+	$count = 0;
+	$db->bind_result($count);
+	$db->fetch_require('competence');
+	if($count != 1)
+	{
+		throw new OdymaterialyAPI\NotFoundException("competence");
+	}
 
 	$db->finish_transaction();
 	return ['status' => 200];
