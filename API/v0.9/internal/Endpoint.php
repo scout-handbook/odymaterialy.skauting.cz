@@ -14,6 +14,7 @@ class Endpoint
 {
 	private $resourceName;
 	private $subEndpoints;
+	private $parentEndpoint;
 
 	private $listFunction;
 	private $listRole;
@@ -34,6 +35,7 @@ class Endpoint
 	{
 		$this->resourceName = $resourceName;
 		$this->subEndpoints = [];
+		$this->parentEndpoint = null;
 
 		$this->listFunction = function() {throw new NotImplementedException();};
 		$this->listRole = new Role('guest');
@@ -54,6 +56,12 @@ class Endpoint
 	public function addSubEndpoint($name, $endpoint)
 	{
 		$this->subEndpoints[$name] = $endpoint;
+		$this->subEndpoints[$name]->parentEndpoint = $this;
+	}
+
+	public function getParent()
+	{
+		return $this->parentEndpoint;
 	}
 
 	public function setListMethod($minimalRole, $callback)
