@@ -14,12 +14,14 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFound
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonCompetenceEndpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonFieldEndpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonLatexEndpoint.php');
 
 use Ramsey\Uuid\Uuid;
 
 $lessonEndpoint = new OdyMaterialyAPI\Endpoint('lesson');
 $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
+$lessonEndpoint->addSubEndpoint('latex', $lessonLatexEndpoint);
 
 $listLessons = function($skautis, $data, $endpoint)
 {
@@ -197,14 +199,14 @@ $lessonEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addLesson);
 
 $updateLesson = function($skautis, $data, $endpoint)
 {
-	$copySQL = <<<SQL
-INSERT INTO deleted_lessons (id, name, version, body)
-SELECT id, name, version, body
+	$selectSQL = <<<SQL
+SELECT name, body
 FROM lessons
 WHERE id = ?;
 SQL;
-	$selectSQL = <<<SQL
-SELECT name, body
+	$copySQL = <<<SQL
+INSERT INTO deleted_lessons (id, name, version, body)
+SELECT id, name, version, body
 FROM lessons
 WHERE id = ?;
 SQL;
@@ -213,6 +215,9 @@ UPDATE lessons
 SET name = ?, version = version + 1, body = ?
 WHERE id = ?
 LIMIT 1;
+SQL;
+	$countSQL = <<<SQL
+SELECT ROW_COUNT();
 SQL;
 
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
@@ -249,6 +254,8 @@ SQL;
 		}
 	}
 
+	$db->start_transaction();
+
 	$db->prepare($copySQL);
 	$db->bind_param('s', $id);
 	$db->execute();
@@ -256,6 +263,18 @@ SQL;
 	$db->prepare($updateSQL);
 	$db->bind_param('sss', $name, $body, $id);
 	$db->execute();
+
+	$db->prepare($countSQL);
+	$db->execute();
+	$count = 0;
+	$db->bind_result($count);
+	$db->fetch_require('lesson');
+	if($count != 1)
+	{
+		throw new OdymaterialyAPI\NotFoundException("lesson");
+	}
+
+	$db->finish_transaction();
 	return ['status' => 200];
 };
 $lessonEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateLesson);
@@ -276,10 +295,12 @@ SQL;
 DELETE FROM competences_for_lessons
 WHERE lesson_id = ?;
 SQL;
-
 	$deleteSQL = <<<SQL
 DELETE FROM lessons
 WHERE id = ?;
+SQL;
+	$countSQL = <<<SQL
+SELECT ROW_COUNT();
 SQL;
 
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
@@ -302,6 +323,16 @@ SQL;
 	$db->prepare($deleteSQL);
 	$db->bind_param('s', $id);
 	$db->execute();
+
+	$db->prepare($countSQL);
+	$db->execute();
+	$count = 0;
+	$db->bind_result($count);
+	$db->fetch_require('lesson');
+	if($count != 1)
+	{
+		throw new OdymaterialyAPI\NotFoundException("lesson");
+	}
 
 	$db->finish_transaction();
 	return ['status' => 200];

@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "node"
+branches:
+  only:
+    - master
+script: ./deploy.sh
+before_deploy:
+  - cd swagger-ui/dist
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: master
+notifications:
+  email: false

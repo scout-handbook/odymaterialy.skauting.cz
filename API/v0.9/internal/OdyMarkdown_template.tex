@@ -1,0 +1,110 @@
+\documentclass{article}
+
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{polyglossia}
+\usepackage{microtype}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{csquotes}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\hypersetup{%
+	pdfencoding=auto,
+	unicode=true,
+	bookmarksopen=false
+}
+
+\AtBeginEnvironment{tabularx}{\vspace{5pt}\\}
+\AtEndEnvironment{tabularx}{\vspace{15pt}}
+
+% Page geometry
+\geometry{a5paper,twoside,top=30pt,bottom=50pt,inner=55pt,outer=35pt,headsep=5pt,footskip=20pt}
+\newcommand{\geometrysetup}{%
+	\ifdefined\lessonnamevar%
+	\else%
+		\newgeometry{a5paper,twoside,top=10pt,bottom=50pt,inner=55pt,outer=35pt,headsep=5pt,footskip=20pt}%
+	\fi%
+}
+
+% Header and footer
+\definecolor{header-gray}{gray}{0.5}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyheadoffset[RO]{-10pt}
+\fancyhead[RO]{\textcolor{header-gray}{\textit{\ifdefined\lessonnamevar \lessonnamevar \fi}}}
+\fancyfoot[LO]{\textit{\dots jsme na jedné lodi}}
+\fancyfoot[RO]{\raisebox{-0.25\height}{\includegraphics[width=15pt]{template_resources/lodicka}}}
+\fancyfoot[LE]{\OdyMarathon Odyssea \ifdefined\currentyear \currentyear \else \the\year \fi}
+\fancyfoot[RE]{\raisebox{-0.10\height}{\includegraphics[width=15pt]{template_resources/ovce}}}
+
+% Fonts
+\setmainlanguage{czech}
+\renewcommand{\baselinestretch}{1.1}
+\setmainfont[Path=template_resources/,Scale=0.8,BoldFont=TheMixC5-7_Bold,ItalicFont=TheMixC5-4iSemiLightIta,BoldItalicFont=TheMixC5-7iBoldItalic]{TheMixC5-4_SemiLight}
+\newfontfamily\OdyMarathon[Path=template_resources/,Scale=1.6]{OdyMarathon-Regular}
+
+% Notes extension
+\newsavebox\dottedlinebox
+\makeatletter 
+\newcommand{\dottedline}{\vskip6pt \noindent \leavevmode \cleaders \hb@xt@ .25em{\hss .\hss }\hfill \kern \z@ \par}
+\makeatother
+\newcommand{\dottedlines}[1]{
+	\count0=#1%
+	\loop \ifnum\count0>0%
+	\advance\count0 by -1%
+	\dottedline%
+	\repeat%
+}
+\newcommand{\dottedpage}{\vspace{-1pt} \par \cleaders\copy\dottedlinebox\vskip0pt plus 1fill \newpage}
+\newcommand{\blankline}{\vspace*{3ex}}
+\newcommand{\blanklines}[1]{%
+	\count0=#1%
+	\loop \ifnum\count0>0%
+	\advance\count0 by -1%
+	\blankline%
+	\repeat%
+}
+\newcommand{\blankpage}{\newpage}
+\newcommand{\notessetup}{\savebox\dottedlinebox{\vbox{\vskip11pt \dottedline}}}
+
+% Headings
+\setcounter{secnumdepth}{0}
+\titleformat*{\section}{\LARGE\bfseries\filcenter}
+\newcommand{\lessonsetup}{%
+	\ifdefined\lessonnamevar%
+		\section{\lessonnamevar}%
+	\fi%
+}
+\titlespacing*\section{0pt}{8pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
+\titlespacing*\subsection{0pt}{8pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
+\titlespacing*\subsubsection{0pt}{8pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
+
+% Enumerate item spacing
+\let\OLDitemize\itemize
+\makeatletter
+\def\@isinitemize{FALSE}
+\renewcommand{\itemize}{%
+	\def\@trueval{TRUE}%
+	\ifx\@trueval\@isinitemize
+		\vspace{-1.2em}
+		\OLDitemize\addtolength{\itemsep}{-5pt}
+	\else
+		\OLDitemize\addtolength{\itemsep}{-8pt}
+	\fi
+	\def\@isinitemize{TRUE}
+}
+\makeatother
+
+% Setup command - executed right after \begin{document}
+\newcommand{\setup}{\notessetup \geometrysetup \lessonsetup}
+
+\newcommand{\lessonnamevar}{}
+\newcommand{\lessonname}[1]{\renewcommand{\lessonnamevar}{#1}}

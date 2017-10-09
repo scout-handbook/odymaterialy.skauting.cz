@@ -38,7 +38,7 @@ SQL;
 	{
 		$db->prepare($insertSQL);
 		$db->bind_param('ss', $fieldId, $lessonId);
-		$db->execute();
+		$db->execute("lesson or field");
 	}
 	$db->finish_transaction();
 	return ['status' => 200];

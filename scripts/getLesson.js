@@ -131,10 +131,11 @@ function competenceReflow()
 {
 	if(activeCompetence)
 	{
-		activeCompetence.childNodes[1].style.width = Math.min(360, activeCompetence.parentElement.clientWidth - 40) + "px";
-		activeCompetence.childNodes[2].style.width = Math.min(360, activeCompetence.parentElement.clientWidth - 40) + "px";
+		var fontSize = parseFloat(window.getComputedStyle(activeCompetence).getPropertyValue("font-size"));
+		activeCompetence.childNodes[1].style.width = Math.min(403 - 1.3 * fontSize, activeCompetence.parentElement.clientWidth - 1.3 * fontSize + 3) + "px";
+		activeCompetence.childNodes[2].style.width = Math.min(403 - 1.3 * fontSize, activeCompetence.parentElement.clientWidth - 1.3 * fontSize + 3) + "px";
 		activeCompetence.style.width = Math.min(400, activeCompetence.parentElement.clientWidth) + "px";
-		activeCompetence.style.height = (activeCompetence.childNodes[1].offsetHeight + 30) + "px";
+		activeCompetence.style.height = (activeCompetence.childNodes[1].offsetHeight + 1.4 * fontSize - 6) + "px";
 	}
 }
 

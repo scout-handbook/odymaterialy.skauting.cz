@@ -3,4 +3,4 @@
 The OdyMaterialy web page
 
 ## API Documentation
-[https://swaggerhub.com/apis/GenaBitu/OdyMaterialy/0.9](https://swaggerhub.com/apis/GenaBitu/OdyMaterialy/0.9)
+[https://genabitu.github.io/OdyMaterialy/](https://genabitu.github.io/OdyMaterialy/)

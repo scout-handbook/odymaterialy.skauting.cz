@@ -296,6 +296,36 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /lesson/{id}/latex:
+    get:
+      summary: Get the lesson as LaTeX
+      tags:
+        - lesson
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      responses:
+        '200':
+          description: The lesson as a complete LaTeX file ready to be compiled
+          content:
+            'application/x-latex':
+              schema:
+                type: string
+                format: latex
+                example: >
+                  \documentclass{article}
+                  \begin{document}
+                  \section{A lesson}
+                  \end{document}
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /competence:
     get:
       summary: Get a list of all competences
@@ -623,6 +653,14 @@ paths:
       tags:
         - image
       parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+            example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+          required: true
+          description: The id of the image
         - in: query
           name: quality
           schema:
@@ -867,7 +905,7 @@ paths:
   /user/{id}:
     put:
       summary: Update user's role
-      description: User role must be **administrator** or higher! Superuser can change any user, administrator may change only between editor and user and editor can change between user (**TODO**).
+      description: User role must be **administrator** or higher! Superuser can change any user, administrator may change only between editor and user.
       tags:
         - user
       security:
@@ -878,7 +916,7 @@ paths:
           schema:
             type: integer
           required: true
-          description: The id of the user
+          description: The id of the user whose role is to be changed
       requestBody:
         required: true
         content:

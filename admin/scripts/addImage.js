@@ -16,7 +16,7 @@ function addImage()
 
 	document.getElementById("addImageFile").onchange = changeLabel;
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/images");
 }
 
 function changeLabel(event)

@@ -41,6 +41,9 @@ SET name = ?
 WHERE id = ?
 LIMIT 1;
 SQL;
+	$countSQL = <<<SQL
+SELECT ROW_COUNT();
+SQL;
 
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 	if(!isset($data['name']))
@@ -50,9 +53,23 @@ SQL;
 	$name = $endpoint->xss_sanitize($data['name']);
 
 	$db = new OdymaterialyAPI\Database();
+	$db->start_transaction();
+
 	$db->prepare($SQL);
 	$db->bind_param('ss', $name, $id);
 	$db->execute();
+
+	$db->prepare($countSQL);
+	$db->execute();
+	$count = 0;
+	$db->bind_result($count);
+	$db->fetch_require('field');
+	if($count != 1)
+	{
+		throw new OdymaterialyAPI\NotFoundException("field");
+	}
+
+	$db->finish_transaction();
 	return ['status' => 200];
 };
 $fieldEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateField);
@@ -68,6 +85,9 @@ DELETE FROM fields
 WHERE id = ?
 LIMIT 1;
 SQL;
+	$countSQL = <<<SQL
+SELECT ROW_COUNT();
+SQL;
 
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 
@@ -81,6 +101,16 @@ SQL;
 	$db->prepare($deleteSQL);
 	$db->bind_param('s', $id);
 	$db->execute();
+
+	$db->prepare($countSQL);
+	$db->execute();
+	$count = 0;
+	$db->bind_result($count);
+	$db->fetch_require('field');
+	if($count != 1)
+	{
+		throw new OdymaterialyAPI\NotFoundException("field");
+	}
 
 	$db->finish_transaction();
 	return ['status' => 200];

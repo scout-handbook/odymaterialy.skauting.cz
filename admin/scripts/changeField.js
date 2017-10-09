@@ -32,7 +32,7 @@ function changeFieldOnClick(event)
 			fieldChanged = true;
 		};
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 }
 
 function changeFieldSave()

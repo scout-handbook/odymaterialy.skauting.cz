@@ -49,10 +49,14 @@ class Database
 		$this->statement->bind_param($type, ...$vars);
 	}
 
-	public function execute()
+	public function execute($resource_name = "")
 	{
 		if(!$this->statement->execute())
 		{
+			if($this->statement->errno == 1452) // Foreign key constraint fail
+			{
+				throw new NotFoundException($resource_name);
+			}
 			throw new ExecutionException($this->SQL, $this->statement);
 		}
 	}
