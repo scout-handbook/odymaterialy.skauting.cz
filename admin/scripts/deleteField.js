@@ -10,8 +10,6 @@ function deleteFieldOnClick(event)
 		}
 	}
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/");
-
 	dialog("Opravdu si přejete smazat oblast \"" + name + "\"?", "Ano", function()
 		{
 			spinner();

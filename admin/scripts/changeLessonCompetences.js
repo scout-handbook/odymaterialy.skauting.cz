@@ -47,7 +47,7 @@ function changeLessonCompetencesOnClick(event)
 			};
 	}
 
-	history.pushState({}, "title", "/admin/");
+	history.pushState({}, "title", "/admin/lessons");
 }
 
 function changeLessonCompetencesSave()

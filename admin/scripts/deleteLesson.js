@@ -14,8 +14,6 @@ function deleteLessonOnClick(event)
 		}
 	}
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/");
-
 	dialog("Opravdu si přejete smazat lekci \"" + name + "\"?", "Ano", function()
 		{
 			spinner();

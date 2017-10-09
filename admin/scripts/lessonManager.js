@@ -20,7 +20,7 @@ function showLessonManager(noHistory)
 	{
 		document.getElementById("addField").onclick = addField;
 	}
-	document.getElementById("addLesson").onclick = addLesson;
+	document.getElementById("addLesson").onclick = function() {addLesson();};
 
 	addOnClicks("changeField", changeFieldOnClick);
 	addOnClicks("deleteField", deleteFieldOnClick);

@@ -70,7 +70,7 @@ function showLesson(id, markdown, noHistory)
 
 	if(!noHistory)
 	{
-		history.pushState({"id": id}, "title", "/admin/");
+		history.pushState({"id": id}, "title", "/admin/lessons");
 	}
 
 	document.getElementById("discard").onclick = discard;

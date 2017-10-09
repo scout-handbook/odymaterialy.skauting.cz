@@ -37,7 +37,7 @@ function changeRoleOnClick(event)
 			roleChanged = true;
 		};
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/users");
 }
 
 function changeRoleSave()

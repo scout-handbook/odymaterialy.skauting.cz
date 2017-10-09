@@ -60,7 +60,7 @@ function changeLessonFieldOnClick(event)
 			};
 	}
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 }
 
 function changeLessonFieldSave()

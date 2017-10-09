@@ -40,7 +40,7 @@ function changeCompetenceOnClick(event)
 	addOnChange("competenceName");
 	addOnChange("competenceDescription");
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/competences");
 }
 
 function changeCompetenceSave()

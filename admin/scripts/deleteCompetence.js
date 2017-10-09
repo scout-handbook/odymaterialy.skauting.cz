@@ -12,8 +12,6 @@ function deleteCompetenceOnClick(event)
 		}
 	}
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/");
-
 	dialog("Opravdu si přejete smazat kompetenci " + number + ": \"" + name + "\"?", "Ano", function()
 		{
 			spinner();

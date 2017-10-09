@@ -12,7 +12,7 @@ function addField()
 		};
 	document.getElementById("addFieldSave").onclick = addFieldSave;
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/");
+	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 }
 
 function addFieldSave()

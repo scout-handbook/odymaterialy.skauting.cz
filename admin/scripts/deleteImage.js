@@ -1,7 +1,5 @@
 function deleteImageOnClick(event)
 {
-	history.pushState({"sidePanel": "open"}, "title", "/admin/");
-
 	dialog("Opravdu si přejete smazat tento obrázek?", "Ano", function()
 		{
 			spinner();

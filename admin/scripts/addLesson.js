@@ -28,7 +28,7 @@ function addLesson(noHistory)
 
 	if(!noHistory)
 	{
-		history.pushState({}, "title", "/admin/");
+		history.pushState({}, "title", "/admin/lessons");
 	}
 
 	document.getElementById("discard").onclick = discard;
