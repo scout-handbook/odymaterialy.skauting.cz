@@ -12,9 +12,9 @@ $listAccount = function($skautis, $data, $endpoint)
 	$getAccount = function($skautis)
 	{
 		$response = [];
-		$idPerson = $skautis->UserManagement->UserDetail()->ID_Person;
-		$response['name'] = $skautis->OrganizationUnit->PersonDetail(array('ID' => $idPerson))->DisplayName;
-		$response['role'] = OdyMaterialyAPI\getRole($idPerson);
+		$loginDetail = $skautis->UserManagement->LoginDetail();
+		$response['name'] = $loginDetail->Person;
+		$response['role'] = OdyMaterialyAPI\getRole($loginDetail->ID_Person);
 		return ['status' => 200, 'response' => $response];
 	};
 
