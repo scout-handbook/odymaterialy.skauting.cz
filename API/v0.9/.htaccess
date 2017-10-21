@@ -2,13 +2,13 @@ Order Deny,Allow
 Deny from all
 Allow from 127.0.0.1
 
-<FilesMatch "^(account|competence|field|image|lesson|login|logout|user)(\.php)?$">
+<FilesMatch "^(account|competence|field|image|lesson|login|logout|refresh|user)(\.php)?$">
 	Order Allow,Deny
 	Allow from all
 </FilesMatch>
 
 # REST API
 RewriteEngine On
-RewriteRule ^(account|competence|field|image|lesson|login|logout|user)(/(.*?)(/(.*?)(/(.*)|$)|$)|$) /API/v0.9/$1.php?id=$3&sub-resource=$5&sub-id=$7 [QSA]
+RewriteRule ^(account|competence|field|image|lesson|login|logout|refresh|user)(/(.*?)(/(.*?)(/(.*)|$)|$)|$) /API/v0.9/$1.php?id=$3&sub-resource=$5&sub-id=$7 [QSA]
 
 Header set Access-Control-Allow-Origin "*"
