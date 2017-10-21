@@ -95,6 +95,7 @@ function change()
 {
 	changed = true;
 	refreshPreview(document.getElementById("name").value, ace.edit("editor").getValue());
+	refreshLogin();
 }
 
 function discard()
@@ -110,6 +111,7 @@ function discard()
 				history.back();
 			}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;");
 	}
+	refreshLogin();
 }
 
 function save()
@@ -137,6 +139,7 @@ function showImageSelector()
 		document.getElementById("imageSelector").style.top = "-91px";
 	}
 	imageSelectorOpen = !imageSelectorOpen;
+	refreshLogin();
 }
 
 function getImageSelector(page, perPage)
@@ -160,6 +163,7 @@ function getImageSelector(page, perPage)
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
 			}
 		});
+	refreshLogin();
 }
 
 function renderImageSelector(list, page, perPage)
@@ -231,4 +235,5 @@ function insertImage(event)
 	var editor = ace.edit("editor");
 	editor.session.insert(editor.getCursorPosition(), markdown);
 	showImageSelector();
+	refreshLogin();
 }

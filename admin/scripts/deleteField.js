@@ -18,4 +18,5 @@ function deleteFieldOnClick(event)
 		{
 			history.back();
 		});
+	refreshLogin();
 }

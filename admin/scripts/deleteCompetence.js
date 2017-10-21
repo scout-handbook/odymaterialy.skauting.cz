@@ -20,4 +20,5 @@ function deleteCompetenceOnClick(event)
 		{
 			history.back();
 		});
+	refreshLogin();
 }

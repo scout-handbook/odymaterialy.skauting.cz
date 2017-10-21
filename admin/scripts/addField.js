@@ -13,6 +13,7 @@ function addField()
 	document.getElementById("addFieldSave").onclick = addFieldSave;
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
+	refreshLogin();
 }
 
 function addFieldSave()

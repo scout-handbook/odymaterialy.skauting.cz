@@ -22,4 +22,5 @@ function deleteLessonOnClick(event)
 		{
 			history.back();
 		});
+	refreshLogin();
 }

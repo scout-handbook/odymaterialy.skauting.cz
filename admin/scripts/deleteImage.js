@@ -8,4 +8,5 @@ function deleteImageOnClick(event)
 		{
 			history.back();
 		});
+	refreshLogin();
 }

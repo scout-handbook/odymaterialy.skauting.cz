@@ -16,6 +16,7 @@ function retryAction(url, method, payload)
 		{
 			retryActionAfter(response, url, method, payload);
 		})
+	refreshLogin();
 }
 
 function retryActionAfter(response, url, method, payload)

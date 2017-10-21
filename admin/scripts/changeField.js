@@ -33,6 +33,7 @@ function changeFieldOnClick(event)
 		};
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
+	refreshLogin();
 }
 
 function changeFieldSave()

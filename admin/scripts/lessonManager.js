@@ -32,6 +32,7 @@ function showLessonManager(noHistory)
 	{
 		history.pushState({"page": "lessons"}, "title", "/admin/lessons");
 	}
+	refreshLogin(true);
 }
 
 function renderLessonList()
