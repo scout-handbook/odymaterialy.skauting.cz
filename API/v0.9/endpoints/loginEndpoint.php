@@ -45,7 +45,7 @@ $loginUser = function($skautis, $data, $endpoint) use ($accountEndpoint)
 		$timeout = DateTime::createFromFormat('j. n. Y H:i:s', $data['skautIS_DateLogout'])->format('U');
 
 		setcookie('skautis_token', $token, intval($timeout), "/", "odymaterialy.skauting.cz", true, true);
-		setcookie('skautis_timeout', $timeout, intval($timeout), "/", "odymaterialy.skauting.cz", true, true);
+		setcookie('skautis_timeout', $timeout, intval($timeout), "/", "odymaterialy.skauting.cz", true, false);
 		$_COOKIE['skautis_token'] = $token;
 		$_COOKIE['skautis_timeout'] = $timeout;
 

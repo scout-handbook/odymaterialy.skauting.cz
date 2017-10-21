@@ -66,3 +66,17 @@ function logoutRedirect()
 	window.location = "/API/v0.9/logout?return-uri=" + encodeURIComponent(window.location.href);
 	return false;
 }
+
+function refreshLogin()
+{
+	var allCookies = "; " + document.cookie;
+	var parts = allCookies.split("; skautis_timeout=");
+	if(parts.length == 2)
+	{
+		var timeout = parts.pop().split(";").shift();
+		if((timeout - Math.round(new Date().getTime() / 1000)) < 1500)
+		{
+			request("/API/v0.9/refresh");
+		}
+	}
+}

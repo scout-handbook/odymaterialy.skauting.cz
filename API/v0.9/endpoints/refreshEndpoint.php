@@ -10,7 +10,7 @@ $refreshLogin = function($skautis, $data, $endpoint)
 {
 	$dateLogout = $skautis->UserManagement->LoginUpdateRefresh(['ID' => $_COOKIE['skautis_token']])->DateLogout;
 	$timeout = DateTime::createFromFormat('Y-m-d\TH:i:s.u', $dateLogout)->format('U');
-	setcookie('skautis_timeout', $timeout, intval($timeout), "/", "odymaterialy.skauting.cz", true, true);
+	setcookie('skautis_timeout', $timeout, intval($timeout), "/", "odymaterialy.skauting.cz", true, false);
 	$_COOKIE['skautis_timeout'] = $timeout;
 	return ['status' => 200];
 };

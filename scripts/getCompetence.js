@@ -9,6 +9,7 @@ function getCompetence(id, noHistory)
 		{
 			showCompetence(id, noHistory);
 		});
+	refreshLogin();
 }
 
 function showCompetence(id, noHistory)
