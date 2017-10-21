@@ -14,9 +14,6 @@ function deleteFieldOnClick(event)
 		{
 			spinner();
 			retryAction("/API/v0.9/field/" + encodeURIComponent(event.target.dataset.id), "DELETE", {});
-		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;", function()
-		{
-			history.back();
-		});
+		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;");
 	refreshLogin();
 }
