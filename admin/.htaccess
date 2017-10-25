@@ -20,6 +20,8 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/styles/sidePanel.css>;rel=preload;as=style"
 	Header add Link "</scripts/tools/AfterLoadEvent.js>;rel=preload;as=script"
 	Header add Link "</scripts/tools/OdyMarkdown.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/tools/retryAction.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/tools/request.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/addCompetence.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/addField.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/addImage.js>;rel=preload;as=script"
@@ -43,8 +45,6 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/scripts/mainPage.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/refreshLogin.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/refreshPreview.js>;rel=preload;as=script"
-	Header add Link "</admin/scripts/request.js>;rel=preload;as=script"
-	Header add Link "</admin/scripts/retryAction.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/sidePanel.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/userManager.js>;rel=preload;as=script"
 </FilesMatch>
