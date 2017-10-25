@@ -1,4 +1,4 @@
-function getField(id, noHistory)
+function showFieldView(id, noHistory)
 {
 	if(screen.width < 700)
 	{
@@ -7,12 +7,12 @@ function getField(id, noHistory)
 	}
 	lessonListEvent.addCallback(function()
 		{
-			showField(id, noHistory);
+			renderFieldView(id, noHistory);
 		});
 	refreshLogin();
 }
 
-function showField(id, noHistory)
+function renderFieldView(id, noHistory)
 {
 	var field = {};
 	for(var i = 0; i < FIELDS.length; i++)

@@ -11,7 +11,7 @@ function historySetup()
 	{
 		var query = window.location.pathname.substring(7);
 		var fieldId = query.split("/")[0];
-		getField(fieldId);
+		showFieldView(fieldId);
 	}
 	else if(window.location.pathname.substring(0, 8) === "/lesson/")
 	{
@@ -35,7 +35,7 @@ function popback()
 		}
 		else if(window.location.pathname.substring(0, 7) === "/field/")
 		{
-			getField(history.state.id, true);
+			showFieldView(history.state.id, true);
 		}
 		else if(window.location.pathname.substring(0, 8) === "/lesson/")
 		{

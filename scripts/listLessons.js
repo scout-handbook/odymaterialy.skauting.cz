@@ -60,7 +60,7 @@ function showLessonList()
 
 function fieldOnClick(event)
 {
-	getField(event.target.dataset.id);
+	showFieldView(event.target.dataset.id);
 	return false;
 }
 
