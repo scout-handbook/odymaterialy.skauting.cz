@@ -9,7 +9,7 @@ function headerSetup()
 		{
 			fontResize(-2);
 		}
-	document.getElementById("cacheOffline").onclick = cacheOffline;
+	document.getElementById("cacheOffline").onclick = toggleLessonOffline;
 }
 
 function fontResize(delta)
@@ -18,5 +18,5 @@ function fontResize(delta)
 	var current = parseInt(window.getComputedStyle(content, null).getPropertyValue("font-size").replace("px", ""), 10);
 	content.style.fontSize = current + delta + "px";
 	content.style.lineHeight = "160%";
-	competenceReflow();
+	reflowCompetenceBubbles();
 }

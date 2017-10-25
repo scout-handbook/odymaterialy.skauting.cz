@@ -66,6 +66,6 @@ function fieldOnClick(event)
 
 function lessonOnClick(event)
 {
-	getLesson(event.target.dataset.id);
+	showLessonView(event.target.dataset.id);
 	return false;
 }

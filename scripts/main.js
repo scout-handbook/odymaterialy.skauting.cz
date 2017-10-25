@@ -9,7 +9,7 @@ function main()
 	historySetup();
 	authSetup();
 	listLessonsSetup();
-	getLessonSetup();
+	lessonViewSetup();
 	if("serviceWorker" in navigator)
 	{
 		navigator.serviceWorker.register("/serviceworker.js");
