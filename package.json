@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/GenaBitu/OdyMaterialy#readme",
   "dependencies": {
-    "ace-builds": "^1.2.6",
-    "showdown": "^1.6.4",
+    "ace-builds": "^1.2.9",
+    "showdown": "^1.8.0",
     "xss": "^0.3.4"
   }
 }
