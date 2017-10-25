@@ -1,27 +1,9 @@
-var lessonListEvent = new AfterLoadEvent(2);
-
-function listLessonsSetup()
+function TOCSetup()
 {
-	cacheThenNetworkRequest("/API/v0.9/lesson", "", function(response, second)
-		{
-			FIELDS = response;
-			if(!second)
-			{
-				lessonListEvent.trigger();
-			}
-		});
-	cacheThenNetworkRequest("/API/v0.9/competence", "", function(response, second)
-		{
-			COMPETENCES = response;
-			if(!second)
-			{
-				lessonListEvent.trigger();
-			}
-		});
-	lessonListEvent.addCallback(showLessonList);
+	metadataEvent.addCallback(renderTOC);
 }
 
-function showLessonList()
+function renderTOC()
 {
 	var html = "";
 	for(var i = 0; i < FIELDS.length; i++)
@@ -48,23 +30,23 @@ function showLessonList()
 	{
 		if(nodes[k].parentElement.tagName == "H1")
 		{
-			nodes[k].onclick = fieldOnClick;
+			nodes[k].onclick = TOCFieldOnClick;
 		}
 		else
 		{
-			nodes[k].onclick = lessonOnClick;
+			nodes[k].onclick = TOCLessonOnClick;
 		}
 	}
 	document.getElementsByTagName("nav")[0].style.transition = "margin-left 0.3s ease";
 }
 
-function fieldOnClick(event)
+function TOCFieldOnClick(event)
 {
 	showFieldView(event.target.dataset.id);
 	return false;
 }
 
-function lessonOnClick(event)
+function TOCLessonOnClick(event)
 {
 	showLessonView(event.target.dataset.id);
 	return false;

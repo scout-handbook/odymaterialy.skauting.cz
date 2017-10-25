@@ -19,7 +19,7 @@ function showLessonView(id, noHistory)
 	}
 	cacheThenNetworkRequest("/API/v0.9/lesson/" + id, "", function(response, second)
 		{
-			lessonListEvent.addCallback(function()
+			metadataEvent.addCallback(function()
 				{
 					renderLessonView(id, response, noHistory, second);
 				});

@@ -5,7 +5,7 @@ function showFieldView(id, noHistory)
 		navigationOpen = false;
 		reflowNavigation();
 	}
-	lessonListEvent.addCallback(function()
+	metadataEvent.addCallback(function()
 		{
 			renderFieldView(id, noHistory);
 		});
@@ -30,7 +30,7 @@ function renderFieldView(id, noHistory)
 	nodes = document.getElementById("content").getElementsByTagName("h3");
 	for(var l = 0; l < nodes.length; l++)
 	{
-		nodes[l].firstChild.onclick = lessonOnClick;
+		nodes[l].firstChild.onclick = TOCLessonOnClick;
 	}
 
 	document.getElementsByTagName("main")[0].scrollTop = 0;

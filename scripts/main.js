@@ -8,8 +8,9 @@ function main()
 	headerSetup();
 	historySetup();
 	authSetup();
-	listLessonsSetup();
+	metadataSetup();
 	lessonViewSetup();
+	TOCSetup();
 	if("serviceWorker" in navigator)
 	{
 		navigator.serviceWorker.register("/serviceworker.js");

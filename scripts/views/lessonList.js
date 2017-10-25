@@ -1,6 +1,6 @@
 function showLessonListView(noHistory)
 {
-	lessonListEvent.addCallback(function()
+	metadataEvent.addCallback(function()
 		{
 			renderLessonListView(noHistory);
 		});
@@ -17,11 +17,11 @@ function renderLessonListView(noHistory)
 	{
 		if(nodes[l].parentElement.tagName == "H2")
 		{
-			nodes[l].onclick = fieldOnClick;
+			nodes[l].onclick = TOCFieldOnClick;
 		}
 		else
 		{
-			nodes[l].onclick = lessonOnClick;
+			nodes[l].onclick = TOCLessonOnClick;
 		}
 	}
 
