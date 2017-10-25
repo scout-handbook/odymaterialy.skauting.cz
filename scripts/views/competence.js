@@ -1,4 +1,4 @@
-function getCompetence(id, noHistory)
+function showCompetenceView(id, noHistory)
 {
 	if(screen.width < 700)
 	{
@@ -7,12 +7,12 @@ function getCompetence(id, noHistory)
 	}
 	lessonListEvent.addCallback(function()
 		{
-			showCompetence(id, noHistory);
+			renderCompetenceView(id, noHistory);
 		});
 	refreshLogin();
 }
 
-function showCompetence(id, noHistory)
+function renderCompetenceView(id, noHistory)
 {
 	var competence = {};
 	for(var i = 0; i < COMPETENCES.length; i++)

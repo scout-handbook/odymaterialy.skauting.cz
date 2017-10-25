@@ -5,7 +5,7 @@ function historySetup()
 	{
 		var query = window.location.pathname.substring(12);
 		var competenceId = query.split("/")[0];
-		getCompetence(competenceId);
+		showCompetenceView(competenceId);
 	}
 	else if(window.location.pathname.substring(0, 7) === "/field/")
 	{
@@ -31,7 +31,7 @@ function popback()
 	{
 		if(window.location.pathname.substring(0, 12) === "/competence/")
 		{
-			getCompetence(history.state.id, true);
+			showCompetenceView(history.state.id, true);
 		}
 		else if(window.location.pathname.substring(0, 7) === "/field/")
 		{

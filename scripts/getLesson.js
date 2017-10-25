@@ -142,7 +142,7 @@ function competenceReflow()
 
 function competenceLessonsOnClick(event)
 {
-	getCompetence(event.target.dataset.id)
+	showCompetenceView(event.target.dataset.id)
 	return false;
 }
 
