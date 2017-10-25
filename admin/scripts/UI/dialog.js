@@ -46,15 +46,3 @@ function dismissDialog()
 	document.getElementById("dialog").style.display = "none";
 	document.getElementById("dismissText").style.display = "none";
 }
-
-function spinner()
-{
-	document.getElementById("overlay").style.display = "inline";
-	document.getElementById("spinner").style.display = "block";
-}
-
-function dismissSpinner()
-{
-	document.getElementById("overlay").style.display = "none";
-	document.getElementById("spinner").style.display = "none";
-}
