@@ -1,58 +1,21 @@
 var changed;
 var imageSelectorOpen = false;
 
-function changeLessonOnClick(event)
+function showLessonEditor(name, body, saveCallback)
 {
-	getLesson(event.target.dataset.id);
-	return false;
-}
-
-function getLesson(id, noHistory)
-{
-	spinner();
-	request("/API/v0.9/lesson/" + id, "GET", "", function(response)
-		{
-			if(response.status === 200)
-			{
-				lessonListEvent.addCallback(function()
-					{
-						showLesson(id, response.response, noHistory);
-					});
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
-			}
-		});
-}
-
-function showLesson(id, markdown, noHistory)
-{
-	dismissSpinner();
 	changed = false;
-	var lesson = {};
-	outer:
-	for(var i = 0; i < FIELDS.length; i++)
-	{
-		for(var j = 0; j < FIELDS[i].lessons.length; j++)
-		{
-			if(FIELDS[i].lessons[j].id == id)
-			{
-				lesson = FIELDS[i].lessons[j];
-				break outer;
-			}
-		}
-	}
 	var html = '\
 <header>\
 	<div class="button" id="discard">\
-		<i class="icon-cancel"></i>Zrušit\
+		<i class="icon-cancel"></i>\
+		Zrušit\
 	</div>\
 	<form>\
-		<input type="text" class="formText formName" id="name" value="' + lesson.name + '" autocomplete="off">\
+		<input type="text" class="formText formName" id="name" value="" autocomplete="off">\
 	</form>\
-	<div class="button" id="save" data-id="' + id + '">\
-		Uložit<i class="icon-floppy"></i>\
+	<div class="button" id="save" data-id="">\
+		Uložit\
+		<i class="icon-floppy"></i>\
 	</div>\
 	<div class="button" id="addImageButton">\
 		Vložit obrázek\
@@ -66,15 +29,10 @@ function showLesson(id, markdown, noHistory)
 	html += '<div id="editor"></div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
-	refreshPreview(lesson.name, markdown);
+	refreshPreview(name, body);
 
-	if(!noHistory)
-	{
-		history.pushState({"id": id}, "title", "/admin/lessons");
-	}
-
-	document.getElementById("discard").onclick = discard;
-	document.getElementById("save").onclick = save;
+	document.getElementById("discard").onclick = editorDiscard;
+	document.getElementById("save").onclick = saveCallback;
 	document.getElementById("addImageButton").onclick = showImageSelector;
 
 	var editor = ace.edit("editor");
@@ -84,21 +42,21 @@ function showLesson(id, markdown, noHistory)
 	editor.setTheme("ace/theme/odymaterialy");
 	editor.getSession().setMode("ace/mode/markdown");
 	editor.getSession().setUseWrapMode(true);
-	editor.getSession().on("change", change);
-	document.getElementById("name").oninput = change;
-	document.getElementById("name").onchange = change;
+	editor.getSession().on("change", editorOnChange);
+	document.getElementById("name").oninput = editorOnChange;
+	document.getElementById("name").onchange = editorOnChange;
 
-	getImageSelector();
+	prepareImageSelector();
 }
 
-function change()
+function editorOnChange()
 {
 	changed = true;
 	refreshPreview(document.getElementById("name").value, ace.edit("editor").getValue());
 	refreshLogin();
 }
 
-function discard()
+function editorDiscard()
 {
 	if(!changed)
 	{
@@ -114,35 +72,7 @@ function discard()
 	refreshLogin();
 }
 
-function save()
-{
-	if(changed)
-	{
-		var payload = {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
-		spinner();
-		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("save").dataset.id), "PUT", payload);
-	}
-	else
-	{
-		discard();
-	}
-}
-
-function showImageSelector()
-{
-	if(imageSelectorOpen)
-	{
-		document.getElementById("imageSelector").style.top = "-100%";
-	}
-	else
-	{
-		document.getElementById("imageSelector").style.top = "-91px";
-	}
-	imageSelectorOpen = !imageSelectorOpen;
-	refreshLogin();
-}
-
-function getImageSelector(page, perPage)
+function prepareImageSelector(page, perPage)
 {
 	if(!page)
 	{
@@ -224,7 +154,7 @@ function renderImageSelector(list, page, perPage)
 	{
 		nodes[l].onclick = function(event)
 			{
-				getImageSelector(parseInt(event.target.dataset.page), perPage);
+				prepareImageSelector(parseInt(event.target.dataset.page), perPage);
 			};
 	}
 }
@@ -234,6 +164,20 @@ function insertImage(event)
 	var markdown = "![Text po najetí kurzorem](https://odymaterialy.skauting.cz/API/v0.9/image/" + event.target.dataset.id + ")"
 	var editor = ace.edit("editor");
 	editor.session.insert(editor.getCursorPosition(), markdown);
-	showImageSelector();
+	toggleImageSelector();
+	refreshLogin();
+}
+
+function toggleImageSelector()
+{
+	if(imageSelectorOpen)
+	{
+		document.getElementById("imageSelector").style.top = "-100%";
+	}
+	else
+	{
+		document.getElementById("imageSelector").style.top = "-91px";
+	}
+	imageSelectorOpen = !imageSelectorOpen;
 	refreshLogin();
 }

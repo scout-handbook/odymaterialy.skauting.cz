@@ -16,7 +16,7 @@ function popback()
 		{
 			lessonListEvent.addCallback(function()
 				{
-					getLesson(history.state.id, true);
+					showLessonEditView(history.state.id, true);
 				});
 		}
 		else if(history.state.page)

@@ -20,7 +20,7 @@ function showLessonManager(noHistory)
 	{
 		document.getElementById("addField").onclick = addField;
 	}
-	document.getElementById("addLesson").onclick = function() {addLesson();};
+	document.getElementById("addLesson").onclick = function() {showLessonAddView();};
 
 	addOnClicks("changeField", changeFieldOnClick);
 	addOnClicks("deleteField", deleteFieldOnClick);
@@ -81,4 +81,10 @@ function renderLessonList()
 		}
 	}
 	return html;
+}
+
+function changeLessonOnClick(event)
+{
+	showLessonEditView(event.target.dataset.id);
+	return false;
 }
