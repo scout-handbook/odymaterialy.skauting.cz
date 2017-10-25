@@ -11,7 +11,7 @@ function showLessonEditor(name, body, saveCallback)
 		Zrušit\
 	</div>\
 	<form>\
-		<input type="text" class="formText formName" id="name" value="" autocomplete="off">\
+		<input type="text" class="formText formName" id="name" value="' + name + '" autocomplete="off">\
 	</form>\
 	<div class="button" id="save" data-id="">\
 		Uložit\
@@ -33,11 +33,11 @@ function showLessonEditor(name, body, saveCallback)
 
 	document.getElementById("discard").onclick = editorDiscard;
 	document.getElementById("save").onclick = saveCallback;
-	document.getElementById("addImageButton").onclick = showImageSelector;
+	document.getElementById("addImageButton").onclick = toggleImageSelector;
 
 	var editor = ace.edit("editor");
 	editor.$blockScrolling = Infinity;
-	editor.setValue(markdown, -1);
+	editor.setValue(body, -1);
 	editor.setOption("scrollPastEnd", 0.9);
 	editor.setTheme("ace/theme/odymaterialy");
 	editor.getSession().setMode("ace/mode/markdown");

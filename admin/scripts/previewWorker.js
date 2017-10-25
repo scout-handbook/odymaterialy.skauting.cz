@@ -4,7 +4,7 @@ function main()
 {
 	onmessage = process;
 	importScripts('/node_modules/showdown/dist/showdown.min.js');
-	importScripts('/scripts/OdyMarkdown.js');
+	importScripts('/scripts/tools/OdyMarkdown.js');
 	converter = new showdown.Converter({extensions: ["OdyMarkdown"]});
 	converter.setOption("noHeaderId", "true");
 	converter.setOption("tables", "true");
