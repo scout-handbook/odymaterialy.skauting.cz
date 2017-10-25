@@ -4,7 +4,7 @@ var COMPETENCES;
 
 function main()
 {
-	navSetup();
+	navigationSetup();
 	topUIsetup();
 	historySetup();
 	authSetup();

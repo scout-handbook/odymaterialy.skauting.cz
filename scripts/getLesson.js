@@ -14,8 +14,8 @@ function getLesson(id, noHistory)
 	document.getElementById("content").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(screen.width < 700)
 	{
-		navOpen = false;
-		reflow();
+		navigationOpen = false;
+		reflowNavigation();
 	}
 	cacheThenNetworkRequest("/API/v0.9/lesson/" + id, "", function(response, second)
 		{

@@ -2,8 +2,8 @@ function getField(id, noHistory)
 {
 	if(screen.width < 700)
 	{
-		navOpen = false;
-		reflow();
+		navigationOpen = false;
+		reflowNavigation();
 	}
 	lessonListEvent.addCallback(function()
 		{

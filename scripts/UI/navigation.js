@@ -1,30 +1,30 @@
-var navOpen = true;
+var navigationOpen = true;
 
-function navSetup()
+function navigationSetup()
 {
-	window.addEventListener("resize", reflow)
-	document.getElementById("navCloseButton").onclick = switchNav;
-	document.getElementById("overlay").onclick = switchNav;
+	window.addEventListener("resize", reflowNavigation)
+	document.getElementById("navCloseButton").onclick = toggleNavigation;
+	document.getElementById("overlay").onclick = toggleNavigation;
 	document.getElementById("lessonOverview").onclick = function()
 		{
 			getMainPage();
 			return false;
 		}
-	reflow();
+	reflowNavigation();
 }
 
-function switchNav()
+function toggleNavigation()
 {
-	navOpen = !navOpen;
-	reflow();
+	navigationOpen = !navigationOpen;
+	reflowNavigation();
 }
 
-function reflow()
+function reflowNavigation()
 {
 	main = document.getElementsByTagName("main")[0].style;
 	navBar = document.getElementsByTagName("nav")[0].style;
 	overlay = document.getElementById("overlay").style;
-	if(navOpen)
+	if(navigationOpen)
 	{
 		navBar.marginLeft = "0px"
 		if(screen.width > 700)

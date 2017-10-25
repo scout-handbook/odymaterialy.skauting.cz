@@ -1,6 +1,6 @@
 function topUIsetup()
 {
-	document.getElementById("lessonsButton").onclick = switchNav;
+	document.getElementById("lessonsButton").onclick = toggleNavigation;
 	document.getElementById("fontIncrease").onclick = function()
 		{
 			fontResize(2);
