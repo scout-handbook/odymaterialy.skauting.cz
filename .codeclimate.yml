@@ -40,6 +40,8 @@ engines:
         enabled: false
       Controversial/Superglobals:
         enabled: false
+      Design/ExitExpression:
+        enabled: false
   phan:
     enabled: true
     config:
@@ -52,4 +54,6 @@ ratings:
 exclude_paths:
   - "node_modules/"
   - "vendor/"
+  - "styles/fontello.css"
+  - "styles/fontello-ie7.css"
 
