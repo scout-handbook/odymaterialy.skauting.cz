@@ -44,7 +44,9 @@ Header always set Expect-CT "enforce; max-age=31536000"
 	Header add Link "</styles/computer.css>;rel=preload;as=style"
 	Header add Link "</styles/handheld.css>;rel=preload;as=style"
 	Header add Link "</scripts/tools/AfterLoadEvent.js>;rel=preload;as=script"
+	Header add Link "</scripts/tools/cacheThenNetworkRequest.js>;rel=preload;as=script"
 	Header add Link "</scripts/tools/OdyMarkdown.js>;rel=preload;as=script"
+	Header add Link "</scripts/tools/request.js>;rel=preload;as=script"
 	Header add Link "</scripts/UI/header.js>;rel=preload;as=script"
 	Header add Link "</scripts/UI/lessonView.js>;rel=preload;as=script"
 	Header add Link "</scripts/UI/navigation.js>;rel=preload;as=script"
@@ -56,7 +58,6 @@ Header always set Expect-CT "enforce; max-age=31536000"
 	Header add Link "</scripts/history.js>;rel=preload;as=script"
 	Header add Link "</scripts/listLessons.js>;rel=preload;as=script"
 	Header add Link "</scripts/main.js>;rel=preload;as=script"
-	Header add Link "</scripts/request.js>;rel=preload;as=script"
 </FilesMatch>
 
 # Compression

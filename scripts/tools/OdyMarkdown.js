@@ -18,7 +18,7 @@ var OdyMarkdown = function()
 	};
 	var notes = {
 		type: "lang",
-		filter: function(text, c, o) {return filterCommand(text, "notes", notes_command);}
+		filter: function(text, c, o) {return filterCommand(text, "notes", notesCommand);}
 	};
 	return [responsiveTablesBegin, responsiveTablesEnd, blankLinks, notes];
 }
@@ -67,7 +67,7 @@ function parseArguments(argumentString)
 }
 
 // Specific commands
-function notes_command(argumentObject)
+function notesCommand(argumentObject)
 {
 	//return "<textarea class=\"notes\" placeholder=\"Tvoje poznámky\"></textarea>";
 	return "";
