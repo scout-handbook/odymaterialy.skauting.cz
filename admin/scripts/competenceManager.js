@@ -26,6 +26,7 @@ function showCompetenceManager(noHistory)
 	{
 		history.pushState({"page": "competences"}, "title", "/admin/competences");
 	}
+	refreshLogin(true);
 }
 
 function renderCompetenceList()

@@ -38,6 +38,7 @@ function changeRoleOnClick(event)
 		};
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/users");
+	refreshLogin();
 }
 
 function changeRoleSave()

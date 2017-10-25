@@ -15,6 +15,7 @@ function addCompetence()
 	document.getElementById("addCompetenceSave").onclick = addCompetenceSave;
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/competences");
+	refreshLogin();
 }
 
 function addCompetenceSave()

@@ -47,6 +47,7 @@ function getUserList(searchName, page, perPage)
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
 			}
 		});
+	refreshLogin(true);
 }
 
 function showUserList(list, searchName, page, perPage)

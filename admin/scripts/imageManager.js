@@ -46,6 +46,7 @@ function getImageList(page, perPage)
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
 			}
 		});
+	refreshLogin(true);
 }
 
 function showImageList(list, page, perPage)

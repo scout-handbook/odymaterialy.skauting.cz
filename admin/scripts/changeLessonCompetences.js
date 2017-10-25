@@ -48,6 +48,7 @@ function changeLessonCompetencesOnClick(event)
 	}
 
 	history.pushState({}, "title", "/admin/lessons");
+	refreshLogin();
 }
 
 function changeLessonCompetencesSave()

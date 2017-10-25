@@ -499,6 +499,19 @@ paths:
       responses:
         '302':
           description: Redirect back to the desired page
+  /refresh:
+    get:
+      summary: Refresh the current session
+      description: Normally, the login session expires after 30 minutes. Calling this endpoint within this timeframe resets the timeout.
+      tags:
+        - authentication
+      security:
+        - apiKey: []
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
   /logout:
     get:
       summary: Logout of OdyMateriály

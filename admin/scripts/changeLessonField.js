@@ -61,6 +61,7 @@ function changeLessonFieldOnClick(event)
 	}
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
+	refreshLogin();
 }
 
 function changeLessonFieldSave()

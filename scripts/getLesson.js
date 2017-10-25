@@ -24,6 +24,7 @@ function getLesson(id, noHistory)
 					showLesson(id, response, noHistory, second);
 				});
 		});
+	refreshLogin();
 }
 
 function showLesson(id, markdown, noHistory, second)

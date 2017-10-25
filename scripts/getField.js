@@ -9,6 +9,7 @@ function getField(id, noHistory)
 		{
 			showField(id, noHistory);
 		});
+	refreshLogin();
 }
 
 function showField(id, noHistory)
