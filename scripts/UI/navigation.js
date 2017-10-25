@@ -7,7 +7,7 @@ function navigationSetup()
 	document.getElementById("overlay").onclick = toggleNavigation;
 	document.getElementById("lessonOverview").onclick = function()
 		{
-			getMainPage();
+			showLessonListView();
 			return false;
 		}
 	reflowNavigation();

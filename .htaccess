@@ -51,11 +51,11 @@ Header always set Expect-CT "enforce; max-age=31536000"
 	Header add Link "</scripts/views/competence.js>;rel=preload;as=script"
 	Header add Link "</scripts/views/field.js>;rel=preload;as=script"
 	Header add Link "</scripts/views/lesson.js>;rel=preload;as=script"
+	Header add Link "</scripts/views/lessonList.js>;rel=preload;as=script"
 	Header add Link "</scripts/auth.js>;rel=preload;as=script"
 	Header add Link "</scripts/history.js>;rel=preload;as=script"
 	Header add Link "</scripts/listLessons.js>;rel=preload;as=script"
 	Header add Link "</scripts/main.js>;rel=preload;as=script"
-	Header add Link "</scripts/mainPage.js>;rel=preload;as=script"
 	Header add Link "</scripts/request.js>;rel=preload;as=script"
 </FilesMatch>
 

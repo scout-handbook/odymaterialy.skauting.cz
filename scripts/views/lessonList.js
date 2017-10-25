@@ -1,15 +1,15 @@
-function getMainPage(noHistory)
+function showLessonListView(noHistory)
 {
 	lessonListEvent.addCallback(function()
 		{
-			showMainPage(noHistory);
+			renderLessonListView(noHistory);
 		});
 }
 
-function showMainPage(noHistory)
+function renderLessonListView(noHistory)
 {
 	var html = "<h1>OdyMateriály</h1>";
-	html += renderLessonList();
+	html += renderFieldList();
 	document.getElementById("content").innerHTML = html;
 
 	nodes = document.getElementById("content").getElementsByTagName("a");
@@ -33,7 +33,7 @@ function showMainPage(noHistory)
 	document.getElementById("offlineSwitch").style.display = "none";
 }
 
-function renderLessonList()
+function renderFieldList()
 {
 	var html = "";
 	for(var i = 0; i < FIELDS.length; i++)

@@ -21,7 +21,7 @@ function historySetup()
 	}
 	else
 	{
-		getMainPage();
+		showLessonListView();
 	}
 }
 
@@ -43,7 +43,7 @@ function popback()
 		}
 		else
 		{
-			getMainPage();
+			showLessonListView();
 		}
 	}
 }
