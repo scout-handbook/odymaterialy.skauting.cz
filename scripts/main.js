@@ -7,7 +7,7 @@ function main()
 	navigationSetup();
 	headerSetup();
 	historySetup();
-	authSetup();
+	authenticationSetup();
 	metadataSetup();
 	lessonViewSetup();
 	TOCSetup();

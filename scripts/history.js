@@ -1,6 +1,6 @@
 function historySetup()
 {
-	window.onpopstate = popback;
+	window.onpopstate = historyPopback;
 	if(window.location.pathname.substring(0, 12) === "/competence/")
 	{
 		var query = window.location.pathname.substring(12);
@@ -25,7 +25,7 @@ function historySetup()
 	}
 }
 
-function popback()
+function historyPopback()
 {
 	if(history.state)
 	{

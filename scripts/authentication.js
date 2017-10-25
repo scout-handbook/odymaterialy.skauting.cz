@@ -1,23 +1,23 @@
-function authSetup()
+function authenticationSetup()
 {
-	getLoginState();
+	showAccountInfo();
 }
 
-function getLoginState()
+function showAccountInfo()
 {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function()
 		{
-			if (this.readyState === 4)
+			if(this.readyState === 4)
 			{
 				response = JSON.parse(this.responseText);
 				if(response.status === 200)
 				{
-					showUserAccount(response.response);
+					renderUserAccount(response.response);
 				}
 				else
 				{
-					showLoginForm();
+					renderLoginForm();
 				}
 			}
 		}
@@ -25,7 +25,7 @@ function getLoginState()
 	xhttp.send();
 }
 
-function showUserAccount(response)
+function renderUserAccount(response)
 {
 	document.getElementById("userName").innerHTML = response.name;
 	if(response.role == "editor" || response.role == "administrator" || response.role == "superuser")
@@ -47,7 +47,7 @@ function showUserAccount(response)
 	}
 }
 
-function showLoginForm()
+function renderLoginForm()
 {
 	document.getElementById("userName").innerHTML = "Uživatel nepřihlášen";
 	document.getElementById("logLink").innerHTML = "<a href=\"/error/enableJS.html\">Přihlásit</a>";
