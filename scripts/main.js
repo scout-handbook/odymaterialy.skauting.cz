@@ -5,7 +5,7 @@ var COMPETENCES;
 function main()
 {
 	navigationSetup();
-	topUIsetup();
+	headerSetup();
 	historySetup();
 	authSetup();
 	listLessonsSetup();

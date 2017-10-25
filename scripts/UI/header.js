@@ -1,4 +1,4 @@
-function topUIsetup()
+function headerSetup()
 {
 	document.getElementById("lessonsButton").onclick = toggleNavigation;
 	document.getElementById("fontIncrease").onclick = function()
@@ -19,24 +19,4 @@ function fontResize(delta)
 	content.style.fontSize = current + delta + "px";
 	content.style.lineHeight = "160%";
 	competenceReflow();
-}
-
-function cacheOffline()
-{
-	var checked = document.getElementById("cacheOffline").checked;
-	if (window.location.pathname.substring(0, 8) === "/lesson/")
-	{
-		var id = window.location.pathname.substring(8).split("/")[0];
-		caches.open(CACHE).then(function(cache)
-			{
-				if(checked)
-				{
-					cache.add("/API/v0.9/lesson/" + id);
-				}
-				else
-				{
-					cache.delete("/API/v0.9/lesson/" + id);
-				}
-		});
-	}
 }
