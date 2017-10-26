@@ -1,6 +1,6 @@
 var mainPageTab = "lessons";
 
-function getMainPage(noHistory)
+function showMainView(noHistory)
 {
 	var html = "<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>";
 	html += "<div id=\"topBar\"><div id=\"userAccount\"><img id=\"userAvatar\" alt=\"Account avatar\" src=\"/avatar.png\">";
@@ -34,11 +34,11 @@ function getMainPage(noHistory)
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	metadataEvent.addCallback(function()
 		{
-			showMainPage(noHistory);
+			renderMainView(noHistory);
 		});
 }
 
-function showMainPage(noHistory)
+function renderMainView(noHistory)
 {
 	if(LOGINSTATE.avatar)
 	{
@@ -66,14 +66,5 @@ function showMainPage(noHistory)
 	else
 	{
 		showLessonManager(noHistory);
-	}
-}
-
-function addOnClicks(id, onclick)
-{
-	var nodes = document.getElementsByTagName("main")[0].getElementsByClassName(id);
-	for(var l = 0; l < nodes.length; l++)
-	{
-		nodes[l].onclick = onclick;
 	}
 }

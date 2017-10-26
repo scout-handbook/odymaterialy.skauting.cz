@@ -5,7 +5,7 @@ function historySetup()
 	{
 		mainPageTab = window.location.pathname.substring(7);
 	}
-	getMainPage();
+	showMainView();
 }
 
 function popback()
@@ -22,7 +22,7 @@ function popback()
 		else if(history.state.page)
 		{
 			mainPageTab = history.state.page;
-			getMainPage(true)
+			showMainView(true)
 		}
 		else if(sidePanelState)
 		{
@@ -30,7 +30,7 @@ function popback()
 		}
 		else
 		{
-			getMainPage();
+			showMainView();
 		}
 	}
 }

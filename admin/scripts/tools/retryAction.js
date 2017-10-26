@@ -27,7 +27,7 @@ function retryActionAfter(response, url, method, payload)
 		refreshMetadata();
 		if(retry)
 		{
-			getMainPage();
+			showMainView();
 		}
 		else
 		{
