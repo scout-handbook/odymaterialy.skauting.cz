@@ -1,4 +1,4 @@
-function showCompetenceManager(noHistory)
+function showCompetenceSubview(noHistory)
 {
 	mainPageTab = "competences";
 	var nodes = document.getElementsByClassName("topBarTab");

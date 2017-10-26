@@ -47,13 +47,13 @@ function renderMainView(noHistory)
 	document.getElementById("userName").innerHTML = LOGINSTATE.name;
 
 	document.getElementById("lessonManager").onclick = function() {showLessonSubview()};
-	document.getElementById("competenceManager").onclick = function() {showCompetenceManager()};
+	document.getElementById("competenceManager").onclick = function() {showCompetenceSubview()};
 	document.getElementById("imageManager").onclick = function() {showImageManager()};
 	document.getElementById("userManager").onclick = function() {showUserManager()};
 
 	if(mainPageTab == "competences")
 	{
-		showCompetenceManager(noHistory);
+		showCompetenceSubview(noHistory);
 	}
 	else if(mainPageTab == "images")
 	{
