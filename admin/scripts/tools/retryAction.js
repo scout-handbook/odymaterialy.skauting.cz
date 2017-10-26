@@ -24,8 +24,7 @@ function retryActionAfter(response, url, method, payload)
 	if(Math.floor(response.status / 100) === 2)
 	{
 		dialog("Akce byla úspěšná.", "OK");
-		lessonListEvent = new AfterLoadEvent(3);
-		lessonListSetup();
+		refreshMetadata();
 		if(retry)
 		{
 			getMainPage();

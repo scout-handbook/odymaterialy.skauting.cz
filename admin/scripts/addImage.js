@@ -45,8 +45,7 @@ function addImageAfter(response)
 	if(Math.floor(response.status / 100) === 2)
 	{
 		dialog("Akce byla úspěšná.", "OK");
-		lessonListEvent = new AfterLoadEvent(3);
-		lessonListSetup();
+		refreshMetadata();
 		history.back();
 	}
 	else if(response.type === "AuthenticationException")

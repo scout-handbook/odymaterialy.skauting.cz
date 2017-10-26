@@ -8,7 +8,7 @@ function showLessonEditView(id, noHistory)
 		{
 			if(response.status === 200)
 			{
-				lessonListEvent.addCallback(function()
+				metadataEvent.addCallback(function()
 					{
 						renderLessonEditView(id, response.response, noHistory);
 					});

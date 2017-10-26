@@ -1,7 +1,7 @@
 function main()
 {
 	refreshPreviewSetup();
-	mainPageSetup();
+	metadataSetup();
 	historySetup();
 	retryActionSetup();
 }

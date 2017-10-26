@@ -1,57 +1,4 @@
-var lessonListEvent = new AfterLoadEvent(3);
 var mainPageTab = "lessons";
-var FIELDS = [];
-var COMPETENCES = [];
-var LOGINSTATE = [];
-
-function mainPageSetup()
-{
-	lessonListSetup();
-}
-
-function lessonListSetup()
-{
-	request("/API/v0.9/lesson", "GET", "", function(response)
-		{
-			if(response.status === 200)
-			{
-				FIELDS = response.response;
-				lessonListEvent.trigger();
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
-			}
-		});
-	request("/API/v0.9/competence", "GET", "", function(response)
-		{
-			if(response.status === 200)
-			{
-				COMPETENCES = response.response;
-				lessonListEvent.trigger();
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
-			}
-		});
-	request("/API/v0.9/account", "GET", "", function(response)
-		{
-			if(response.status === 200)
-			{
-				LOGINSTATE = response.response;
-				lessonListEvent.trigger();
-			}
-			else if(response.status === 401)
-			{
-				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
-			}
-		});
-}
 
 function getMainPage(noHistory)
 {
@@ -85,7 +32,7 @@ function getMainPage(noHistory)
 	html += "</h1><div id=\"embeddedSpinner\"></div></div></div>";
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	document.getElementsByTagName("main")[0].scrollTop = 0;
-	lessonListEvent.addCallback(function()
+	metadataEvent.addCallback(function()
 		{
 			showMainPage(noHistory);
 		});
