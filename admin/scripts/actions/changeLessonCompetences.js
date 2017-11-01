@@ -55,7 +55,7 @@ function changeLessonCompetencesSave()
 {
 	if(lessonCompetencesChanged)
 	{
-		var competences = parseForm();
+		var competences = parseBoolForm();
 		var encodedCompetences = [];
 		for(i = 0; i < competences.length; i++)
 		{
