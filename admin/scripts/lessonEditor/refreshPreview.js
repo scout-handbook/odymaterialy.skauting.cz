@@ -7,7 +7,7 @@ function refreshPreviewSetup()
 {
 	if(window.Worker)
 	{
-		worker = new Worker("scripts/previewWorker.js");
+		worker = new Worker("scripts/lessonEditor/previewWorker.js");
 		worker.onmessage = function(message)
 		{
 			document.getElementById("preview-inner").innerHTML = filterXSS(message.data);
