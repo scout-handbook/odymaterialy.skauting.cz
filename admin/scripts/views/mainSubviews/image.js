@@ -61,44 +61,7 @@ function showImageList(list, page, perPage)
 	{
 		html += "<div class=\"thumbnailContainer\"><img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"><div class=\"button mainPage deleteImage\" data-id=\"" + list[i] + "\">Smazat</div></div>";
 	}
-	if(list.length > perPage)
-	{
-		var maxPage = Math.ceil(list.length / perPage);
-
-		function renderPage(page)
-		{
-			html += "<div class=\"paginationButton\" data-page=\"" + page + "\">" + page + "</div>";
-		}
-		html += "<div id=\"pagination\">";
-		if(page > 3)
-		{
-			renderPage(1);
-			html += " ... ";
-		}
-		if(page > 2)
-		{
-			renderPage(page - 2);
-		}
-		if(page > 1)
-		{
-			renderPage(page - 1);
-		}
-		html += "<div class=\"paginationButton active\">" + page + "</div>";
-		if(page < maxPage)
-		{
-			renderPage(page + 1);
-		}
-		if(page < maxPage - 1)
-		{
-			renderPage(page + 2);
-		}
-		if(page < maxPage - 2)
-		{
-			html += " ... ";
-			renderPage(maxPage);
-		}
-		html += "</div>";
-	}
+	html += renderPagination(Math.ceil(list.length / perPage), page);
 	document.getElementById("imageList").innerHTML = html;
 
 	var	nodes = document.getElementById("imageList").getElementsByTagName("img");
