@@ -28,6 +28,7 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/scripts/views/mainSubviews/competence.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/views/mainSubviews/image.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/views/mainSubviews/lesson.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/views/mainSubviews/user.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/views/addLesson.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/views/editLesson.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/views/main.js>;rel=preload;as=script"
@@ -50,5 +51,4 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/scripts/refreshLogin.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/refreshPreview.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/sidePanel.js>;rel=preload;as=script"
-	Header add Link "</admin/scripts/userManager.js>;rel=preload;as=script"
 </FilesMatch>

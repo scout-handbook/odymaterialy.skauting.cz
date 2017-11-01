@@ -1,4 +1,4 @@
-function showUserManager(noHistory)
+function showUserSubview(noHistory)
 {
 	mainPageTab = "users";
 	var nodes = document.getElementsByClassName("topBarTab");
@@ -9,14 +9,14 @@ function showUserManager(noHistory)
 	document.getElementById("userManager").className += " activeTopBarTab";
 	var html = "<h1>OdyMateriály - Uživatelé</h1><div id=\"userList\"></div>";
 	document.getElementById("mainPage").innerHTML = html;
-	getUserList();
+	downloadUserList();
 	if(!noHistory)
 	{
 		history.pushState({"page": "users"}, "title", "/admin/users");
 	}
 }
 
-function getUserList(searchName, page, perPage)
+function downloadUserList(searchName, page, perPage)
 {
 	document.getElementById("userList").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(!searchName)
@@ -138,18 +138,18 @@ function showUserList(list, searchName, page, perPage)
 
 	document.getElementById("userSearchForm").onsubmit = function()
 		{
-			getUserList(document.getElementById("userSearchBox").value, 1, perPage);
+			downloadUserList(document.getElementById("userSearchBox").value, 1, perPage);
 			return false;
 		}
 	document.getElementById("userSearchButton").onclick = function()
 		{
-			getUserList(document.getElementById("userSearchBox").value, 1, perPage);
+			downloadUserList(document.getElementById("userSearchBox").value, 1, perPage);
 		};
 	if(searchName)
 		{
 			document.getElementById("userSearchCancel").onclick = function()
 				{
-					getUserList("", 1, perPage);
+					downloadUserList("", 1, perPage);
 				};
 		}
 	var nodes = document.getElementsByClassName("paginationButton");
@@ -157,7 +157,7 @@ function showUserList(list, searchName, page, perPage)
 	{
 		nodes[l].onclick = function(event)
 			{
-				getUserList(searchName, parseInt(event.target.dataset.page), perPage);
+				downloadUserList(searchName, parseInt(event.target.dataset.page), perPage);
 			};
 	}
 
