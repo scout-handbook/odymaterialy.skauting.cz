@@ -48,7 +48,7 @@ function renderMainView(noHistory)
 
 	document.getElementById("lessonManager").onclick = function() {showLessonSubview()};
 	document.getElementById("competenceManager").onclick = function() {showCompetenceSubview()};
-	document.getElementById("imageManager").onclick = function() {showImageManager()};
+	document.getElementById("imageManager").onclick = function() {showImageSubview()};
 	document.getElementById("userManager").onclick = function() {showUserManager()};
 
 	if(mainPageTab == "competences")
@@ -57,7 +57,7 @@ function renderMainView(noHistory)
 	}
 	else if(mainPageTab == "images")
 	{
-		showImageManager(noHistory);
+		showImageSubview(noHistory);
 	}
 	else if(mainPageTab == "users")
 	{

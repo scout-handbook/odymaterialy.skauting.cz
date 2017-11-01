@@ -1,4 +1,4 @@
-function showImageManager(noHistory)
+function showImageSubview(noHistory)
 {
 	mainPageTab = "images";
 	var nodes = document.getElementsByClassName("topBarTab");
@@ -13,14 +13,14 @@ function showImageManager(noHistory)
 	document.getElementById("mainPage").innerHTML = html;
 
 	document.getElementById("addImage").onclick = addImage;
-	getImageList();
+	downloadImageList();
 	if(!noHistory)
 	{
 		history.pushState({"page": "images"}, "title", "/admin/images");
 	}
 }
 
-function getImageList(page, perPage)
+function downloadImageList(page, perPage)
 {
 	document.getElementById("imageList").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(!page)
@@ -116,7 +116,7 @@ function showImageList(list, page, perPage)
 	{
 		nodes[l].onclick = function(event)
 			{
-				getImageList(parseInt(event.target.dataset.page), perPage);
+				downloadImageList(parseInt(event.target.dataset.page), perPage);
 			};
 	}
 }
