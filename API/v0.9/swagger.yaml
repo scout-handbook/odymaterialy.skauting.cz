@@ -326,6 +326,31 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /lesson/{id}/pdf:
+    get:
+      summary: Get the lesson in PDF
+      tags:
+        - lesson
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      responses:
+        '200':
+          description: The lesson as a PDF file
+          content:
+            'application/pdf':
+              schema:
+                type: string
+                format: binary
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /competence:
     get:
       summary: Get a list of all competences
