@@ -1,0 +1,46 @@
+.oddHeaderRight
+{
+	text-align: right;
+	font-style: italic;
+	color: #7F7F7F;
+	padding-top: -1.6em;
+	padding-right: 0.3em;
+}
+
+.oddFooterLeft
+{
+	font-style: italic;
+	padding-left: 1.5em;
+	padding-bottom: 0.2em;
+}
+
+.oddFooterRight
+{
+	float: right;
+	height: 19px;
+	margin-top: -1.85em;
+	margin-right: -0.95em;
+	margin-bottom: 1.85em;
+}
+
+.evenFooterLeft
+{
+	font-family: 'odymarathon';
+	font-size: 2.0em;
+	padding-left: -0.5em;
+	padding-bottom: -0.1em;
+}
+
+.evenFooterRight
+{
+	float: right;
+	height: 15px;
+	margin-top: -1.85em;
+	margin-right: 1.55em;
+	margin-bottom: 1.85em;
+}
+
+h1
+{
+	text-align: center;
+}
