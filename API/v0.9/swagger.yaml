@@ -296,36 +296,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /lesson/{id}/latex:
-    get:
-      summary: Get the lesson as LaTeX
-      tags:
-        - lesson
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: The id of the lesson
-      responses:
-        '200':
-          description: The lesson as a complete LaTeX file ready to be compiled
-          content:
-            'application/x-latex':
-              schema:
-                type: string
-                format: latex
-                example: >
-                  \documentclass{article}
-                  \begin{document}
-                  \section{A lesson}
-                  \end{document}
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /lesson/{id}/pdf:
     get:
       summary: Get the lesson in PDF

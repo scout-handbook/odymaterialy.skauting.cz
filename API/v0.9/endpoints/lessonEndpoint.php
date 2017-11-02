@@ -14,14 +14,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFound
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonCompetenceEndpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonFieldEndpoint.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonLatexEndpoint.php');
 
 use Ramsey\Uuid\Uuid;
 
 $lessonEndpoint = new OdyMaterialyAPI\Endpoint('lesson');
 $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
-$lessonEndpoint->addSubEndpoint('latex', $lessonLatexEndpoint);
 
 $listLessons = function($skautis, $data, $endpoint)
 {
