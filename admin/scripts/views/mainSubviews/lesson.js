@@ -28,6 +28,7 @@ function showLessonSubview(noHistory)
 	addOnClicks("changeLessonField", changeLessonFieldOnClick);
 	addOnClicks("changeLessonCompetences", changeLessonCompetencesOnClick);
 	addOnClicks("deleteLesson", deleteLessonOnClick);
+	addOnClicks("exportLesson", exportLessonOnClick);
 	if(!noHistory)
 	{
 		history.pushState({"page": "lessons"}, "title", "/admin/lessons");
@@ -71,13 +72,14 @@ function renderLessonList()
 				}
 				html += "</span><br>";
 			}
-			html += "<div class=\"button mainPage" + secondLevel + " changeLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Upravit lekci</div>";
-			html += "<div class=\"button mainPage changeLessonField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit oblast</div>";
-			html += "<div class=\"button mainPage changeLessonCompetences\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změnit kompetence</div>";
+			html += "<div class=\"button mainPage" + secondLevel + " changeLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Uprav lekci</div>";
+			html += "<div class=\"button mainPage changeLessonField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změň oblast</div>";
+			html += "<div class=\"button mainPage changeLessonCompetences\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změň kompetence</div>";
 			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 			{
-				html += "<div class=\"button mainPage deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Smazat lekci</div>";
+				html += "<div class=\"button mainPage deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Smaž lekci</div>";
 			}
+			html += "<div class=\"button mainPage exportLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Zobr. PDF</div>";
 		}
 	}
 	return html;
@@ -86,5 +88,11 @@ function renderLessonList()
 function changeLessonOnClick(event)
 {
 	showLessonEditView(event.target.dataset.id);
+	return false;
+}
+
+function exportLessonOnClick(event)
+{
+	window.open("/API/v0.9/lesson/" + event.target.dataset.id + "/pdf")
 	return false;
 }
