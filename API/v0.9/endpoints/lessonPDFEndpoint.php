@@ -31,9 +31,11 @@ SQL;
 
 	$md = $endpoint->getParent()->call('GET', ['id' => $data['parent-id']])['response'];
 
-	$html .= '<h1>' . $name . '</h1>';
+	$html = '<body><h1>' . $name . '</h1>';
 	$parser = new OdyMarkdown\OdyMarkdown();
 	$html .= $parser->parse($md);
+
+	$html .= '</body>';
 
 	$mpdf = new \Mpdf\Mpdf([
 		'fontDir' => [$_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/fonts/'],
@@ -54,12 +56,14 @@ SQL;
 		'default_font' => 'themix',
 		'format' => 'A5',
 		'mirrorMargins' => true,
-		'margin_top' => 10
+		'margin_top' => 12.5,
+		'margin_left' => 19.5,
+		'margin_right' => 12.25
 	]);
 
 	$mpdf->DefHTMLHeaderByName('OddHeader', '<div class="oddHeaderRight">' . $name . '</div>');
 	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
-	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea 2017</div><img class="evenFooterRight" src="' . $_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
+	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
 	$mpdf->SetHTMLHeaderByName('OddHeader', 'O');
 	$mpdf->SetHTMLFooterByName('OddFooter', 'O');
 	$mpdf->SetHTMLFooterByName('EvenFooter', 'E');
