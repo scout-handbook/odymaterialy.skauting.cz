@@ -10,6 +10,11 @@ function navigationSetup()
 			showLessonListView();
 			return false;
 		}
+	document.getElementById("competenceOverview").onclick = function()
+		{
+			showCompetenceListView();
+			return false;
+		}
 	reflowNavigation();
 }
 
