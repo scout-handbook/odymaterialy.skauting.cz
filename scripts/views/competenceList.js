@@ -21,7 +21,7 @@ function renderCompetenceListView(noHistory)
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	if(!noHistory)
 	{
-		history.pushState({}, "title", "/");
+		history.pushState({}, "title", "/competence");
 	}
 	document.getElementById("offlineSwitch").style.display = "none";
 }

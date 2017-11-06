@@ -12,7 +12,7 @@ RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
 
 # Competences, fields and lessons rewrite
-RewriteCond %{REQUEST_URI} ^/(competence|field|lesson)/
+RewriteCond %{REQUEST_URI} ^/(competence|field|lesson)/?
 RewriteRule (.*) / [QSA]
 
 # Login & logout redirect uri
