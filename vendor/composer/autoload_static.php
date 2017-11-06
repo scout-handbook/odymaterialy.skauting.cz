@@ -70,6 +70,13 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
                 1 => __DIR__ . '/..' . '/mikevanriel/text-to-latex/tests/unit',
             ),
         ),
+        'B' => 
+        array (
+            'BaconQrCode' => 
+            array (
+                0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
