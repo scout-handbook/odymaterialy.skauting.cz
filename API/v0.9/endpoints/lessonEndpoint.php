@@ -23,6 +23,52 @@ $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 $lessonEndpoint->addSubEndpoint('pdf', $lessonPDFEndpoint);
 
+function populateField($db, $field)
+{
+	$competence_sql = <<<SQL
+SELECT competences.id, competences.number
+FROM competences
+JOIN competences_for_lessons ON competences.id = competences_for_lessons.competence_id
+WHERE competences_for_lessons.lesson_id = ?
+ORDER BY competences.number;
+SQL;
+
+	$db->execute();
+	$lesson_id = '';
+	$lesson_name = '';
+	$lesson_version = '';
+	$db->bind_result($lesson_id, $lesson_name, $lesson_version);
+
+	while($db->fetch())
+	{
+		// Create a new Lesson in the newly-created Field
+		$field->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
+
+		// Find out the competences this Lesson belongs to
+		$db2 = new OdymaterialyAPI\Database();
+		$db2->prepare($competence_sql);
+		$db2->bind_param('s', $lesson_id);
+		$db2->execute();
+		$competence_id = '';
+		$competence_number = '';
+		$db2->bind_result($competence_id, $competence_number);
+		end($field->lessons)->lowestCompetence = 0;
+		if($db2->fetch())
+		{
+			end($field->lessons)->lowestCompetence = $competence_number;
+			end($field->lessons)->competences[] = $competence_id;
+		}
+		else
+		{
+			end($field->lessons)->lowestCompetence = 0;
+		}
+		while($db2->fetch())
+		{
+			end($field->lessons)->competences[] = $competence_id;
+		}
+	}
+}
+
 $listLessons = function($skautis, $data, $endpoint)
 {
 	$field_sql = <<<SQL
@@ -41,56 +87,12 @@ FROM lessons
 JOIN lessons_in_fields ON lessons.id = lessons_in_fields.lesson_id
 WHERE lessons_in_fields.field_id = ?;
 SQL;
-	$competence_sql = <<<SQL
-SELECT competences.id, competences.number
-FROM competences
-JOIN competences_for_lessons ON competences.id = competences_for_lessons.competence_id
-WHERE competences_for_lessons.lesson_id = ?
-ORDER BY competences.number;
-SQL;
 
-	// Select anonymous lessons
-	$db = new OdymaterialyAPI\Database();
-	$db->prepare($anonymous_sql);
-	$db->execute();
-	$lesson_id = '';
-	$lesson_name = '';
-	$lesson_version = '';
-	$db->bind_result($lesson_id, $lesson_name, $lesson_version);
 	$fields = [new OdymaterialyAPI\AnonymousField()];
 
-	if($db->fetch())
-	{
-		do
-		{
-			// Create a new Lesson in the newly-created Field
-			end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
-
-			// Find out the competences this Lesson belongs to
-			$db2 = new OdymaterialyAPI\Database();
-			$db2->prepare($competence_sql);
-			$db2->bind_param('s', $lesson_id);
-			$db2->execute();
-			$competence_id = '';
-			$competence_number = '';
-			$db2->bind_result($competence_id, $competence_number);
-			end(end($fields)->lessons)->lowestCompetence = 0;
-			if($db2->fetch())
-			{
-				end(end($fields)->lessons)->lowestCompetence = $competence_number;
-				end(end($fields)->lessons)->competences[] = $competence_id;
-			}
-			else
-			{
-				end(end($fields)->lessons)->lowestCompetence = 0;
-			}
-			while($db2->fetch())
-			{
-				end(end($fields)->lessons)->competences[] = $competence_id;
-			}
-		}
-		while($db->fetch());
-	}
+	$db = new OdymaterialyAPI\Database();
+	$db->prepare($anonymous_sql);
+	populateField($db, end($fields));
 
 	// Select all the fields in the database
 	$db->prepare($field_sql);
@@ -103,43 +105,10 @@ SQL;
 	{
 		$fields[] = new OdyMaterialyAPI\Field($field_id, $field_name); // Create a new field
 
-		// Populate the newly-created Field with its lessons
 		$db2 = new OdymaterialyAPI\Database();
 		$db2->prepare($lesson_sql);
 		$db2->bind_param('s', $field_id);
-		$db2->execute();
-		$lesson_id = '';
-		$lesson_name = '';
-		$lesson_version = '';
-		$db2->bind_result($lesson_id, $lesson_name, $lesson_version);
-		while($db2->fetch())
-		{
-			// Create a new Lesson in the newly-created Field
-			end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
-
-			// Find out the competences this Lesson belongs to
-			$db3 = new OdymaterialyAPI\Database();
-			$db3->prepare($competence_sql);
-			$db3->bind_param('s', $lesson_id);
-			$db3->execute();
-			$competence_id = '';
-			$competence_number = '';
-			$db3->bind_result($competence_id, $competence_number);
-			end(end($fields)->lessons)->lowestCompetence = 0;
-			if($db3->fetch())
-			{
-				end(end($fields)->lessons)->lowestCompetence = $competence_number;
-				end(end($fields)->lessons)->competences[] = $competence_id;
-			}
-			else
-			{
-				end(end($fields)->lessons)->lowestCompetence = 0;
-			}
-			while($db3->fetch())
-			{
-				end(end($fields)->lessons)->competences[] = $competence_id;
-			}
-		}
+		populateField($db2, end($fields));
 
 		// Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high
 		usort(end($fields)->lessons, "OdyMaterialyAPI\Lesson_cmp");
