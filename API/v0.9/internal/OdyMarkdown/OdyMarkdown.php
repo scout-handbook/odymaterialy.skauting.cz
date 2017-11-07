@@ -7,6 +7,11 @@ use \cebe\markdown\GithubMarkdown;
 
 class OdyMarkdown extends GithubMarkdown
 {
+	protected function renderLink($block)
+	{
+		return $this->renderAbsy($block['text']) . ' (<a href="' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '">' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '</a>) ';
+	}
+
     // Generic functions for command parsing
     private function identifyCommand($line, $command)
     {

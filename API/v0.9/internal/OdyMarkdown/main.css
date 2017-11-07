@@ -7,6 +7,15 @@
 	padding-right: 1.35em;
 }
 
+.QRheader
+{
+	width: 60px;
+	height: 60px;
+	float: right;
+	margin-top: -2em;
+	margin-right: -1em;
+}
+
 .oddFooterLeft
 {
 	font-style: italic;
@@ -91,12 +100,8 @@ th, td
 	padding: 0.3em 0.8em;
 }
 
-.QRheader
+a
 {
-	width: 60px;
-	height: 60px;
-	float: right;
-	margin-top: -2em;
-	margin-right: -1em;
+	text-decoration: none;
+	color: black;
 }
-

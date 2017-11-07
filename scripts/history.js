@@ -1,7 +1,11 @@
 function historySetup()
 {
 	window.onpopstate = historyPopback;
-	if(window.location.pathname.substring(0, 12) === "/competence/")
+	if(window.location.pathname === "/competence")
+	{
+		showCompetenceListView();
+	}
+	else if(window.location.pathname.substring(0, 12) === "/competence/")
 	{
 		var query = window.location.pathname.substring(12);
 		var competenceId = query.split("/")[0];
@@ -29,7 +33,11 @@ function historyPopback()
 {
 	if(history.state)
 	{
-		if(window.location.pathname.substring(0, 12) === "/competence/")
+		if(window.location.pathname === "/competence")
+		{
+			showCompetenceListView(true);
+		}
+		else if(window.location.pathname.substring(0, 12) === "/competence/")
 		{
 			showCompetenceView(history.state.id, true);
 		}
@@ -43,7 +51,7 @@ function historyPopback()
 		}
 		else
 		{
-			showLessonListView();
+			showLessonListView(true);
 		}
 	}
 }
