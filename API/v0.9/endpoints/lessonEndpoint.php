@@ -25,20 +25,50 @@ $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 $lessonEndpoint->addSubEndpoint('pdf', $lessonPDFEndpoint);
 
-function populateField($db, $field)
+function checkLessonGroup($lesson_id)
 {
 	global $accountEndpoint;
 
+	$group_sql = <<<SQL
+SELECT group_id FROM groups_for_lessons
+WHERE lesson_id = ?;
+SQL;
+
+	$loginState = $accountEndpoint->call('GET', ['no-avatar' => 'true']);
+	if($loginState['status'] == '200')
+	{
+		$groups = $loginState['response']['groups'];
+		$groups[] = '00000000-0000-0000-0000-000000000000';
+	}
+	else
+	{
+		$groups = ['00000000-0000-0000-0000-000000000000'];
+	}
+
+	$db = new OdymaterialyAPI\Database();
+	$db->prepare($group_sql);
+	$db->bind_param('s', $lesson_id);
+	$db->execute();
+	$group_id = '';
+	$db->bind_result($group_id);
+	while($db->fetch())
+	{
+		if(in_array(Uuid::fromBytes($group_id)->toString(), $groups))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+function populateField($db, $field)
+{
 	$competence_sql = <<<SQL
 SELECT competences.id, competences.number
 FROM competences
 JOIN competences_for_lessons ON competences.id = competences_for_lessons.competence_id
 WHERE competences_for_lessons.lesson_id = ?
 ORDER BY competences.number;
-SQL;
-	$group_sql = <<<SQL
-SELECT group_id FROM groups_for_lessons
-WHERE lesson_id = ?;
 SQL;
 
 	$db->execute();
@@ -49,53 +79,32 @@ SQL;
 
 	while($db->fetch())
 	{
-		$db2 = new OdymaterialyAPI\Database();
+		if(checkLessonGroup($lesson_id))
+		{
+			// Create a new Lesson in the newly-created Field
+			$field->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
 
-		$loginState = $accountEndpoint->call('GET', ['no-avatar' => 'true']);
-		if($loginState['status'] == '200')
-		{
-			$groups = $loginState['response']['groups'];
-			$groups[] = '00000000-0000-0000-0000-000000000000';
-		}
-		else
-		{
-			$groups = ['00000000-0000-0000-0000-000000000000'];
-		}
-		$db2->prepare($group_sql);
-		$db2->bind_param('s', $lesson_id);
-		$db2->execute();
-		$group_id = '';
-		$db2->bind_result($group_id);
-		while($db2->fetch())
-		{
-			if(in_array(Uuid::fromBytes($group_id)->toString(), $groups))
+			// Find out the competences this Lesson belongs to
+			$db2 = new OdymaterialyAPI\Database();
+			$db2->prepare($competence_sql);
+			$db2->bind_param('s', $lesson_id);
+			$db2->execute();
+			$competence_id = '';
+			$competence_number = '';
+			$db2->bind_result($competence_id, $competence_number);
+			end($field->lessons)->lowestCompetence = 0;
+			if($db2->fetch())
 			{
-				// Create a new Lesson in the newly-created Field
-				$field->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
-
-				// Find out the competences this Lesson belongs to
-				$db3 = new OdymaterialyAPI\Database();
-				$db3->prepare($competence_sql);
-				$db3->bind_param('s', $lesson_id);
-				$db3->execute();
-				$competence_id = '';
-				$competence_number = '';
-				$db3->bind_result($competence_id, $competence_number);
+				end($field->lessons)->lowestCompetence = $competence_number;
+				end($field->lessons)->competences[] = $competence_id;
+			}
+			else
+			{
 				end($field->lessons)->lowestCompetence = 0;
-				if($db3->fetch())
-				{
-					end($field->lessons)->lowestCompetence = $competence_number;
-					end($field->lessons)->competences[] = $competence_id;
-				}
-				else
-				{
-					end($field->lessons)->lowestCompetence = 0;
-				}
-				while($db3->fetch())
-				{
-					end($field->lessons)->competences[] = $competence_id;
-				}
-				break;
+			}
+			while($db2->fetch())
+			{
+				end($field->lessons)->competences[] = $competence_id;
 			}
 		}
 	}
