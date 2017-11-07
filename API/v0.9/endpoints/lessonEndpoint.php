@@ -11,6 +11,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RoleException.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.php');
 
@@ -167,7 +168,14 @@ FROM lessons
 WHERE id = ?;
 SQL;
 
-	$id = $endpoint->parseUuid($data['id'])->getBytes();
+	$id = $endpoint->parseUuid($data['id']);
+
+	if(!checkLessonGroup($id->toString()))
+	{
+		throw new OdymaterialyAPI\RoleException();
+	}
+
+	$id = $id->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
