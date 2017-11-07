@@ -529,6 +529,13 @@ paths:
       summary: Get login state and account information
       tags:
         - account
+      parameters:
+        - in: query
+          name: no-avatar
+          schema:
+            type: string
+          required: false
+          description: If present and not set to "false", then the response won't contain the avatar field.
       responses:
         '200':
           description: Account information

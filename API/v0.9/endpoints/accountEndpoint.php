@@ -12,7 +12,7 @@ $accountEndpoint = new OdyMaterialyAPI\Endpoint('user');
 
 $listAccount = function($skautis, $data, $endpoint)
 {
-	$getAccount = function($skautis)
+	$getAccount = function($skautis) use ($data)
 	{
 		$SQL = <<<SQL
 SELECT users_in_groups.group_id
@@ -38,9 +38,12 @@ SQL;
 			$response['groups'][] = Uuid::fromBytes($uuid)->toString();
 		}
 
-		$response['avatar'] = base64_encode($skautis->OrganizationUnit->PersonPhoto(array(
-			'ID' => $loginDetail->ID_Person,
-			'Size' => 'small'))->PhotoSmallContent);
+		if(!isset($data['no-avatar']) or $data['no-avatar'] == 'false')
+		{
+			$response['avatar'] = base64_encode($skautis->OrganizationUnit->PersonPhoto(array(
+				'ID' => $loginDetail->ID_Person,
+				'Size' => 'small'))->PhotoSmallContent);
+		}
 		return ['status' => 200, 'response' => $response];
 	};
 
