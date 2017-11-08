@@ -83,7 +83,7 @@
 	font-weight: bold;
 }
 
-.roleHelp
+.roleHelp, .groupHelp
 {
 	margin-top: 20px;
 }

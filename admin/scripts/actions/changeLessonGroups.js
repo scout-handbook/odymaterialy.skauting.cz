@@ -48,6 +48,7 @@ function changeLessonGroupsOnClick(event)
 function changeLessonGroupsRender(currentGroups)
 {
 	var html = "<form id=\"sidePanelForm\">";
+	var publicName = ''
 	for(var i = 0; i < GROUPS.length; i++)
 	{
 		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"checkbox\"";
@@ -60,6 +61,7 @@ function changeLessonGroupsRender(currentGroups)
 		if(GROUPS[i].id == "00000000-0000-0000-0000-000000000000")
 		{
 			html += "<span class=\"publicGroup\">" + GROUPS[i].name + "</span></div>";
+			publicName = GROUPS[i].name;
 		}
 		else
 		{
@@ -67,6 +69,7 @@ function changeLessonGroupsRender(currentGroups)
 		}
 	}
 	html += "</form>";
+	html += "<div class=\"groupHelp\"><i class=\"icon-info-circled\"></i> U každé lekce lze zvolit, kteří uživatelé ji budou moct zobrazit (resp. které skupiny uživatelů). Pokud není vybrána žádná skupiny, nebude lekce pro běžné uživatele vůbec přístupná (pouze v administraci). Pokud je vybrána skupina \"<span class=\"publicGroup\">" + publicName + "</span>\", bude lekce přístupná všem uživatelům (i nepřihlášeným návštěvníkům webu) bez ohledu na skupiny.</div>";
 	document.getElementById("groupList").innerHTML = html;
 
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
@@ -83,6 +86,16 @@ function changeLessonGroupsSave()
 {
 	if(lessonGroupsChanged)
 	{
+		var groups = parseBoolForm();
+		var encodedGroups = [];
+		for(i = 0; i < groups.length; i++)
+		{
+			encodedGroups.push(encodeURIComponent(groups[i]));
+		}
+		var payload = {"group": encodedGroups};
+		sidePanelClose();
+		spinner();
+		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("changeLessonGroupsSave").dataset.id) + "/group", "PUT", payload);
 	}
 	else
 	{
