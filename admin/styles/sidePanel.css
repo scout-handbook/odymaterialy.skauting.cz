@@ -93,7 +93,7 @@
 	font-weight: bold;
 }
 
-.anonymousField
+.anonymousField, .publicGroup
 {
 	font-style: italic;
 }
