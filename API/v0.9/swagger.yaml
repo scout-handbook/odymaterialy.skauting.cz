@@ -1094,14 +1094,21 @@ paths:
                         name:
                           type: string
                           example: All users
+                        count:
+                          type: integer
+                          example: 0
+                          description: Number of users in this group
                       required:
                         - id
                         - name
+                        - count
                 required:
                   - status
                   - response
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
     post:

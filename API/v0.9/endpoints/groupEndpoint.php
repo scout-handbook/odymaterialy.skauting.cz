@@ -15,13 +15,17 @@ $groupEndpoint = new OdyMaterialyAPI\Endpoint('group');
 
 $listGroups = function($skautis, $data, $endpoint)
 {
-	$SQL = <<<SQL
+	$selectSQL = <<<SQL
 SELECT id, name
 FROM groups;
 SQL;
+	$countSQL = <<<SQL
+SELECT COUNT(*) FROM users_in_groups
+WHERE group_id = ?;
+SQL;
 
 	$db = new OdymaterialyAPI\Database();
-	$db->prepare($SQL);
+	$db->prepare($selectSQL);
 	$db->execute();
 	$id = '';
 	$name = '';
@@ -29,7 +33,14 @@ SQL;
 	$groups = [];
 	while($db->fetch())
 	{
-		$groups[] = new OdyMaterialyAPI\Group($id, $name);
+		$db2 =  new OdymaterialyAPI\Database();
+		$db2->prepare($countSQL);
+		$db2->bind_param('s', $id);
+		$db2->execute();
+		$count = '';
+		$db2->bind_result($count);
+		$db2->fetch_require('group');
+		$groups[] = new OdyMaterialyAPI\Group($id, $name, $count);
 	}
 	return ['status' => 200, 'response' => $groups];
 };

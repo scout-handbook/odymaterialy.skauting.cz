@@ -11,15 +11,17 @@ class Group implements \JsonSerializable
 {
 	public $id;
 	public $name;
+	public $count;
 
-	public function __construct($id, $name)
+	public function __construct($id, $name, $count)
 	{
 		$this->id = $id;
 		$this->name = $name;
+		$this->count = $count;
 	}
 
 	public function jsonSerialize()
 	{
-		return ['id' => Uuid::fromBytes($this->id), 'name' => $this->name];
+		return ['id' => Uuid::fromBytes($this->id), 'name' => $this->name, 'count' => $this->count];
 	}
 }
