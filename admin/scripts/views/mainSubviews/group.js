@@ -40,7 +40,7 @@ function renderGroupList()
 		}
 		else
 		{
-			html += "<h3 class = \"mainPage\">" + GROUPS[i].name + "</h3>";
+			html += "<h3 class = \"mainPage\">" + GROUPS[i].name + "</h3><span class=\"mainPage\">Uživatelů: " + GROUPS[i].count + "</span>";
 		}
 		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 		{
