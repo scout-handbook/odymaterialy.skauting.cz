@@ -29,6 +29,13 @@ paths:
       summary: Get a list of all lessons
       tags:
         - lesson
+      parameters:
+        - in: query
+          name: override-group
+          schema:
+            type: string
+          required: false
+          description: If present and set to true and user role is editor, administrator or superuser, then all lessons will be returned. Otherwise, only lessons published in the groups the current user is in (or public lessons) will be returned.
       responses:
         '200':
           description: A list of all fields, their lessons and their competences

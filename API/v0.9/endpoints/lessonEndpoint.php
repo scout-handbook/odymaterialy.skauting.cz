@@ -26,7 +26,7 @@ $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 $lessonEndpoint->addSubEndpoint('pdf', $lessonPDFEndpoint);
 
-function checkLessonGroup($lesson_id)
+function checkLessonGroup($lesson_id, $overrideGroup = false)
 {
 	global $accountEndpoint;
 
@@ -36,8 +36,14 @@ WHERE lesson_id = ?;
 SQL;
 
 	$loginState = $accountEndpoint->call('GET', ['no-avatar' => 'true']);
+
 	if($loginState['status'] == '200')
 	{
+		if($overrideGroup and in_array($loginState['response']['role'], ['editor', 'administrator', 'superuser']))
+		{
+			return true;
+		}
+
 		$groups = $loginState['response']['groups'];
 		$groups[] = '00000000-0000-0000-0000-000000000000';
 	}
@@ -62,7 +68,7 @@ SQL;
 	return false;
 }
 
-function populateField($db, $field)
+function populateField($db, $field, $overrideGroup = false)
 {
 	$competence_sql = <<<SQL
 SELECT competences.id, competences.number
@@ -80,7 +86,7 @@ SQL;
 
 	while($db->fetch())
 	{
-		if(checkLessonGroup($lesson_id))
+		if(checkLessonGroup($lesson_id, $overrideGroup))
 		{
 			// Create a new Lesson in the newly-created Field
 			$field->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
@@ -130,11 +136,13 @@ JOIN lessons_in_fields ON lessons.id = lessons_in_fields.lesson_id
 WHERE lessons_in_fields.field_id = ?;
 SQL;
 
+	$overrideGroup = (isset($data['override-group']) and $data['override-group'] == 'true');
+
 	$fields = [new OdymaterialyAPI\AnonymousField()];
 
 	$db = new OdymaterialyAPI\Database();
 	$db->prepare($anonymous_sql);
-	populateField($db, end($fields));
+	populateField($db, end($fields), $overrideGroup);
 
 	// Select all the fields in the database
 	$db->prepare($field_sql);
@@ -150,7 +158,7 @@ SQL;
 		$db2 = new OdymaterialyAPI\Database();
 		$db2->prepare($lesson_sql);
 		$db2->bind_param('s', $field_id);
-		populateField($db2, end($fields));
+		populateField($db2, end($fields), $overrideGroup);
 
 		// Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high
 		usort(end($fields)->lessons, "OdyMaterialyAPI\Lesson_cmp");
@@ -170,7 +178,7 @@ SQL;
 
 	$id = $endpoint->parseUuid($data['id']);
 
-	if(!checkLessonGroup($id->toString()))
+	if(!checkLessonGroup($id->toString(), true))
 	{
 		throw new OdymaterialyAPI\RoleException();
 	}
