@@ -11,7 +11,7 @@ function metadataSetup()
 function refreshMetadata()
 {
 	metadataEvent = new AfterLoadEvent(3);
-	request("/API/v0.9/lesson", "GET", "", function(response)
+	request("/API/v0.9/lesson?override-group=true", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
