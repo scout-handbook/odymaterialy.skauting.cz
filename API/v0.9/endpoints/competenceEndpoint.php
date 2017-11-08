@@ -30,7 +30,7 @@ SQL;
 	$name = '';
 	$description = '';
 	$db->bind_result($id, $number, $name, $description);
-	$competences = array();
+	$competences = [];
 	while($db->fetch())
 	{
 		$competences[] = new OdyMaterialyAPI\Competence($id, $number, $name, $description);

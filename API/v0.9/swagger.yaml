@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: OdyMateriály API
   description:
-    See [Github](https://github.com/GenaBitu/OdyMaterialy) or [OdyMateriály](https://odymaterialy.skauting.cz/) for more details.
+    See [Github](https://github.com/GenaBitu/OdyMaterialy) or [OdyMateriály](https://odymaterialy.skauting.cz/) for more.
   version: "0.9"
   contact:
     email: odymaterialy@skaut.cz
@@ -23,6 +23,8 @@ tags:
   - name: field
   - name: user
     description: Other users and their roles
+  - name: group
+    description: User groups
 paths:
   /lesson:
     get:
@@ -330,7 +332,8 @@ paths:
           $ref: '#/components/responses/500'
   /lesson/{id}/publish:
     put:
-      summary: Set which groups the lesson is published in
+      summary: Set which groups the lesson is published in.
+      description: Group "00000000-0000-0000-0000-000000000000" means the lesson will be publicly accessible.
       tags:
         - lesson
       parameters:
@@ -1013,6 +1016,48 @@ paths:
           $ref: '#/components/responses/404'
         '415':
           $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
+  /group:
+    get:
+      summary: Get a list of all groups
+      description: User role must be **editor** or higher!
+      tags:
+        - group
+      security:
+        - apiKey: []
+      responses:
+        '200':
+          description: A list of groups
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                        name:
+                          type: string
+                          example: All users
+                      required:
+                        - id
+                        - name
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
 components:
