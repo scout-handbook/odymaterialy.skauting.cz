@@ -18,6 +18,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.ph
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonCompetenceEndpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonFieldEndpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonPDFEndpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonPublishEndpoint.php');
 
 use Ramsey\Uuid\Uuid;
 
@@ -25,6 +26,7 @@ $lessonEndpoint = new OdyMaterialyAPI\Endpoint('lesson');
 $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 $lessonEndpoint->addSubEndpoint('pdf', $lessonPDFEndpoint);
+$lessonEndpoint->addSubEndpoint('publish', $lessonPublishEndpoint);
 
 function checkLessonGroup($lesson_id, $overrideGroup = false)
 {

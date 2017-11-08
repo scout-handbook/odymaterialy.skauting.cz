@@ -328,6 +328,43 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /lesson/{id}/publish:
+    put:
+      summary: Set which groups the lesson is published in
+      tags:
+        - lesson
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                group:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                    example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+              required:
+                - group
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /competence:
     get:
       summary: Get a list of all competences
