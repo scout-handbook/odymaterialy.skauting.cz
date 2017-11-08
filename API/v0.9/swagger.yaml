@@ -1163,6 +1163,32 @@ paths:
           $ref: '#/components/responses/200'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Remove a group
+      description: User role must be **administrator** or higher!
+      tags:
+        - group
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the group
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
 components:

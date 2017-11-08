@@ -7,6 +7,10 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Group.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RefusedException.php');
+
 $groupEndpoint = new OdyMaterialyAPI\Endpoint('group');
 
 $listGroups = function($skautis, $data, $endpoint)
@@ -93,3 +97,59 @@ SQL;
 	return ['status' => 200];
 };
 $groupEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateGroup);
+
+$deleteGroup = function($skautis, $data, $endpoint)
+{
+	$deleteLessonsSQL = <<<SQL
+DELETE FROM group_for_lessons
+WHERE group_id = ?;
+SQL;
+	$deleteUsersSQL = <<<SQL
+DELETE FROM users_in_groups
+WHERE group_id = ?;
+SQL;
+	$deleteSQL = <<<SQL
+DELETE FROM groups
+WHERE id = ?
+LIMIT 1;
+SQL;
+	$countSQL = <<<SQL
+SELECT ROW_COUNT();
+SQL;
+	
+	$id = $endpoint->parseUuid($data['id']);
+	if($id == Uuid::fromString('00000000-0000-0000-0000-000000000000'))
+	{
+		throw new OdymaterialyAPI\RefusedException();
+	}
+	$id = $id->getBytes();
+
+	$db = new OdymaterialyAPI\Database();
+	$db->start_transaction();
+
+	$db->prepare($deleteLessonsSQL);
+	$db->bind_param('s', $id);
+	$db->execute();
+
+	$db->prepare($deleteUsersSQL);
+	$db->bind_param('s', $id);
+	$db->execute();
+
+	$db->prepare($deleteSQL);
+	$db->bind_param('s', $id);
+	$db->execute();
+
+	$db->prepare($countSQL);
+	$db->execute();
+	$count = 0;
+	$db->bind_result($count);
+	$db->fetch_require('group');
+	if($count != 1)
+	{
+		throw new OdymaterialyAPI\NotFoundException("group");
+	}
+
+	$db->finish_transaction();
+	return ['status' => 200];
+};
+$groupEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteGroup);
