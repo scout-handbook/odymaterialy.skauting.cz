@@ -8,7 +8,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 use Ramsey\Uuid\Uuid;
 
-$lessonPublishEndpoint = new OdyMaterialyAPI\Endpoint('group');
+$lessonGroupEndpoint = new OdyMaterialyAPI\Endpoint('group');
 
 $updateLessonGroups = function($skautis, $data, $endpoint)
 {
@@ -49,4 +49,4 @@ SQL;
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$lessonPublishEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateLessonGroups);
+$lessonGroupEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateLessonGroups);

@@ -227,44 +227,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /lesson/{id}/field:
-    put:
-      summary: Update the field the lesson is in
-      description: User role must be **editor** or higher!
-      tags:
-        - lesson
-      security:
-        - apiKey: []
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: The id of the lesson
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                field:
-                  type: string
-                  format: uuid
-                  example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
-              required:
-                - field
-      responses:
-        '200':
-          $ref: '#/components/responses/200'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /lesson/{id}/competence:
     put:
       summary: Update the competences fulfilled by this lesson
@@ -305,11 +267,14 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /lesson/{id}/pdf:
-    get:
-      summary: Get the lesson in PDF
+  /lesson/{id}/field:
+    put:
+      summary: Update the field the lesson is in
+      description: User role must be **editor** or higher!
       tags:
         - lesson
+      security:
+        - apiKey: []
       parameters:
         - in: path
           name: id
@@ -318,19 +283,29 @@ paths:
             format: uuid
           required: true
           description: The id of the lesson
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                field:
+                  type: string
+                  format: uuid
+                  example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+              required:
+                - field
       responses:
         '200':
-          description: The lesson as a PDF file
-          content:
-            'application/pdf':
-              schema:
-                type: string
-                format: binary
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /lesson/{id}/publish:
+  /lesson/{id}/group:
     put:
       summary: Set which groups the lesson is published in.
       description: Group "00000000-0000-0000-0000-000000000000" means the lesson will be publicly accessible.
@@ -364,6 +339,31 @@ paths:
           $ref: '#/components/responses/200'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /lesson/{id}/pdf:
+    get:
+      summary: Get the lesson in PDF
+      tags:
+        - lesson
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      responses:
+        '200':
+          description: The lesson as a PDF file
+          content:
+            'application/pdf':
+              schema:
+                type: string
+                format: binary
         '404':
           $ref: '#/components/responses/404'
         '500':
