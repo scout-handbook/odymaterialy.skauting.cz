@@ -21,6 +21,7 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</scripts/tools/AfterLoadEvent.js>;rel=preload;as=script"
 	Header add Link "</scripts/tools/OdyMarkdown.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/addCompetence.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/actions/addGroup.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/addField.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/addImage.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeCompetence.js>;rel=preload;as=script"

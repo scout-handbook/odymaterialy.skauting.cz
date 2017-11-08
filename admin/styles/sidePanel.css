@@ -49,7 +49,7 @@
 	width: 37px;
 }
 
-#competenceName
+#competenceName, #groupName
 {
 	margin-top: 20px;
 	font-weight: bold;

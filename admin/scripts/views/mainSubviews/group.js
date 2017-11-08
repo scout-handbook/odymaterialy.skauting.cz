@@ -34,13 +34,13 @@ function renderGroupList()
 	var html = "";
 	for(var i = 0; i < GROUPS.length; i++)
 	{
-		if(GROUPS[i].id = "00000000-0000-0000-0000-000000000000")
+		if(GROUPS[i].id == "00000000-0000-0000-0000-000000000000")
 		{
 			html += "<h3 class = \"mainPage publicGroup\">" + GROUPS[i].name + "</h3>";
 		}
 		else
 		{
-			html += "<h3 class = \"mainPage\">" + GROUPS[i].name + "</h3><span class=\"mainPage\">Uživatelů: " + GROUPS[i].count + "</span>";
+			html += "<h3 class = \"mainPage\">" + GROUPS[i].name + "</h3><span class=\"mainPage\">Uživatelů: " + GROUPS[i].count + "</span><br>";
 		}
 		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 		{

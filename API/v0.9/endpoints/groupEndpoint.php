@@ -11,6 +11,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingA
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RefusedException.php');
 
+use Ramsey\Uuid\Uuid;
+
 $groupEndpoint = new OdyMaterialyAPI\Endpoint('group');
 
 $listGroups = function($skautis, $data, $endpoint)
