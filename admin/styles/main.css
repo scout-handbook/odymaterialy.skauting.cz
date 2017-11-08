@@ -90,6 +90,13 @@ main
 	left: 754px;
 }
 
+#groupManager
+{
+	left: 905px;
+	padding-top: 17px;
+	padding-bottom: 11px;
+}
+
 #userAccount
 {
 	height: 80px;
