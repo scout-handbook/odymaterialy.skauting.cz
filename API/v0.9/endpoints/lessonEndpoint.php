@@ -43,7 +43,6 @@ SQL;
 		{
 			return true;
 		}
-
 		$groups = $loginState['response']['groups'];
 		$groups[] = '00000000-0000-0000-0000-000000000000';
 	}
@@ -51,16 +50,18 @@ SQL;
 	{
 		$groups = ['00000000-0000-0000-0000-000000000000'];
 	}
+	array_walk($groups, '\Ramsey\Uuid\Uuid::fromString');
 
 	$db = new OdymaterialyAPI\Database();
 	$db->prepare($group_sql);
+	$lesson_id = $lesson_id->getBytes();
 	$db->bind_param('s', $lesson_id);
 	$db->execute();
 	$group_id = '';
 	$db->bind_result($group_id);
 	while($db->fetch())
 	{
-		if(in_array(Uuid::fromBytes($group_id)->toString(), $groups))
+		if(in_array(Uuid::fromBytes($group_id), $groups))
 		{
 			return true;
 		}
@@ -86,7 +87,7 @@ SQL;
 
 	while($db->fetch())
 	{
-		if(checkLessonGroup($lesson_id, $overrideGroup))
+		if(checkLessonGroup(Uuid::fromBytes($lesson_id), $overrideGroup))
 		{
 			// Create a new Lesson in the newly-created Field
 			$field->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
@@ -178,7 +179,7 @@ SQL;
 
 	$id = $endpoint->parseUuid($data['id']);
 
-	if(!checkLessonGroup($id->toString(), true))
+	if(!checkLessonGroup($id, true))
 	{
 		throw new OdymaterialyAPI\RoleException();
 	}
