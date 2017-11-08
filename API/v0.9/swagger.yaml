@@ -1104,6 +1104,32 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+    post:
+      summary: Add a group
+      description: User role must be **administrator** or higher!
+      tags:
+        - group
+      security:
+        - apiKey: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: A group
+              required:
+                - name
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   responses:
     200:
