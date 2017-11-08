@@ -52,3 +52,44 @@ SQL;
 	return ['status' => 201];
 };
 $groupEndpoint->setAddMethod(new OdymaterialyAPI\Role('administrator'), $addGroup);
+
+$updateGroup = function($skautis, $data, $endpoint)
+{
+	$updateSQL = <<<SQL
+UPDATE groups
+SET name = ?
+WHERE id = ?
+LIMIT 1;
+SQL;
+	$countSQL = <<<SQL
+SELECT ROW_COUNT();
+SQL;
+
+	$id = $endpoint->parseUuid($data['id'])->getBytes();
+	if(!isset($data['name']))
+	{
+		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
+	}
+	$name = $endpoint->xss_sanitize($data['name']);
+	
+	$db = new OdymaterialyAPI\Database();
+	$db->start_transaction();
+
+	$db->prepare($updateSQL);
+	$db->bind_param('ss', $name, $name);
+	$db->execute();
+
+	$db->prepare($countSQL);
+	$db->execute();
+	$count = 0;
+	$db->bind_result($count);
+	$db->fetch_require('group');
+	if($count != 1)
+	{
+		throw new OdymaterialyAPI\NotFoundException("group");
+	}
+
+	$db->finish_transaction();
+	return ['status' => 200];
+};
+$groupEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateGroup);
