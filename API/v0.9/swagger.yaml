@@ -306,11 +306,55 @@ paths:
         '500':
           $ref: '#/components/responses/500'
   /lesson/{id}/group:
+    get:
+      summary: List all groups the lesson is published in.
+      description: Group "00000000-0000-0000-0000-000000000000" means the lesson will be publicly accessible.
+      tags:
+        - lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      responses:
+        '200':
+          description: A list of groups
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+                      example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     put:
       summary: Set which groups the lesson is published in.
       description: Group "00000000-0000-0000-0000-000000000000" means the lesson will be publicly accessible.
       tags:
         - lesson
+      security:
+        - apiKey: []
       parameters:
         - in: path
           name: id

@@ -10,6 +10,29 @@ use Ramsey\Uuid\Uuid;
 
 $lessonGroupEndpoint = new OdyMaterialyAPI\Endpoint('group');
 
+$listLessonGroups = function($skautis, $data, $endpoint)
+{
+	$SQL = <<<SQL
+SELECT group_id FROM groups_for_lessons
+WHERE lesson_id = ?;
+SQL;
+
+	$db = new OdymaterialyAPI\Database();
+	$db->prepare($SQL);
+	$id = $endpoint->parseUuid($data['parent-id'])->getBytes();
+	$db->bind_param('s', $id);
+	$db->execute();
+	$groups = [];
+	$group_id = '';
+	$db->bind_result($group_id);
+	while($db->fetch())
+	{
+		$groups[] = Uuid::fromBytes($group_id);
+	}
+	return ['status' => 200, 'response' => $groups];
+};
+$lessonGroupEndpoint->setListMethod(new OdymaterialyAPI\Role('editor'), $listLessonGroups);
+
 $updateLessonGroups = function($skautis, $data, $endpoint)
 {
 	$deleteSQL = <<<SQL
