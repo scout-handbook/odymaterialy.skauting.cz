@@ -8,13 +8,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 class User
 {
 	public $id;
-	public $role;
 	public $name;
+	public $role;
 
-	public function __construct($id, $role, $name)
+	public function __construct($id, $name, $role)
 	{
 		$this->id = $id;
-		$this->role = new Role($role);
 		$this->name = $name;
+		$this->role = new Role($role);
 	}
 }

@@ -990,6 +990,9 @@ paths:
                             id:
                               type: integer
                               example: 150000
+                            name:
+                              type: string
+                              example: Alice
                             role:
                               type: string
                               enum:
@@ -997,13 +1000,10 @@ paths:
                                 - editor
                                 - administrator
                                 - superuser
-                            name:
-                              type: string
-                              example: Alice
                           required:
                             - id
-                            - role
                             - name
+                            - role
                     required:
                       - count
                       - users

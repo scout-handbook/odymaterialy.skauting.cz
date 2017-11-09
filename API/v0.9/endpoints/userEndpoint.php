@@ -27,7 +27,7 @@ $listUsers = function($skautis, $data, $endpoint)
 	}
 
 	$selectSQL = <<<SQL
-SELECT SQL_CALC_FOUND_ROWS id, role, name
+SELECT SQL_CALC_FOUND_ROWS id, name, role
 FROM users
 WHERE name LIKE CONCAT('%', ?, '%') AND role IN ('guest', 'user'
 SQL
@@ -70,13 +70,13 @@ SQL;
 	$db->bind_param('sii', $searchName, $start, $per_page);
 	$db->execute();
 	$user_id = '';
-	$user_role = '';
 	$user_name = '';
-	$db->bind_result($user_id, $user_role, $user_name);
+	$user_role = '';
+	$db->bind_result($user_id, $user_name, $user_role);
 	$users = [];
 	while($db->fetch())
 	{
-		$users[] = new OdymaterialyAPI\User($user_id, $user_role, $user_name);
+		$users[] = new OdymaterialyAPI\User($user_id, $user_name, $user_role);
 	}
 
 	$db->prepare($countSQL);
