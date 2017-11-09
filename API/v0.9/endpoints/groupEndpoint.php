@@ -114,7 +114,7 @@ $groupEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $upda
 $deleteGroup = function($skautis, $data, $endpoint)
 {
 	$deleteLessonsSQL = <<<SQL
-DELETE FROM group_for_lessons
+DELETE FROM groups_for_lessons
 WHERE group_id = ?;
 SQL;
 	$deleteUsersSQL = <<<SQL
