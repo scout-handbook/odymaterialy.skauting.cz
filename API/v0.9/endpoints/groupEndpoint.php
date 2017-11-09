@@ -93,7 +93,7 @@ SQL;
 	$db->start_transaction();
 
 	$db->prepare($updateSQL);
-	$db->bind_param('ss', $name, $name);
+	$db->bind_param('ss', $name, $id);
 	$db->execute();
 
 	$db->prepare($countSQL);

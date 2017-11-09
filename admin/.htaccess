@@ -26,6 +26,7 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/scripts/actions/addImage.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeCompetence.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeField.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/actions/changeGroup.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeLessonCompetences.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeLessonField.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeLessonGroups.js>;rel=preload;as=script"
