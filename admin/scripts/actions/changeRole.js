@@ -49,7 +49,7 @@ function changeRoleSave()
 		var payload = {"role": encodeURIComponent(sel.options[sel.selectedIndex].value)};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/user/" + encodeURIComponent(document.getElementById("changeRoleSave").dataset.id), "PUT", payload);
+		retryAction("/API/v0.9/user/" + encodeURIComponent(document.getElementById("changeRoleSave").dataset.id) + "/role", "PUT", payload);
 	}
 	else
 	{

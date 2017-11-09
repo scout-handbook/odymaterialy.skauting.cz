@@ -1018,7 +1018,7 @@ paths:
           $ref: '#/components/responses/415'
         '500':
           $ref: '#/components/responses/500'
-  /user/{id}:
+  /user/{id}/role:
     put:
       summary: Update user's role
       description: User role must be **administrator** or higher! Superuser can change any user, administrator may change only between editor and user.
