@@ -40,6 +40,11 @@ SQL;
 	$countSQL = <<<SQL
 SELECT FOUND_ROWS();
 SQL;
+	$groupSQL = <<<SQL
+SELECT group_id
+FROM users_in_groups
+WHERE user_id = ?;
+SQL;
 
 	$searchName = '';
 	if(isset($data['name']))
@@ -77,6 +82,17 @@ SQL;
 	while($db->fetch())
 	{
 		$users[] = new OdymaterialyAPI\User($user_id, $user_name, $user_role);
+
+		$db2 = new OdymaterialyAPI\Database();
+		$db2->prepare($groupSQL);
+		$db2->bind_param('s', $user_id);
+		$db2->execute();
+		$group = '';
+		$db2->bind_result($group);
+		while($db2->fetch())
+		{
+			end($users)->groups[] = $group;
+		}
 	}
 
 	$db->prepare($countSQL);

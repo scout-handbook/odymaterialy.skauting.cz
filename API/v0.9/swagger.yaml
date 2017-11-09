@@ -1000,10 +1000,17 @@ paths:
                                 - editor
                                 - administrator
                                 - superuser
+                            groups:
+                              type: array
+                              items:
+                                type: string
+                                format: uuid
+                                example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
                           required:
                             - id
                             - name
                             - role
+                            - groups
                     required:
                       - count
                       - users
