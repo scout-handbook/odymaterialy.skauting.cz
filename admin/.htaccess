@@ -30,6 +30,7 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/scripts/actions/changeLessonCompetences.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeLessonField.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeLessonGroups.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/actions/changeUserGroups.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeUserRole.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/deleteCompetence.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/deleteField.js>;rel=preload;as=script"
