@@ -177,7 +177,7 @@ main
 
 .userTable td + td, .userTable th + th
 {
-	padding-left: 150px;
+	padding-left: 50px;
 }
 
 .userTable tr:nth-child(2n+1)

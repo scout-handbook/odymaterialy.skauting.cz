@@ -63,7 +63,7 @@ function showUserList(list, searchName, page, perPage)
 		html += "<div class=\"button\" id=\"userSearchCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	}
 	html += "</form>";
-	html += "<table class=\"userTable\"><th>Jméno</th><th>Role</th>";
+	html += "<table class=\"userTable\"><th>Jméno</th><th>Role</th><th>Skupiny</th>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
 		html += "<th>Akce</th>";
@@ -87,7 +87,20 @@ function showUserList(list, searchName, page, perPage)
 				html += "Uživatel";
 				break;
 		}
-		html += "</td>";
+		html += "</td><td>";
+		var first = true;
+		for(var j = 0; j < GROUPS.length; j++)
+		{
+			if(users[i].groups.indexOf(GROUPS[j].id) >= 0)
+			{
+				if(!first)
+				{
+					html += ", ";
+				}
+				html += GROUPS[j].name;
+				first = false;
+			}
+		}
 		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 		{
 			html += "<td><div class=\"button changeRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\">Změnit roli</div></td>";
