@@ -1069,6 +1069,46 @@ paths:
           $ref: '#/components/responses/415'
         '500':
           $ref: '#/components/responses/500'
+  /user/{id}/group:
+    put:
+      summary: Update user's group membership
+      tags:
+        - user
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The id of the user whose role is to be changed
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                group:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                    example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+              required:
+                - group
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '415':
+          $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
   /group:
     get:
       summary: Get a list of all groups

@@ -45,6 +45,7 @@ VALUES (?, ?);
 SQL;
 
 	$id = $endpoint->parseUuid($data['parent-id'])->getBytes();
+	$groups = [];
 	if(isset($data['group']))
 	{
 		foreach($data['group'] as $group)
@@ -60,14 +61,11 @@ SQL;
 	$db->bind_param('s', $id);
 	$db->execute();
 
-	if(isset($groups))
+	$db->prepare($insertSQL);
+	foreach($groups as $group)
 	{
-		$db->prepare($insertSQL);
-		foreach($groups as $group)
-		{
-			$db->bind_param('ss', $id, $group);
-			$db->execute("lesson or group");
-		}
+		$db->bind_param('ss', $id, $group);
+		$db->execute("lesson or group");
 	}
 	$db->finish_transaction();
 	return ['status' => 200];

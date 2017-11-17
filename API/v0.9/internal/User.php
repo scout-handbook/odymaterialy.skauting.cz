@@ -3,6 +3,8 @@ namespace OdyMaterialyAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
+use Ramsey\Uuid\Uuid;
+
 @_API_EXEC === 1 or die('Restricted access.');
 
 class User implements \JsonSerializable

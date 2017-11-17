@@ -9,9 +9,11 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/User.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/userRoleEndpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/userGroupEndpoint.php');
 
 $userEndpoint = new OdyMaterialyAPI\Endpoint('user');
 $userEndpoint->addSubEndpoint('role', $userRoleEndpoint);
+$userEndpoint->addSubEndpoint('group', $userGroupEndpoint);
 
 $listUsers = function($skautis, $data, $endpoint)
 {
