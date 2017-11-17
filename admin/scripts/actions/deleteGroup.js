@@ -10,7 +10,7 @@ function deleteGroupOnClick(event)
 		}
 	}
 
-	dialog("Opravdu si přejete smazat skupinu " + name + "\"?", "Ano", function()
+	dialog("Opravdu si přejete smazat skupinu \"" + name + "\"?", "Ano", function()
 		{
 			spinner();
 			retryAction("/API/v0.9/group/" + encodeURIComponent(event.target.dataset.id), "DELETE", {});
