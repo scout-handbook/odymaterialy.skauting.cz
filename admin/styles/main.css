@@ -90,6 +90,13 @@ main
 	left: 754px;
 }
 
+#groupManager
+{
+	left: 905px;
+	padding-top: 17px;
+	padding-bottom: 11px;
+}
+
 #userAccount
 {
 	height: 80px;
@@ -170,7 +177,7 @@ main
 
 .userTable td + td, .userTable th + th
 {
-	padding-left: 150px;
+	padding-left: 50px;
 }
 
 .userTable tr:nth-child(2n+1)

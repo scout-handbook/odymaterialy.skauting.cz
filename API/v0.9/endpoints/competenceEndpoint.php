@@ -9,6 +9,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
 
 use Ramsey\Uuid\Uuid;
 
@@ -30,7 +31,7 @@ SQL;
 	$name = '';
 	$description = '';
 	$db->bind_result($id, $number, $name, $description);
-	$competences = array();
+	$competences = [];
 	while($db->fetch())
 	{
 		$competences[] = new OdyMaterialyAPI\Competence($id, $number, $name, $description);

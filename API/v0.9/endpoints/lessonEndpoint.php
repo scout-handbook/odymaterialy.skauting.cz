@@ -11,9 +11,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RoleException.php');
+
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonCompetenceEndpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonFieldEndpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonGroupEndpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonPDFEndpoint.php');
 
 use Ramsey\Uuid\Uuid;
@@ -21,7 +25,100 @@ use Ramsey\Uuid\Uuid;
 $lessonEndpoint = new OdyMaterialyAPI\Endpoint('lesson');
 $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
+$lessonEndpoint->addSubEndpoint('group', $lessonGroupEndpoint);
 $lessonEndpoint->addSubEndpoint('pdf', $lessonPDFEndpoint);
+
+function checkLessonGroup($lesson_id, $overrideGroup = false)
+{
+	global $accountEndpoint;
+
+	$group_sql = <<<SQL
+SELECT group_id FROM groups_for_lessons
+WHERE lesson_id = ?;
+SQL;
+
+	$loginState = $accountEndpoint->call('GET', ['no-avatar' => 'true']);
+
+	if($loginState['status'] == '200')
+	{
+		if($overrideGroup and in_array($loginState['response']['role'], ['editor', 'administrator', 'superuser']))
+		{
+			return true;
+		}
+		$groups = $loginState['response']['groups'];
+		$groups[] = '00000000-0000-0000-0000-000000000000';
+	}
+	else
+	{
+		$groups = ['00000000-0000-0000-0000-000000000000'];
+	}
+	array_walk($groups, '\Ramsey\Uuid\Uuid::fromString');
+
+	$db = new OdymaterialyAPI\Database();
+	$db->prepare($group_sql);
+	$lesson_id = $lesson_id->getBytes();
+	$db->bind_param('s', $lesson_id);
+	$db->execute();
+	$group_id = '';
+	$db->bind_result($group_id);
+	while($db->fetch())
+	{
+		if(in_array(Uuid::fromBytes($group_id), $groups))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+function populateField($db, $field, $overrideGroup = false)
+{
+	$competence_sql = <<<SQL
+SELECT competences.id, competences.number
+FROM competences
+JOIN competences_for_lessons ON competences.id = competences_for_lessons.competence_id
+WHERE competences_for_lessons.lesson_id = ?
+ORDER BY competences.number;
+SQL;
+
+	$db->execute();
+	$lesson_id = '';
+	$lesson_name = '';
+	$lesson_version = '';
+	$db->bind_result($lesson_id, $lesson_name, $lesson_version);
+
+	while($db->fetch())
+	{
+		if(checkLessonGroup(Uuid::fromBytes($lesson_id), $overrideGroup))
+		{
+			// Create a new Lesson in the newly-created Field
+			$field->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
+
+			// Find out the competences this Lesson belongs to
+			$db2 = new OdymaterialyAPI\Database();
+			$db2->prepare($competence_sql);
+			$db2->bind_param('s', $lesson_id);
+			$db2->execute();
+			$competence_id = '';
+			$competence_number = '';
+			$db2->bind_result($competence_id, $competence_number);
+			end($field->lessons)->lowestCompetence = 0;
+			if($db2->fetch())
+			{
+				end($field->lessons)->lowestCompetence = $competence_number;
+				end($field->lessons)->competences[] = $competence_id;
+			}
+			else
+			{
+				end($field->lessons)->lowestCompetence = 0;
+			}
+			while($db2->fetch())
+			{
+				end($field->lessons)->competences[] = $competence_id;
+			}
+		}
+	}
+}
 
 $listLessons = function($skautis, $data, $endpoint)
 {
@@ -41,56 +138,14 @@ FROM lessons
 JOIN lessons_in_fields ON lessons.id = lessons_in_fields.lesson_id
 WHERE lessons_in_fields.field_id = ?;
 SQL;
-	$competence_sql = <<<SQL
-SELECT competences.id, competences.number
-FROM competences
-JOIN competences_for_lessons ON competences.id = competences_for_lessons.competence_id
-WHERE competences_for_lessons.lesson_id = ?
-ORDER BY competences.number;
-SQL;
 
-	// Select anonymous lessons
-	$db = new OdymaterialyAPI\Database();
-	$db->prepare($anonymous_sql);
-	$db->execute();
-	$lesson_id = '';
-	$lesson_name = '';
-	$lesson_version = '';
-	$db->bind_result($lesson_id, $lesson_name, $lesson_version);
+	$overrideGroup = (isset($data['override-group']) and $data['override-group'] == 'true');
+
 	$fields = [new OdymaterialyAPI\AnonymousField()];
 
-	if($db->fetch())
-	{
-		do
-		{
-			// Create a new Lesson in the newly-created Field
-			end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
-
-			// Find out the competences this Lesson belongs to
-			$db2 = new OdymaterialyAPI\Database();
-			$db2->prepare($competence_sql);
-			$db2->bind_param('s', $lesson_id);
-			$db2->execute();
-			$competence_id = '';
-			$competence_number = '';
-			$db2->bind_result($competence_id, $competence_number);
-			end(end($fields)->lessons)->lowestCompetence = 0;
-			if($db2->fetch())
-			{
-				end(end($fields)->lessons)->lowestCompetence = $competence_number;
-				end(end($fields)->lessons)->competences[] = $competence_id;
-			}
-			else
-			{
-				end(end($fields)->lessons)->lowestCompetence = 0;
-			}
-			while($db2->fetch())
-			{
-				end(end($fields)->lessons)->competences[] = $competence_id;
-			}
-		}
-		while($db->fetch());
-	}
+	$db = new OdymaterialyAPI\Database();
+	$db->prepare($anonymous_sql);
+	populateField($db, end($fields), $overrideGroup);
 
 	// Select all the fields in the database
 	$db->prepare($field_sql);
@@ -103,43 +158,10 @@ SQL;
 	{
 		$fields[] = new OdyMaterialyAPI\Field($field_id, $field_name); // Create a new field
 
-		// Populate the newly-created Field with its lessons
 		$db2 = new OdymaterialyAPI\Database();
 		$db2->prepare($lesson_sql);
 		$db2->bind_param('s', $field_id);
-		$db2->execute();
-		$lesson_id = '';
-		$lesson_name = '';
-		$lesson_version = '';
-		$db2->bind_result($lesson_id, $lesson_name, $lesson_version);
-		while($db2->fetch())
-		{
-			// Create a new Lesson in the newly-created Field
-			end($fields)->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
-
-			// Find out the competences this Lesson belongs to
-			$db3 = new OdymaterialyAPI\Database();
-			$db3->prepare($competence_sql);
-			$db3->bind_param('s', $lesson_id);
-			$db3->execute();
-			$competence_id = '';
-			$competence_number = '';
-			$db3->bind_result($competence_id, $competence_number);
-			end(end($fields)->lessons)->lowestCompetence = 0;
-			if($db3->fetch())
-			{
-				end(end($fields)->lessons)->lowestCompetence = $competence_number;
-				end(end($fields)->lessons)->competences[] = $competence_id;
-			}
-			else
-			{
-				end(end($fields)->lessons)->lowestCompetence = 0;
-			}
-			while($db3->fetch())
-			{
-				end(end($fields)->lessons)->competences[] = $competence_id;
-			}
-		}
+		populateField($db2, end($fields), $overrideGroup);
 
 		// Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high
 		usort(end($fields)->lessons, "OdyMaterialyAPI\Lesson_cmp");
@@ -157,7 +179,14 @@ FROM lessons
 WHERE id = ?;
 SQL;
 
-	$id = $endpoint->parseUuid($data['id'])->getBytes();
+	$id = $endpoint->parseUuid($data['id']);
+
+	if(!checkLessonGroup($id, true))
+	{
+		throw new OdymaterialyAPI\RoleException();
+	}
+
+	$id = $id->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);

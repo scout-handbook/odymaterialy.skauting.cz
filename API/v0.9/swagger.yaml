@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: OdyMateriály API
   description:
-    See [Github](https://github.com/GenaBitu/OdyMaterialy) or [OdyMateriály](https://odymaterialy.skauting.cz/) for more details.
+    See [Github](https://github.com/GenaBitu/OdyMaterialy) or [OdyMateriály](https://odymaterialy.skauting.cz/) for more.
   version: "0.9"
   contact:
     email: odymaterialy@skaut.cz
@@ -23,12 +23,21 @@ tags:
   - name: field
   - name: user
     description: Other users and their roles
+  - name: group
+    description: User groups
 paths:
   /lesson:
     get:
       summary: Get a list of all lessons
       tags:
         - lesson
+      parameters:
+        - in: query
+          name: override-group
+          schema:
+            type: string
+          required: false
+          description: If present and set to true and user role is editor, administrator or superuser, then all lessons will be returned. Otherwise, only lessons published in the groups the current user is in (or public lessons) will be returned.
       responses:
         '200':
           description: A list of all fields, their lessons and their competences
@@ -218,6 +227,46 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /lesson/{id}/competence:
+    put:
+      summary: Update the competences fulfilled by this lesson
+      description: User role must be **editor** or higher!
+      tags:
+        - lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                competence:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                    example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+              required:
+                - competence
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /lesson/{id}/field:
     put:
       summary: Update the field the lesson is in
@@ -256,10 +305,52 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /lesson/{id}/competence:
+  /lesson/{id}/group:
+    get:
+      summary: List all groups the lesson is published in.
+      description: Group "00000000-0000-0000-0000-000000000000" means the lesson will be publicly accessible.
+      tags:
+        - lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      responses:
+        '200':
+          description: A list of groups
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+                      example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     put:
-      summary: Update the competences fulfilled by this lesson
-      description: User role must be **editor** or higher!
+      summary: Set which groups the lesson is published in.
+      description: Group "00000000-0000-0000-0000-000000000000" means the lesson will be publicly accessible.
       tags:
         - lesson
       security:
@@ -279,14 +370,14 @@ paths:
             schema:
               type: object
               properties:
-                competence:
+                group:
                   type: array
                   items:
                     type: string
                     format: uuid
                     example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
               required:
-                - competence
+                - group
       responses:
         '200':
           $ref: '#/components/responses/200'
@@ -529,6 +620,13 @@ paths:
       summary: Get login state and account information
       tags:
         - account
+      parameters:
+        - in: query
+          name: no-avatar
+          schema:
+            type: string
+          required: false
+          description: If present and not set to "false", then the response won't contain the avatar field.
       responses:
         '200':
           description: Account information
@@ -554,9 +652,19 @@ paths:
                           - editor
                           - administrator
                           - superuser
+                      groups:
+                        type: array
+                        items:
+                          type: string
+                          format: uuid
+                          example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                      avatar:
+                        type: string
+                        format: byte
                     required:
                       - name
                       - role
+                      - groups
                 required:
                   - status
                   - response
@@ -882,6 +990,9 @@ paths:
                             id:
                               type: integer
                               example: 150000
+                            name:
+                              type: string
+                              example: Alice
                             role:
                               type: string
                               enum:
@@ -889,13 +1000,17 @@ paths:
                                 - editor
                                 - administrator
                                 - superuser
-                            name:
-                              type: string
-                              example: Alice
+                            groups:
+                              type: array
+                              items:
+                                type: string
+                                format: uuid
+                                example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
                           required:
                             - id
-                            - role
                             - name
+                            - role
+                            - groups
                     required:
                       - count
                       - users
@@ -910,7 +1025,7 @@ paths:
           $ref: '#/components/responses/415'
         '500':
           $ref: '#/components/responses/500'
-  /user/{id}:
+  /user/{id}/role:
     put:
       summary: Update user's role
       description: User role must be **administrator** or higher! Superuser can change any user, administrator may change only between editor and user.
@@ -952,6 +1067,182 @@ paths:
           $ref: '#/components/responses/404'
         '415':
           $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
+  /user/{id}/group:
+    put:
+      summary: Update user's group membership
+      tags:
+        - user
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The id of the user whose role is to be changed
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                group:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                    example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+              required:
+                - group
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '415':
+          $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
+  /group:
+    get:
+      summary: Get a list of all groups
+      description: User role must be **editor** or higher!
+      tags:
+        - group
+      security:
+        - apiKey: []
+      responses:
+        '200':
+          description: A list of groups
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                        name:
+                          type: string
+                          example: All users
+                        count:
+                          type: integer
+                          example: 0
+                          description: Number of users in this group
+                      required:
+                        - id
+                        - name
+                        - count
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Add a group
+      description: User role must be **administrator** or higher!
+      tags:
+        - group
+      security:
+        - apiKey: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: A group
+              required:
+                - name
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /group/{id}:
+    put:
+      summary: Update a group
+      description: User role must be **administrator** or higher!
+      tags:
+        - group
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the group
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: A group
+              required:
+                - name
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Remove a group
+      description: User role must be **administrator** or higher!
+      tags:
+        - group
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the group
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
 components:

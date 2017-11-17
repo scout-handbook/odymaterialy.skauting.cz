@@ -5,7 +5,7 @@
 </FilesMatch>
 
 # Pages rewrite
-RewriteCond %{REQUEST_URI} ^/admin/(lessons|competences|images|users)$
+RewriteCond %{REQUEST_URI} ^/admin/(lessons|competences|images|users|groups)$
 RewriteRule (.*) /admin/ [QSA,L]
 
 # Server push
@@ -22,14 +22,19 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</scripts/tools/OdyMarkdown.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/addCompetence.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/addField.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/actions/addGroup.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/addImage.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeCompetence.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeField.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/actions/changeGroup.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeLessonCompetences.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/changeLessonField.js>;rel=preload;as=script"
-	Header add Link "</admin/scripts/actions/changeRole.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/actions/changeLessonGroups.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/actions/changeUserGroups.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/actions/changeUserRole.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/deleteCompetence.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/deleteField.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/actions/deleteGroup.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/deleteImage.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/deleteLesson.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/lessonEditor/defaultContent.js>;rel=preload;as=script"
@@ -42,6 +47,7 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/scripts/tools/retryAction.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/tools/request.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/views/mainSubviews/competence.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/views/mainSubviews/group.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/views/mainSubviews/image.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/views/mainSubviews/lesson.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/views/mainSubviews/user.js>;rel=preload;as=script"

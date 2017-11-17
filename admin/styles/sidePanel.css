@@ -49,7 +49,7 @@
 	width: 37px;
 }
 
-#competenceName
+#competenceName, #groupName
 {
 	margin-top: 20px;
 	font-weight: bold;
@@ -83,7 +83,7 @@
 	font-weight: bold;
 }
 
-.roleHelp
+.roleHelp, .groupHelp
 {
 	margin-top: 20px;
 }
@@ -93,7 +93,7 @@
 	font-weight: bold;
 }
 
-.anonymousField
+.anonymousField, .publicGroup
 {
 	font-style: italic;
 }

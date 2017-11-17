@@ -29,6 +29,7 @@ function showLessonSubview(noHistory)
 	addOnClicks("changeLessonCompetences", changeLessonCompetencesOnClick);
 	addOnClicks("deleteLesson", deleteLessonOnClick);
 	addOnClicks("exportLesson", exportLessonOnClick);
+	addOnClicks("changeLessonGroups", changeLessonGroupsOnClick);
 	if(!noHistory)
 	{
 		history.pushState({"page": "lessons"}, "title", "/admin/lessons");
@@ -80,6 +81,7 @@ function renderLessonList()
 				html += "<div class=\"button mainPage deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Smaž lekci</div>";
 			}
 			html += "<div class=\"button mainPage exportLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Zobr. PDF</div>";
+			html += "<div class=\"button mainPage changeLessonGroups\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Publikuj</div>";
 		}
 	}
 	return html;

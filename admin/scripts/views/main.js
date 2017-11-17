@@ -10,6 +10,7 @@ function showMainView(noHistory)
 	html += "<div class=\"topBarTab\" id=\"competenceManager\">Kompetence</div>";
 	html += "<div class=\"topBarTab\" id=\"imageManager\">Obrázky</div>";
 	html += "<div class=\"topBarTab\" id=\"userManager\">Uživatelé</div>";
+	html += "<div class=\"topBarTab\" id=\"groupManager\">Uživatelské skupiny</div>";
 	html += "</div>";
 	html += "<div id=\"mainPageContainer\"><div id=\"mainPage\">";
 	html += "<h1>OdyMateriály - ";
@@ -24,6 +25,10 @@ function showMainView(noHistory)
 	else if(mainPageTab == "users")
 	{
 		html += "Uživatelé";
+	}
+	else if(mainPageTab == "groups")
+	{
+		html += "Uživatelské skupiny";
 	}
 	else
 	{
@@ -50,6 +55,7 @@ function renderMainView(noHistory)
 	document.getElementById("competenceManager").onclick = function() {showCompetenceSubview()};
 	document.getElementById("imageManager").onclick = function() {showImageSubview()};
 	document.getElementById("userManager").onclick = function() {showUserSubview()};
+	document.getElementById("groupManager").onclick = function() {showGroupSubview()};
 
 	if(mainPageTab == "competences")
 	{
@@ -62,6 +68,10 @@ function renderMainView(noHistory)
 	else if(mainPageTab == "users")
 	{
 		showUserSubview(noHistory);
+	}
+	else if(mainPageTab == "groups")
+	{
+		showGroupSubview(noHistory);
 	}
 	else
 	{
