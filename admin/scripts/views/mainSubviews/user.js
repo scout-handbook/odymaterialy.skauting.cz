@@ -123,5 +123,5 @@ function showUserList(list, searchName, page, perPage)
 			};
 	}
 
-	addOnClicks("changeRole", changeRoleOnClick);
+	addOnClicks("changeUserRole", changeUserRoleOnClick);
 }

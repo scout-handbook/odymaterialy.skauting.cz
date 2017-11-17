@@ -1,11 +1,11 @@
 var roleChanged = false;
 
-function changeRoleOnClick(event)
+function changeUserRoleOnClick(event)
 {
 	roleChanged = false;
 	sidePanelOpen();
 	var html = "";
-	html += "<h3 class=\"sidePanelTitle\">" + event.target.dataset.name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeRoleSave\" data-id=\"" + event.target.dataset.id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
+	html += "<h3 class=\"sidePanelTitle\">" + event.target.dataset.name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeUserRoleSave\" data-id=\"" + event.target.dataset.id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
 	html += "<span class=\"roleText\">Role: </span><select class=\"formSelect\" id=\"roleSelect\">";
 	html += "<option id=\"user\" value=\"user\">Uživatel</option>";
 	html += "<option id=\"editor\" value=\"editor\">Editor</option>";
@@ -31,7 +31,7 @@ function changeRoleOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeRoleSave").onclick = changeRoleSave;
+	document.getElementById("changeUserRoleSave").onclick = changeUserRoleSave;
 	document.getElementById("roleSelect").onchange = function()
 		{
 			roleChanged = true;
@@ -41,7 +41,7 @@ function changeRoleOnClick(event)
 	refreshLogin();
 }
 
-function changeRoleSave()
+function changeUserRoleSave()
 {
 	if(roleChanged)
 	{
@@ -49,7 +49,7 @@ function changeRoleSave()
 		var payload = {"role": encodeURIComponent(sel.options[sel.selectedIndex].value)};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/user/" + encodeURIComponent(document.getElementById("changeRoleSave").dataset.id) + "/role", "PUT", payload);
+		retryAction("/API/v0.9/user/" + encodeURIComponent(document.getElementById("changeUserRoleSave").dataset.id) + "/role", "PUT", payload);
 	}
 	else
 	{
