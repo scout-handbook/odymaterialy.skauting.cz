@@ -1287,6 +1287,57 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /event/{id}/participant:
+    get:
+      summary: Get a list of event participants.
+      tags:
+        - event
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The id of the event
+      responses:
+        '200':
+          description: A list of participants
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 150000
+                        name:
+                          type: string
+                          example: Alice
+                      required:
+                        - id
+                        - name
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '415':
+          $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   responses:
     200:
