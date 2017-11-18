@@ -25,6 +25,8 @@ tags:
     description: Other users and their roles
   - name: group
     description: User groups
+  - name: event
+    description: SkautIS events
 paths:
   /lesson:
     get:
@@ -1243,6 +1245,46 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /event:
+    get:
+      summary: Get a list of all user events
+      tags:
+        - event
+      security:
+        - apiKey: []
+      responses:
+        '200':
+          description: A list of events
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 123
+                        name:
+                          type: string
+                          example: ČLK Test
+                      required:
+                        - id
+                        - name
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
 components:
