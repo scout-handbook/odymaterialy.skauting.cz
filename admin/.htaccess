@@ -37,6 +37,7 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/scripts/actions/deleteGroup.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/deleteImage.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/deleteLesson.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/actions/importGroup.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/lessonEditor/defaultContent.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/lessonEditor/editor.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/lessonEditor/imageSelector.js>;rel=preload;as=script"
