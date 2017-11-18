@@ -8,7 +8,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/OdyMark
 
 use Ramsey\Uuid\Uuid;
 
-$lessonPDFEndpoint = new OdyMaterialyAPI\Endpoint('latex');
+$lessonPDFEndpoint = new OdyMaterialyAPI\Endpoint('lesson');
 
 $getLessonLatex = function($skautis, $data, $endpoint)
 {
