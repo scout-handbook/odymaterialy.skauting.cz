@@ -108,6 +108,10 @@ $userEndpoint->setListMethod(new OdymaterialyAPI\Role('editor'), $listUsers);
 
 $addUser = function($skautis, $data, $endpoint)
 {
+	if(!isset($data['id']))
+	{
+		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'id');
+	}
 	$id = ctype_digit($data['id']) ? intval($data['id']) : null;
 	if($id === null)
 	{

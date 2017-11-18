@@ -41,9 +41,16 @@ SQL;
 	$groups = [];
 	if(isset($data['group']))
 	{
-		foreach($data['group'] as $group)
+		if(is_array($data['group']))
 		{
-			$groups[] = $endpoint->parseUuid($group)->getBytes();
+			foreach($data['group'] as $group)
+			{
+				$groups[] = $endpoint->parseUuid($group)->getBytes();
+			}
+		}
+		else
+		{
+			$groups[] = $endpoint->parseUuid($data['group'])->getBytes();
 		}
 	}
 
