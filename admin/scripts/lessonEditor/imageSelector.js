@@ -18,7 +18,7 @@ function prepareImageSelector(page, perPage)
 			}
 			else
 			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
 	refreshLogin();
