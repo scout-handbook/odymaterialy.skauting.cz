@@ -40,9 +40,13 @@ SQL;
 
 		if(!isset($data['no-avatar']) or $data['no-avatar'] == 'false')
 		{
-			$response['avatar'] = base64_encode($skautis->OrganizationUnit->PersonPhoto(array(
+			$ISphotoResponse = $skautis->OrganizationUnit->PersonPhoto([
 				'ID' => $loginDetail->ID_Person,
-				'Size' => 'small'))->PhotoSmallContent);
+				'Size' => 'small']);
+			if(isset($ISphotoResponse->PhotoContent) and $ISphotoResponse->PhotoContent != '')
+			{
+				$response['avatar'] = base64_encode($ISphotoResponse->PhotoContent);
+			}
 		}
 		return ['status' => 200, 'response' => $response];
 	};
