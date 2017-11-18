@@ -39,8 +39,15 @@ function importGroupOnClick(event)
 
 function importGroupSelectEventRender(events)
 {
-
-	var html = "<form id=\"sidePanelForm\">";
+	if(events.length == 0)
+	{
+		sidePanelClose();
+		spinner();
+		dialog("Nejste instruktorem na žádné akci.", "OK");
+		refreshMetadata();
+		history.back();
+	}
+	var html = "<h4>Volba kurzu:</h4><form id=\"sidePanelForm\">";
 	for(var i = 0; i < events.length; i++)
 	{
 		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"field\" data-id=\"" + events[i].id + "\"><span class=\"formCustom formRadio\"></span></label>" + events[i].name + "</div>";
@@ -77,7 +84,15 @@ function importGroupSelectParticipants(event)
 
 function importGroupSelectParticipantsRender(participants)
 {
-	var html = "<form id=\"sidePanelForm\">";
+	if(participants.length == 0)
+	{
+		sidePanelClose();
+		spinner();
+		dialog("Akce nemá žádné účastníky.", "OK");
+		refreshMetadata();
+		history.back();
+	}
+	var html = "<h4>Výběr účastníků:</h4><form id=\"sidePanelForm\">";
 	for(var i = 0; i < participants.length; i++)
 	{
 		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"checkbox\" data-id=\"" + participants[i].id + "\" data-name=\"" + participants[i].name + "\"><span class=\"formCustom formCheckbox\"></span></label>" + participants[i].name + "</div>";
