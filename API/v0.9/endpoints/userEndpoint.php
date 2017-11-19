@@ -105,3 +105,34 @@ SQL;
 	return ['status' => 200, 'response' => ['count' => $count, 'users' => $users]];
 };
 $userEndpoint->setListMethod(new OdymaterialyAPI\Role('editor'), $listUsers);
+
+$addUser = function($skautis, $data, $endpoint)
+{
+	if(!isset($data['id']))
+	{
+		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'id');
+	}
+	$id = ctype_digit($data['id']) ? intval($data['id']) : null;
+	if($id === null)
+	{
+		throw new OdyMaterialyAPI\InvalidArgumentTypeException('id', ['Integer']);
+	}
+	if(!isset($data['name']))
+	{
+		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
+	}
+	$name = $endpoint->xss_sanitize($data['name']);
+
+	$SQL = <<<SQL
+INSERT INTO users (id, name)
+VALUES (?, ?)
+ON DUPLICATE KEY UPDATE name = VALUES(name);
+SQL;
+
+	$db = new OdymaterialyAPI\Database();
+	$db->prepare($SQL);
+	$db->bind_param('is', $id, $name);
+	$db->execute();
+	return ['status' => 200];
+};
+$userEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addUser);

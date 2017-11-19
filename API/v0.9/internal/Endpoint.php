@@ -209,7 +209,7 @@ class Endpoint
 		{
 			$data['id'] = $_GET['id'];
 		}
-		else
+		elseif(!isset($_POST['id']))
 		{
 			unset($data['id']);
 		}

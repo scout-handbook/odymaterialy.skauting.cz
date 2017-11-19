@@ -4,6 +4,7 @@ function deleteImageOnClick(event)
 		{
 			spinner();
 			retryAction("/API/v0.9/image/" + encodeURIComponent(event.target.dataset.id), "DELETE", {});
-		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;");
+		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;", function(){history.back();});
+	history.pushState({"sidePanel": "open"}, "title", "/admin/images");
 	refreshLogin();
 }

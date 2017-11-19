@@ -21,7 +21,7 @@ function refreshMetadata()
 			}
 			else
 			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
 	request("/API/v0.9/competence", "GET", "", function(response)
@@ -33,7 +33,7 @@ function refreshMetadata()
 			}
 			else
 			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
 	request("/API/v0.9/group", "GET", "", function(response)
@@ -45,7 +45,7 @@ function refreshMetadata()
 			}
 			else
 			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
 	request("/API/v0.9/account", "GET", "", function(response)
@@ -61,7 +61,7 @@ function refreshMetadata()
 			}
 			else
 			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
 }

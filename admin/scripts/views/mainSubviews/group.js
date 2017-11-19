@@ -21,6 +21,7 @@ function showGroupSubview(noHistory)
 	}
 
 	addOnClicks("changeGroup", changeGroupOnClick);
+	addOnClicks("importGroup", importGroupOnClick);
 	addOnClicks("deleteGroup", deleteGroupOnClick);
 	if(!noHistory)
 	{
@@ -47,6 +48,7 @@ function renderGroupList()
 			html += "<div class=\"button mainPage changeGroup\" data-id=\"" + GROUPS[i].id + "\">Upravit skupinu</div>";
 			if(GROUPS[i].id != "00000000-0000-0000-0000-000000000000")
 			{
+				html += "<div class=\"button mainPage importGroup\" data-id=\"" + GROUPS[i].id + "\">Importovat ze SkautISu</div>";
 				html += "<div class=\"button mainPage deleteGroup\" data-id=\"" + GROUPS[i].id + "\">Smazat skupinu</div>";
 			}
 		}

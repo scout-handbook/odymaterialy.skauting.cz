@@ -15,7 +15,7 @@ function showLessonEditView(id, noHistory)
 			}
 			else
 			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + result.message, "OK");
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
 }

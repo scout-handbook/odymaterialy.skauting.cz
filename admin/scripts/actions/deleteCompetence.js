@@ -16,6 +16,7 @@ function deleteCompetenceOnClick(event)
 		{
 			spinner();
 			retryAction("/API/v0.9/competence/" + encodeURIComponent(event.target.dataset.id), "DELETE", {});
-		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;");
+		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;", function(){history.back();});
+	history.pushState({"sidePanel": "open"}, "title", "/admin/competences");
 	refreshLogin();
 }

@@ -6,6 +6,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/userEndpoint.php');
+
 use Ramsey\Uuid\Uuid;
 
 $accountEndpoint = new OdyMaterialyAPI\Endpoint('user');
@@ -40,9 +42,13 @@ SQL;
 
 		if(!isset($data['no-avatar']) or $data['no-avatar'] == 'false')
 		{
-			$response['avatar'] = base64_encode($skautis->OrganizationUnit->PersonPhoto(array(
+			$ISphotoResponse = $skautis->OrganizationUnit->PersonPhoto([
 				'ID' => $loginDetail->ID_Person,
-				'Size' => 'small'))->PhotoSmallContent);
+				'Size' => 'small']);
+			if(isset($ISphotoResponse->PhotoContent) and $ISphotoResponse->PhotoContent != '')
+			{
+				$response['avatar'] = base64_encode($ISphotoResponse->PhotoContent);
+			}
 		}
 		return ['status' => 200, 'response' => $response];
 	};
@@ -61,19 +67,10 @@ $accountEndpoint->setListMethod(new OdymaterialyAPI\Role('guest'), $listAccount)
 
 $addAccount = function($skautis, $data, $endpoint)
 {
-	$SQL = <<<SQL
-INSERT INTO users (id, name)
-VALUES (?, ?)
-ON DUPLICATE KEY UPDATE name = VALUES(name);
-SQL;
-
-	$idPerson = $skautis->UserManagement->UserDetail()->ID_Person;
-	$namePerson = $skautis->OrganizationUnit->PersonDetail(['ID' => $idPerson])->DisplayName;
-
-	$db = new OdymaterialyAPI\Database();
-	$db->prepare($SQL);
-	$db->bind_param('is', $idPerson, $namePerson);
-	$db->execute();
+	global $userEndpoint;
+	$id = $skautis->UserManagement->UserDetail()->ID_Person;
+	$userData = ['id' => $id, 'name' => $skautis->OrganizationUnit->PersonDetail(['ID' => $id])->DisplayName];
+	$userEndpoint->call('POST', $userData);
 	return ['status' => 200];
 };
 $accountEndpoint->setAddMethod(new OdymaterialyAPI\Role('user'), $addAccount);
