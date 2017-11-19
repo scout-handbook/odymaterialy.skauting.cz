@@ -13,7 +13,6 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
     public static $prefixLengthsPsr4 = array (
         'c' => 
         array (
-            'cebe\\markdown\\latex\\' => 20,
             'cebe\\markdown\\' => 14,
         ),
         'S' => 
@@ -35,10 +34,6 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
     );
 
     public static $prefixDirsPsr4 = array (
-        'cebe\\markdown\\latex\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/cebe/markdown-latex',
-        ),
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
@@ -62,14 +57,6 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
     );
 
     public static $prefixesPsr0 = array (
-        'M' => 
-        array (
-            'MikeVanRiel' => 
-            array (
-                0 => __DIR__ . '/..' . '/mikevanriel/text-to-latex/src',
-                1 => __DIR__ . '/..' . '/mikevanriel/text-to-latex/tests/unit',
-            ),
-        ),
         'B' => 
         array (
             'BaconQrCode' => 
