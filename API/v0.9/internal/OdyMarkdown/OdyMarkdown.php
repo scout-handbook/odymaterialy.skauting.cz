@@ -7,9 +7,52 @@ use \cebe\markdown\GithubMarkdown;
 
 class OdyMarkdown extends GithubMarkdown
 {
+	// Link rendering as text with address in parentheses
 	protected function renderLink($block)
 	{
+		if(isset($block['refkey']))
+		{
+			if(($ref = $this->lookupReference($block['refkey'])) !== false)
+			{
+				$block = array_merge($block, $ref);
+			}
+			else
+			{
+				return $block['orig'];
+			}
+		}
 		return $this->renderAbsy($block['text']) . ' (<a href="' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '">' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '</a>) ';
+	}
+
+	// Image rendering in original quality
+	protected function renderImage($block)
+	{
+		if(isset($block['refkey']))
+		{
+			if(($ref = $this->lookupReference($block['refkey'])) !== false)
+			{
+				$block = array_merge($block, $ref);
+			}
+			else
+			{
+				return $block['orig'];
+			}
+		}
+
+		if(strpos($block['url'], 'odymaterialy.skauting.cz/API/v0.9/image') !== false)
+		{
+			if(strpos($block['url'], 'quality=') !== false)
+			{
+				$block['url'] = str_replace('quality=web', 'quality=original', $block['url']);
+				$block['url'] = str_replace('quality=thumbnail', 'quality=original', $block['url']);
+			}
+			else
+			{
+				$block['url'] .= '?quality=original';
+			}
+		}
+
+		return parent::renderImage($block);
 	}
 
     // Generic functions for command parsing
