@@ -1,46 +1,5 @@
 [
     {
-        "name": "mikevanriel/text-to-latex",
-        "version": "1.0.1",
-        "version_normalized": "1.0.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/mvriel/TextToLatex.git",
-            "reference": "c9f3a4d6b89f9449782455c848d5fa3dd0e216ba"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/mvriel/TextToLatex/zipball/c9f3a4d6b89f9449782455c848d5fa3dd0e216ba",
-            "reference": "c9f3a4d6b89f9449782455c848d5fa3dd0e216ba",
-            "shasum": ""
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~3.7"
-        },
-        "time": "2015-12-13T07:33:35+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "MikeVanRiel": [
-                    "src/",
-                    "tests/unit/"
-                ]
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Mike van Riel",
-                "email": "me@mikevanriel.com"
-            }
-        ],
-        "description": "A converter class that converts normal ASCII text to valid LaTeX"
-    },
-    {
         "name": "cebe/markdown",
         "version": "1.0.2",
         "version_normalized": "1.0.2.0",
@@ -160,68 +119,6 @@
             "skautis",
             "soap",
             "wsdl"
-        ]
-    },
-    {
-        "name": "cebe/markdown-latex",
-        "version": "1.1.4",
-        "version_normalized": "1.1.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/cebe/markdown-latex.git",
-            "reference": "42eb55c6f5a8dd68a1c029755eccd73e117aaa9b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/cebe/markdown-latex/zipball/42eb55c6f5a8dd68a1c029755eccd73e117aaa9b",
-            "reference": "42eb55c6f5a8dd68a1c029755eccd73e117aaa9b",
-            "shasum": ""
-        },
-        "require": {
-            "cebe/markdown": "~1.0.0",
-            "mikevanriel/text-to-latex": "~1.0.0",
-            "php": ">=5.4.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "3.7.*"
-        },
-        "time": "2017-05-19T11:16:33+00:00",
-        "bin": [
-            "bin/markdown-latex"
-        ],
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "cebe\\markdown\\latex\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Carsten Brandt",
-                "email": "mail@cebe.cc",
-                "homepage": "http://cebe.cc/",
-                "role": "Creator"
-            }
-        ],
-        "description": "A super fast, highly extensible markdown parser for PHP, that converts markdown files into latex",
-        "homepage": "https://github.com/cebe/markdown-latex#readme",
-        "keywords": [
-            "extensible",
-            "fast",
-            "gfm",
-            "latex",
-            "markdown",
-            "markdown-extra"
         ]
     },
     {

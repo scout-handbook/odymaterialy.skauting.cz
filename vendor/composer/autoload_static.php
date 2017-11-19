@@ -13,7 +13,6 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
     public static $prefixLengthsPsr4 = array (
         'c' => 
         array (
-            'cebe\\markdown\\latex\\' => 20,
             'cebe\\markdown\\' => 14,
         ),
         'S' => 
@@ -35,10 +34,6 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
     );
 
     public static $prefixDirsPsr4 = array (
-        'cebe\\markdown\\latex\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/cebe/markdown-latex',
-        ),
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
@@ -61,17 +56,6 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'M' => 
-        array (
-            'MikeVanRiel' => 
-            array (
-                0 => __DIR__ . '/..' . '/mikevanriel/text-to-latex/src',
-                1 => __DIR__ . '/..' . '/mikevanriel/text-to-latex/tests/unit',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'FPDF_TPL' => __DIR__ . '/..' . '/setasign/fpdi/fpdf_tpl.php',
         'FPDI' => __DIR__ . '/..' . '/setasign/fpdi/fpdi.php',
@@ -87,7 +71,6 @@ class ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit38f1188a5c11b9a2026a52e7aebaf196::$classMap;
 
         }, null, ClassLoader::class);
