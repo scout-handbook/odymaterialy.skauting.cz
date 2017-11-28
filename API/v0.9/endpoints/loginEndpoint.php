@@ -17,7 +17,7 @@ $loginUser = function($skautis, $data, $endpoint) use ($accountEndpoint)
 	};
 
 	$localPrefix = 'https://odymaterialy.skauting.cz';
-	$ISprefix = 'https://test-is.skaut.cz/Login'; // TODO: Live SkautIS
+	$ISprefix = 'https://is.skaut.cz/Login';
 
 	if(isset($data['return-uri']))
 	{

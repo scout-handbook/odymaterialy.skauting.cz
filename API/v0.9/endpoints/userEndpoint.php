@@ -135,4 +135,4 @@ SQL;
 	$db->execute();
 	return ['status' => 200];
 };
-$userEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addUser);
+$userEndpoint->setAddMethod(new OdymaterialyAPI\Role('guest'), $addUser);
