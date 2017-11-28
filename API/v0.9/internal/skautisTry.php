@@ -9,6 +9,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/skautis.secret.php'
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/AuthenticationException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RoleException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/SkautISException.php');
 
 function skautisTry($callback, $hardCheck = true)
 {
@@ -30,7 +31,7 @@ function skautisTry($callback, $hardCheck = true)
 			}
 			catch(\Skautis\Exception $e)
 			{
-				throw new AuthenticationException();
+				throw new SkautISException($e);
 			}
 		}
 	}
