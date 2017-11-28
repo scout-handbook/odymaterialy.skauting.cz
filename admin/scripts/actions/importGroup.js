@@ -78,8 +78,8 @@ function importGroupSelectParticipants(event)
 					dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 				}
 			});
+		document.getElementById("importGroupNext").onclick = importGroupSave;
 	}
-	document.getElementById("importGroupNext").onclick = importGroupSave;
 }
 
 function importGroupSelectParticipantsRender(participants)
