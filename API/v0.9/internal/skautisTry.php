@@ -50,7 +50,7 @@ function roleTry($callback, $hardCheck, $requiredRole)
 	}
 	$safeCallback = function($skautis) use ($callback, $requiredRole)
 	{
-		$role = new Role(getRole($skautis->UserManagement->UserDetail()->ID_Person));
+		$role = new Role(getRole($skautis->UserManagement->LoginDetail()->ID_Person));
 		if(Role_cmp($role, $requiredRole) >= 0)
 		{
 			return $callback($skautis);

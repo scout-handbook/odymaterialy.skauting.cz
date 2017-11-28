@@ -54,7 +54,7 @@ SQL;
 		}
 	}
 
-	$my_role = new OdyMaterialyAPI\Role(OdymaterialyAPI\getRole($skautis->UserManagement->UserDetail()->ID_Person));
+	$my_role = new OdyMaterialyAPI\Role(OdymaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person));
 
 	$db = new OdymaterialyAPI\Database();
 	$db->start_transaction();

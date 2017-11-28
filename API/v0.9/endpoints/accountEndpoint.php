@@ -68,8 +68,9 @@ $accountEndpoint->setListMethod(new OdymaterialyAPI\Role('guest'), $listAccount)
 $addAccount = function($skautis, $data, $endpoint)
 {
 	global $userEndpoint;
-	$id = $skautis->UserManagement->UserDetail()->ID_Person;
-	$userData = ['id' => $id, 'name' => $skautis->OrganizationUnit->PersonDetail(['ID' => $id])->DisplayName];
+	$id = $skautis->UserManagement->LoginDetail()->ID_Person;
+	$loginDetail = $skautis->UserManagement->LoginDetail();
+	$userData = ['id' => $loginDetail->ID_Person, 'name' => $loginDetail->Person];
 	$userEndpoint->call('POST', $userData);
 	return ['status' => 200];
 };

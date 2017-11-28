@@ -17,7 +17,7 @@ $userEndpoint->addSubEndpoint('group', $userGroupEndpoint);
 
 $listUsers = function($skautis, $data, $endpoint)
 {
-	$role = new OdyMaterialyAPI\Role(OdymaterialyAPI\getRole($skautis->UserManagement->UserDetail()->ID_Person));
+	$role = new OdyMaterialyAPI\Role(OdymaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person));
 	$innerSQL = '';
 	if(OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('administrator')) >= 0)
 	{
