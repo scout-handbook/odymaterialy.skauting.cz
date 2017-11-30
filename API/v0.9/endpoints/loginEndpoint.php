@@ -50,7 +50,7 @@ $loginUser = function($skautis, $data, $endpoint) use ($accountEndpoint)
 		$_COOKIE['skautis_token'] = $token;
 		$_COOKIE['skautis_timeout'] = $timeout;
 
-		$accountEndpoint->call('POST', []);
+		$accountEndpoint->call('POST', new OdyMaterialyAPI\Role('user'), []);
 	}
 	else
 	{

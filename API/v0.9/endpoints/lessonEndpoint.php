@@ -37,7 +37,7 @@ SELECT group_id FROM groups_for_lessons
 WHERE lesson_id = ?;
 SQL;
 
-	$loginState = $accountEndpoint->call('GET', ['no-avatar' => 'true']);
+	$loginState = $accountEndpoint->call('GET', new OdymaterialyAPI\Role('guest'), ['no-avatar' => 'true']);
 
 	if($loginState['status'] == '200')
 	{

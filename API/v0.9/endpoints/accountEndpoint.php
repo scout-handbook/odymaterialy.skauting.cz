@@ -71,7 +71,7 @@ $addAccount = function($skautis, $data, $endpoint)
 	$id = $skautis->UserManagement->LoginDetail()->ID_Person;
 	$loginDetail = $skautis->UserManagement->LoginDetail();
 	$userData = ['id' => $loginDetail->ID_Person, 'name' => $loginDetail->Person];
-	$userEndpoint->call('POST', $userData);
+	$userEndpoint->call('POST', new OdyMaterialyAPI\Role('user'), $userData);
 	return ['status' => 200];
 };
 $accountEndpoint->setAddMethod(new OdymaterialyAPI\Role('user'), $addAccount);

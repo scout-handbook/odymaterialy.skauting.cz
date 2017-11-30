@@ -29,7 +29,7 @@ SQL;
 	$db->fetch_require('lesson');
 	unset($db);
 
-	$md = $endpoint->getParent()->call('GET', ['id' => $data['parent-id']])['response'];
+	$md = $endpoint->getParent()->call('GET', new OdyMaterialyAPI\Role('guest'), ['id' => $data['parent-id']])['response'];
 
 	$html = '<body><h1>' . $name . '</h1>';
 	$parser = new OdyMarkdown\OdyMarkdown();

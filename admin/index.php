@@ -1,9 +1,10 @@
 <?php
 const _API_EXEC = 1;
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.php');
 
-$loginState = $accountEndpoint->call('GET', ['no-avatar' => 'true']);
+$loginState = $accountEndpoint->call('GET', new OdyMaterialyAPI\Role('guest'), ['no-avatar' => 'true']);
 if(isset($loginState['status']))
 {
 	if($loginState['status'] == 200)
