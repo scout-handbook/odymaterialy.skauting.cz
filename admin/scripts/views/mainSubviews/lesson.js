@@ -61,6 +61,7 @@ function renderLessonList()
 			{
 				html += "<div class=\"newButton deleteButton deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
 			}
+			html += "<div class=\"newButton exportLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-file-pdf\"></i>PDF</div>";
 			html += "<br>"
 			if(FIELDS[i].lessons[j].competences.length > 0)
 			{
@@ -81,7 +82,6 @@ function renderLessonList()
 			}
 			html += "<div class=\"button mainPage changeLessonField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změň oblast</div>";
 			html += "<div class=\"button mainPage changeLessonCompetences\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změň kompetence</div>";
-			html += "<div class=\"button mainPage exportLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Zobr. PDF</div>";
 			html += "<div class=\"button mainPage changeLessonGroups\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Publikuj</div>";
 		}
 	}
