@@ -12,7 +12,7 @@ function showLessonSubview(noHistory)
 	{
 		html += "<div class=\"button mainPage\" id=\"addField\">Přidat oblast</div>";
 	}
-	html += "<div class=\"button mainPage\" id=\"addLesson\">Přidat lekci</div><br>";
+	html += "<div class=\"button mainPage\" id=\"addLesson\">Přidat lekci</div>";
 	html += renderLessonList();
 	document.getElementById("mainPage").innerHTML = html;
 
@@ -46,7 +46,7 @@ function renderLessonList()
 		if(FIELDS[i].name)
 		{
 			secondLevel = " secondLevel";
-			html += "<h2 class=\"mainPage\">" + FIELDS[i].name + "</h2>";
+			html += "<br><h2 class=\"mainPage\">" + FIELDS[i].name + "</h2><br>";
 			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 			{
 				html += "<div class=\"button mainPage changeField\" data-id=\"" + FIELDS[i].id + "\">Upravit oblast</div>";
@@ -55,7 +55,8 @@ function renderLessonList()
 		}
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			html += "<h3 class=\"mainPage" + secondLevel + "\">" + FIELDS[i].lessons[j].name + "</h3>";
+			html += "<br><h3 class=\"mainPage" + secondLevel + "\">" + FIELDS[i].lessons[j].name + "</h3>";
+			html += "<br>"
 			if(FIELDS[i].lessons[j].competences.length > 0)
 			{
 				var competences = [];

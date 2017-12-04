@@ -34,7 +34,7 @@ function renderCompetenceList()
 	var html = "";
 	for(var i = 0; i < COMPETENCES.length; i++)
 	{
-		html += "<h3 class = \"mainPage\">" + COMPETENCES[i].number + ": " + COMPETENCES[i].name + "</h3><span class=\"mainPage\">" + COMPETENCES[i].description + "</span><br>";
+		html += "<br><h3 class = \"mainPage\">" + COMPETENCES[i].number + ": " + COMPETENCES[i].name + "</h3><br><span class=\"mainPage\">" + COMPETENCES[i].description + "</span><br>";
 		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 		{
 			html += "<div class=\"button mainPage changeCompetence\" data-id=\"" + COMPETENCES[i].id + "\">Upravit kompetenci</div>";
