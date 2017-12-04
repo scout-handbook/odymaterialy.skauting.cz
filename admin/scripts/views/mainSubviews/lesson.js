@@ -10,7 +10,7 @@ function showLessonSubview(noHistory)
 	var html = "<h1>OdyMateriály - Lekce</h1>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
-		html += "<div class=\"button mainPage\" id=\"addField\">Přidat oblast</div>";
+		html += "<div class=\"newButton addButton\" id=\"addField\"><i class=\"icon-plus\"></i>Přidat oblast</div>";
 	}
 	html += "<div class=\"button mainPage\" id=\"addLesson\">Přidat lekci</div>";
 	html += renderLessonList();
@@ -46,16 +46,21 @@ function renderLessonList()
 		if(FIELDS[i].name)
 		{
 			secondLevel = " secondLevel";
-			html += "<br><h2 class=\"mainPage\">" + FIELDS[i].name + "</h2><br>";
+			html += "<br><h2 class=\"mainPage\">" + FIELDS[i].name + "</h2>";
 			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 			{
-				html += "<div class=\"button mainPage changeField\" data-id=\"" + FIELDS[i].id + "\">Upravit oblast</div>";
-				html += "<div class=\"button mainPage deleteField\" data-id=\"" + FIELDS[i].id + "\">Smazat oblast</div>";
+				html += "<div class=\"newButton editButton changeField\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
+				html += "<div class=\"newButton deleteButton deleteField\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
 			}
 		}
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
 			html += "<br><h3 class=\"mainPage" + secondLevel + "\">" + FIELDS[i].lessons[j].name + "</h3>";
+			html += "<div class=\"newButton editButton" + secondLevel + " changeLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
+			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+			{
+				html += "<div class=\"newButton deleteButton deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
+			}
 			html += "<br>"
 			if(FIELDS[i].lessons[j].competences.length > 0)
 			{
@@ -74,13 +79,8 @@ function renderLessonList()
 				}
 				html += "</span><br>";
 			}
-			html += "<div class=\"button mainPage" + secondLevel + " changeLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Uprav lekci</div>";
 			html += "<div class=\"button mainPage changeLessonField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změň oblast</div>";
 			html += "<div class=\"button mainPage changeLessonCompetences\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změň kompetence</div>";
-			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
-			{
-				html += "<div class=\"button mainPage deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Smaž lekci</div>";
-			}
 			html += "<div class=\"button mainPage exportLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Zobr. PDF</div>";
 			html += "<div class=\"button mainPage changeLessonGroups\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Publikuj</div>";
 		}

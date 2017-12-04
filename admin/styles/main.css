@@ -59,6 +59,62 @@ h2.mainPage, h3.mainPage
 	margin-right: 20px;
 }
 
+.newButton
+{
+	display: inline-block;
+	margin-right: 15px;
+	margin-bottom: -10px;
+	padding: 0 12px 0 8px;
+	max-width: 400px;
+	overflow: hidden;
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+	border: 1px solid #ffffff;
+	background-color: #0078e7;
+	color: #ffffff;
+	border-radius: 5px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	transition: box-shadow ease 0.15s, border-color ease 0.15s;
+}
+
+.newButton:hover
+{
+	box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 4px 1px;
+	border-color: #0078e7;
+}
+
+.addButton
+{
+	background-color: #1cb841;
+}
+
+.addButton:hover
+{
+	border-color: #1cb841;
+}
+
+.editButton
+{
+	background-color: #42b8dd;
+}
+
+.editButton:hover
+{
+	border-color: #42b8dd;
+}
+
+.deleteButton
+{
+	background-color: #ca3c3c;
+}
+
+.deleteButton:hover
+{
+	border-color: #ca3c3c;
+}
+
 #mainPageContainer
 {
 	position: absolute;
