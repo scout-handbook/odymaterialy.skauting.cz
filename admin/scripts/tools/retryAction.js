@@ -10,28 +10,32 @@ function retryActionSetup()
 	}
 }
 
-function retryAction(url, method, payload)
+function retryAction(url, method, payload, final)
 {
+	final = typeof final !== 'undefined' ? final : true;
 	request(url, method, payload, function(response)
 		{
-			retryActionAfter(response, url, method, payload);
+			retryActionAfter(response, url, method, payload, final);
 		})
 	refreshLogin();
 }
 
-function retryActionAfter(response, url, method, payload)
+function retryActionAfter(response, url, method, payload, final)
 {
 	if(Math.floor(response.status / 100) === 2)
 	{
-		dialog("Akce byla úspěšná.", "OK");
-		refreshMetadata();
-		if(retry)
+		if(final)
 		{
-			showMainView();
-		}
-		else
-		{
-			history.back();
+			dialog("Akce byla úspěšná.", "OK");
+			refreshMetadata();
+			if(retry)
+			{
+				showMainView();
+			}
+			else
+			{
+				history.back();
+			}
 		}
 		retry = false;
 	}
