@@ -4,6 +4,7 @@ function main()
 	metadataSetup();
 	historySetup();
 	retryActionSetup();
+	ActionQueueSetup();
 }
 
 window.onload = main;
