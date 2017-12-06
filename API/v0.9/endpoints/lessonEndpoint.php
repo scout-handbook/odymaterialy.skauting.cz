@@ -216,13 +216,14 @@ SQL;
 	{
 		$body = $data['body'];
 	}
-	$id = Uuid::uuid4()->getBytes();
+	$uuid = Uuid::uuid4();
+	$id = $uuid->getBytes();
 
 	$db = new OdymaterialyAPI\Database();
 	$db->prepare($SQL);
 	$db->bind_param('sss', $id, $name, $body);
 	$db->execute();
-	return ['status' => 201];
+	return ['status' => 201, 'response' => $uuid];
 };
 $lessonEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addLesson);
 
