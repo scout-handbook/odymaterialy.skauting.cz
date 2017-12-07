@@ -43,20 +43,13 @@ function renderLessonEditView(id, markdown, noHistory)
 		history.pushState({"id": id}, "title", "/admin/lessons");
 	}
 
-	showLessonEditor(lesson.name, markdown, saveLessonCallback);
+	aq = new ActionQueue([new Action("/API/v0.9/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder)]);
+	aq.addDefaultCallback();
+	showLessonEditor(lesson.name, markdown, aq);
 	document.getElementById("save").dataset.id = id;
 }
 
-function saveLessonCallback()
+function saveLessonPayloadBuilder()
 {
-	if(changed)
-	{
-		var payload = {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
-		spinner();
-		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("save").dataset.id), "PUT", payload);
-	}
-	else
-	{
-		discard();
-	}
+	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
 }

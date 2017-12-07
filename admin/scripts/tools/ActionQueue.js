@@ -1,21 +1,37 @@
-function Action(url, method, payload, callback)
+var ActionQueueRetry = false;
+
+function Action(url, method, payloadBuilder, callback)
 {
 	this.url = url;
 	this.method = method;
-	this.payload = typeof payload !== 'undefined' ? payload : {};
+	this.payloadBuilder = typeof payloadBuilder !== 'undefined' ? payloadBuilder : function(){return {};};
 	this.callback = typeof callback !== 'undefinded' ? callback : function(){};
 
 	this.fillID = function(id)
 		{
-			this.url = this.url.replace("{id}", id);
+			this.url = this.url.replace("{id}", encodeURIComponent(id));
 		};
+}
+
+function serializeAction(action)
+{
+	return {"url": action.url, "method": action.method, "payload": action.payloadBuilder(), "callback": action.callback.toString()};
+}
+
+function deserializeAction(action)
+{
+	return new Action(action.url, action.method, function()
+		{
+			return action.payload;
+		}, eval('(' + action.callback + ')'));
 }
 
 function ActionQueueSetup()
 {
-	if(window.sessionStorage && sessionStorage.getItem("retryActionUrl"))
+	if(window.sessionStorage && sessionStorage.getItem("ActionQueue"))
 	{
-		aq = new ActionQueue(JSON.parse(sessionStorage.getItem("ActionQueue")), true);
+		aq = new ActionQueue(JSON.parse(sessionStorage.getItem("ActionQueue")).map(deserializeAction));
+		ActionQueueRetry = true;
 		sessionStorage.clear();
 		aq.dispatch();
 	}
@@ -24,23 +40,24 @@ function ActionQueueSetup()
 function ActionQueue(actions, retry)
 {
 	this.actions = typeof actions !== 'undefined' ? actions : [];
-	this.retry = typeof retry !== 'undefined' ? retry : false;
+	ActionQueueRetry = typeof retry !== 'undefined' ? retry : false;
+	var queue = this;
 	
 	this.fillID = function(id)
 		{
-			for(var i = 0; i < this.actions.length; i++)
+			for(var i = 0; i < queue.actions.length; i++)
 			{
-				this.actions[i].fillID(id);
+				queue.actions[i].fillID(id);
 			}
 		};
 
 	this.addDefaultCallback = function()
 		{
-			this.actions[this.actions.length - 1].callback = function(response)
+			queue.actions[queue.actions.length - 1].callback = function(response)
 				{
 					dialog("Akce byla úspěšná.", "OK");
 					refreshMetadata();
-					if(this.retry)
+					if(ActionQueueRetry)
 					{
 						showMainView();
 					}
@@ -53,38 +70,39 @@ function ActionQueue(actions, retry)
 
 	this.pop = function()
 		{
-			request(this.actions[0].url, this.actions[0].method, this.actions[0].payload, function(response)
+			spinner();
+			request(queue.actions[0].url, queue.actions[0].method, queue.actions[0].payloadBuilder(), function(response)
 				{
-					this.after(response, this.actions[0]);
+					queue.after(response, queue.actions[0]);
 				});
 		};
 
 	this.dispatch = function()
 		{
-			for(var i = 0; i < this.actions.length - 1; i++)
+			for(var i = 0; i < queue.actions.length - 1; i++)
 			{
-				var callback = this.actions[i].callback;
-				this.actions[i].callback = function(response)
+				var callback = queue.actions[i].callback;
+				queue.actions[i].callback = function(response)
 					{
 						callback(response);
-						this.pop();
+						queue.pop();
 					};
 			}
-			this.pop();
+			queue.pop();
 		};
 
 	this.after = function(response, action)
 		{
 			if(Math.floor(response.status / 100) === 2)
 			{
-				this.actions.shift();
+				queue.actions.shift();
 				action.callback(response.response);
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				if(!this.retry && window.sessionStorage)
+				if(!ActionQueueRetry && window.sessionStorage)
 				{
-					sessionStorage.setItem("ActionQueue", JSON.stringify(this.actions));
+					sessionStorage.setItem("ActionQueue", JSON.stringify(queue.actions.map(serializeAction)));
 					window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login?return-uri=/admin/" + mainPageTab);
 				}
 				else

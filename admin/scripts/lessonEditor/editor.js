@@ -1,6 +1,6 @@
 var changed;
 
-function showLessonEditor(name, body, saveCallback)
+function showLessonEditor(name, body, actionQueue)
 {
 	changed = false;
 	var html = '\
@@ -31,7 +31,7 @@ function showLessonEditor(name, body, saveCallback)
 	refreshPreview(name, body);
 
 	document.getElementById("discard").onclick = editorDiscard;
-	document.getElementById("save").onclick = saveCallback;
+	document.getElementById("save").onclick = actionQueue.dispatch;
 	document.getElementById("addImageButton").onclick = toggleImageSelector;
 
 	var editor = ace.edit("editor");
