@@ -12,7 +12,7 @@ function showLessonSubview(noHistory)
 	{
 		html += "<div class=\"newButton addButton\" id=\"addField\"><i class=\"icon-plus\"></i>Přidat oblast</div>";
 	}
-	html += "<div class=\"button mainPage\" id=\"addLesson\">Přidat lekci</div>";
+	html += "<div class=\"newButton addButton\" id=\"addLesson\"><i class=\"icon-plus\"></i>Přidat lekci</div>";
 	html += renderLessonList();
 	document.getElementById("mainPage").innerHTML = html;
 
@@ -24,6 +24,7 @@ function showLessonSubview(noHistory)
 
 	addOnClicks("changeField", changeFieldOnClick);
 	addOnClicks("deleteField", deleteFieldOnClick);
+	addOnClicks("addLessonInField", addLessonInFieldOnClick);
 	addOnClicks("changeLesson", changeLessonOnClick);
 	addOnClicks("changeLessonField", changeLessonFieldOnClick);
 	addOnClicks("changeLessonCompetences", changeLessonCompetencesOnClick);
@@ -52,6 +53,7 @@ function renderLessonList()
 				html += "<div class=\"newButton editButton changeField\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
 				html += "<div class=\"newButton deleteButton deleteField\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
 			}
+			html += "<div class=\"newButton addButton addLessonInField\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-plus\"></i>Přidat lekci</div>";
 		}
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{

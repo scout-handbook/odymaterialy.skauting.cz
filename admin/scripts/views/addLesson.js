@@ -16,3 +16,8 @@ function addLessonPayloadBuilder()
 {
 	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
 }
+
+function addLessonInFieldOnClick(event)
+{
+	showLessonAddView(event.target.dataset.id);
+}
