@@ -19,5 +19,5 @@ function addLessonPayloadBuilder()
 
 function addLessonInFieldOnClick(event)
 {
-	showLessonAddView(event.target.dataset.id);
+	showLessonAddView(getAttribute(event, "id"));
 }

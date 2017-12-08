@@ -7,7 +7,7 @@ function changeFieldOnClick(event)
 	var html = "";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
-		if(FIELDS[i].id == event.target.dataset.id)
+		if(FIELDS[i].id == getAttribute(event, "id"))
 		{
 			html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeFieldSave\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
 			html += "<input type=\"text\" class=\"formText formName\" id=\"fieldName\" value=\"" + FIELDS[i].name + "\" autocomplete=\"off\">";

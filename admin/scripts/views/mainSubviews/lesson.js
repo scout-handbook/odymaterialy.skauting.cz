@@ -92,12 +92,12 @@ function renderLessonList()
 
 function changeLessonOnClick(event)
 {
-	showLessonEditView(event.target.dataset.id);
+	showLessonEditView(getAttribute(event, "id"));
 	return false;
 }
 
 function exportLessonOnClick(event)
 {
-	window.open("/API/v0.9/lesson/" + event.target.dataset.id + "/pdf")
+	window.open("/API/v0.9/lesson/" + getAttribute(event, "id") + "/pdf")
 	return false;
 }
