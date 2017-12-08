@@ -11,8 +11,11 @@ function showLessonEditor(name, body, actionQueue)
 	<form>\
 		<input type="text" class="formText formName" id="name" value="' + name + '" autocomplete="off">\
 	</form>\
-	<div class="newButton greenButton" id="save" data-id="">\
+	<div class="newButton greenButton" id="save">\
 		<i class="icon-floppy"></i>Uložit\
+	</div>\
+	<div class="newButton" id="lessonSettings">\
+		<i class="icon-cog"></i>Nastavení\
 	</div>\
 </header>\
 <div id="imageSelector">\

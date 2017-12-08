@@ -41,9 +41,9 @@ header
 	margin: 0 20px 20px 20px;
 }
 
-#discard, #save, #addImageButton, #closeImageSelector
+#discard, #save, #lessonSettings, #addImageButton, #closeImageSelector
 {
-	margin-top: 10px
+	margin-top: 10px;
 }
 
 #discard
@@ -52,7 +52,7 @@ header
 	float: left;
 }
 
-#save
+#save, #lessonSettings
 {
 	margin-right: 10px;
 	float: right;
