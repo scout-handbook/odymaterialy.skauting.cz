@@ -5,16 +5,14 @@ function showLessonEditor(name, body, actionQueue)
 	changed = false;
 	var html = '\
 <header>\
-	<div class="button" id="discard">\
-		<i class="icon-cancel"></i>\
-		Zrušit\
+	<div class="newButton yellowButton" id="discard">\
+		<i class="icon-cancel"></i>Zrušit\
 	</div>\
 	<form>\
 		<input type="text" class="formText formName" id="name" value="' + name + '" autocomplete="off">\
 	</form>\
-	<div class="button" id="save" data-id="">\
-		Uložit\
-		<i class="icon-floppy"></i>\
+	<div class="newButton greenButton" id="save" data-id="">\
+		<i class="icon-floppy"></i>Uložit\
 	</div>\
 	<div class="button" id="addImageButton">\
 		Vložit obrázek\

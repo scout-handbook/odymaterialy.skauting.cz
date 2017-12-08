@@ -85,32 +85,42 @@ h2.mainPage, h3.mainPage
 	border-color: #0078e7;
 }
 
-.addButton
+.greenButton
 {
 	background-color: #1cb841;
 }
 
-.addButton:hover
+.greenButton:hover
 {
 	border-color: #1cb841;
 }
 
-.editButton
+.cyanButton
 {
 	background-color: #42b8dd;
 }
 
-.editButton:hover
+.cyanButton:hover
 {
 	border-color: #42b8dd;
 }
 
-.deleteButton
+.yellowButton
+{
+	background-color: #df7514;
+}
+
+.yellowButton:hover
+{
+	border-color: #df7514;
+}
+
+.redButton
 {
 	background-color: #ca3c3c;
 }
 
-.deleteButton:hover
+.redButton:hover
 {
 	border-color: #ca3c3c;
 }
