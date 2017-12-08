@@ -14,16 +14,21 @@ function showLessonEditor(name, body, actionQueue)
 	<div class="newButton greenButton" id="save" data-id="">\
 		<i class="icon-floppy"></i>Uložit\
 	</div>\
-	<div class="button" id="addImageButton">\
-		Vložit obrázek\
-	</div>\
 </header>\
 <div id="imageSelector">\
 	<div id="imageScroller">\
+		<div class="newButton" id="closeImageSelector">\
+			<i class=\"icon-up-open"></i> Zavřít\
+		</div>\
 		<div id="imageWrapper"></div>\
 	</div>\
-</div>'
-	html += '<div id="editor"></div><div id="preview"><div id="preview-inner"></div></div>';
+</div>\
+<div id="editor-bar">\
+	<div class="newButton" id="addImageButton">\
+		<i class="icon-picture"></i> Vložit obrázek\
+	</div>\
+</div>\
+<div id="editor"></div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(name, body);
@@ -31,6 +36,7 @@ function showLessonEditor(name, body, actionQueue)
 	document.getElementById("discard").onclick = editorDiscard;
 	document.getElementById("save").onclick = actionQueue.dispatch;
 	document.getElementById("addImageButton").onclick = toggleImageSelector;
+	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
 
 	var editor = ace.edit("editor");
 	editor.$blockScrolling = Infinity;

@@ -7,16 +7,31 @@ header
 	border-bottom: 1px solid #bfbfbf;
 }
 
-#editor, #preview
+#editor-bar
 {
 	position: absolute;
 	top: 90px;
+	width: 50%;
+	height: 56px;
+	padding-left: 9px;
+	border-bottom: 1px solid #bfbfbf;
+}
+
+#editor, #preview
+{
+	position: absolute;
 	bottom: 0;
 	width: 50%;
 }
 
+#editor
+{
+	top: 147px;
+}
+
 #preview
 {
+	top: 90px;
 	right: 0;
 	overflow-y: auto;
 	border-left: 1px solid #bfbfbf;
@@ -27,7 +42,7 @@ header
 	margin: 0 20px 20px 20px;
 }
 
-#discard, #save, #addImageButton
+#discard, #save, #addImageButton, #closeImageSelector
 {
 	margin-top: 10px
 }
@@ -54,10 +69,9 @@ header
 	float: right;
 }
 
-#addImageButton
+#closeImageSelector
 {
-	margin-right: 20px;
-	float: right;
+	margin-left: 9px;
 }
 
 #name
