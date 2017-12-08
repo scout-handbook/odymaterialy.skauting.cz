@@ -1,4 +1,3 @@
-var changed;
 var imageSelectorOpen = false;
 
 function showLessonEditView(id, noHistory)
@@ -23,7 +22,6 @@ function showLessonEditView(id, noHistory)
 function renderLessonEditView(id, markdown, noHistory)
 {
 	dismissSpinner();
-	changed = false;
 	var lesson = {};
 	outer:
 	for(var i = 0; i < FIELDS.length; i++)
