@@ -13,7 +13,6 @@ header
 	top: 90px;
 	width: 50%;
 	height: 56px;
-	padding-left: 9px;
 	border-bottom: 1px solid #bfbfbf;
 }
 
@@ -47,16 +46,6 @@ header
 	margin-top: 10px
 }
 
-#discard i
-{
-	margin-right: 5px;
-}
-
-#save i
-{
-	margin-left: 5px;
-}
-
 #discard
 {
 	margin-left: 10px;
@@ -69,9 +58,9 @@ header
 	float: right;
 }
 
-#closeImageSelector
+#addImageButton, #closeImageSelector
 {
-	margin-left: 9px;
+	margin-left: 10px;
 }
 
 #name
