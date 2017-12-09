@@ -1,19 +1,20 @@
 var lessonFieldChanged = false;
 
-function changeLessonFieldOnClick(event)
+function changeLessonFieldOnClick(id)
 {
 	lessonFieldChanged = false;
 	sidePanelOpen();
-	var html = "";
+	var html = "<div class=\"newButton yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	var form = "";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
 		var checked = false;
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			if(FIELDS[i].lessons[j].id == event.target.dataset.id)
+			if(FIELDS[i].lessons[j].id == id)
 			{
-				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeLessonFieldSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">"
+				html += "<div class=\"newButton greenButton\" id=\"changeLessonFieldSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div>";
+				html += "<h3 class=\"sidePanelTitle\">Změnit oblast</h3><form id=\"sidePanelForm\">"
 				checked = true;
 				break;
 			}
@@ -45,9 +46,9 @@ function changeLessonFieldOnClick(event)
 	html += form + "</form>";
 	document.getElementById("sidePanel").innerHTML = html;
 
-	document.getElementById("sidePanelCancel").onclick = function()
+	document.getElementById("cancelEditorAction").onclick = function()
 		{
-			history.back();
+			lessonSettings(id);
 		};
 	document.getElementById("changeLessonFieldSave").onclick = changeLessonFieldSave;
 
@@ -60,7 +61,6 @@ function changeLessonFieldOnClick(event)
 			};
 	}
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 	refreshLogin();
 }
 
@@ -72,7 +72,7 @@ function changeLessonFieldSave()
 		var payload = {"field": encodeURIComponent(fieldId)};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("changeLessonFieldSave").dataset.id) + "/field", "PUT", payload);
+		//retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("changeLessonFieldSave").dataset.id) + "/field", "PUT", payload);
 	}
 	else
 	{

@@ -26,7 +26,6 @@ function showLessonSubview(noHistory)
 	addOnClicks("deleteField", deleteFieldOnClick);
 	addOnClicks("addLessonInField", addLessonInFieldOnClick);
 	addOnClicks("changeLesson", changeLessonOnClick);
-	addOnClicks("changeLessonField", changeLessonFieldOnClick);
 	addOnClicks("changeLessonCompetences", changeLessonCompetencesOnClick);
 	addOnClicks("deleteLesson", deleteLessonOnClick);
 	addOnClicks("exportLesson", exportLessonOnClick);
@@ -82,7 +81,6 @@ function renderLessonList()
 				}
 				html += "</span><br>";
 			}
-			html += "<div class=\"button mainPage changeLessonField\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změň oblast</div>";
 			html += "<div class=\"button mainPage changeLessonCompetences\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Změň kompetence</div>";
 			html += "<div class=\"button mainPage changeLessonGroups\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Publikuj</div>";
 		}

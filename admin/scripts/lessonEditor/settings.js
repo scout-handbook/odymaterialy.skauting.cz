@@ -9,6 +9,7 @@ function lessonSettings(id)
 		{
 			history.back();
 		};
+	document.getElementById("changeField").onclick = function() {changeLessonFieldOnClick(id);};
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 	refreshLogin();
 }
@@ -16,7 +17,7 @@ function lessonSettings(id)
 function renderField(id)
 {
 	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Oblast</h3>"
-	html += "<div class=\"newButton cyanButton changeField\" data-id=\"" + id + "\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
+	html += "<div class=\"newButton cyanButton\" id=\"changeField\" data-id=\"" + id + "\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
 	outer:
 	for(var i = 0; i < FIELDS.length; i++)
 	{
