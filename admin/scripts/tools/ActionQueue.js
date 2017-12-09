@@ -5,7 +5,7 @@ function Action(url, method, payloadBuilder, callback)
 	this.url = url;
 	this.method = method;
 	this.payloadBuilder = typeof payloadBuilder !== 'undefined' ? payloadBuilder : function(){return {};};
-	this.callback = typeof callback !== 'undefinded' ? callback : function(){};
+	this.callback = typeof callback !== 'undefined' ? callback : function(){};
 
 	this.fillID = function(id)
 		{

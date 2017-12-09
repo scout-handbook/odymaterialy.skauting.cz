@@ -38,8 +38,8 @@ function showLessonEditor(name, body, actionQueue, id)
 	refreshPreview(name, body);
 
 	document.getElementById("discard").onclick = editorDiscard;
-	document.getElementById("save").onclick = actionQueue.dispatch;
-	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id);};
+	document.getElementById("save").onclick = function() {actionQueue.addDefaultCallback(); actionQueue.dispatch();};
+	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id, actionQueue);};
 	document.getElementById("addImageButton").onclick = toggleImageSelector;
 	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
 

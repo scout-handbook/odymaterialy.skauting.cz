@@ -1,6 +1,6 @@
 var lessonFieldChanged = false;
 
-function changeLessonFieldOnClick(id)
+function changeLessonFieldOnClick(id, actionQueue)
 {
 	lessonFieldChanged = false;
 	sidePanelOpen();
@@ -48,9 +48,9 @@ function changeLessonFieldOnClick(id)
 
 	document.getElementById("cancelEditorAction").onclick = function()
 		{
-			lessonSettings(id);
+			lessonSettings(id, actionQueue, true);
 		};
-	document.getElementById("changeLessonFieldSave").onclick = changeLessonFieldSave;
+	document.getElementById("changeLessonFieldSave").onclick = function() {changeLessonFieldSave(id, actionQueue);};
 
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
@@ -64,15 +64,14 @@ function changeLessonFieldOnClick(id)
 	refreshLogin();
 }
 
-function changeLessonFieldSave()
+function changeLessonFieldSave(id, actionQueue)
 {
 	if(lessonFieldChanged)
 	{
 		var fieldId = parseBoolForm()[0];
-		var payload = {"field": encodeURIComponent(fieldId)};
-		sidePanelClose();
-		spinner();
-		//retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("changeLessonFieldSave").dataset.id) + "/field", "PUT", payload);
+		id = typeof id !== 'undefined' ? id : "{id}";
+		actionQueue.actions.push(new Action("/API/v0.9/lesson/" + id + "/field", "PUT", function() {return {"field": encodeURIComponent(fieldId)};}));
+		lessonSettings(id, actionQueue, true);
 	}
 	else
 	{

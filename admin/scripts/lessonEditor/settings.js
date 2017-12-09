@@ -1,4 +1,4 @@
-function lessonSettings(id)
+function lessonSettings(id, actionQueue, noHistory)
 {
 	sidePanelOpen();
 	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-right-open\"></i>Zavřít</div>";
@@ -9,8 +9,11 @@ function lessonSettings(id)
 		{
 			history.back();
 		};
-	document.getElementById("changeField").onclick = function() {changeLessonFieldOnClick(id);};
-	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
+	document.getElementById("changeField").onclick = function() {changeLessonFieldOnClick(id, actionQueue);};
+	if(!noHistory)
+	{
+		history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
+	}
 	refreshLogin();
 }
 
