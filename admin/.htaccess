@@ -42,6 +42,7 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/scripts/lessonEditor/editor.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/lessonEditor/imageSelector.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/lessonEditor/refreshPreview.js>;rel=preload;as=script"
+	Header add Link "</admin/scripts/lessonEditor/settings.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/tools/ActionQueue.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/tools/addOnClicks.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/tools/parseBoolForm.js>;rel=preload;as=script"

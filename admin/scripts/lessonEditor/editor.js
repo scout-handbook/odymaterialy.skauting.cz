@@ -4,6 +4,7 @@ function showLessonEditor(name, body, actionQueue)
 {
 	changed = false;
 	var html = '\
+<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>\
 <header>\
 	<div class="newButton yellowButton" id="discard">\
 		<i class="icon-cancel"></i>Zrušit\
@@ -38,6 +39,7 @@ function showLessonEditor(name, body, actionQueue)
 
 	document.getElementById("discard").onclick = editorDiscard;
 	document.getElementById("save").onclick = actionQueue.dispatch;
+	document.getElementById("lessonSettings").onclick = lessonSettings;
 	document.getElementById("addImageButton").onclick = toggleImageSelector;
 	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
 
