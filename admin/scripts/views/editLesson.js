@@ -43,7 +43,7 @@ function renderLessonEditView(id, markdown, noHistory)
 
 	aq = new ActionQueue([new Action("/API/v0.9/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder)]);
 	aq.addDefaultCallback();
-	showLessonEditor(lesson.name, markdown, aq);
+	showLessonEditor(lesson.name, markdown, aq, id);
 	document.getElementById("save").dataset.id = id;
 }
 

@@ -1,6 +1,6 @@
 var changed;
 
-function showLessonEditor(name, body, actionQueue)
+function showLessonEditor(name, body, actionQueue, id)
 {
 	changed = false;
 	var html = '\
@@ -21,7 +21,7 @@ function showLessonEditor(name, body, actionQueue)
 </header>\
 <div id="imageSelector">\
 	<div id="imageScroller">\
-		<div class="newButton" id="closeImageSelector">\
+		<div class="newButton yellowButton" id="closeImageSelector">\
 			<i class=\"icon-up-open"></i> Zavřít\
 		</div>\
 		<div id="imageWrapper"></div>\
@@ -39,7 +39,7 @@ function showLessonEditor(name, body, actionQueue)
 
 	document.getElementById("discard").onclick = editorDiscard;
 	document.getElementById("save").onclick = actionQueue.dispatch;
-	document.getElementById("lessonSettings").onclick = lessonSettings;
+	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id);};
 	document.getElementById("addImageButton").onclick = toggleImageSelector;
 	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
 
