@@ -4,48 +4,40 @@ function changeLessonFieldOnClick(id, actionQueue)
 {
 	lessonFieldChanged = false;
 	var html = "<div class=\"newButton yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div>";
-	var form = "";
+	html += "<div class=\"newButton greenButton\" id=\"changeLessonFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	html += "<h3 class=\"sidePanelTitle\">Změnit oblast</h3><form id=\"sidePanelForm\">"
 	for(var i = 0; i < FIELDS.length; i++)
 	{
-		for(var j = 0; j < FIELDS[i].lessons.length; j++)
-		{
-			if(FIELDS[i].lessons[j].id == id)
-			{
-				html += "<div class=\"newButton greenButton\" id=\"changeLessonFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
-				html += "<h3 class=\"sidePanelTitle\">Změnit oblast</h3><form id=\"sidePanelForm\">"
-				break;
-			}
-		}
 		var checked = false;
 		if((FIELDS[i].id && FIELDS[i].id == lessonSettingsCache.field) || (!FIELDS[i].id && lessonSettingsCache.field == ""))
 		{
 			checked = true;
 		}
-		form += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"field\"";
+		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"field\"";
 		if(checked)
 		{
-			form += " checked";
+			html += " checked";
 		}
 		if(FIELDS[i].id)
 		{
-			form += " data-id=\"" + FIELDS[i].id + "\"";
+			html += " data-id=\"" + FIELDS[i].id + "\"";
 		}
 		else
 		{
-			form += " data-id=\"\"";
+			html += " data-id=\"\"";
 		}
-		form += "><span class=\"formCustom formRadio\"></span></label>";
+		html += "><span class=\"formCustom formRadio\"></span></label>";
 		if(FIELDS[i].id)
 		{
-			form += FIELDS[i].name;
+			html += FIELDS[i].name;
 		}
 		else
 		{
-			form += "<span class=\"anonymousField\">Nezařazeno</span>"
+			html += "<span class=\"anonymousField\">Nezařazeno</span>"
 		}
-		form += "</div>";
+		html += "</div>";
 	}
-	html += form + "</form>";
+	html += "</form>";
 	document.getElementById("sidePanel").innerHTML = html;
 
 	document.getElementById("cancelEditorAction").onclick = function()

@@ -86,40 +86,50 @@ function editorDiscard()
 function populateEditorCache(id)
 {
 	lessonSettingsCacheEvent = new AfterLoadEvent(1);
-	request("/API/v0.9/lesson/" + id + "/group", "GET", {}, function(response)
-		{
-			if(response.status === 200)
-			{
-				lessonSettingsCache["groups"] = response.response;
-				lessonSettingsCacheEvent.trigger();
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
-	outer:
-	for(var i = 0; i < FIELDS.length; i++)
+	if(id)
 	{
-		for(var j = 0; j < FIELDS[i].lessons.length; j++)
-		{
-			if(FIELDS[i].lessons[j].id == id)
+		request("/API/v0.9/lesson/" + id + "/group", "GET", {}, function(response)
 			{
-				if(FIELDS[i].id)
+				if(response.status === 200)
 				{
-					lessonSettingsCache["field"] = FIELDS[i].id;
+					lessonSettingsCache["groups"] = response.response;
+					lessonSettingsCacheEvent.trigger();
+				}
+				else if(response.type === "AuthenticationException")
+				{
+					window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
 				}
 				else
 				{
-					lessonSettingsCache["field"] = "";
+					dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 				}
-				lessonSettingsCache["competences"] = FIELDS[i].lessons[j].competences;
-				break outer;
+			});
+		outer:
+		for(var i = 0; i < FIELDS.length; i++)
+		{
+			for(var j = 0; j < FIELDS[i].lessons.length; j++)
+			{
+				if(FIELDS[i].lessons[j].id == id)
+				{
+					if(FIELDS[i].id)
+					{
+						lessonSettingsCache["field"] = FIELDS[i].id;
+					}
+					else
+					{
+						lessonSettingsCache["field"] = "";
+					}
+					lessonSettingsCache["competences"] = FIELDS[i].lessons[j].competences;
+					break outer;
+				}
 			}
 		}
+	}
+	else
+	{
+		lessonSettingsCache["field"] = "";
+		lessonSettingsCache["competences"] = [];
+		lessonSettingsCache["groups"] = [];
+		lessonSettingsCacheEvent.trigger();
 	}
 }
