@@ -8,16 +8,19 @@ function changeLessonFieldOnClick(id, actionQueue)
 	var form = "";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
-		var checked = false;
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
 			if(FIELDS[i].lessons[j].id == id)
 			{
 				html += "<div class=\"newButton greenButton\" id=\"changeLessonFieldSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div>";
 				html += "<h3 class=\"sidePanelTitle\">Změnit oblast</h3><form id=\"sidePanelForm\">"
-				checked = true;
 				break;
 			}
+		}
+		var checked = false;
+		if((FIELDS[i].id && FIELDS[i].id == lessonSettingsCache.field) || (!FIELDS[i].id && lessonSettingsCache.field == ""))
+		{
+			checked = true;
 		}
 		form += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"field\"";
 		if(checked)
@@ -71,6 +74,7 @@ function changeLessonFieldSave(id, actionQueue)
 		var fieldId = parseBoolForm()[0];
 		id = typeof id !== 'undefined' ? id : "{id}";
 		actionQueue.actions.push(new Action("/API/v0.9/lesson/" + id + "/field", "PUT", function() {return {"field": encodeURIComponent(fieldId)};}));
+		lessonSettingsCache.field = fieldId;
 		lessonSettings(id, actionQueue, true);
 	}
 	else

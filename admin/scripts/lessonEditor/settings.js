@@ -2,7 +2,7 @@ function lessonSettings(id, actionQueue, noHistory)
 {
 	sidePanelOpen();
 	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-right-open\"></i>Zavřít</div>";
-	html += renderField(id);
+	html += renderField();
 	document.getElementById("sidePanel").innerHTML = html;
 
 	document.getElementById("sidePanelCancel").onclick = function()
@@ -17,10 +17,30 @@ function lessonSettings(id, actionQueue, noHistory)
 	refreshLogin();
 }
 
-function renderField(id)
+function renderField()
 {
 	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Oblast</h3>"
-	html += "<div class=\"newButton cyanButton\" id=\"changeField\" data-id=\"" + id + "\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
+	html += "<div class=\"newButton cyanButton\" id=\"changeField\" data-id=\"" + lessonSettingsCache.field + "\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
+	if(lessonSettingsCache.field == "")
+	{
+		html += "<span class=\"anonymousField\">Nezařazeno</span>"
+	}
+	else
+	{
+		for(var i = 0; i < FIELDS.length; i++)
+		{
+			if(FIELDS[i].id && FIELDS[i].id == lessonSettingsCache.field)
+			{
+				html += FIELDS[i].name;
+				break;
+			}
+		}
+	}
+	return html;
+}
+
+function populateEditorCache(id)
+{
 	outer:
 	for(var i = 0; i < FIELDS.length; i++)
 	{
@@ -30,15 +50,14 @@ function renderField(id)
 			{
 				if(FIELDS[i].id)
 				{
-					html += FIELDS[i].name;
+					lessonSettingsCache["field"] = FIELDS[i].id;
 				}
 				else
 				{
-					html += "<span class=\"anonymousField\">Nezařazeno</span>"
+					lessonSettingsCache["field"] = "";
 				}
 				break outer;
 			}
 		}
 	}
-	return html;
 }

@@ -1,7 +1,9 @@
 var changed;
+var lessonSettingsCache = {};
 
 function showLessonEditor(name, body, actionQueue, id)
 {
+	populateEditorCache(id);
 	changed = false;
 	var html = '\
 <div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>\
