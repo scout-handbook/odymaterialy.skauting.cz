@@ -1,58 +1,27 @@
 var lessonGroupsChanged = false;
 
-function changeLessonGroupsOnClick(event)
+function changeLessonGroupsOnClick(id, actionQueue)
 {
 	lessonGroupsChanged = false;
-	sidePanelOpen();
-	var html = "";
+	var html = "<div class=\"newButton yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	outer:
 	for(var i = 0; i < FIELDS.length; i++)
 	{
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			if(FIELDS[i].lessons[j].id == event.target.dataset.id)
+			if(FIELDS[i].lessons[j].id == id)
 			{
-				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeLessonGroupsSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div>";
+				html += "<div class=\"newButton greenButton\" id=\"changeLessonGroupsSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+				html += "<h3 class=\"sidePanelTitle\">Změnit skupiny</h3><form id=\"sidePanelForm\">";
 				break outer;
 			}
 		}
 	}
-	html += "<div id=\"groupList\"><div id=\"embeddedSpinner\"></div></div>";
-	document.getElementById("sidePanel").innerHTML = html;
-	document.getElementById("sidePanelCancel").onclick = function()
-		{
-			history.back();
-		};
-	document.getElementById("changeLessonGroupsSave").onclick = changeLessonGroupsSave;
-
-	request("/API/v0.9/lesson/" + event.target.dataset.id + "/group", "GET", {}, function(response)
-		{
-			if(response.status === 200)
-			{
-				changeLessonGroupsRender(response.response);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
-
-	history.pushState({}, "title", "/admin/lessons");
-	refreshLogin();
-}
-
-function changeLessonGroupsRender(currentGroups)
-{
-	var html = "<form id=\"sidePanelForm\">";
 	var publicName = ''
 	for(var i = 0; i < GROUPS.length; i++)
 	{
 		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"checkbox\"";
-		if(currentGroups.indexOf(GROUPS[i].id) >= 0)
+		if(lessonSettingsCache.groups.indexOf(GROUPS[i].id) >= 0)
 		{
 			html += " checked";
 		}
@@ -70,7 +39,13 @@ function changeLessonGroupsRender(currentGroups)
 	}
 	html += "</form>";
 	html += "<div class=\"groupHelp\"><i class=\"icon-info-circled\"></i> U každé lekce lze zvolit, kteří uživatelé ji budou moct zobrazit (resp. které skupiny uživatelů). Pokud není vybrána žádná skupiny, nebude lekce pro běžné uživatele vůbec přístupná (pouze v administraci). Pokud je vybrána skupina \"<span class=\"publicGroup\">" + publicName + "</span>\", bude lekce přístupná všem uživatelům (i nepřihlášeným návštěvníkům webu) bez ohledu na skupiny.</div>";
-	document.getElementById("groupList").innerHTML = html;
+	document.getElementById("sidePanel").innerHTML = html;
+
+	document.getElementById("cancelEditorAction").onclick = function()
+		{
+			lessonSettings(id, actionQueue, true);
+		};
+	document.getElementById("changeLessonGroupsSave").onclick = function() {changeLessonGroupsSave(id, actionQueue);};
 
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
@@ -80,25 +55,27 @@ function changeLessonGroupsRender(currentGroups)
 				lessonGroupsChanged = true;
 			};
 	}
+
+	refreshLogin();
 }
 
-function changeLessonGroupsSave()
+function changeLessonGroupsSave(id, actionQueue)
 {
 	if(lessonGroupsChanged)
 	{
+		id = typeof id !== 'undefined' ? id : "{id}";
 		var groups = parseBoolForm();
 		var encodedGroups = [];
 		for(i = 0; i < groups.length; i++)
 		{
 			encodedGroups.push(encodeURIComponent(groups[i]));
 		}
-		var payload = {"group": encodedGroups};
-		sidePanelClose();
-		spinner();
-		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("changeLessonGroupsSave").dataset.id) + "/group", "PUT", payload);
+		actionQueue.actions.push(new Action("/API/v0.9/lesson/" + id + "/group", "PUT", function () {return {"group": encodedGroups};}));
+		lessonSettingsCache.groups = groups;
+		lessonSettings(id, actionQueue, true);
 	}
 	else
 	{
-		history.back();
+		lessonSettings(id, actionQueue, true);
 	}
 }

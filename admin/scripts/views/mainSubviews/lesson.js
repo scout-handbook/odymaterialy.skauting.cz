@@ -28,7 +28,6 @@ function showLessonSubview(noHistory)
 	addOnClicks("changeLesson", changeLessonOnClick);
 	addOnClicks("deleteLesson", deleteLessonOnClick);
 	addOnClicks("exportLesson", exportLessonOnClick);
-	addOnClicks("changeLessonGroups", changeLessonGroupsOnClick);
 	if(!noHistory)
 	{
 		history.pushState({"page": "lessons"}, "title", "/admin/lessons");
@@ -79,8 +78,7 @@ function renderLessonList()
 					html += ", " + competences[m].number;
 				}
 			}
-			html += "</span><br>";
-			html += "<div class=\"button mainPage changeLessonGroups\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Publikuj</div>";
+			html += "</span>";
 		}
 	}
 	return html;

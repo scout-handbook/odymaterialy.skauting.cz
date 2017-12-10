@@ -14,6 +14,7 @@ function lessonSettings(id, actionQueue, noHistory)
 		};
 	document.getElementById("changeField").onclick = function() {changeLessonFieldOnClick(id, actionQueue);};
 	document.getElementById("changeCompetences").onclick = function() {changeLessonCompetencesOnClick(id, actionQueue);};
+	document.getElementById("changeGroups").onclick = function() {changeLessonGroupsOnClick(id, actionQueue);};
 	if(!noHistory)
 	{
 		history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
