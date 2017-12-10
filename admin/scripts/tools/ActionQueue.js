@@ -77,8 +77,7 @@ function ActionQueue(actions, retry)
 			spinner();
 			request(queue.actions[0].url, queue.actions[0].method, queue.actions[0].payloadBuilder(), function(response)
 				{
-					queue.after(response, queue.actions[0]);
-					if(propagate)
+					if(queue.after(response, queue.actions[0]) && propagate)
 					{
 						queue.pop(true);
 					}
@@ -103,6 +102,7 @@ function ActionQueue(actions, retry)
 				{
 					sessionStorage.setItem("ActionQueue", JSON.stringify(queue.actions.map(serializeAction)));
 					window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login?return-uri=/admin/" + mainPageTab);
+					return false;
 				}
 				else
 				{
@@ -117,5 +117,6 @@ function ActionQueue(actions, retry)
 			{
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
+			return true;
 		};
 }
