@@ -4,6 +4,7 @@ function lessonSettings(id, actionQueue, noHistory)
 	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-right-open\"></i>Zavřít</div>";
 	html += renderField();
 	html += renderCompetences();
+	html += renderGroups(); // TODO: ALE
 	document.getElementById("sidePanel").innerHTML = html;
 
 	document.getElementById("sidePanelCancel").onclick = function()
@@ -55,8 +56,46 @@ function renderCompetences()
 	return html;
 }
 
+function renderGroups()
+{
+	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Publikováno ve skupinách</h3>"
+	html += /*"<div class=\"newButton cyanButton\" id=\"changeGroups\"><i class=\"icon-pencil\"></i>Upravit</div>*/"<br>";
+	for(var i = 0; i < GROUPS.length; i++)
+	{
+		if(lessonSettingsCache.groups.indexOf(GROUPS[i].id) >= 0)
+		{
+			if(GROUPS[i].id == "00000000-0000-0000-0000-000000000000")
+			{
+				html += "<span class=\"publicGroup\">" + GROUPS[i].name + "</span><br>";
+			}
+			else
+			{
+				html += GROUPS[i].name + "<br>";
+			}
+		}
+	}
+	return html;
+}
+
 function populateEditorCache(id)
 {
+	lessonSettingsCacheEvent = new AfterLoadEvent(1);
+	request("/API/v0.9/lesson/" + id + "/group", "GET", {}, function(response)
+		{
+			if(response.status === 200)
+			{
+				lessonSettingsCache["groups"] = response.response;
+				lessonSettingsCacheEvent.trigger();
+			}
+			else if(response.type === "AuthenticationException")
+			{
+				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
+			}
+		});
 	outer:
 	for(var i = 0; i < FIELDS.length; i++)
 	{

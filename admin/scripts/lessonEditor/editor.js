@@ -1,5 +1,6 @@
 var changed;
 var lessonSettingsCache = {};
+var lessonSettingsCacheEvent;
 
 function showLessonEditor(name, body, actionQueue, id)
 {
