@@ -3,7 +3,6 @@ var lessonFieldChanged = false;
 function changeLessonFieldOnClick(id, actionQueue)
 {
 	lessonFieldChanged = false;
-	sidePanelOpen();
 	var html = "<div class=\"newButton yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	var form = "";
 	for(var i = 0; i < FIELDS.length; i++)
@@ -12,7 +11,7 @@ function changeLessonFieldOnClick(id, actionQueue)
 		{
 			if(FIELDS[i].lessons[j].id == id)
 			{
-				html += "<div class=\"newButton greenButton\" id=\"changeLessonFieldSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div>";
+				html += "<div class=\"newButton greenButton\" id=\"changeLessonFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
 				html += "<h3 class=\"sidePanelTitle\">Změnit oblast</h3><form id=\"sidePanelForm\">"
 				break;
 			}
@@ -71,14 +70,14 @@ function changeLessonFieldSave(id, actionQueue)
 {
 	if(lessonFieldChanged)
 	{
-		var fieldId = parseBoolForm()[0];
 		id = typeof id !== 'undefined' ? id : "{id}";
+		var fieldId = parseBoolForm()[0];
 		actionQueue.actions.push(new Action("/API/v0.9/lesson/" + id + "/field", "PUT", function() {return {"field": encodeURIComponent(fieldId)};}));
 		lessonSettingsCache.field = fieldId;
 		lessonSettings(id, actionQueue, true);
 	}
 	else
 	{
-		history.back();
+		lessonSettings(id, actionQueue, true);
 	}
 }
