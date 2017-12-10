@@ -68,27 +68,26 @@ function ActionQueue(actions, retry)
 				};
 		};
 
-	this.pop = function()
+	this.pop = function(propagate)
 		{
+			if(queue.actions.length <= 1)
+			{
+				propagate = false;
+			}
 			spinner();
 			request(queue.actions[0].url, queue.actions[0].method, queue.actions[0].payloadBuilder(), function(response)
 				{
 					queue.after(response, queue.actions[0]);
+					if(propagate)
+					{
+						queue.pop(true);
+					}
 				});
 		};
 
 	this.dispatch = function()
 		{
-			for(var i = 0; i < queue.actions.length - 1; i++)
-			{
-				var callback = queue.actions[i].callback;
-				queue.actions[i].callback = function(response)
-					{
-						callback(response);
-						queue.pop();
-					};
-			}
-			queue.pop();
+			queue.pop(true);
 		};
 
 	this.after = function(response, action)

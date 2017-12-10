@@ -6,8 +6,8 @@ function showLessonAddView(field)
 	if(field)
 	{
 		aq.actions.push(new Action("/API/v0.9/lesson/{id}/field", "PUT", function() {return {"field": encodeURIComponent(field)};}))
-		aq.actions[0].callback = function(response) {aq.fillID(response)}
 	}
+	aq.actions[0].callback = function(response) {aq.fillID(response)}
 	showLessonEditor(defaultName, defaultBody, aq);
 }
 
