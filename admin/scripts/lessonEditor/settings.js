@@ -4,8 +4,9 @@ function lessonSettings(id, actionQueue, noHistory)
 	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-right-open\"></i>Zavřít</div>";
 	html += renderField();
 	html += renderCompetences();
-	html += renderGroups(); // TODO: ALE
+	html += prerenderGroups();
 	document.getElementById("sidePanel").innerHTML = html;
+	lessonSettingsCacheEvent.addCallback(renderGroups);
 
 	document.getElementById("sidePanelCancel").onclick = function()
 		{
@@ -56,10 +57,17 @@ function renderCompetences()
 	return html;
 }
 
-function renderGroups()
+function prerenderGroups()
 {
 	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Publikováno ve skupinách</h3>"
-	html += /*"<div class=\"newButton cyanButton\" id=\"changeGroups\"><i class=\"icon-pencil\"></i>Upravit</div>*/"<br>";
+	html += "<div class=\"newButton cyanButton\" id=\"changeGroups\"><i class=\"icon-pencil\"></i>Upravit</div><br><div id=\"settingsGroupList\"><div id=\"embeddedSpinner\"></div></div>";
+	return html;
+}
+
+function renderGroups()
+{
+	document.getElementById("changeGroups").style.display = "inline-block";
+	var html = "";
 	for(var i = 0; i < GROUPS.length; i++)
 	{
 		if(lessonSettingsCache.groups.indexOf(GROUPS[i].id) >= 0)
@@ -74,7 +82,7 @@ function renderGroups()
 			}
 		}
 	}
-	return html;
+	document.getElementById("settingsGroupList").innerHTML = html;
 }
 
 function populateEditorCache(id)
