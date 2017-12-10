@@ -62,7 +62,7 @@ function renderLessonList()
 				html += "<div class=\"newButton redButton deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
 			}
 			html += "<div class=\"newButton exportLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-file-pdf\"></i>PDF</div>";
-			html += "<br>"
+			html += "<br><span class=\"mainPage" + secondLevel + "\">Kompetence: ";
 			if(FIELDS[i].lessons[j].competences.length > 0)
 			{
 				var competences = [];
@@ -73,13 +73,13 @@ function renderLessonList()
 						competences.push(COMPETENCES[k]);
 					}
 				}
-				html += "<span class=\"mainPage" + secondLevel + "\">Kompetence: " + competences[0].number;
+				html += competences[0].number;
 				for(var m = 1; m < competences.length; m++)
 				{
 					html += ", " + competences[m].number;
 				}
-				html += "</span><br>";
 			}
+			html += "</span><br>";
 			html += "<div class=\"button mainPage changeLessonGroups\" data-id=\"" + FIELDS[i].lessons[j].id + "\">Publikuj</div>";
 		}
 	}
