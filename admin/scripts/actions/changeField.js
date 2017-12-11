@@ -4,12 +4,13 @@ function changeFieldOnClick(event)
 {
 	fieldChanged = false;
 	sidePanelOpen();
-	var html = "";
+	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"newButton greenButton\" id=\"changeFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	html += "<h3 class=\"sidePanelTitle\">Upravit oblast</h3>";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
 		if(FIELDS[i].id == getAttribute(event, "id"))
 		{
-			html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeFieldSave\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
 			html += "<input type=\"text\" class=\"formText formName\" id=\"fieldName\" value=\"" + FIELDS[i].name + "\" autocomplete=\"off\">";
 			break;
 		}
@@ -21,7 +22,7 @@ function changeFieldOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeFieldSave").onclick = changeFieldSave;
+	document.getElementById("changeFieldSave").onclick = function() {changeFieldSave(getAttribute(event, "id"));};
 
 	document.getElementById("fieldName").oninput = function()
 		{
@@ -36,14 +37,14 @@ function changeFieldOnClick(event)
 	refreshLogin();
 }
 
-function changeFieldSave()
+function changeFieldSave(id)
 {
 	if(fieldChanged)
 	{
 		var payload = {"name": encodeURIComponent(document.getElementById("fieldName").value)};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/field/" + encodeURIComponent(document.getElementById("changeFieldSave").dataset.id), "PUT", payload);
+		retryAction("/API/v0.9/field/" + encodeURIComponent(id), "PUT", payload);
 	}
 	else
 	{
