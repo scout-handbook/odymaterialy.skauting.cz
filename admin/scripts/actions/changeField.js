@@ -6,7 +6,8 @@ function changeFieldOnClick(event)
 	sidePanelOpen();
 	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	html += "<div class=\"newButton greenButton\" id=\"changeFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
-	html += "<h3 class=\"sidePanelTitle\">Upravit oblast</h3>";
+	html += "<h3 class=\"sidePanelTitle\">Upravit oblast</h3><form id=\"sidePanelForm\">";
+	html += "<legend for=\"fieldName\">Název:</legend>";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
 		if(FIELDS[i].id == getAttribute(event, "id"))

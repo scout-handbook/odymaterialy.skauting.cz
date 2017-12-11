@@ -60,7 +60,7 @@ function renderCompetences()
 
 function prerenderGroups()
 {
-	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Publikováno ve skupinách</h3>"
+	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Skupiny</h3>"
 	html += "<div class=\"newButton cyanButton\" id=\"changeGroups\"><i class=\"icon-pencil\"></i>Upravit</div><br><div id=\"settingsGroupList\"><div id=\"embeddedSpinner\"></div></div>";
 	return html;
 }
