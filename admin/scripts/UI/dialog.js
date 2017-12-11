@@ -4,7 +4,7 @@ function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCall
 	document.getElementById("overlay").style.display = "inline";
 	document.getElementById("dialog").style.display = "block";
 	document.getElementById("dialogText").innerHTML = mainText;
-	document.getElementById("confirmText").innerHTML = confirmText;
+	document.getElementById("confirmText").innerHTML = "<i class=\"icon-ok\"></i>" + confirmText;
 	var confirmCallbackWrapped;
 	if(confirmCallback)
 	{
@@ -22,7 +22,7 @@ function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCall
 	if(dismissText)
 	{
 		document.getElementById("dismissText").style.display = "inline";
-		document.getElementById("dismissText").innerHTML = dismissText;
+		document.getElementById("dismissText").innerHTML = "<i class=\"icon-cancel\"></i>" + dismissText;
 		var dismissCallbackWrapped;
 		if(dismissCallback)
 		{

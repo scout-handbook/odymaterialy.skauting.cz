@@ -78,7 +78,7 @@ function editorDiscard()
 		dialog("Opravdu si přejete zahodit všechny změny?", "Ano", function()
 			{
 				history.back();
-			}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;");
+			}, "Ne");
 	}
 	refreshLogin();
 }

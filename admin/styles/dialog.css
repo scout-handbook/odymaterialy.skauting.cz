@@ -28,12 +28,12 @@
 {
 	position: absolute;
 	bottom: 30px;
-	right: 30px;
+	right: 10px;
 }
 
 #dismissText
 {
-	right: 110px;
+	right: 100px;
 	display: none;
 }
 
