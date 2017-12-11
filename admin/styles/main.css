@@ -24,6 +24,11 @@ main
 	margin: 0 auto;
 }
 
+#addField, #addLesson
+{
+	margin-bottom: -19px;
+}
+
 h2.mainPage, h3.mainPage, .noNewline
 {
 	display: inline-block;
@@ -71,6 +76,8 @@ h2.mainPage, h3.mainPage, .noNewline
 	line-height: 35px;
 	text-align: center;
 	border: 1px solid #ffffff;
+	border: 1px solid rgba(255, 255, 255, 0);
+	background-clip: padding-box;
 	background-color: #0078e7;
 	color: #ffffff;
 	border-radius: 5px;
