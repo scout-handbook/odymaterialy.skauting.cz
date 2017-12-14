@@ -8,7 +8,7 @@ function showImageSubview(noHistory)
 	}
 	document.getElementById("imageManager").className += " activeTopBarTab";
 	var html = "<h1>OdyMateriály - Obrázky</h1>";
-	html += "<div class=\"button mainPage\" id=\"addImage\">Nahrát obrázek</div>";
+	html += "<div class=\"newButton greenButton\" id=\"addImage\"><i class=\"icon-plus\"></i>Nahrát</div>";
 	html += "<div id=\"imageList\"></div>";
 	document.getElementById("mainPage").innerHTML = html;
 
@@ -59,7 +59,7 @@ function showImageList(list, page, perPage)
 	var start = perPage * (page - 1);
 	for(var i = start; i < Math.min(list.length, start + perPage); i++)
 	{
-		html += "<div class=\"thumbnailContainer\"><img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"><div class=\"button mainPage deleteImage\" data-id=\"" + list[i] + "\">Smazat</div></div>";
+		html += "<div class=\"thumbnailContainer\"><div class=\"buttonContainer\"><img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"><div class=\"newButton redButton deleteImage\" data-id=\"" + list[i] + "\"><i class=\"icon-trash-empty\"></i>Smazat</div></div></div>";
 	}
 	html += renderPagination(Math.ceil(list.length / perPage), page);
 	document.getElementById("imageList").innerHTML = html;

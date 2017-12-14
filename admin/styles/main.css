@@ -312,14 +312,24 @@ h2.mainPage, h3.mainPage, .noNewline
 
 .thumbnailContainer
 {
-	display: inline;
+	display: inline-block;
+	width: 256px;
+	text-align: center;
+	margin-top: 50px;
 	position: relative;
+}
+
+.buttonContainer
+{
+	position: relative;
+	width: fit-content;
+	display: inline-block;
 }
 
 .thumbnailImage
 {
-	margin-top: 50px;
 	cursor: pointer;
+	vertical-align: middle;
 	transform: scale(0.9);
 	transition: transform ease 0.15s;
 }
@@ -332,8 +342,10 @@ h2.mainPage, h3.mainPage, .noNewline
 .deleteImage
 {
 	position: absolute;
-	right: -2px;
-	bottom: 18px;
+	right: 4%;
+	bottom: 5%;
+	margin-right: 9px;
+	margin-bottom: 6px;
 }
 
 .previewImage

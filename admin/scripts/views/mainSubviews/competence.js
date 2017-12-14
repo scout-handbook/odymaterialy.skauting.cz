@@ -10,7 +10,7 @@ function showCompetenceSubview(noHistory)
 	var html = "<h1>OdyMateriály - Kompetence</h1>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
-		html += "<div class=\"newButton greenButton\" id=\"addCompetence\"><i class=\"icon-plus\"></i>Přidat kompetenci</div>";
+		html += "<div class=\"newButton greenButton\" id=\"addCompetence\"><i class=\"icon-plus\"></i>Přidat</div><br>";
 	}
 	html += renderCompetenceList()
 	document.getElementById("mainPage").innerHTML = html;
