@@ -236,6 +236,11 @@ h2.mainPage, h3.mainPage, .noNewline
 	background-color: #f5f5f5;
 }
 
+.changeCompetence, .deleteCompetence
+{
+	margin-bottom: 0;
+}
+
 .userTable
 {
 	border: none;
