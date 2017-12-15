@@ -4,12 +4,13 @@ function changeGroupOnClick(event)
 {
 	groupChanged = false;
 	sidePanelOpen();
-	var html = "";
+	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"newButton greenButton\" id=\"changeGroupSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	html += "<h3 class=\"sidePanelTitle\">Upravit skupinu</h3><form id=\"sidePanelForm\">";
 	for(var i = 0; i < GROUPS.length; i++)
 	{
-		if(GROUPS[i].id == event.target.dataset.id)
+		if(GROUPS[i].id == getAttribute(event, "id"))
 		{
-			html += "<h3 class=\"sidePanelTitle\">Skupina " + GROUPS[i].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeGroupSave\" data-id=\"" + GROUPS[i].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
 			html += "<input type=\"text\" class=\"formText\" id=\"groupName\" value=\"" + GROUPS[i].name + "\" autocomplete=\"off\"><br>";
 			break;
 		}
@@ -21,7 +22,7 @@ function changeGroupOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeGroupSave").onclick = changeGroupSave;
+	document.getElementById("changeGroupSave").onclick = function() {changeGroupSave(getAttribute(event, "id"));};
 
 	document.getElementById("groupName").oninput = function()
 		{
@@ -36,14 +37,14 @@ function changeGroupOnClick(event)
 	refreshLogin();
 }
 
-function changeGroupSave()
+function changeGroupSave(id)
 {
 	if(groupChanged)
 	{
 		var payload = {"name": encodeURIComponent(document.getElementById("groupName").value)};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/group/" + encodeURIComponent(document.getElementById("changeGroupSave").dataset.id), "PUT", payload);
+		retryAction("/API/v0.9/group/" + encodeURIComponent(id), "PUT", payload);
 	}
 	else
 	{
