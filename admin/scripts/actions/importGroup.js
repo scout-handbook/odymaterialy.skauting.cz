@@ -1,27 +1,20 @@
 function importGroupOnClick(event)
 {
 	sidePanelOpen();
-	var html = "";
-	for(var i = 0; i < GROUPS.length; i++)
-	{
-		if(GROUPS[i].id == event.target.dataset.id)
-		{
-			html += "<h3 class=\"sidePanelTitle\">" + GROUPS[i].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"importGroupNext\" data-id=\"" + event.target.dataset.id + "\">Pokračovat</div>"; // TODO: Icon
-			break;
-		}
-	}
+	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"newButton greenButton\" id=\"importGroupNext\"><i class=\"icon-fast-fw\"></i>Pokračovat</div>";
+	html += "<h3 class=\"sidePanelTitle\">Importovat ze SkautISu</h3>";
 	html += "<div id=\"importList\"><div id=\"embeddedSpinner\"></div></div>";
 	document.getElementById("sidePanel").innerHTML = html;
 	document.getElementById("sidePanelCancel").onclick = function()
 		{
 			history.back();
 		};
-	document.getElementById("importGroupNext").onclick = importGroupSelectParticipants;
 	request("/API/v0.9/event", "GET", {}, function(response)
 		{
 			if(response.status === 200)
 			{
-				importGroupSelectEventRender(response.response);
+				importGroupSelectEventRender(getAttribute(event, "id"), response.response);
 			}
 			else if(response.type === "AuthenticationException")
 			{
@@ -37,7 +30,7 @@ function importGroupOnClick(event)
 	refreshLogin();
 }
 
-function importGroupSelectEventRender(events)
+function importGroupSelectEventRender(id, events)
 {
 	if(events.length == 0)
 	{
@@ -54,9 +47,10 @@ function importGroupSelectEventRender(events)
 	}
 	html += "</form>";
 	document.getElementById("importList").innerHTML = html;
+	document.getElementById("importGroupNext").onclick = function() {importGroupSelectParticipants(id)};
 }
 
-function importGroupSelectParticipants(event)
+function importGroupSelectParticipants(id)
 {
 	var eventId = parseBoolForm()[0];
 	if(eventId)
@@ -67,7 +61,7 @@ function importGroupSelectParticipants(event)
 			{
 				if(response.status === 200)
 				{
-					importGroupSelectParticipantsRender(response.response);
+					importGroupSelectParticipantsRender(id, response.response);
 				}
 				else if(response.type === "AuthenticationException")
 				{
@@ -78,11 +72,11 @@ function importGroupSelectParticipants(event)
 					dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 				}
 			});
-		document.getElementById("importGroupNext").onclick = importGroupSave;
+		document.getElementById("importGroupNext").onclick = function() {};
 	}
 }
 
-function importGroupSelectParticipantsRender(participants)
+function importGroupSelectParticipantsRender(id, participants)
 {
 	if(participants.length == 0)
 	{
@@ -99,9 +93,11 @@ function importGroupSelectParticipantsRender(participants)
 	}
 	html += "</form>";
 	document.getElementById("importList").innerHTML = html;
+	document.getElementById("importGroupNext").innerHTML = "<i class=\"icon-floppy\"></i>Uložit";
+	document.getElementById("importGroupNext").onclick = function() {importGroupSave(id)};
 }
 
-function importGroupSave(event)
+function importGroupSave(id)
 {
 	var participants = [];
 	var nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
@@ -141,7 +137,7 @@ function importGroupSave(event)
 			var groupEvent = new AfterLoadEvent(participants.length);
 			for(var k = 0; k < participants.length; k++)
 			{
-				var payload = {"group": event.target.dataset.id};
+				var payload = {"group": id};
 				request("/API/v0.9/user/" + participants[k].id + "/group", "PUT", payload, function(response)
 					{
 						if(response.status === 200)
