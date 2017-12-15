@@ -342,9 +342,9 @@ h2.mainPage, h3.mainPage, .noNewline
 .deleteImage
 {
 	position: absolute;
-	right: 4%;
+	right: 5%;
 	bottom: 5%;
-	margin-right: 9px;
+	margin-right: 8px;
 	margin-bottom: 6px;
 }
 
