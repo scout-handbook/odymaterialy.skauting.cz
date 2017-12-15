@@ -6,7 +6,7 @@ function changeUserGroupsOnClick(event)
 	sidePanelOpen();
 	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	html += "<div class=\"newButton greenButton\" id=\"changeUserGroupsSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
-	html += "<h3 class=\"sidePanelTitle\">Změnit skupiny</h3><form id=\"sidePanelForm\">";
+	html += "<h3 class=\"sidePanelTitle\">Změnit skupiny: " + getAttribute(event, "name") + "</h3><form id=\"sidePanelForm\">";
 	var currentGroups = JSON.parse(getAttribute(event, "groups"));
 	for(var i = 0; i < GROUPS.length; i++)
 	{

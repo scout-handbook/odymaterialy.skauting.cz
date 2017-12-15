@@ -6,7 +6,7 @@ function changeUserRoleOnClick(event)
 	sidePanelOpen();
 	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	html += "<div class=\"newButton greenButton\" id=\"changeUserRoleSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
-	html += "<h3 class=\"sidePanelTitle\">Změnit roli</h3><form id=\"sidePanelForm\">";
+	html += "<h3 class=\"sidePanelTitle\">Změnit roli: " + getAttribute(event, "name") + "</h3><form id=\"sidePanelForm\">";
 	html += "<span class=\"roleText\">Role: </span><select class=\"formSelect\" id=\"roleSelect\">";
 	html += "<option id=\"user\" value=\"user\">Uživatel</option>";
 	html += "<option id=\"editor\" value=\"editor\">Editor</option>";

@@ -3,7 +3,14 @@ function importGroupOnClick(event)
 	sidePanelOpen();
 	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	html += "<div class=\"newButton greenButton\" id=\"importGroupNext\"><i class=\"icon-fast-fw\"></i>Pokračovat</div>";
-	html += "<h3 class=\"sidePanelTitle\">Importovat ze SkautISu</h3>";
+	for(var i = 0; i < GROUPS.length; i++)
+	{
+		if(GROUPS[i].id == getAttribute(event, "id"))
+		{
+			html += "<h3 class=\"sidePanelTitle\">Importovat ze SkautISu: " + GROUPS[i].name + "</h3>";
+			break;
+		}
+	}
 	html += "<div id=\"importList\"><div id=\"embeddedSpinner\"></div></div>";
 	document.getElementById("sidePanel").innerHTML = html;
 	document.getElementById("sidePanelCancel").onclick = function()
