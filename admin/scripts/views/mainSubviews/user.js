@@ -57,14 +57,13 @@ function showUserList(list, searchName, page, perPage)
 		return;
 	}
 	users = list.users;
-	var html = "<form id=\"userSearchForm\"><input type=\"text\" class=\"formText\" id=\"userSearchBox\" placeholder=\"Jméno uživatele\"><div class=\"button\" id=\"userSearchButton\">Vyhledat</div>";
+	var html = "<form id=\"userSearchForm\"><input type=\"text\" class=\"formText\" id=\"userSearchBox\" placeholder=\"Jméno uživatele\"><div class=\"newButton\" id=\"userSearchButton\"><i class=\"icon-search\"></i>Vyhledat</div>";
 	if(searchName)
 	{
-		html += "<div class=\"button\" id=\"userSearchCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+		html += "<div class=\"newButton yellowButton\" id=\"userSearchCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	}
 	html += "</form>";
 	html += "<table class=\"userTable\"><th>Jméno</th><th>Role</th><th>Skupiny</th>";
-	html += "<th>Akce</th>";
 	html += "</tr>";
 	for(var i = 0; i < users.length; i++)
 	{
@@ -84,6 +83,10 @@ function showUserList(list, searchName, page, perPage)
 				html += "Uživatel";
 				break;
 		}
+		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+		{
+			html += "<br><div class=\"newButton cyanButton changeUserRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
+		}
 		html += "</td><td>";
 		var first = true;
 		for(var j = 0; j < GROUPS.length; j++)
@@ -98,13 +101,8 @@ function showUserList(list, searchName, page, perPage)
 				first = false;
 			}
 		}
-		html += "</td><td style=\"white-space: nowrap;\">";
-		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
-		{
-			html += "<div class=\"button changeUserRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\">Změnit roli</div><br>";
-		}
-		html += "<div class=\"button changeUserGroups\" data-id=\"" + users[i].id + "\" data-groups=\'" + JSON.stringify(users[i].groups) + "\' data-name=\"" + users[i].name + "\">Změnit skupiny</div></td>";
-		html += "</tr>";
+		html += "<br><div class=\"newButton cyanButton changeUserGroups\" data-id=\"" + users[i].id + "\" data-groups=\'" + JSON.stringify(users[i].groups) + "\' data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
+		html += "</td></tr>";
 	}
 	html += "</table>";
 	html += renderPagination(Math.ceil(list.count / perPage), page);

@@ -303,11 +303,12 @@ h2.mainPage, h3.mainPage, .noNewline
 #userSearchBox
 {
 	width: 200px;
+	margin-right: 20px;
 }
 
 #userSearchButton, #userSearchCancel
 {
-	margin-left: 20px;
+	margin-bottom: -11px;
 }
 
 .thumbnailContainer
