@@ -7,6 +7,7 @@ function changeGroupOnClick(event)
 	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	html += "<div class=\"button greenButton\" id=\"changeGroupSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
 	html += "<h3 class=\"sidePanelTitle\">Upravit skupinu</h3><form id=\"sidePanelForm\">";
+	html += "<legend for=\"fieldName\">Název:</legend>";
 	for(var i = 0; i < GROUPS.length; i++)
 	{
 		if(GROUPS[i].id == getAttribute(event, "id"))

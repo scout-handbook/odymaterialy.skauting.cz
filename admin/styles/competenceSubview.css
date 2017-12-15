@@ -1,0 +1,26 @@
+.competenceNumber
+{
+	font-weight: bold;
+}
+
+#competenceNumber
+{
+	width: 37px;
+	margin-left: 5px;
+}
+
+#competenceName, #groupName
+{
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+#competenceDescription
+{
+	margin-top: 20px;
+}
+
+.changeCompetence, .deleteCompetence
+{
+	margin-bottom: 0;
+}

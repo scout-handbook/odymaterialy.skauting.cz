@@ -1,0 +1,153 @@
+#sidePanelForm legend
+{
+	margin-left: 5px;
+	margin-bottom: 5px;
+	font-style: italic;
+	font-size: 1.1em;	
+}
+
+.heading
+{
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.formRow
+{
+	margin-top: 30px;
+}
+
+.formText
+{
+	width: 90%;
+	padding: 5px 10px;
+	border: 1px solid #bfbfbf;
+	border-radius: 3px;
+	font-family: "Open Sans", sans-serif;
+	transition: border-color ease 0.15s, background-color ease 0.15s;
+}
+
+.formName
+{
+	padding: 10px 16px;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.formText:focus, .formSelect:focus
+{
+	outline: none;
+	border-color: #6534ad;
+	background-color: #f5f5f5;
+}
+
+.formSelect
+{
+	padding: 10px 15px;
+	border: 1px solid #bfbfbf;
+	border-radius: 3px;
+	background-color: #fafafa;
+	font-family: "Open Sans", sans-serif;
+	font-size: 1.0em;
+	transition: border-color ease 0.15s, background-color ease 0.15s;
+}
+
+.formSwitch input
+{
+	display: none;
+}
+
+.formCustom
+{
+	width: 15px;
+	height: 15px;
+	margin-right: 10px;
+	margin-bottom: -2px;
+	display: inline-block;
+	border: 1px solid #bfbfbf;
+	background-color: #fafafa;
+	cursor: pointer;
+	transition: border-color ease 0.15s, background-color ease 0.15s;
+}
+
+.formCustom:before
+{
+	content: "";
+	position: absolute;
+}
+
+.formCustom:hover
+{
+	border-color: #6534ad;
+	background-color: #f5f5f5;
+}
+
+input:checked + .formCustom
+{
+	border-color: #6534ad;
+	background-color: #f5f5f5;
+}
+
+.formRadio
+{
+	border-radius: 8px;
+}
+
+.formRadio:before
+{
+	width: 7px;
+	height: 7px;
+	margin-top: 4px;
+	margin-left: 4px;
+	background-color: #bfbfbf;
+	border-radius: 4px;
+	transition: background-color ease 0.15s;
+}
+
+.formRadio:hover:before
+{
+	background-color: #6534ad;
+}
+
+input:checked + .formRadio:before
+{
+	background-color: #6534ad;
+}
+
+.formCheckbox
+{
+	border-radius: 3px;
+}
+
+.formCheckbox:before
+{
+	width: 8px;
+	height: 4px;
+	margin-top: 3px;
+	margin-left: 2px;
+	border: 3px solid #bfbfbf;
+	border-top: none;
+	border-right: none;
+	transform: rotate(-45deg);
+	transition: border-color ease 0.15s;
+}
+
+.formCheckbox:hover:before
+{
+	border-color: #6534ad;
+}
+
+input:checked + .formCheckbox:before
+{
+	border-color: #6534ad;
+}
+
+.formFile input
+{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}

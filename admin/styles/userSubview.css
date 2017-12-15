@@ -1,0 +1,112 @@
+#userSearchForm
+{
+	margin-top: 20px;
+	margin-bottom: 50px;
+}
+
+#userSearchBox
+{
+	width: 200px;
+	margin-right: 20px;
+}
+
+#userSearchButton, #userSearchCancel
+{
+	margin-bottom: -11px;
+}
+
+.userTable
+{
+	border: none;
+}
+
+.userTable th
+{
+	border: none;
+	border-bottom: 1px solid #bfbfbf;
+	text-align: left;
+}
+
+.userTable td
+{
+	border: none;
+	padding: 15px 20px;
+}
+
+.userTable td + td, .userTable th + th
+{
+	padding-left: 50px;
+}
+
+.userTable tr:nth-child(2n+1)
+{
+	background-color: #ffffff;
+}
+
+.thumbnailContainer
+{
+	display: inline-block;
+	width: 256px;
+	text-align: center;
+	margin-top: 50px;
+	position: relative;
+}
+
+.buttonContainer
+{
+	position: relative;
+	width: fit-content;
+	display: inline-block;
+}
+
+.thumbnailImage
+{
+	cursor: pointer;
+	vertical-align: middle;
+	transform: scale(0.9);
+	transition: transform ease 0.15s;
+}
+
+.thumbnailImage:hover
+{
+	transform: scale(1.0);
+}
+
+.deleteImage
+{
+	position: absolute;
+	right: 5%;
+	bottom: 5%;
+	margin-right: 8px;
+	margin-bottom: 6px;
+}
+
+.previewImage
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+}
+
+#roleSelect
+{
+	margin-bottom: 60px;
+}
+
+.roleText
+{
+	font-weight: bold;
+}
+
+.roleHelp, .groupHelp
+{
+	margin-top: 20px;
+}
+
+.roleHelpName
+{
+	font-weight: bold;
+}
