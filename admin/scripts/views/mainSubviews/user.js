@@ -101,7 +101,11 @@ function showUserList(list, searchName, page, perPage)
 				first = false;
 			}
 		}
-		html += "<br><div class=\"newButton cyanButton changeUserGroups\" data-id=\"" + users[i].id + "\" data-groups=\'" + JSON.stringify(users[i].groups) + "\' data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
+		if(users[i].groups.length > 0)
+		{
+			html += "<br>";
+		}
+		html += "<div class=\"newButton cyanButton changeUserGroups\" data-id=\"" + users[i].id + "\" data-groups=\'" + JSON.stringify(users[i].groups) + "\' data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
 		html += "</td></tr>";
 	}
 	html += "</table>";

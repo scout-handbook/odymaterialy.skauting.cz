@@ -76,18 +76,22 @@ SQL;
 	$db->prepare($selectSQL);
 	$db->bind_param('sii', $searchName, $start, $per_page);
 	$db->execute();
-	$user_id = '';
-	$user_name = '';
-	$user_role = '';
-	$db->bind_result($user_id, $user_name, $user_role);
+	$userResult = $db->fetch_all();
+
+	$db->prepare($countSQL);
+	$db->execute();
+	$count = 0;
+	$db->bind_result($count);
+	$db->fetch_require('users');
+
 	$users = [];
-	while($db->fetch())
+	foreach($userResult as $row)
 	{
-		$users[] = new OdymaterialyAPI\User($user_id, $user_name, $user_role);
+		$users[] = new OdymaterialyAPI\User($row['id'], $row['name'], $row['role']);
 
 		$db2 = new OdymaterialyAPI\Database();
 		$db2->prepare($groupSQL);
-		$db2->bind_param('s', $user_id);
+		$db2->bind_param('s', $row['id']);
 		$db2->execute();
 		$group = '';
 		$db2->bind_result($group);
@@ -97,11 +101,6 @@ SQL;
 		}
 	}
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('users');
 	return ['status' => 200, 'response' => ['count' => $count, 'users' => $users]];
 };
 $userEndpoint->setListMethod(new OdymaterialyAPI\Role('editor'), $listUsers);
