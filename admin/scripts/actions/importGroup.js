@@ -1,8 +1,8 @@
 function importGroupOnClick(event)
 {
 	sidePanelOpen();
-	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
-	html += "<div class=\"newButton greenButton\" id=\"importGroupNext\"><i class=\"icon-fast-fw\"></i>Pokračovat</div>";
+	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"button greenButton\" id=\"importGroupNext\"><i class=\"icon-fast-fw\"></i>Pokračovat</div>";
 	for(var i = 0; i < GROUPS.length; i++)
 	{
 		if(GROUPS[i].id == getAttribute(event, "id"))

@@ -1,7 +1,7 @@
 function lessonSettings(id, actionQueue, noHistory)
 {
 	sidePanelOpen();
-	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-right-open\"></i>Zavřít</div>";
+	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-right-open\"></i>Zavřít</div>";
 	html += renderField();
 	html += renderCompetences();
 	html += prerenderGroups();
@@ -25,7 +25,7 @@ function lessonSettings(id, actionQueue, noHistory)
 function renderField()
 {
 	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Oblast</h3>"
-	html += "<div class=\"newButton cyanButton\" id=\"changeField\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
+	html += "<div class=\"button cyanButton\" id=\"changeField\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
 	if(lessonSettingsCache.field == "")
 	{
 		html += "<span class=\"anonymousField\">Nezařazeno</span>"
@@ -47,7 +47,7 @@ function renderField()
 function renderCompetences()
 {
 	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Kompetence</h3>"
-	html += "<div class=\"newButton cyanButton\" id=\"changeCompetences\"><i class=\"icon-pencil\"></i>Upravit</div>";
+	html += "<div class=\"button cyanButton\" id=\"changeCompetences\"><i class=\"icon-pencil\"></i>Upravit</div>";
 	for(var i = 0; i < COMPETENCES.length; i++)
 	{
 		if(lessonSettingsCache.competences.indexOf(COMPETENCES[i].id) >= 0)
@@ -61,7 +61,7 @@ function renderCompetences()
 function prerenderGroups()
 {
 	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Skupiny</h3>"
-	html += "<div class=\"newButton cyanButton\" id=\"changeGroups\"><i class=\"icon-pencil\"></i>Upravit</div><br><div id=\"settingsGroupList\"><div id=\"embeddedSpinner\"></div></div>";
+	html += "<div class=\"button cyanButton\" id=\"changeGroups\"><i class=\"icon-pencil\"></i>Upravit</div><br><div id=\"settingsGroupList\"><div id=\"embeddedSpinner\"></div></div>";
 	return html;
 }
 

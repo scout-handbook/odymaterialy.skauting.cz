@@ -10,7 +10,7 @@ function showGroupSubview(noHistory)
 	var html = "<h1>OdyMateriály - Uživatelské skupiny</h1>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
-		html += "<div class=\"newButton greenButton\" id=\"addGroup\"><i class=\"icon-plus\"></i>Přidat</div>";
+		html += "<div class=\"button greenButton\" id=\"addGroup\"><i class=\"icon-plus\"></i>Přidat</div>";
 	}
 	html += renderGroupList()
 	document.getElementById("mainPage").innerHTML = html;
@@ -45,11 +45,11 @@ function renderGroupList()
 		}
 		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 		{
-			html += "<div class=\"newButton cyanButton changeGroup\" data-id=\"" + GROUPS[i].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
+			html += "<div class=\"button cyanButton changeGroup\" data-id=\"" + GROUPS[i].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
 			if(GROUPS[i].id != "00000000-0000-0000-0000-000000000000")
 			{
-				html += "<div class=\"newButton redButton deleteGroup\" data-id=\"" + GROUPS[i].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
-				html += "<div class=\"newButton importGroup\" data-id=\"" + GROUPS[i].id + "\"><i class=\"icon-user-plus\"></i> Importovat ze SkautISu</div>";
+				html += "<div class=\"button redButton deleteGroup\" data-id=\"" + GROUPS[i].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
+				html += "<div class=\"button importGroup\" data-id=\"" + GROUPS[i].id + "\"><i class=\"icon-user-plus\"></i> Importovat ze SkautISu</div>";
 			}
 		}
 		if(GROUPS[i].id != "00000000-0000-0000-0000-000000000000")

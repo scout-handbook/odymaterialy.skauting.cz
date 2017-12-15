@@ -3,8 +3,8 @@ var lessonGroupsChanged = false;
 function changeLessonGroupsOnClick(id, actionQueue)
 {
 	lessonGroupsChanged = false;
-	var html = "<div class=\"newButton yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div>";
-	html += "<div class=\"newButton greenButton\" id=\"changeLessonGroupsSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	var html = "<div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"button greenButton\" id=\"changeLessonGroupsSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
 	html += "<h3 class=\"sidePanelTitle\">Změnit skupiny</h3><form id=\"sidePanelForm\">";
 	var publicName = ''
 	for(var i = 0; i < GROUPS.length; i++)

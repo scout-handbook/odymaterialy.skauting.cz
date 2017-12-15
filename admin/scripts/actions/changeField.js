@@ -4,8 +4,8 @@ function changeFieldOnClick(event)
 {
 	fieldChanged = false;
 	sidePanelOpen();
-	var html = "<div class=\"newButton yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
-	html += "<div class=\"newButton greenButton\" id=\"changeFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"button greenButton\" id=\"changeFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
 	html += "<h3 class=\"sidePanelTitle\">Upravit oblast</h3><form id=\"sidePanelForm\">";
 	html += "<legend for=\"fieldName\">Název:</legend>";
 	for(var i = 0; i < FIELDS.length; i++)

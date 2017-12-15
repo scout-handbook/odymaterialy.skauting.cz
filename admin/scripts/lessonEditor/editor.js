@@ -9,29 +9,29 @@ function showLessonEditor(name, body, actionQueue, id)
 	var html = '\
 <div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>\
 <header>\
-	<div class="newButton yellowButton" id="discard">\
+	<div class="button yellowButton" id="discard">\
 		<i class="icon-cancel"></i>Zrušit\
 	</div>\
 	<form>\
 		<input type="text" class="formText formName" id="name" value="' + name + '" autocomplete="off">\
 	</form>\
-	<div class="newButton greenButton" id="save">\
+	<div class="button greenButton" id="save">\
 		<i class="icon-floppy"></i>Uložit\
 	</div>\
-	<div class="newButton" id="lessonSettings">\
+	<div class="button" id="lessonSettings">\
 		<i class="icon-cog"></i>Nastavení\
 	</div>\
 </header>\
 <div id="imageSelector">\
 	<div id="imageScroller">\
-		<div class="newButton yellowButton" id="closeImageSelector">\
+		<div class="button yellowButton" id="closeImageSelector">\
 			<i class=\"icon-up-open"></i> Zavřít\
 		</div>\
 		<div id="imageWrapper"></div>\
 	</div>\
 </div>\
 <div id="editor-bar">\
-	<div class="newButton" id="addImageButton">\
+	<div class="button" id="addImageButton">\
 		<i class="icon-picture"></i> Vložit obrázek\
 	</div>\
 </div>\

@@ -57,10 +57,10 @@ function showUserList(list, searchName, page, perPage)
 		return;
 	}
 	users = list.users;
-	var html = "<form id=\"userSearchForm\"><input type=\"text\" class=\"formText\" id=\"userSearchBox\" placeholder=\"Jméno uživatele\"><div class=\"newButton\" id=\"userSearchButton\"><i class=\"icon-search\"></i>Vyhledat</div>";
+	var html = "<form id=\"userSearchForm\"><input type=\"text\" class=\"formText\" id=\"userSearchBox\" placeholder=\"Jméno uživatele\"><div class=\"button\" id=\"userSearchButton\"><i class=\"icon-search\"></i>Vyhledat</div>";
 	if(searchName)
 	{
-		html += "<div class=\"newButton yellowButton\" id=\"userSearchCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+		html += "<div class=\"button yellowButton\" id=\"userSearchCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	}
 	html += "</form>";
 	html += "<table class=\"userTable\"><th>Jméno</th><th>Role</th><th>Skupiny</th>";
@@ -85,7 +85,7 @@ function showUserList(list, searchName, page, perPage)
 		}
 		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 		{
-			html += "<br><div class=\"newButton cyanButton changeUserRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
+			html += "<br><div class=\"button cyanButton changeUserRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
 		}
 		html += "</td><td>";
 		var first = true;
@@ -105,7 +105,7 @@ function showUserList(list, searchName, page, perPage)
 		{
 			html += "<br>";
 		}
-		html += "<div class=\"newButton cyanButton changeUserGroups\" data-id=\"" + users[i].id + "\" data-groups=\'" + JSON.stringify(users[i].groups) + "\' data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
+		html += "<div class=\"button cyanButton changeUserGroups\" data-id=\"" + users[i].id + "\" data-groups=\'" + JSON.stringify(users[i].groups) + "\' data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
 		html += "</td></tr>";
 	}
 	html += "</table>";
