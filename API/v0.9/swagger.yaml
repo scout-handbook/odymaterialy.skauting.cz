@@ -168,7 +168,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  status: 
+                  status:
                     type: integer
                     enum:
                       - 200
@@ -182,6 +182,8 @@ paths:
                   - response
         '404':
           $ref: '#/components/responses/404'
+        '403':
+          $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
     put:
