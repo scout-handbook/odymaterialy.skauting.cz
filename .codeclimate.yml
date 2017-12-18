@@ -54,12 +54,16 @@ engines:
         enabled: false
       PhanUndeclaredFunction:
         enabled: false
+      PhanUndeclaredExtendedClass:
+        enabled: false
   stylelint:
     enabled: true
   sonar-php:
     enabled: true
     checks:
       php:S115:
+        enabled: false
+      php:S1192:
         enabled: false
 ratings:
   paths:
