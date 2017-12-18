@@ -46,8 +46,8 @@ engines:
         enabled: false
   phan:
     enabled: true
-    config:
-      file_extensions: "php"
+    ignore-undeclared: true
+    dead-code-detection: true
   stylelint:
     enabled: true
   sonar-php:
