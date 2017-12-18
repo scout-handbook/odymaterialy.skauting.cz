@@ -1,4 +1,4 @@
-var CACHE = "odymaterialy-v3";
+var CACHE = "odymaterialy-v4";
 var cacheBlocking = [
 	"/index.html",
 	"/scripts/tools/AfterLoadEvent.js",
