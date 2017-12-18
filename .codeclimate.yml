@@ -3,6 +3,9 @@ checks:
   method-lines:
     config:
       threshold: 100
+  similar-code:
+    config:
+      threshold: 100
 engines:
   csslint:
     enabled: true
@@ -48,6 +51,8 @@ engines:
       Controversial/Superglobals:
         enabled: false
       Design/ExitExpression:
+        enabled: false
+      Naming/ShortVariable:
         enabled: false
   phan:
     enabled: true
