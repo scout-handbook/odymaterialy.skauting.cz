@@ -48,6 +48,8 @@ engines:
     enabled: true
     dead-code-detection: true
     checks:
+      PhanUndeclaredClass:
+        enabled: false
       PhanUndeclaredClassMethod:
         enabled: false
       PhanUndeclaredFunction:
