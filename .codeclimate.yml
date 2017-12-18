@@ -4,8 +4,7 @@ checks:
     config:
       threshold: 100
   similar-code:
-    config:
-      threshold: 400
+    enabled: false
 engines:
   csslint:
     enabled: true
