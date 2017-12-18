@@ -116,16 +116,6 @@ class Endpoint
 	{
 		switch($method)
 		{
-		case 'GET':
-			if(isset($data['id']))
-			{
-				$func = $this->getFunction;
-			}
-			else
-			{
-				$func = $this->listFunction;
-			}
-			break;
 		case 'PUT':
 			if(isset($data['id']) or isset($data['parent-id']))
 			{
@@ -149,6 +139,17 @@ class Endpoint
 				throw new MissingArgumentException(MissingArgumentException::GET, 'id');
 			}
 			break;
+		case 'GET':
+		default:
+			if(isset($data['id']))
+			{
+				$func = $this->getFunction;
+			}
+			else
+			{
+				$func = $this->listFunction;
+			}
+			break;
 		}
 		$self = $this;
 		$wrapper = function($skautis) use ($data, $func, $self)
@@ -169,16 +170,6 @@ class Endpoint
 		unset($data['sub-resource']);
 		switch($method)
 		{
-		case 'GET':
-			if(isset($data['id']))
-			{
-				$role = $this->getRole;
-			}
-			else
-			{
-				$role = $this->listRole;
-			}
-			break;
 		case 'PUT':
 			$role = $this->updateRole;
 			break;
@@ -187,6 +178,17 @@ class Endpoint
 			break;
 		case 'DELETE':
 			$role = $this->deleteRole;
+			break;
+		case 'GET':
+		default:
+			if(isset($data['id']))
+			{
+				$role = $this->getRole;
+			}
+			else
+			{
+				$role = $this->listRole;
+			}
 			break;
 		}
 		try
@@ -211,15 +213,16 @@ class Endpoint
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch($method)
 		{
-			case 'GET':
-			case 'DELETE':
-				$data = $_GET;
-				break;
 			case 'PUT':
 				parse_str(file_get_contents("php://input"), $data);
 				break;
 			case 'POST':
 				$data = $_POST;
+				break;
+			case 'GET':
+			case 'DELETE':
+			default:
+				$data = $_GET;
 				break;
 		}
 		if(isset($_GET['id']) and $_GET['id'] !== '')

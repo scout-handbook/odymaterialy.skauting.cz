@@ -65,6 +65,8 @@ engines:
         enabled: false
       php:S1192:
         enabled: false
+      php:S2041:
+        enabled: false
 ratings:
   paths:
   - "**.css"

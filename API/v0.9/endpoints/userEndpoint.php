@@ -15,9 +15,11 @@ $userEndpoint = new OdyMaterialyAPI\Endpoint('user');
 $userEndpoint->addSubEndpoint('role', $userRoleEndpoint);
 $userEndpoint->addSubEndpoint('group', $userGroupEndpoint);
 
-$listUsers = function($skautis, $data, $endpoint)
+
+function constructSelectSQL($skautis)
 {
 	$role = new OdyMaterialyAPI\Role(OdymaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person));
+
 	$innerSQL = '';
 	if(OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('administrator')) >= 0)
 	{
@@ -38,7 +40,12 @@ SQL
 ORDER BY name
 LIMIT ?, ?;
 SQL;
+	return $selectSQL;
+}
 
+$listUsers = function($skautis, $data, $endpoint)
+{
+	$selectSQL = constructSelectSQL($skautis);
 	$countSQL = <<<SQL
 SELECT FOUND_ROWS();
 SQL;
