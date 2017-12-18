@@ -16,6 +16,8 @@ engines:
     enabled: true
   fixme:
     enabled: true
+  git-legal:
+    enabled: true
   phpcodesniffer:
     enabled: true
     checks:
@@ -46,6 +48,10 @@ engines:
     enabled: true
     config:
       file_extensions: "php"
+  stylelint:
+    enabled: true
+  sonar-php:
+    enabled: true
 ratings:
   paths:
   - "**.css"
