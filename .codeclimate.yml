@@ -50,6 +50,8 @@ engines:
     checks:
       PhanUndeclaredClassMethod:
         enabled: false
+      PhanUndeclaredFunction:
+        enabled: false
   stylelint:
     enabled: true
   sonar-php:
