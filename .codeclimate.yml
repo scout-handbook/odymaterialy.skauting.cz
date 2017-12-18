@@ -46,8 +46,10 @@ engines:
         enabled: false
   phan:
     enabled: true
-    ignore-undeclared: true
     dead-code-detection: true
+    checks:
+      PhanUndeclaredClassMethod:
+        enabled: false
   stylelint:
     enabled: true
   sonar-php:
