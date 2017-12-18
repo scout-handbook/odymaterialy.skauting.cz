@@ -1,3 +1,8 @@
+version: "22"
+checks:
+  method-lines:
+    config:
+      threshold: 100
 engines:
   csslint:
     enabled: true
@@ -62,6 +67,8 @@ engines:
     enabled: true
     checks:
       php:S115:
+        enabled: false
+      php:S1172:
         enabled: false
       php:S1192:
         enabled: false
