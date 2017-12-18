@@ -16,6 +16,8 @@ engines:
     enabled: true
   fixme:
     enabled: true
+  git-legal:
+    enabled: true
   phpcodesniffer:
     enabled: true
     checks:
@@ -44,8 +46,21 @@ engines:
         enabled: false
   phan:
     enabled: true
-    config:
-      file_extensions: "php"
+    dead-code-detection: true
+    checks:
+      PhanUndeclaredClass:
+        enabled: false
+      PhanUndeclaredClassMethod:
+        enabled: false
+      PhanUndeclaredFunction:
+        enabled: false
+  stylelint:
+    enabled: true
+  sonar-php:
+    enabled: true
+    checks:
+      php:S115:
+        enabled: false
 ratings:
   paths:
   - "**.css"

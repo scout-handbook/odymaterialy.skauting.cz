@@ -1,7 +1,10 @@
 function addField()
 {
 	sidePanelOpen();
-	var html = "<h3 class=\"sidePanelTitle\">Nová oblast</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"addFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
+	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"button greenButton\" id=\"addFieldSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	html += "<h3 class=\"sidePanelTitle\">Přidat oblast</h3><form id=\"sidePanelForm\">";
+	html += "<legend for=\"fieldName\">Název:</legend>";
 	html += "<input type=\"text\" class=\"formText formName\" id=\"fieldName\" value=\"Nová oblast\" autocomplete=\"off\">";
 	html += "</form>";
 	document.getElementById("sidePanel").innerHTML = html;

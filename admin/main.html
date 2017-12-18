@@ -9,10 +9,18 @@
 		<link rel="stylesheet" type="text/css" href="/styles/fontello-ie7.css">
 		<link rel="stylesheet" type="text/css" href="/styles/lesson.css">
 		<link rel="stylesheet" type="text/css" href="/styles/mainPage.css">
+		<link rel="stylesheet" type="text/css" href="/admin/styles/button.css">
+		<link rel="stylesheet" type="text/css" href="/admin/styles/competenceSubview.css">
 		<link rel="stylesheet" type="text/css" href="/admin/styles/dialog.css">
-		<link rel="stylesheet" type="text/css" href="/admin/styles/lesson.css">
+		<link rel="stylesheet" type="text/css" href="/admin/styles/editor.css">
+		<link rel="stylesheet" type="text/css" href="/admin/styles/fieldSubview.css">
+		<link rel="stylesheet" type="text/css" href="/admin/styles/form.css">
+		<link rel="stylesheet" type="text/css" href="/admin/styles/groupSubview.css">
 		<link rel="stylesheet" type="text/css" href="/admin/styles/main.css">
+		<link rel="stylesheet" type="text/css" href="/admin/styles/mainView.css">
+		<link rel="stylesheet" type="text/css" href="/admin/styles/pagination.css">
 		<link rel="stylesheet" type="text/css" href="/admin/styles/sidePanel.css">
+		<link rel="stylesheet" type="text/css" href="/admin/styles/userSubview.css">
 		<title>
 			OdyMateriály - administrace
 		</title>
@@ -51,11 +59,14 @@
 		<script defer src="/admin/scripts/lessonEditor/editor.js"></script>
 		<script defer src="/admin/scripts/lessonEditor/imageSelector.js"></script>
 		<script defer src="/admin/scripts/lessonEditor/refreshPreview.js"></script>
+		<script defer src="/admin/scripts/lessonEditor/settings.js"></script>
+		<script defer src="/admin/scripts/tools/ActionQueue.js"></script>
 		<script defer src="/admin/scripts/tools/addOnClicks.js"></script>
 		<script defer src="/admin/scripts/tools/parseBoolForm.js"></script>
 		<script defer src="/admin/scripts/tools/refreshLogin.js"></script>
 		<script defer src="/admin/scripts/tools/request.js"></script>
 		<script defer src="/admin/scripts/tools/retryAction.js"></script>
+		<script defer src="/admin/scripts/UI/button.js"></script>
 		<script defer src="/admin/scripts/UI/dialog.js"></script>
 		<script defer src="/admin/scripts/UI/pagination.js"></script>
 		<script defer src="/admin/scripts/UI/sidePanel.js"></script>
@@ -76,7 +87,7 @@
 		<div id="overlay"></div>
 		<div id="dialog">
 			<div id="dialogText"></div>
-			<div class="button" id="dismissText"></div>
+			<div class="button yellowButton" id="dismissText"></div>
 			<div class="button" id="confirmText"></div>
 		</div>
 		<div id="spinner"></div>

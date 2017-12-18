@@ -37,7 +37,7 @@ SELECT group_id FROM groups_for_lessons
 WHERE lesson_id = ?;
 SQL;
 
-	$loginState = $accountEndpoint->call('GET', ['no-avatar' => 'true']);
+	$loginState = $accountEndpoint->call('GET', new OdymaterialyAPI\Role('guest'), ['no-avatar' => 'true']);
 
 	if($loginState['status'] == '200')
 	{
@@ -216,13 +216,14 @@ SQL;
 	{
 		$body = $data['body'];
 	}
-	$id = Uuid::uuid4()->getBytes();
+	$uuid = Uuid::uuid4();
+	$id = $uuid->getBytes();
 
 	$db = new OdymaterialyAPI\Database();
 	$db->prepare($SQL);
 	$db->bind_param('sss', $id, $name, $body);
 	$db->execute();
-	return ['status' => 201];
+	return ['status' => 201, 'response' => $uuid];
 };
 $lessonEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addLesson);
 

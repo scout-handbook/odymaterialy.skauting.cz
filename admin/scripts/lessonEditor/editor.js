@@ -1,38 +1,50 @@
 var changed;
+var lessonSettingsCache = {};
+var lessonSettingsCacheEvent;
 
-function showLessonEditor(name, body, saveCallback)
+function showLessonEditor(name, body, actionQueue, id)
 {
+	populateEditorCache(id);
 	changed = false;
 	var html = '\
+<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>\
 <header>\
-	<div class="button" id="discard">\
-		<i class="icon-cancel"></i>\
-		Zrušit\
+	<div class="button yellowButton" id="discard">\
+		<i class="icon-cancel"></i>Zrušit\
 	</div>\
 	<form>\
 		<input type="text" class="formText formName" id="name" value="' + name + '" autocomplete="off">\
 	</form>\
-	<div class="button" id="save" data-id="">\
-		Uložit\
-		<i class="icon-floppy"></i>\
+	<div class="button greenButton" id="save">\
+		<i class="icon-floppy"></i>Uložit\
 	</div>\
-	<div class="button" id="addImageButton">\
-		Vložit obrázek\
+	<div class="button" id="lessonSettings">\
+		<i class="icon-cog"></i>Nastavení\
 	</div>\
 </header>\
 <div id="imageSelector">\
 	<div id="imageScroller">\
+		<div class="button yellowButton" id="closeImageSelector">\
+			<i class=\"icon-up-open"></i> Zavřít\
+		</div>\
 		<div id="imageWrapper"></div>\
 	</div>\
-</div>'
-	html += '<div id="editor"></div><div id="preview"><div id="preview-inner"></div></div>';
+</div>\
+<div id="editor-bar">\
+	<div class="button" id="addImageButton">\
+		<i class="icon-picture"></i> Vložit obrázek\
+	</div>\
+</div>\
+<div id="editor"></div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(name, body);
 
 	document.getElementById("discard").onclick = editorDiscard;
-	document.getElementById("save").onclick = saveCallback;
+	document.getElementById("save").onclick = function() {actionQueue.addDefaultCallback(); actionQueue.dispatch();};
+	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id, actionQueue);};
 	document.getElementById("addImageButton").onclick = toggleImageSelector;
+	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
 
 	var editor = ace.edit("editor");
 	editor.$blockScrolling = Infinity;
@@ -66,7 +78,58 @@ function editorDiscard()
 		dialog("Opravdu si přejete zahodit všechny změny?", "Ano", function()
 			{
 				history.back();
-			}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;");
+			}, "Ne");
 	}
 	refreshLogin();
+}
+
+function populateEditorCache(id)
+{
+	lessonSettingsCacheEvent = new AfterLoadEvent(1);
+	if(id)
+	{
+		request("/API/v0.9/lesson/" + id + "/group", "GET", {}, function(response)
+			{
+				if(response.status === 200)
+				{
+					lessonSettingsCache["groups"] = response.response;
+					lessonSettingsCacheEvent.trigger();
+				}
+				else if(response.type === "AuthenticationException")
+				{
+					window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+				}
+				else
+				{
+					dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
+				}
+			});
+		outer:
+		for(var i = 0; i < FIELDS.length; i++)
+		{
+			for(var j = 0; j < FIELDS[i].lessons.length; j++)
+			{
+				if(FIELDS[i].lessons[j].id == id)
+				{
+					if(FIELDS[i].id)
+					{
+						lessonSettingsCache["field"] = FIELDS[i].id;
+					}
+					else
+					{
+						lessonSettingsCache["field"] = "";
+					}
+					lessonSettingsCache["competences"] = FIELDS[i].lessons[j].competences;
+					break outer;
+				}
+			}
+		}
+	}
+	else
+	{
+		lessonSettingsCache["field"] = "";
+		lessonSettingsCache["competences"] = [];
+		lessonSettingsCache["groups"] = [];
+		lessonSettingsCacheEvent.trigger();
+	}
 }

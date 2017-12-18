@@ -4,7 +4,7 @@ function deleteCompetenceOnClick(event)
 	var name = "";
 	for(var i = 0; i < COMPETENCES.length; i++)
 	{
-		if(COMPETENCES[i].id == event.target.dataset.id)
+		if(COMPETENCES[i].id == getAttribute(event, "id"))
 		{
 			number = COMPETENCES[i].number
 			name = COMPETENCES[i].name
@@ -15,8 +15,8 @@ function deleteCompetenceOnClick(event)
 	dialog("Opravdu si přejete smazat kompetenci " + number + ": \"" + name + "\"?", "Ano", function()
 		{
 			spinner();
-			retryAction("/API/v0.9/competence/" + encodeURIComponent(event.target.dataset.id), "DELETE", {});
-		}, "&nbsp;&nbsp;Ne&nbsp;&nbsp;", function(){history.back();});
+			retryAction("/API/v0.9/competence/" + encodeURIComponent(getAttribute(event, "id")), "DELETE", {});
+		}, "Ne", function(){history.back();});
 	history.pushState({"sidePanel": "open"}, "title", "/admin/competences");
 	refreshLogin();
 }

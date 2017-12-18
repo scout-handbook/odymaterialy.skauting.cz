@@ -1,7 +1,10 @@
 function addGroup()
 {
 	sidePanelOpen();
-	var html = "<h3 class=\"sidePanelTitle\">Nová skupina</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"addGroupSave\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
+	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"button greenButton\" id=\"addGroupSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	html += "<h3 class=\"sidePanelTitle\">Přidat skupinu</h3><form id=\"sidePanelForm\">";
+	html += "<legend for=\"fieldName\">Název:</legend>";
 	html += "<input type=\"text\" class=\"formText\" id=\"groupName\" value=\"Nová skupina\" autocomplete=\"off\"><br>";
 	html += "</form>";
 	document.getElementById("sidePanel").innerHTML = html;

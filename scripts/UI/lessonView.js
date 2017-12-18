@@ -8,7 +8,7 @@ function toggleLessonOffline()
 			{
 				if(checked)
 				{
-					cache.add("/API/v0.9/lesson/" + id);
+					cache.add(new Request("/API/v0.9/lesson/" + id, {credentials: "same-origin"}));
 				}
 				else
 				{

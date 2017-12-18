@@ -1,16 +1,22 @@
-function showLessonAddView(noHistory)
+function showLessonAddView(field)
 {
-	if(!noHistory)
-	{
-		history.pushState({}, "title", "/admin/lessons");
-	}
+	history.pushState({}, "title", "/admin/lessons");
 
-	showLessonEditor(defaultName, defaultBody, addLessonCallback);
+	aq = new ActionQueue([new Action("/API/v0.9/lesson", "POST", addLessonPayloadBuilder)])
+	if(field)
+	{
+		aq.actions.push(new Action("/API/v0.9/lesson/{id}/field", "PUT", function() {return {"field": encodeURIComponent(field)};}))
+	}
+	aq.actions[0].callback = function(response) {aq.fillID(response)}
+	showLessonEditor(defaultName, defaultBody, aq);
 }
 
-function addLessonCallback()
+function addLessonPayloadBuilder()
 {
-	var payload = {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
-	spinner();
-	retryAction("/API/v0.9/lesson", "POST", payload);
+	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
+}
+
+function addLessonInFieldOnClick(event)
+{
+	showLessonAddView(getAttribute(event, "id"));
 }

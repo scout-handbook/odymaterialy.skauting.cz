@@ -4,9 +4,10 @@ function changeUserGroupsOnClick(event)
 {
 	groupsChanged = false;
 	sidePanelOpen();
-	var html = "";
-	html += "<h3 class=\"sidePanelTitle\">" + event.target.dataset.name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeUserGroupsSave\" data-id=\"" + event.target.dataset.id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
-	var currentGroups = JSON.parse(event.target.dataset.groups);
+	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"button greenButton\" id=\"changeUserGroupsSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	html += "<h3 class=\"sidePanelTitle\">Změnit skupiny: " + getAttribute(event, "name") + "</h3><form id=\"sidePanelForm\">";
+	var currentGroups = JSON.parse(getAttribute(event, "groups"));
 	for(var i = 0; i < GROUPS.length; i++)
 	{
 		if(GROUPS[i].id == "00000000-0000-0000-0000-000000000000")
@@ -33,7 +34,7 @@ function changeUserGroupsOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeUserGroupsSave").onclick = changeUserGroupsSave;
+	document.getElementById("changeUserGroupsSave").onclick = function() {changeUserGroupsSave(getAttribute(event, "id"))};
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
@@ -47,7 +48,7 @@ function changeUserGroupsOnClick(event)
 	refreshLogin();
 }
 
-function changeUserGroupsSave()
+function changeUserGroupsSave(id)
 {
 	if(groupsChanged)
 	{
@@ -60,7 +61,7 @@ function changeUserGroupsSave()
 		var payload = {"group": encodedGroups};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/user/" + encodeURIComponent(document.getElementById("changeUserGroupsSave").dataset.id) + "/group", "PUT", payload);
+		retryAction("/API/v0.9/user/" + encodeURIComponent(id) + "/group", "PUT", payload);
 	}
 	else
 	{

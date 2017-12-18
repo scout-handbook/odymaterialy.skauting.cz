@@ -122,7 +122,24 @@ paths:
                 - name
       responses:
         '201':
-          $ref: '#/components/responses/201'
+          description: Added successfully
+          content:
+            'aplication/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: string
+                    format: uuid
+                    example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                    description: ID of the newly added lesson
+                required:
+                  - status
+                  - response
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -151,7 +168,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  status: 
+                  status:
                     type: integer
                     enum:
                       - 200
@@ -165,6 +182,8 @@ paths:
                   - response
         '404':
           $ref: '#/components/responses/404'
+        '403':
+          $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
     put:

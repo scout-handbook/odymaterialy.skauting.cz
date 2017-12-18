@@ -1,28 +1,15 @@
 var lessonCompetencesChanged = false;
 
-function changeLessonCompetencesOnClick(event)
+function changeLessonCompetencesOnClick(id, actionQueue)
 {
 	lessonCompetencesChanged = false;
-	sidePanelOpen();
-	var html = "";
-	var checkedCompetences = [];
-	outer:
-	for(var i = 0; i < FIELDS.length; i++)
-	{
-		for(var j = 0; j < FIELDS[i].lessons.length; j++)
-		{
-			if(FIELDS[i].lessons[j].id == event.target.dataset.id)
-			{
-				html += "<h3 class=\"sidePanelTitle\">" + FIELDS[i].lessons[j].name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeLessonCompetencesSave\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
-				checkedCompetences = FIELDS[i].lessons[j].competences;
-				break outer;
-			}
-		}
-	}
+	var html = "<div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"button greenButton\" id=\"changeLessonCompetencesSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	html += "<h3 class=\"sidePanelTitle\">Změnit kompetence</h3><form id=\"sidePanelForm\">";
 	for(var k = 0; k < COMPETENCES.length; k++)
 	{
 		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"checkbox\"";
-		if(checkedCompetences.indexOf(COMPETENCES[k].id) >= 0)
+		if(lessonSettingsCache.competences.indexOf(COMPETENCES[k].id) >= 0)
 		{
 			html += " checked";
 		}
@@ -32,11 +19,12 @@ function changeLessonCompetencesOnClick(event)
 	}
 	html += "</form>";
 	document.getElementById("sidePanel").innerHTML = html;
-	document.getElementById("sidePanelCancel").onclick = function()
+
+	document.getElementById("cancelEditorAction").onclick = function()
 		{
-			history.back();
+			lessonSettings(id, actionQueue, true);
 		};
-	document.getElementById("changeLessonCompetencesSave").onclick = changeLessonCompetencesSave;
+	document.getElementById("changeLessonCompetencesSave").onclick = function() {changeLessonCompetencesSave(id, actionQueue);};
 
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
@@ -47,27 +35,26 @@ function changeLessonCompetencesOnClick(event)
 			};
 	}
 
-	history.pushState({}, "title", "/admin/lessons");
 	refreshLogin();
 }
 
-function changeLessonCompetencesSave()
+function changeLessonCompetencesSave(id, actionQueue)
 {
 	if(lessonCompetencesChanged)
 	{
+		id = typeof id !== 'undefined' ? id : "{id}";
 		var competences = parseBoolForm();
 		var encodedCompetences = [];
 		for(i = 0; i < competences.length; i++)
 		{
 			encodedCompetences.push(encodeURIComponent(competences[i]));
 		}
-		var payload = {"competence": encodedCompetences};
-		sidePanelClose();
-		spinner();
-		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("changeLessonCompetencesSave").dataset.id) + "/competence", "PUT", payload);
+		actionQueue.actions.push(new Action("/API/v0.9/lesson/" + id + "/competence", "PUT", function() {return {"competence": encodedCompetences};}));
+		lessonSettingsCache.competences = competences;
+		lessonSettings(id, actionQueue, true);
 	}
 	else
 	{
-		history.back();
+		lessonSettings(id, actionQueue, true);
 	}
 }

@@ -17,6 +17,23 @@ $listEventParticipants = function($skautis, $data, $endpoint)
 		throw new OdyMaterialyAPI\InvalidArgumentTypeException('id', ['Integer']);
 	}
 
+	// Set the right role
+	$eventName = $skautis->Events->EventEducationDetail([
+		'ID' => $id
+	])->DisplayName;
+	$userID = $skautis->UserManagement->LoginDetail()->ID_User;
+	$ISroles = $skautis->UserManagement->UserRoleAll([
+		'ID_User' => $userID]);
+	foreach($ISroles as $ISrole)
+	{
+		if(strpos($ISrole->DisplayName, '"' . $eventName . '"') !== false)
+		{
+			$response = $skautis->UserManagement->LoginUpdate(["ID_UserRole" => $ISrole->ID, "ID" => $skautis->getUser()->getLoginId()]);
+			$skautis->getUser()->updateLoginData(NULL, $ISrole->ID, $response->ID_Unit);
+			break;
+		}
+	}
+
 	$ISparticipants = $skautis->Events->ParticipantEducationAll([
 		'ID_EventEducation' => $id]);
 	$participants = [];

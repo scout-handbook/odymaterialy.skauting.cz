@@ -4,8 +4,9 @@ function changeUserRoleOnClick(event)
 {
 	roleChanged = false;
 	sidePanelOpen();
-	var html = "";
-	html += "<h3 class=\"sidePanelTitle\">" + event.target.dataset.name + "</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"changeUserRoleSave\" data-id=\"" + event.target.dataset.id + "\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
+	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"button greenButton\" id=\"changeUserRoleSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	html += "<h3 class=\"sidePanelTitle\">Změnit roli: " + getAttribute(event, "name") + "</h3><form id=\"sidePanelForm\">";
 	html += "<span class=\"roleText\">Role: </span><select class=\"formSelect\" id=\"roleSelect\">";
 	html += "<option id=\"user\" value=\"user\">Uživatel</option>";
 	html += "<option id=\"editor\" value=\"editor\">Editor</option>";
@@ -25,13 +26,13 @@ function changeUserRoleOnClick(event)
 	}
 	document.getElementById("sidePanel").innerHTML = html;
 
-	document.getElementById("roleSelect").options.namedItem(event.target.dataset.role).selected = 'selected';
+	document.getElementById("roleSelect").options.namedItem(getAttribute(event, "role")).selected = 'selected';
 
 	document.getElementById("sidePanelCancel").onclick = function()
 		{
 			history.back();
 		};
-	document.getElementById("changeUserRoleSave").onclick = changeUserRoleSave;
+	document.getElementById("changeUserRoleSave").onclick = function() {changeUserRoleSave(getAttribute(event, "id"))};
 	document.getElementById("roleSelect").onchange = function()
 		{
 			roleChanged = true;
@@ -41,7 +42,7 @@ function changeUserRoleOnClick(event)
 	refreshLogin();
 }
 
-function changeUserRoleSave()
+function changeUserRoleSave(id)
 {
 	if(roleChanged)
 	{
@@ -49,7 +50,7 @@ function changeUserRoleSave()
 		var payload = {"role": encodeURIComponent(sel.options[sel.selectedIndex].value)};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/user/" + encodeURIComponent(document.getElementById("changeUserRoleSave").dataset.id) + "/role", "PUT", payload);
+		retryAction("/API/v0.9/user/" + encodeURIComponent(id) + "/role", "PUT", payload);
 	}
 	else
 	{

@@ -1,10 +1,12 @@
 function addImage()
 {
 	sidePanelOpen();
-	var html = "<h3 class=\"sidePanelTitle\">Nahrát obrázek</h3><div class=\"button\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div><div class=\"button\" id=\"addImageSave\"><i class=\"icon-floppy\"></i>Uložit</div><form id=\"sidePanelForm\">";
+	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
+	html += "<div class=\"button greenButton\" id=\"addImageSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
+	html += "<h3 class=\"sidePanelTitle\">Nahrát obrázek</h3><form id=\"sidePanelForm\">";
 	html += "<div class=\"formRow\"><label class=\"formFile\">";
 	html += "<input type=\"file\" class=\"formFile\" id=\"addImageFile\">";
-	html += "<div class=\"button\"><i class=\"icon-upload\"></i>Vybrat soubor...</div></label>"
+	html += "<div class=\"button\"><i class=\"icon-upload\"></i>Vybrat soubor</div></label>"
 	html += "</div></form>";
 	document.getElementById("sidePanel").innerHTML = html;
 

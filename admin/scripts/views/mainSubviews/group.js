@@ -10,7 +10,7 @@ function showGroupSubview(noHistory)
 	var html = "<h1>OdyMateriály - Uživatelské skupiny</h1>";
 	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 	{
-		html += "<div class=\"button mainPage\" id=\"addGroup\">Přidat skupinu</div>";
+		html += "<div class=\"button greenButton\" id=\"addGroup\"><i class=\"icon-plus\"></i>Přidat</div>";
 	}
 	html += renderGroupList()
 	document.getElementById("mainPage").innerHTML = html;
@@ -37,20 +37,24 @@ function renderGroupList()
 	{
 		if(GROUPS[i].id == "00000000-0000-0000-0000-000000000000")
 		{
-			html += "<h3 class = \"mainPage publicGroup\">" + GROUPS[i].name + "</h3>";
+			html += "<br><h3 class = \"mainPage publicGroup\">" + GROUPS[i].name + "</h3>";
 		}
 		else
 		{
-			html += "<h3 class = \"mainPage\">" + GROUPS[i].name + "</h3><span class=\"mainPage\">Uživatelů: " + GROUPS[i].count + "</span><br>";
+			html += "<br><h3 class = \"mainPage\">" + GROUPS[i].name + "</h3>";
 		}
 		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
 		{
-			html += "<div class=\"button mainPage changeGroup\" data-id=\"" + GROUPS[i].id + "\">Upravit skupinu</div>";
+			html += "<div class=\"button cyanButton changeGroup\" data-id=\"" + GROUPS[i].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
 			if(GROUPS[i].id != "00000000-0000-0000-0000-000000000000")
 			{
-				html += "<div class=\"button mainPage importGroup\" data-id=\"" + GROUPS[i].id + "\">Importovat ze SkautISu</div>";
-				html += "<div class=\"button mainPage deleteGroup\" data-id=\"" + GROUPS[i].id + "\">Smazat skupinu</div>";
+				html += "<div class=\"button redButton deleteGroup\" data-id=\"" + GROUPS[i].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
+				html += "<div class=\"button importGroup\" data-id=\"" + GROUPS[i].id + "\"><i class=\"icon-user-plus\"></i> Importovat ze SkautISu</div>";
 			}
+		}
+		if(GROUPS[i].id != "00000000-0000-0000-0000-000000000000")
+		{
+			html += "<br><span class=\"mainPage\">Uživatelů: " + GROUPS[i].count + "</span>";
 		}
 	}
 	return html;

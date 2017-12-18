@@ -9,6 +9,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/skautis.secret.php'
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/AuthenticationException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RoleException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/SkautISException.php');
 
 function skautisTry($callback, $hardCheck = true)
 {
@@ -30,7 +31,7 @@ function skautisTry($callback, $hardCheck = true)
 			}
 			catch(\Skautis\Exception $e)
 			{
-				throw new AuthenticationException();
+				throw new SkautISException($e);
 			}
 		}
 	}
@@ -49,7 +50,7 @@ function roleTry($callback, $hardCheck, $requiredRole)
 	}
 	$safeCallback = function($skautis) use ($callback, $requiredRole)
 	{
-		$role = new Role(getRole($skautis->UserManagement->UserDetail()->ID_Person));
+		$role = new Role(getRole($skautis->UserManagement->LoginDetail()->ID_Person));
 		if(Role_cmp($role, $requiredRole) >= 0)
 		{
 			return $callback($skautis);

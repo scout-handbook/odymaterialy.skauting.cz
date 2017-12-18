@@ -80,6 +80,11 @@ class Database
 		}
 	}
 
+	public function fetch_all()
+	{
+		return $this->statement->get_result()->fetch_all(MYSQLI_ASSOC);
+	}
+
 	public function start_transaction()
 	{
 		self::$db->autocommit(false);

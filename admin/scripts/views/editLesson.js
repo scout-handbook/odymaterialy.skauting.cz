@@ -1,4 +1,3 @@
-var changed;
 var imageSelectorOpen = false;
 
 function showLessonEditView(id, noHistory)
@@ -23,7 +22,6 @@ function showLessonEditView(id, noHistory)
 function renderLessonEditView(id, markdown, noHistory)
 {
 	dismissSpinner();
-	changed = false;
 	var lesson = {};
 	outer:
 	for(var i = 0; i < FIELDS.length; i++)
@@ -43,20 +41,12 @@ function renderLessonEditView(id, markdown, noHistory)
 		history.pushState({"id": id}, "title", "/admin/lessons");
 	}
 
-	showLessonEditor(lesson.name, markdown, saveLessonCallback);
+	aq = new ActionQueue([new Action("/API/v0.9/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder)]);
+	showLessonEditor(lesson.name, markdown, aq, id);
 	document.getElementById("save").dataset.id = id;
 }
 
-function saveLessonCallback()
+function saveLessonPayloadBuilder()
 {
-	if(changed)
-	{
-		var payload = {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
-		spinner();
-		retryAction("/API/v0.9/lesson/" + encodeURIComponent(document.getElementById("save").dataset.id), "PUT", payload);
-	}
-	else
-	{
-		discard();
-	}
+	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
 }

@@ -17,7 +17,7 @@ $loginUser = function($skautis, $data, $endpoint) use ($accountEndpoint)
 	};
 
 	$localPrefix = 'https://odymaterialy.skauting.cz';
-	$ISprefix = 'https://test-is.skaut.cz/Login'; // TODO: Live SkautIS
+	$ISprefix = 'https://is.skaut.cz/Login';
 
 	if(isset($data['return-uri']))
 	{
@@ -50,7 +50,7 @@ $loginUser = function($skautis, $data, $endpoint) use ($accountEndpoint)
 		$_COOKIE['skautis_token'] = $token;
 		$_COOKIE['skautis_timeout'] = $timeout;
 
-		$accountEndpoint->call('POST', []);
+		$accountEndpoint->call('POST', new OdyMaterialyAPI\Role('user'), []);
 	}
 	else
 	{

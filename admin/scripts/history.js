@@ -12,7 +12,11 @@ function popback()
 {
 	if(history.state)
 	{
-		if(history.state.id)
+		if(sidePanelState)
+		{
+			sidePanelClose();
+		}
+		else if(history.state.id)
 		{
 			metadataEvent.addCallback(function()
 				{
@@ -23,10 +27,6 @@ function popback()
 		{
 			mainPageTab = history.state.page;
 			showMainView(true)
-		}
-		else if(sidePanelState)
-		{
-			sidePanelClose();
 		}
 		else
 		{

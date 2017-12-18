@@ -112,7 +112,7 @@ class Endpoint
 		return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 	}
 
-	public function call($method, $data)
+	public function call($method, $role, $data)
 	{
 		switch($method)
 		{
@@ -120,19 +120,16 @@ class Endpoint
 			if(isset($data['id']))
 			{
 				$func = $this->getFunction;
-				$role = $this->getRole;
 			}
 			else
 			{
 				$func = $this->listFunction;
-				$role = $this->listRole;
 			}
 			break;
 		case 'PUT':
 			if(isset($data['id']) or isset($data['parent-id']))
 			{
 				$func = $this->updateFunction;
-				$role = $this->updateRole;
 			}
 			else
 			{
@@ -141,13 +138,11 @@ class Endpoint
 			break;
 		case 'POST':
 			$func = $this->addFunction;
-			$role = $this->addRole;
 			break;
 		case 'DELETE':
 			if(isset($data['id']) or isset($data['parent-id']))
 			{
 				$func = $this->deleteFunction;
-				$role = $this->deleteRole;
 			}
 			else
 			{
@@ -172,10 +167,32 @@ class Endpoint
 	{
 		unset($data['sub-id']);
 		unset($data['sub-resource']);
+		switch($method)
+		{
+		case 'GET':
+			if(isset($data['id']))
+			{
+				$role = $this->getRole;
+			}
+			else
+			{
+				$role = $this->listRole;
+			}
+			break;
+		case 'PUT':
+			$role = $this->updateRole;
+			break;
+		case 'POST':
+			$role = $this->addRole;
+			break;
+		case 'DELETE':
+			$role = $this->deleteRole;
+			break;
+		}
 		try
 		{
 			header('content-type: application/json; charset=utf-8');
-			$ret = $this->call($method, $data);
+			$ret = $this->call($method, $role, $data);
 		}
 		catch(Exception $e)
 		{
