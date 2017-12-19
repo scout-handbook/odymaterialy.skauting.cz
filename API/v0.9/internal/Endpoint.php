@@ -152,7 +152,6 @@ class Endpoint
 				break;
 			case 'POST':
 				return $this->addFunction;
-				break;
 			case 'DELETE':
 				if(isset($data['id']) or isset($data['parent-id']))
 				{
@@ -166,7 +165,6 @@ class Endpoint
 			case 'GET':
 			default:
 				return isset($data['id']) ? $this->getFunction : $this->listFunction;
-				break;
 		}
 	}
 
