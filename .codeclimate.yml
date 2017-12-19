@@ -47,6 +47,8 @@ engines:
         enabled: false
       CleanCode/BooleanArgumentFlag:
         enabled: false
+      CleanCode/StaticAccess:
+        enabled: false
       Controversial/Superglobals:
         enabled: false
       Design/ExitExpression:
@@ -64,6 +66,8 @@ engines:
       PhanUndeclaredFunction:
         enabled: false
       PhanUndeclaredExtendedClass:
+        enabled: false
+      PhanUndeclaredClassCatch:
         enabled: false
   stylelint:
     enabled: true
