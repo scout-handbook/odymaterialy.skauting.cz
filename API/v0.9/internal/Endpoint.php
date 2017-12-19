@@ -214,7 +214,8 @@ class Endpoint
 
 	public function handle()
 	{
-		$data = $this->handleDataHelper();
+		$method = $_SERVER['REQUEST_METHOD'];
+		$data = $this->handleDataHelper($method);
 		if(isset($data['id']) and isset($_GET['sub-resource']) and $_GET['sub-resource'] !== '')
 		{
 		   	if(isset($this->subEndpoints[$_GET['sub-resource']]))
@@ -243,9 +244,8 @@ class Endpoint
 		}
 	}
 
-	private function handleDataHelper()
+	private function handleDataHelper($method)
 	{
-		$method = $_SERVER['REQUEST_METHOD'];
 		switch($method)
 		{
 			case 'PUT':

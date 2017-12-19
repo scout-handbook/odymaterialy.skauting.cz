@@ -54,13 +54,13 @@ function renderLessonList()
 		}
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			html += renderLessonListLesson(FIELDS[i].lessons[j]);
+			html += renderLessonListLesson(FIELDS[i].lessons[j], secondLevel);
 		}
 	}
 	return html;
 }
 
-function renderLessonListLesson(lesson)
+function renderLessonListLesson(lesson, secondLevel)
 {
 	var html = "<br><h3 class=\"mainPage" + secondLevel + "\">" + lesson.name + "</h3>";
 	html += "<div class=\"button cyanButton" + secondLevel + " changeLesson\" data-id=\"" + lesson.id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";

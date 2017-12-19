@@ -47,13 +47,13 @@ function renderFieldList()
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
 			html += "<h3 class=\"mainPage" + secondLevel + "\"><a title=\"" + FIELDS[i].lessons[j].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + FIELDS[i].lessons[j].name + "</a></h3>";
-			html += renderLessonCompetences(FIELDS[i].lessons[j]);
+			html += renderLessonCompetences(FIELDS[i].lessons[j], secondLevel);
 		}
 	}
 	return html;
 }
 
-function renderLessonCompetences(lesson)
+function renderLessonCompetences(lesson, secondLevel)
 {
 	var html = "";
 	if(lesson.competences.length > 0)

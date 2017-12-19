@@ -70,4 +70,5 @@ function requestQueryBuilder(payload)
 		}
 		first = false;
 	}
+	return query;
 }
