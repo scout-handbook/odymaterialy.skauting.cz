@@ -118,7 +118,6 @@ SQL;
 		$db->prepare($selectSQL);
 		$db->bind_param('s', $id);
 		$db->execute();
-		$db->store_result();
 		$origNumber = '';
 		$origName = '';
 		$origDescription = '';

@@ -22,6 +22,7 @@ VALUES (?, ?);
 SQL;
 
 	$id = $endpoint->parseUuid($data['parent-id'])->getBytes();
+	$competences = [];
 	if(isset($data['competence']))
 	{
 		foreach($data['competence'] as $competence)
