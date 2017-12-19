@@ -1,5 +1,8 @@
 version: "22"
 checks:
+  argument-count:
+    config:
+      threshold: 6
   method-complexity:
     config:
       threshold: 20

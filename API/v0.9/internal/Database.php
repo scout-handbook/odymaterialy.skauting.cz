@@ -19,13 +19,10 @@ class Database
 
 	public function __construct()
 	{
-		if(!isset(self::$db))
+		self::$db = new \mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
+		if(self::$db->connect_error)
 		{
-			self::$db = new \mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
-			if(self::$db->connect_error)
-			{
-				throw new ConnectionException(self::$db);
-			}
+			throw new ConnectionException(self::$db);
 		}
 		self::$instanceCount = self::$instanceCount + 1;
 	}
@@ -106,7 +103,6 @@ class Database
 		if(self::$instanceCount === 0)
 		{
 			self::$db->close();
-			self::$db = null;
 		}
 	}
 }
