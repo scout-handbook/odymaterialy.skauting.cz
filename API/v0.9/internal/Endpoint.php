@@ -128,6 +128,22 @@ class Endpoint
 
 	public function call($method, $role, $data)
 	{
+		$func = callFunctionHelper($method, $data);
+		$self = $this;
+		$wrapper = function($skautis) use ($data, $func, $self)
+		{
+			return $func($skautis, $data, $self);
+		};
+		$hardCheck = (Role_cmp($role, new Role('user')) > 0);
+		$ret = roleTry($wrapper, $hardCheck, $role);
+		if(isset($ret))
+		{
+			return $ret;
+		}
+	}
+
+	private function callFunctionHelper($method, $data)
+	{
 		switch($method)
 		{
 			case 'PUT':
@@ -165,17 +181,7 @@ class Endpoint
 				}
 				break;
 		}
-		$self = $this;
-		$wrapper = function($skautis) use ($data, $func, $self)
-		{
-			return $func($skautis, $data, $self);
-		};
-		$hardCheck = (Role_cmp($role, new Role('user')) > 0);
-		$ret = roleTry($wrapper, $hardCheck, $role);
-		if(isset($ret))
-		{
-			return $ret;
-		}
+		return $func;
 	}
 
 	public function handleSelf($method, $data)
@@ -224,30 +230,7 @@ class Endpoint
 
 	public function handle()
 	{
-		$method = $_SERVER['REQUEST_METHOD'];
-		switch($method)
-		{
-			case 'PUT':
-				parse_str(file_get_contents("php://input"), $data);
-				break;
-			case 'POST':
-				$data = $_POST;
-				break;
-			case 'GET':
-			case 'DELETE':
-			default:
-				$data = $_GET;
-				break;
-		}
-		if(isset($_GET['id']) and $_GET['id'] !== '')
-		{
-			$data['id'] = $_GET['id'];
-		}
-		elseif(!isset($_POST['id']))
-		{
-			unset($data['id']);
-		}
-
+		$data = handleDataHelper();
 		if(isset($data['id']) and isset($_GET['sub-resource']) and $_GET['sub-resource'] !== '')
 		{
 		   	if(isset($this->subEndpoints[$_GET['sub-resource']]))
@@ -274,5 +257,33 @@ class Endpoint
 		{
 			$this->handleSelf($method, $data);
 		}
+	}
+
+	private function handleDataHelper()
+	{
+		$method = $_SERVER['REQUEST_METHOD'];
+		switch($method)
+		{
+			case 'PUT':
+				parse_str(file_get_contents("php://input"), $data);
+				break;
+			case 'POST':
+				$data = $_POST;
+				break;
+			case 'GET':
+			case 'DELETE':
+			default:
+				$data = $_GET;
+				break;
+		}
+		if(isset($_GET['id']) and $_GET['id'] !== '')
+		{
+			$data['id'] = $_GET['id'];
+		}
+		elseif(!isset($_POST['id']))
+		{
+			unset($data['id']);
+		}
+		return $data;
 	}
 }
