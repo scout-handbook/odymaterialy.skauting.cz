@@ -44,29 +44,30 @@ function requestQueryBuilder(payload)
 	var first = true;
 	for(key in payload)
 	{
-		if(payload.hasOwnProperty(key))
+		if(!payload.hasOwnProperty(key))
 		{
-			if(payload[key].constructor === Array)
-			{
-				for(var i = 0; i < payload[key].length; i++)
-				{
-					if(!first)
-					{
-						query += "&";
-					}
-					query += key + "[]=" + payload[key][i];
-					first = false;
-				}
-			}
-			else
+			continue;
+		}
+		if(payload[key].constructor === Array)
+		{
+			for(var i = 0; i < payload[key].length; i++)
 			{
 				if(!first)
 				{
 					query += "&";
 				}
-				query += key + "=" + payload[key];
+				query += key + "[]=" + payload[key][i];
+				first = false;
 			}
-			first = false;
 		}
+		else
+		{
+			if(!first)
+			{
+				query += "&";
+			}
+			query += key + "=" + payload[key];
+		}
+		first = false;
 	}
 }
