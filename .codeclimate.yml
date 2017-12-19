@@ -39,9 +39,13 @@ engines:
         enabled: false
       Squiz ControlStructures ControlSignature SpaceAfterKeyword:
         enabled: false
+      Squiz Functions MultiLineFunctionDeclaration BraceOnNewLine:
+        enabled: false
+      Squiz Functions MultiLineFunctionDeclaration SpaceAfterFunction:
+        enabled: false
       PSR1 Files SideEffects FoundWithSymbols:
         enabled: false
-      Squiz Functions MultiLineFunctionDeclaration BraceOnNewLine:
+      PSR2 ControlStructures SwitchDeclaration BreakIndent:
         enabled: false
   phpmd:
     enabled: true
