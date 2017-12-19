@@ -39,13 +39,15 @@ function changeLessonGroupsOnClick(id, actionQueue)
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
-		nodes[k].onchange = function()
-			{
-				lessonGroupsChanged = true;
-			};
+		nodes[k].onchange = lessonGroupsOnclick;
 	}
 
 	refreshLogin();
+}
+
+function lessonGroupsOnclick()
+{
+	lessonGroupsChanged = true;
 }
 
 function changeLessonGroupsSave(id, actionQueue)

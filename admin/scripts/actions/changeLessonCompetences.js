@@ -29,13 +29,15 @@ function changeLessonCompetencesOnClick(id, actionQueue)
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var j = 0; j < nodes.length; j++)
 	{
-		nodes[j].onchange = function()
-			{
-				lessonCompetencesChanged = true;
-			};
+		nodes[j].onchange = lessonCompetenceOnclick;
 	}
 
 	refreshLogin();
+}
+
+function lessonCompetenceOnclick()
+{
+	lessonCompetencesChanged = true;
 }
 
 function changeLessonCompetencesSave(id, actionQueue)

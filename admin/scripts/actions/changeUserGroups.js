@@ -38,14 +38,16 @@ function changeUserGroupsOnClick(event)
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
-		nodes[k].onchange = function()
-			{
-				groupsChanged = true;
-			};
+		nodes[k].onchange = userGroupsOnclick;
 	}
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/users");
 	refreshLogin();
+}
+
+function userGroupsOnclick()
+{
+	groupsChanged = true;
 }
 
 function changeUserGroupsSave(id)

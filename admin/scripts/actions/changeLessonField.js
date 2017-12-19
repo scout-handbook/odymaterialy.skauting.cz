@@ -49,13 +49,15 @@ function changeLessonFieldOnClick(id, actionQueue)
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
-		nodes[k].onchange = function()
-			{
-				lessonFieldChanged = true;
-			};
+		nodes[k].onchange = lessonFieldOnclick;
 	}
 
 	refreshLogin();
+}
+
+function lessonFieldOnclick()
+{
+	lessonFieldChanged = true;
 }
 
 function changeLessonFieldSave(id, actionQueue)
