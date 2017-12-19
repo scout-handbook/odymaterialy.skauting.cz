@@ -178,7 +178,7 @@ class Endpoint
 		}
 	}
 
-	public function handle_self($method, $data)
+	public function handleSelf($method, $data)
 	{
 		unset($data['sub-id']);
 		unset($data['sub-resource']);
@@ -261,7 +261,7 @@ class Endpoint
 				{
 					unset($data['id']);
 				}
-				$this->subEndpoints[$_GET['sub-resource']]->handle_self($method, $data);
+				$this->subEndpoints[$_GET['sub-resource']]->handleSelf($method, $data);
 			}
 			else
 			{
@@ -272,7 +272,7 @@ class Endpoint
 		}
 		else
 		{
-			$this->handle_self($method, $data);
+			$this->handleSelf($method, $data);
 		}
 	}
 }

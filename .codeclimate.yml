@@ -33,6 +33,8 @@ engines:
     checks:
       Generic WhiteSpace DisallowTabIndent TabsUsed:
         enabled: false
+      Generic Files LineLength TooLong:
+        enabled: false
       Squiz ControlStructures ControlSignature SpaceAfterCloseParenthesis:
         enabled: false
       Squiz ControlStructures ControlSignature SpaceAfterCloseBrace:
