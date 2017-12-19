@@ -10,8 +10,8 @@ class ExecutionException extends Exception
 	const TYPE = 'ExecutionException';
 	const STATUS = 500;
 
-	public function __construct($SQL, $statement)
+	public function __construct($query, $statement)
 	{
-		parent::__construct('Query "' . $SQL . '" has failed. Error message: "' . $statement->error . '".');
+		parent::__construct('Query "' . $query . '" has failed. Error message: "' . $statement->error . '".');
 	}
 }

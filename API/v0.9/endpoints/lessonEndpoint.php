@@ -28,11 +28,11 @@ $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 $lessonEndpoint->addSubEndpoint('group', $lessonGroupEndpoint);
 $lessonEndpoint->addSubEndpoint('pdf', $lessonPDFEndpoint);
 
-function checkLessonGroup($lesson_id, $overrideGroup = false)
+function checkLessonGroup($lessonId, $overrideGroup = false)
 {
 	global $accountEndpoint;
 
-	$group_sql = <<<SQL
+	$groupSQL = <<<SQL
 SELECT group_id FROM groups_for_lessons
 WHERE lesson_id = ?;
 SQL;
@@ -55,15 +55,15 @@ SQL;
 	array_walk($groups, '\Ramsey\Uuid\Uuid::fromString');
 
 	$db = new OdymaterialyAPI\Database();
-	$db->prepare($group_sql);
-	$lesson_id = $lesson_id->getBytes();
-	$db->bind_param('s', $lesson_id);
+	$db->prepare($groupSQL);
+	$lessonId = $lessonId->getBytes();
+	$db->bind_param('s', $lessonId);
 	$db->execute();
-	$group_id = '';
-	$db->bind_result($group_id);
+	$groupId = '';
+	$db->bind_result($groupId);
 	while($db->fetch())
 	{
-		if(in_array(Uuid::fromBytes($group_id), $groups))
+		if(in_array(Uuid::fromBytes($groupId), $groups))
 		{
 			return true;
 		}
@@ -73,7 +73,7 @@ SQL;
 
 function populateField($db, $field, $overrideGroup = false)
 {
-	$competence_sql = <<<SQL
+	$competenceSQL = <<<SQL
 SELECT competences.id, competences.number
 FROM competences
 JOIN competences_for_lessons ON competences.id = competences_for_lessons.competence_id
@@ -82,31 +82,31 @@ ORDER BY competences.number;
 SQL;
 
 	$db->execute();
-	$lesson_id = '';
-	$lesson_name = '';
-	$lesson_version = '';
-	$db->bind_result($lesson_id, $lesson_name, $lesson_version);
+	$lessonId = '';
+	$lessonName = '';
+	$lessonVersion = '';
+	$db->bind_result($lessonId, $lessonName, $lessonVersion);
 
 	while($db->fetch())
 	{
-		if(checkLessonGroup(Uuid::fromBytes($lesson_id), $overrideGroup))
+		if(checkLessonGroup(Uuid::fromBytes($lessonId), $overrideGroup))
 		{
 			// Create a new Lesson in the newly-created Field
-			$field->lessons[] = new OdyMaterialyAPI\Lesson($lesson_id, $lesson_name, $lesson_version);
+			$field->lessons[] = new OdyMaterialyAPI\Lesson($lessonId, $lessonName, $lessonVersion);
 
 			// Find out the competences this Lesson belongs to
 			$db2 = new OdymaterialyAPI\Database();
-			$db2->prepare($competence_sql);
-			$db2->bind_param('s', $lesson_id);
+			$db2->prepare($competenceSQL);
+			$db2->bind_param('s', $lessonId);
 			$db2->execute();
-			$competence_id = '';
-			$competence_number = '';
-			$db2->bind_result($competence_id, $competence_number);
+			$competenceId = '';
+			$competenceNumber = '';
+			$db2->bind_result($competenceId, $competenceNumber);
 			end($field->lessons)->lowestCompetence = 0;
 			if($db2->fetch())
 			{
-				end($field->lessons)->lowestCompetence = intval($competence_number);
-				end($field->lessons)->competences[] = $competence_id;
+				end($field->lessons)->lowestCompetence = intval($competenceNumber);
+				end($field->lessons)->competences[] = $competenceId;
 			}
 			else
 			{
@@ -114,7 +114,7 @@ SQL;
 			}
 			while($db2->fetch())
 			{
-				end($field->lessons)->competences[] = $competence_id;
+				end($field->lessons)->competences[] = $competenceId;
 			}
 		}
 	}
@@ -122,17 +122,17 @@ SQL;
 
 $listLessons = function($skautis, $data, $endpoint)
 {
-	$field_sql = <<<SQL
+	$fieldSQL = <<<SQL
 SELECT id, name
 FROM fields;
 SQL;
-	$anonymous_sql = <<<SQL
+	$anonymousSQL = <<<SQL
 SELECT lessons.id, lessons.name, lessons.version
 FROM lessons
 LEFT JOIN lessons_in_fields ON lessons.id = lessons_in_fields.lesson_id
 WHERE lessons_in_fields.field_id IS NULL;
 SQL;
-	$lesson_sql = <<<SQL
+	$lessonSQL = <<<SQL
 SELECT lessons.id, lessons.name, lessons.version
 FROM lessons
 JOIN lessons_in_fields ON lessons.id = lessons_in_fields.lesson_id
@@ -144,11 +144,11 @@ SQL;
 	$fields = [new OdymaterialyAPI\AnonymousField()];
 
 	$db = new OdymaterialyAPI\Database();
-	$db->prepare($anonymous_sql);
+	$db->prepare($anonymousSQL);
 	populateField($db, end($fields), $overrideGroup);
 
 	// Select all the fields in the database
-	$db->prepare($field_sql);
+	$db->prepare($fieldSQL);
 	$db->execute();
 	$field_id = '';
 	$field_name = '';
@@ -159,7 +159,7 @@ SQL;
 		$fields[] = new OdyMaterialyAPI\Field($field_id, $field_name); // Create a new field
 
 		$db2 = new OdymaterialyAPI\Database();
-		$db2->prepare($lesson_sql);
+		$db2->prepare($lessonSQL);
 		$db2->bind_param('s', $field_id);
 		populateField($db2, end($fields), $overrideGroup);
 

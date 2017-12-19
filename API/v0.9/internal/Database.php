@@ -49,13 +49,13 @@ class Database
 		$this->statement->bind_param($type, ...$vars);
 	}
 
-	public function execute($resource_name = "")
+	public function execute($resourceName = "")
 	{
 		if(!$this->statement->execute())
 		{
 			if($this->statement->errno == 1452) // Foreign key constraint fail
 			{
-				throw new NotFoundException($resource_name);
+				throw new NotFoundException($resourceName);
 			}
 			throw new ExecutionException($this->SQL, $this->statement);
 		}
@@ -72,11 +72,11 @@ class Database
 		return $this->statement->fetch();
 	}
 
-	public function fetch_require($resource_name)
+	public function fetch_require($resourceName)
 	{
 		if(!$this->fetch())
 		{
-			throw new NotFoundException($resource_name);
+			throw new NotFoundException($resourceName);
 		}
 	}
 
