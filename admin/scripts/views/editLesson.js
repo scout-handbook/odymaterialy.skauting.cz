@@ -22,20 +22,7 @@ function showLessonEditView(id, noHistory)
 function renderLessonEditView(id, markdown, noHistory)
 {
 	dismissSpinner();
-	var lesson = {};
-	outer:
-	for(var i = 0; i < FIELDS.length; i++)
-	{
-		for(var j = 0; j < FIELDS[i].lessons.length; j++)
-		{
-			if(FIELDS[i].lessons[j].id === id)
-			{
-				lesson = FIELDS[i].lessons[j];
-				break outer;
-			}
-		}
-	}
-
+	var lesson = getLessonById(id);
 	if(!noHistory)
 	{
 		history.pushState({"id": id}, "title", "/admin/lessons");

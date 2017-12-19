@@ -29,19 +29,7 @@ function showLessonView(id, noHistory)
 
 function renderLessonView(id, markdown, noHistory, second)
 {
-	var lesson = {};
-	outer:
-	for(var i = 0; i < FIELDS.length; i++)
-	{
-		for(var j = 0; j < FIELDS[i].lessons.length; j++)
-		{
-			if(FIELDS[i].lessons[j].id === id)
-			{
-				lesson = FIELDS[i].lessons[j];
-				break outer;
-			}
-		}
-	}
+	var lesson = getLessonById(id);
 	var competences = [];
 	for(var k = 0; k < COMPETENCES.length; k++)
 	{
