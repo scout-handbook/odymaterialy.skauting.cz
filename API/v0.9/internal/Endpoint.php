@@ -130,40 +130,40 @@ class Endpoint
 	{
 		switch($method)
 		{
-		case 'PUT':
-			if(isset($data['id']) or isset($data['parent-id']))
-			{
-				$func = $this->updateFunction;
-			}
-			else
-			{
-				throw new MissingArgumentException(MissingArgumentException::POST, 'id');
-			}
-			break;
-		case 'POST':
-			$func = $this->addFunction;
-			break;
-		case 'DELETE':
-			if(isset($data['id']) or isset($data['parent-id']))
-			{
-				$func = $this->deleteFunction;
-			}
-			else
-			{
-				throw new MissingArgumentException(MissingArgumentException::GET, 'id');
-			}
-			break;
-		case 'GET':
-		default:
-			if(isset($data['id']))
-			{
-				$func = $this->getFunction;
-			}
-			else
-			{
-				$func = $this->listFunction;
-			}
-			break;
+			case 'PUT':
+				if(isset($data['id']) or isset($data['parent-id']))
+				{
+					$func = $this->updateFunction;
+				}
+				else
+				{
+					throw new MissingArgumentException(MissingArgumentException::POST, 'id');
+				}
+				break;
+			case 'POST':
+				$func = $this->addFunction;
+				break;
+			case 'DELETE':
+				if(isset($data['id']) or isset($data['parent-id']))
+				{
+					$func = $this->deleteFunction;
+				}
+				else
+				{
+					throw new MissingArgumentException(MissingArgumentException::GET, 'id');
+				}
+				break;
+			case 'GET':
+			default:
+				if(isset($data['id']))
+				{
+					$func = $this->getFunction;
+				}
+				else
+				{
+					$func = $this->listFunction;
+				}
+				break;
 		}
 		$self = $this;
 		$wrapper = function($skautis) use ($data, $func, $self)
@@ -184,26 +184,26 @@ class Endpoint
 		unset($data['sub-resource']);
 		switch($method)
 		{
-		case 'PUT':
-			$role = $this->updateRole;
-			break;
-		case 'POST':
-			$role = $this->addRole;
-			break;
-		case 'DELETE':
-			$role = $this->deleteRole;
-			break;
-		case 'GET':
-		default:
-			if(isset($data['id']))
-			{
-				$role = $this->getRole;
-			}
-			else
-			{
-				$role = $this->listRole;
-			}
-			break;
+			case 'PUT':
+				$role = $this->updateRole;
+				break;
+			case 'POST':
+				$role = $this->addRole;
+				break;
+			case 'DELETE':
+				$role = $this->deleteRole;
+				break;
+			case 'GET':
+			default:
+				if(isset($data['id']))
+				{
+					$role = $this->getRole;
+				}
+				else
+				{
+					$role = $this->listRole;
+				}
+				break;
 		}
 		try
 		{

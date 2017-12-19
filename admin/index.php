@@ -19,7 +19,7 @@ if(isset($loginState['status']))
 			}
 		}
 	}
-	else if($loginState['status'] == 401)
+	elseif($loginState['status'] == 401)
 	{
 		header('Location: https://odymaterialy.skauting.cz/API/v0.9/login?return-uri=' . urlencode($_SERVER['REQUEST_URI']));
 		die();

@@ -19,21 +19,21 @@ class Role implements \JsonSerializable
 	{
 		switch($str)
 		{
-		case 'superuser':
-			$this->role = self::SUPERUSER;
-			break;
-		case 'administrator':
-			$this->role = self::ADMINISTRATOR;
-			break;
-		case 'editor':
-			$this->role = self::EDITOR;
-			break;
-		case 'user':
-			$this->role = self::USER;
-			break;
-		default:
-			$this->role = self::GUEST;
-			break;
+			case 'superuser':
+				$this->role = self::SUPERUSER;
+				break;
+			case 'administrator':
+				$this->role = self::ADMINISTRATOR;
+				break;
+			case 'editor':
+				$this->role = self::EDITOR;
+				break;
+			case 'user':
+				$this->role = self::USER;
+				break;
+			default:
+				$this->role = self::GUEST;
+				break;
 		}
 	}
 
@@ -41,21 +41,21 @@ class Role implements \JsonSerializable
 	{
 		switch($this->role)
 		{
-		case self::SUPERUSER:
-			return 'superuser';
-			break;
-		case self::ADMINISTRATOR:
-			return 'administrator';
-			break;
-		case self::EDITOR:
-			return 'editor';
-			break;
-		case self::USER:
-			return 'user';
-			break;
-		default:
-			return 'guest';
-			break;
+			case self::SUPERUSER:
+				return 'superuser';
+				break;
+			case self::ADMINISTRATOR:
+				return 'administrator';
+				break;
+			case self::EDITOR:
+				return 'editor';
+				break;
+			case self::USER:
+				return 'user';
+				break;
+			default:
+				return 'guest';
+				break;
 		}
 	}
 

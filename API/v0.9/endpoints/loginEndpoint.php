@@ -23,11 +23,11 @@ $loginUser = function($skautis, $data, $endpoint) use ($accountEndpoint)
 	{
 		$redirect = $skautis->getLoginUrl($data['return-uri']);
 	}
-	else if($startsWith($_SERVER['HTTP_REFERER'], $localPrefix))
+	elseif($startsWith($_SERVER['HTTP_REFERER'], $localPrefix))
 	{
 		$redirect = $skautis->getLoginUrl(substr($_SERVER['HTTP_REFERER'], strlen($localPrefix)));
 	}
-	else if($startsWith($_SERVER['HTTP_REFERER'], $ISprefix)) // Back from login
+	elseif($startsWith($_SERVER['HTTP_REFERER'], $ISprefix)) // Back from login
 	{
 		$redirect = $_GET['ReturnUrl'];
 		if($startsWith($redirect, 'http://'))

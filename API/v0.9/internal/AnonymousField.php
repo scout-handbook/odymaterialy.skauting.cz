@@ -7,5 +7,7 @@ class AnonymousField
 {
 	public $lessons = array();
 
-	public function __construct() {}
+	public function __construct()
+	{
+	}
 }
