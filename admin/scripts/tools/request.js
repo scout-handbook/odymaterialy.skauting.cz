@@ -12,35 +12,7 @@ function request(url, method, payload, callback)
 	{
 		if(method === "GET" || method === "DELETE" || payload.toString() !== "[object FormData]")
 		{
-			var query = "";
-			var first = true;
-			for(key in payload)
-			{
-				if(payload.hasOwnProperty(key))
-				{
-					if(payload[key].constructor === Array)
-					{
-						for(var i = 0; i < payload[key].length; i++)
-						{
-							if(!first)
-							{
-								query += "&";
-							}
-							query += key + "[]=" + payload[key][i];
-							first = false;
-						}
-					}
-					else
-					{
-						if(!first)
-						{
-							query += "&";
-						}
-						query += key + "=" + payload[key];
-					}
-					first = false;
-				}
-			}
+			var query = requestQueryBuilder(payload);
 		}
 		if(method === "GET" || method === "DELETE")
 		{
@@ -63,5 +35,38 @@ function request(url, method, payload, callback)
 	else
 	{
 		xhr.send(payload);
+	}
+}
+
+function requestQueryBuilder(payload)
+{
+	var query = "";
+	var first = true;
+	for(key in payload)
+	{
+		if(payload.hasOwnProperty(key))
+		{
+			if(payload[key].constructor === Array)
+			{
+				for(var i = 0; i < payload[key].length; i++)
+				{
+					if(!first)
+					{
+						query += "&";
+					}
+					query += key + "[]=" + payload[key][i];
+					first = false;
+				}
+			}
+			else
+			{
+				if(!first)
+				{
+					query += "&";
+				}
+				query += key + "=" + payload[key];
+			}
+			first = false;
+		}
 	}
 }

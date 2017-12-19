@@ -33,6 +33,8 @@ engines:
     checks:
       no-extend-native:
         enabled: false
+      max-statements:
+        enabled: false
   fixme:
     enabled: true
   git-legal:
