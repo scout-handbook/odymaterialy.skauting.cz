@@ -72,6 +72,8 @@ engines:
         enabled: false
       PhanUndeclaredClassCatch:
         enabled: false
+      PhanUndeclaredVariable:
+        enabled: false
   stylelint:
     enabled: true
   sonar-php:

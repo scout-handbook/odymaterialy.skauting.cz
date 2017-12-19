@@ -7,8 +7,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonEndpoint.php
 
 use Ramsey\Uuid\Uuid;
 
-$lessonList = $lessonEndpoint->call('GET', [])['response'];
-$competenceList = $competenceEndpoint->call('GET', [])['response'];
+$lessonList = $lessonEndpoint->call('GET', new OdyMaterialyAPI\Role('guest'), [])['response'];
+$competenceList = $competenceEndpoint->call('GET', new OdyMaterialyAPI\Role('guest'), [])['response'];
 
 header('content-type:text/plain; charset=utf-8');
 $baseUrl = 'https://odymaterialy.skauting.cz';
@@ -118,6 +118,7 @@ function urlEscape($str)
 }
 
 echo($baseUrl . "\n");
+echo($baseUrl . "/competence\n");
 foreach($lessonList as $field)
 {
 	if(isset($field->id))
