@@ -1,8 +1,14 @@
 version: "22"
 checks:
+  method-complexity:
+    config:
+      threshold: 20
   method-lines:
     config:
       threshold: 100
+  return-statements:
+    config:
+      threshold: 8
   similar-code:
     enabled: false
 engines:
