@@ -17,7 +17,7 @@ function renderCompetenceView(id, noHistory)
 	var competence = {};
 	for(var i = 0; i < COMPETENCES.length; i++)
 	{
-		if(COMPETENCES[i].id == id)
+		if(COMPETENCES[i].id === id)
 		{
 			competence = COMPETENCES[i];
 			break;
@@ -51,7 +51,7 @@ function renderCompetenceLessonList(competence)
 		{
 			for(var m = 0; m < FIELDS[k].lessons[l].competences.length; m++)
 			{
-				if(FIELDS[k].lessons[l].competences[m] == competence.id)
+				if(FIELDS[k].lessons[l].competences[m] === competence.id)
 				{
 					lessonList.push(FIELDS[k].lessons[l]);
 					break;

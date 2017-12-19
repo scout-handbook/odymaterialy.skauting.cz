@@ -15,7 +15,7 @@ function renderLessonListView(noHistory)
 	nodes = document.getElementById("content").getElementsByTagName("a");
 	for(var l = 0; l < nodes.length; l++)
 	{
-		if(nodes[l].parentElement.tagName == "H2")
+		if(nodes[l].parentElement.tagName === "H2")
 		{
 			nodes[l].onclick = TOCFieldOnClick;
 		}

@@ -5,7 +5,7 @@ function importGroupOnClick(event)
 	html += "<div class=\"button greenButton\" id=\"importGroupNext\"><i class=\"icon-fast-fw\"></i>Pokračovat</div>";
 	for(var i = 0; i < GROUPS.length; i++)
 	{
-		if(GROUPS[i].id == getAttribute(event, "id"))
+		if(GROUPS[i].id === getAttribute(event, "id"))
 		{
 			html += "<h3 class=\"sidePanelTitle\">Importovat ze SkautISu: " + GROUPS[i].name + "</h3>";
 			break;
@@ -85,7 +85,7 @@ function importGroupSelectParticipants(id)
 
 function importGroupSelectParticipantsRender(id, participants)
 {
-	if(participants.length == 0)
+	if(participants.length === 0)
 	{
 		sidePanelClose();
 		spinner();

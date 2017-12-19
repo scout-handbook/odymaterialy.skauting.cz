@@ -17,7 +17,7 @@ function renderFieldView(id, noHistory)
 	var field = {};
 	for(var i = 0; i < FIELDS.length; i++)
 	{
-		if(FIELDS[i].id == id)
+		if(FIELDS[i].id === id)
 		{
 			field = FIELDS[i];
 			break;

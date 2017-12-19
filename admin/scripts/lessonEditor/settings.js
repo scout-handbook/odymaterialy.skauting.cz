@@ -26,7 +26,7 @@ function renderField()
 {
 	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Oblast</h3>"
 	html += "<div class=\"button cyanButton\" id=\"changeField\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
-	if(lessonSettingsCache.field == "")
+	if(lessonSettingsCache.field === "")
 	{
 		html += "<span class=\"anonymousField\">Nezařazeno</span>"
 	}
@@ -34,7 +34,7 @@ function renderField()
 	{
 		for(var i = 0; i < FIELDS.length; i++)
 		{
-			if(FIELDS[i].id && FIELDS[i].id == lessonSettingsCache.field)
+			if(FIELDS[i].id && FIELDS[i].id === lessonSettingsCache.field)
 			{
 				html += FIELDS[i].name;
 				break;
@@ -73,7 +73,7 @@ function renderGroups()
 	{
 		if(lessonSettingsCache.groups.indexOf(GROUPS[i].id) >= 0)
 		{
-			if(GROUPS[i].id == "00000000-0000-0000-0000-000000000000")
+			if(GROUPS[i].id === "00000000-0000-0000-0000-000000000000")
 			{
 				html += "<span class=\"publicGroup\">" + GROUPS[i].name + "</span><br>";
 			}

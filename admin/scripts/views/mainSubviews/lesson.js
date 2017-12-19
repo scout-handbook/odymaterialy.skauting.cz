@@ -8,7 +8,7 @@ function showLessonSubview(noHistory)
 	}
 	document.getElementById("lessonManager").className += " activeTopBarTab";
 	var html = "<h1>OdyMateriály - Lekce</h1>";
-	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{
 		html += "<div class=\"button greenButton\" id=\"addField\"><i class=\"icon-plus\"></i>Přidat oblast</div>";
 	}
@@ -16,7 +16,7 @@ function showLessonSubview(noHistory)
 	html += renderLessonList();
 	document.getElementById("mainPage").innerHTML = html;
 
-	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{
 		document.getElementById("addField").onclick = addField;
 	}
@@ -45,7 +45,7 @@ function renderLessonList()
 		{
 			secondLevel = " secondLevel";
 			html += "<br><h2 class=\"mainPage\">" + FIELDS[i].name + "</h2>";
-			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+			if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 			{
 				html += "<div class=\"button cyanButton changeField\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
 				html += "<div class=\"button redButton deleteField\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
@@ -56,7 +56,7 @@ function renderLessonList()
 		{
 			html += "<br><h3 class=\"mainPage" + secondLevel + "\">" + FIELDS[i].lessons[j].name + "</h3>";
 			html += "<div class=\"button cyanButton" + secondLevel + " changeLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
-			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+			if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 			{
 				html += "<div class=\"button redButton deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
 			}

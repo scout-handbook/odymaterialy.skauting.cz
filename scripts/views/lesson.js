@@ -35,7 +35,7 @@ function renderLessonView(id, markdown, noHistory, second)
 	{
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			if(FIELDS[i].lessons[j].id == id)
+			if(FIELDS[i].lessons[j].id === id)
 			{
 				lesson = FIELDS[i].lessons[j];
 				break outer;
@@ -52,21 +52,21 @@ function renderLessonView(id, markdown, noHistory, second)
 	}
 	var html = "<h1>" + lesson.name + "</h1>";
 	activeCompetence = null;
-	for(var k = 0; k < competences.length; k++)
+	for(var l = 0; l < competences.length; l++)
 	{
-		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><p>" + competences[k].number + "</p></span><span class=\"competenceBubbleText\">" + competences[k].name + "</span><span class=\"competenceBubbleLessons\"><a title=\"Detail kompetence\" href=\"/error/enableJS.html\" data-id=\"" + competences[k].id + "\">Detail kompetence</a></span></span>";
+		html += "<span class=\"competenceBubble\"><span class=\"competenceBubbleNumber\"><p>" + competences[l].number + "</p></span><span class=\"competenceBubbleText\">" + competences[l].name + "</span><span class=\"competenceBubbleLessons\"><a title=\"Detail kompetence\" href=\"/error/enableJS.html\" data-id=\"" + competences[l].id + "\">Detail kompetence</a></span></span>";
 	}
 	html += filterXSS(converter.makeHtml(markdown));
 	document.getElementById("content").innerHTML = html;
 	nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
-	for(var l = 0; l < nodes.length; l++)
+	for(var m = 0; m < nodes.length; m++)
 	{
-		nodes[l].onclick = toggleCompetenceBubble;
+		nodes[m].onclick = toggleCompetenceBubble;
 	}
 	nodes = document.getElementById("content").getElementsByClassName("competenceBubbleLessons");
-	for(var l = 0; l < nodes.length; l++)
+	for(var n = 0; n < nodes.length; n++)
 	{
-		nodes[l].firstChild.onclick = competenceBubbleDetailOnClick;
+		nodes[n].firstChild.onclick = competenceBubbleDetailOnClick;
 	}
 	document.getElementsByTagName("main")[0].scrollTop = 0;
 	if(!second)

@@ -109,7 +109,7 @@ function populateEditorCache(id)
 		{
 			for(var j = 0; j < FIELDS[i].lessons.length; j++)
 			{
-				if(FIELDS[i].lessons[j].id == id)
+				if(FIELDS[i].lessons[j].id === id)
 				{
 					if(FIELDS[i].id)
 					{

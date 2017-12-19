@@ -8,14 +8,14 @@ function showCompetenceSubview(noHistory)
 	}
 	document.getElementById("competenceManager").className += " activeTopBarTab";
 	var html = "<h1>OdyMateriály - Kompetence</h1>";
-	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{
 		html += "<div class=\"button greenButton\" id=\"addCompetence\"><i class=\"icon-plus\"></i>Přidat</div><br>";
 	}
 	html += renderCompetenceList()
 	document.getElementById("mainPage").innerHTML = html;
 
-	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{
 		document.getElementById("addCompetence").onclick = addCompetence;
 	}
@@ -35,7 +35,7 @@ function renderCompetenceList()
 	for(var i = 0; i < COMPETENCES.length; i++)
 	{
 		html += "<h3 class = \"mainPage\">" + COMPETENCES[i].number + ": " + COMPETENCES[i].name + "</h3><br>";
-		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+		if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 		{
 			html += "<div class=\"button cyanButton changeCompetence\" data-id=\"" + COMPETENCES[i].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
 			html += "<div class=\"button redButton deleteCompetence\" data-id=\"" + COMPETENCES[i].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div><br>";

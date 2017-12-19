@@ -28,7 +28,7 @@ function renderLessonEditView(id, markdown, noHistory)
 	{
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			if(FIELDS[i].lessons[j].id == id)
+			if(FIELDS[i].lessons[j].id === id)
 			{
 				lesson = FIELDS[i].lessons[j];
 				break outer;

@@ -10,7 +10,7 @@ function request(url, method, payload, callback)
 		}
 	if(payload)
 	{
-		if(method === "GET" || method === "DELETE" || payload.toString() != "[object FormData]")
+		if(method === "GET" || method === "DELETE" || payload.toString() !== "[object FormData]")
 		{
 			var query = "";
 			var first = true;
@@ -48,7 +48,7 @@ function request(url, method, payload, callback)
 		}
 	}
 	xhr.open(method, url, true);
-	if(method === "GET" || method === "DELETE" || payload.toString() != "[object FormData]")
+	if(method === "GET" || method === "DELETE" || payload.toString() !== "[object FormData]")
 	{
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	}
@@ -56,7 +56,7 @@ function request(url, method, payload, callback)
 	{
 		xhr.send();
 	}
-	else if(payload.toString() != "[object FormData]")
+	else if(payload.toString() !== "[object FormData]")
 	{
 		xhr.send(query);
 	}

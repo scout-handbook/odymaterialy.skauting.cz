@@ -52,7 +52,7 @@ function downloadUserList(searchName, page, perPage)
 
 function showUserList(list, searchName, page, perPage)
 {
-	if(mainPageTab != "users")
+	if(mainPageTab !== "users")
 	{
 		return;
 	}
@@ -83,7 +83,7 @@ function showUserList(list, searchName, page, perPage)
 				html += "Uživatel";
 				break;
 		}
-		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+		if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 		{
 			html += "<br><div class=\"button cyanButton changeUserRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
 		}

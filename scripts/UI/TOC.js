@@ -18,9 +18,9 @@ function renderTOC()
 		}
 		else
 		{
-			for(var j = 0; j < FIELDS[i].lessons.length; j++)
+			for(var k = 0; k < FIELDS[i].lessons.length; k++)
 			{
-				html += "<a title=\"" + FIELDS[i].lessons[j].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[j].id + "\">" + FIELDS[i].lessons[j].name + "</a><br>";
+				html += "<a title=\"" + FIELDS[i].lessons[k].name + "\" href=\"/error/enableJS.html\" data-id=\"" + FIELDS[i].lessons[k].id + "\">" + FIELDS[i].lessons[k].name + "</a><br>";
 			}
 		}
 	}
@@ -28,7 +28,7 @@ function renderTOC()
 	nodes = document.getElementById("navigation").getElementsByTagName("a");
 	for(var k = 0; k < nodes.length; k++)
 	{
-		if(nodes[k].parentElement.tagName == "H1")
+		if(nodes[k].parentElement.tagName === "H1")
 		{
 			nodes[k].onclick = TOCFieldOnClick;
 		}
