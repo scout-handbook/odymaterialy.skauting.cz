@@ -26,15 +26,15 @@ function renderCompetenceView(id, noHistory)
 	var html = "<h1>" + competence.number + ": " + competence.name + "</h1>";
 	html += competence.description;
 	var lessonList = [];
-	for(var k = 0; k < FIELDS.length; k++)
+	for(var j = 0; j < FIELDS.length; j++)
 	{
-		for(var l = 0; l < FIELDS[k].lessons.length; l++)
+		for(var k = 0; k < FIELDS[j].lessons.length; k++)
 		{
-			for(var m = 0; m < FIELDS[k].lessons[l].competences.length; m++)
+			for(var m = 0; m < FIELDS[j].lessons[k].competences.length; m++)
 			{
-				if(FIELDS[k].lessons[l].competences[m] === competence.id)
+				if(FIELDS[j].lessons[k].competences[m] === competence.id)
 				{
-					lessonList.push(FIELDS[k].lessons[l]);
+					lessonList.push(FIELDS[j].lessons[k]);
 					break;
 				}
 			}

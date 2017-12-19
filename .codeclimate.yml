@@ -62,6 +62,8 @@ engines:
         enabled: false
   phpmd:
     enabled: true
+    config:
+      rulesets: "cleancode,controversial,design,naming,unusedcode,.phpmd.xml"
     checks:
       CleanCode/ElseExpression:
         enabled: false
