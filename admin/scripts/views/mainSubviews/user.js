@@ -133,7 +133,7 @@ function showUserList(list, searchName, page, perPage)
 	{
 		nodes[l].onclick = function(event)
 			{
-				downloadUserList(searchName, parseInt(event.target.dataset.page), perPage);
+				downloadUserList(searchName, parseInt(event.target.dataset.page, 10), perPage);
 			};
 	}
 

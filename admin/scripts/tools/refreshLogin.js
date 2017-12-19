@@ -9,7 +9,7 @@ function refreshLogin(forceRelogin)
 		{
 			request("/API/v0.9/refresh", "GET", undefined, function(response)
 				{
-					if(response.status === 200) {}
+					if(response.status === 200) { /* Success */ }
 					else if(response.type === "AuthenticationException")
 					{
 						if(forceRelogin)

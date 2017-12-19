@@ -26,15 +26,15 @@ function renderTOC()
 	}
 	document.getElementById("navigation").innerHTML = html;
 	nodes = document.getElementById("navigation").getElementsByTagName("a");
-	for(var k = 0; k < nodes.length; k++)
+	for(var l = 0; l < nodes.length; l++)
 	{
-		if(nodes[k].parentElement.tagName === "H1")
+		if(nodes[l].parentElement.tagName === "H1")
 		{
-			nodes[k].onclick = TOCFieldOnClick;
+			nodes[l].onclick = TOCFieldOnClick;
 		}
 		else
 		{
-			nodes[k].onclick = TOCLessonOnClick;
+			nodes[l].onclick = TOCLessonOnClick;
 		}
 	}
 	document.getElementsByTagName("nav")[0].style.transition = "margin-left 0.3s ease";

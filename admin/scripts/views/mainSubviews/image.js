@@ -79,7 +79,7 @@ function showImageList(list, page, perPage)
 	{
 		nodes[l].onclick = function(event)
 			{
-				downloadImageList(parseInt(event.target.dataset.page), perPage);
+				downloadImageList(parseInt(event.target.dataset.page, 10), perPage);
 			};
 	}
 }
