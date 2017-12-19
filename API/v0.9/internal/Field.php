@@ -28,23 +28,23 @@ class Field implements \JsonSerializable
 // Field comparison function used in usort. Assumes that both Fields have their lessons sorted low-to-high.
 function Field_cmp($first, $second)
 {
-	if (get_class($first) === "OdyMaterialyAPI\AnonymousField")
+	if(get_class($first) === "OdyMaterialyAPI\AnonymousField")
 	{
 		return -1;
 	}
-	if (get_class($second) === "OdyMaterialyAPI\AnonymousField")
+	if(get_class($second) === "OdyMaterialyAPI\AnonymousField")
 	{
 		return 1;
 	}
-	if (empty($first->lessons))
+	if(empty($first->lessons))
 	{
-		if (empty($second->lessons))
+		if(empty($second->lessons))
 		{
 			return 0;
 		}
 		return -1;
 	}
-	if (empty($second->lessons))
+	if(empty($second->lessons))
 	{
 		return 1;
 	}

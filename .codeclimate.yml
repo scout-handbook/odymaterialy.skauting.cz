@@ -64,6 +64,8 @@ engines:
         enabled: false
       Naming/ShortVariable:
         enabled: false
+      Design/TooManyPublicMethods:
+        enabled: false
   phan:
     enabled: true
     dead-code-detection: true
@@ -88,6 +90,8 @@ engines:
     enabled: true
     checks:
       php:S115:
+        enabled: false
+      php:S1142:
         enabled: false
       php:S1172:
         enabled: false
