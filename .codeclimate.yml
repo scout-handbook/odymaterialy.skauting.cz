@@ -40,8 +40,6 @@ engines:
         enabled: false
   fixme:
     enabled: true
-  git-legal:
-    enabled: true
   phpcodesniffer:
     enabled: true
     checks:
