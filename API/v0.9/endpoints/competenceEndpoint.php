@@ -60,11 +60,11 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\InvalidArgumentTypeException('number', ['Integer']);
 	}
-	$name = $endpoint->xss_sanitize($data['name']);
+	$name = $endpoint->xssSanitize($data['name']);
 	$description = '';
 	if(isset($data['description']))
 	{
-		$description = $endpoint->xss_sanitize($data['description']);
+		$description = $endpoint->xssSanitize($data['description']);
 	}
 	$uuid = Uuid::uuid4()->getBytes();
 
@@ -104,11 +104,11 @@ SQL;
 	}
 	if(isset($data['name']))
 	{
-		$name = $endpoint->xss_sanitize($data['name']);
+		$name = $endpoint->xssSanitize($data['name']);
 	}
 	if(isset($data['description']))
 	{
-		$description = $endpoint->xss_sanitize($data['description']);
+		$description = $endpoint->xssSanitize($data['description']);
 	}
 
 	$db = new OdymaterialyAPI\Database();

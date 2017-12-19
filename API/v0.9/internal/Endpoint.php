@@ -37,19 +37,34 @@ class Endpoint
 		$this->resourceName = $resourceName;
 		$this->subEndpoints = [];
 
-		$this->listFunction = function($skautis, $data, $endpoint) {throw new NotImplementedException();};
+		$this->listFunction = function($skautis, $data, $endpoint)
+		{
+			throw new NotImplementedException();
+		};
 		$this->listRole = new Role('guest');
 
-		$this->getFunction = function($skautis, $data, $endpoint) {throw new NotImplementedException();};
+		$this->getFunction = function($skautis, $data, $endpoint)
+		{
+			throw new NotImplementedException();
+		};
 		$this->getRole = new Role('guest');
 
-		$this->updateFunction = function($skautis, $data, $endpoint) {throw new NotImplementedException();};
+		$this->updateFunction = function($skautis, $data, $endpoint)
+		{
+			throw new NotImplementedException();
+		};
 		$this->updateRole = new Role('guest');
 
-		$this->addFunction = function($skautis, $data, $endpoint) {throw new NotImplementedException();};
+		$this->addFunction = function($skautis, $data, $endpoint)
+		{
+			throw new NotImplementedException();
+		};
 		$this->addRole = new Role('guest');
 
-		$this->deleteFunction = function($skautis, $data, $endpoint) {throw new NotImplementedException();};
+		$this->deleteFunction = function($skautis, $data, $endpoint)
+		{
+			throw new NotImplementedException();
+		};
 		$this->deleteRole = new Role('guest');
 	}
 
@@ -106,7 +121,7 @@ class Endpoint
 		}
 	}
 
-	public function xss_sanitize($input)
+	public function xssSanitize($input)
 	{
 		return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 	}

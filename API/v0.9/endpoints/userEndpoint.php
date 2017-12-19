@@ -127,7 +127,7 @@ $addUser = function($skautis, $data, $endpoint)
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $endpoint->xss_sanitize($data['name']);
+	$name = $endpoint->xssSanitize($data['name']);
 
 	$SQL = <<<SQL
 INSERT INTO users (id, name)

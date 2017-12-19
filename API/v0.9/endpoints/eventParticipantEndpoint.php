@@ -29,7 +29,7 @@ $listEventParticipants = function($skautis, $data, $endpoint)
 		if(strpos($ISrole->DisplayName, '"' . $eventName . '"') !== false)
 		{
 			$response = $skautis->UserManagement->LoginUpdate(["ID_UserRole" => $ISrole->ID, "ID" => $skautis->getUser()->getLoginId()]);
-			$skautis->getUser()->updateLoginData(NULL, $ISrole->ID, $response->ID_Unit);
+			$skautis->getUser()->updateLoginData(null, $ISrole->ID, $response->ID_Unit);
 			break;
 		}
 	}
