@@ -4,7 +4,7 @@ function deleteFieldOnClick(event)
 	var id = getAttribute(event, "id");
 	for(var i = 0; i < FIELDS.length; i++)
 	{
-		if(FIELDS[i].id == id)
+		if(FIELDS[i].id === id)
 		{
 			name = FIELDS[i].name
 			break;

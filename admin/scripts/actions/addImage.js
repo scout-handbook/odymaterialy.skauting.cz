@@ -32,7 +32,7 @@ function changeLabel(event)
 
 function addImageSave()
 {
-	if(document.getElementById("addImageFile").value != "")
+	if(document.getElementById("addImageFile").value !== "")
 	{
 		var formData = new FormData()
 		formData.append("image", document.getElementById("addImageFile").files[0])

@@ -39,7 +39,7 @@ function importGroupOnClick(event)
 
 function importGroupSelectEventRender(id, events)
 {
-	if(events.length == 0)
+	if(events.length === 0)
 	{
 		sidePanelClose();
 		spinner();

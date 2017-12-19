@@ -16,7 +16,7 @@ function changeLessonGroupsOnClick(id, actionQueue)
 		}
 		html += " data-id=\"" + GROUPS[i].id + "\"";
 		html += "><span class=\"formCustom formCheckbox\"></span></label>";
-		if(GROUPS[i].id == "00000000-0000-0000-0000-000000000000")
+		if(GROUPS[i].id === "00000000-0000-0000-0000-000000000000")
 		{
 			html += "<span class=\"publicGroup\">" + GROUPS[i].name + "</span></div>";
 			publicName = GROUPS[i].name;

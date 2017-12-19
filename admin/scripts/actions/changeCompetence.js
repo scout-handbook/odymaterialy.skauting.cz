@@ -9,7 +9,7 @@ function changeCompetenceOnClick(event)
 	html += "<h3 class=\"sidePanelTitle\">Upravit kompetenci</h3><form id=\"sidePanelForm\">";
 	for(var i = 0; i < COMPETENCES.length; i++)
 	{
-		if(COMPETENCES[i].id == getAttribute(event, "id"))
+		if(COMPETENCES[i].id === getAttribute(event, "id"))
 		{
 			html += "<span class=\"heading\">Kompetence</span> <input type=\"text\" class=\"formText formName\" id=\"competenceNumber\" value=\"" + COMPETENCES[i].number + "\" autocomplete=\"off\"><br>";
 			html += "<input type=\"text\" class=\"formText\" id=\"competenceName\" value=\"" + COMPETENCES[i].name + "\" autocomplete=\"off\"><br>";

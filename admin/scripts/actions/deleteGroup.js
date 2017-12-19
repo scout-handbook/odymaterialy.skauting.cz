@@ -3,7 +3,7 @@ function deleteGroupOnClick(event)
 	var name = "";
 	for(var i = 0; i < GROUPS.length; i++)
 	{
-		if(GROUPS[i].id == getAttribute(event, "id"))
+		if(GROUPS[i].id === getAttribute(event, "id"))
 		{
 			name = GROUPS[i].name
 			break;

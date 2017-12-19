@@ -10,7 +10,7 @@ function changeUserGroupsOnClick(event)
 	var currentGroups = JSON.parse(getAttribute(event, "groups"));
 	for(var i = 0; i < GROUPS.length; i++)
 	{
-		if(GROUPS[i].id == "00000000-0000-0000-0000-000000000000")
+		if(GROUPS[i].id === "00000000-0000-0000-0000-000000000000")
 		{
 			publicName = GROUPS[i].name;
 		}

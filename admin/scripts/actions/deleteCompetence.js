@@ -4,7 +4,7 @@ function deleteCompetenceOnClick(event)
 	var name = "";
 	for(var i = 0; i < COMPETENCES.length; i++)
 	{
-		if(COMPETENCES[i].id == getAttribute(event, "id"))
+		if(COMPETENCES[i].id === getAttribute(event, "id"))
 		{
 			number = COMPETENCES[i].number
 			name = COMPETENCES[i].name

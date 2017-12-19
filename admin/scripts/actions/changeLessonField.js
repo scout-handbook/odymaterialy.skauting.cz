@@ -9,7 +9,7 @@ function changeLessonFieldOnClick(id, actionQueue)
 	for(var i = 0; i < FIELDS.length; i++)
 	{
 		var checked = false;
-		if((FIELDS[i].id && FIELDS[i].id == lessonSettingsCache.field) || (!FIELDS[i].id && lessonSettingsCache.field == ""))
+		if((FIELDS[i].id && FIELDS[i].id === lessonSettingsCache.field) || (!FIELDS[i].id && lessonSettingsCache.field === ""))
 		{
 			checked = true;
 		}
