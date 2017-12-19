@@ -74,6 +74,8 @@ engines:
         enabled: false
       PhanUndeclaredVariable:
         enabled: false
+      PhanUndeclaredConstant:
+        enabled: false
   stylelint:
     enabled: true
   sonar-php:

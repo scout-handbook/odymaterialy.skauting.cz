@@ -105,7 +105,7 @@ SQL;
 			end($field->lessons)->lowestCompetence = 0;
 			if($db2->fetch())
 			{
-				end($field->lessons)->lowestCompetence = $competence_number;
+				end($field->lessons)->lowestCompetence = intval($competence_number);
 				end($field->lessons)->competences[] = $competence_id;
 			}
 			else

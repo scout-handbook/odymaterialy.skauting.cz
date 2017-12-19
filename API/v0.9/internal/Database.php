@@ -106,7 +106,7 @@ class Database
 		if(self::$instanceCount === 0)
 		{
 			self::$db->close();
-			self::$db = null;
+			unset(self::$db);
 		}
 	}
 }
