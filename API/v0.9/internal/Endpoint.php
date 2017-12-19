@@ -126,6 +126,22 @@ class Endpoint
 		return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 	}
 
+	public function call($method, $role, $data)
+	{
+		$func = $this->callFunctionHelper($method, $data);
+		$self = $this;
+		$wrapper = function($skautis) use ($data, $func, $self)
+		{
+			return $func($skautis, $data, $self);
+		};
+		$hardCheck = (Role_cmp($role, new Role('user')) > 0);
+		$ret = roleTry($wrapper, $hardCheck, $role);
+		if(isset($ret))
+		{
+			return $ret;
+		}
+	}
+
 	private function callFunctionHelper($method, $data)
 	{
 		switch($method)
@@ -159,22 +175,6 @@ class Endpoint
 				break;
 		}
 		return $func;
-	}
-
-	public function call($method, $role, $data)
-	{
-		$func = callFunctionHelper($method, $data);
-		$self = $this;
-		$wrapper = function($skautis) use ($data, $func, $self)
-		{
-			return $func($skautis, $data, $self);
-		};
-		$hardCheck = (Role_cmp($role, new Role('user')) > 0);
-		$ret = roleTry($wrapper, $hardCheck, $role);
-		if(isset($ret))
-		{
-			return $ret;
-		}
 	}
 
 	public function handleSelf($method, $data)
@@ -221,37 +221,9 @@ class Endpoint
 		}
 	}
 
-	private function handleDataHelper()
-	{
-		$method = $_SERVER['REQUEST_METHOD'];
-		switch($method)
-		{
-			case 'PUT':
-				parse_str(file_get_contents("php://input"), $data);
-				break;
-			case 'POST':
-				$data = $_POST;
-				break;
-			case 'GET':
-			case 'DELETE':
-			default:
-				$data = $_GET;
-				break;
-		}
-		if(isset($_GET['id']) and $_GET['id'] !== '')
-		{
-			$data['id'] = $_GET['id'];
-		}
-		elseif(!isset($_POST['id']))
-		{
-			unset($data['id']);
-		}
-		return $data;
-	}
-
 	public function handle()
 	{
-		$data = handleDataHelper();
+		$data = $this->handleDataHelper();
 		if(isset($data['id']) and isset($_GET['sub-resource']) and $_GET['sub-resource'] !== '')
 		{
 		   	if(isset($this->subEndpoints[$_GET['sub-resource']]))
@@ -278,5 +250,33 @@ class Endpoint
 		{
 			$this->handleSelf($method, $data);
 		}
+	}
+
+	private function handleDataHelper()
+	{
+		$method = $_SERVER['REQUEST_METHOD'];
+		switch($method)
+		{
+			case 'PUT':
+				parse_str(file_get_contents("php://input"), $data);
+				break;
+			case 'POST':
+				$data = $_POST;
+				break;
+			case 'GET':
+			case 'DELETE':
+			default:
+				$data = $_GET;
+				break;
+		}
+		if(isset($_GET['id']) and $_GET['id'] !== '')
+		{
+			$data['id'] = $_GET['id'];
+		}
+		elseif(!isset($_POST['id']))
+		{
+			unset($data['id']);
+		}
+		return $data;
 	}
 }
