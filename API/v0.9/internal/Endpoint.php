@@ -18,18 +18,15 @@ class Endpoint
 	private $parentEndpoint;
 
 	private $listFunction;
-	private $listRole;
-	
 	private $getFunction;
-	private $getRole;
-
 	private $updateFunction;
-	private $updateRole;
-
 	private $addFunction;
-	private $addRole;
-
 	private $deleteFunction;
+
+	private $listRole;
+	private $getRole;
+	private $updateRole;
+	private $addRole;
 	private $deleteRole;
 
 	public function __construct($resourceName)
@@ -41,30 +38,27 @@ class Endpoint
 		{
 			throw new NotImplementedException();
 		};
-		$this->listRole = new Role('guest');
-
 		$this->getFunction = function($skautis, $data, $endpoint)
 		{
 			throw new NotImplementedException();
 		};
-		$this->getRole = new Role('guest');
-
 		$this->updateFunction = function($skautis, $data, $endpoint)
 		{
 			throw new NotImplementedException();
 		};
-		$this->updateRole = new Role('guest');
-
 		$this->addFunction = function($skautis, $data, $endpoint)
 		{
 			throw new NotImplementedException();
 		};
-		$this->addRole = new Role('guest');
-
 		$this->deleteFunction = function($skautis, $data, $endpoint)
 		{
 			throw new NotImplementedException();
 		};
+
+		$this->listRole = new Role('guest');
+		$this->getRole = new Role('guest');
+		$this->updateRole = new Role('guest');
+		$this->addRole = new Role('guest');
 		$this->deleteRole = new Role('guest');
 	}
 
@@ -149,7 +143,7 @@ class Endpoint
 			case 'PUT':
 				if(isset($data['id']) or isset($data['parent-id']))
 				{
-					$func = $this->updateFunction;
+					return $this->updateFunction;
 				}
 				else
 				{
@@ -157,12 +151,12 @@ class Endpoint
 				}
 				break;
 			case 'POST':
-				$func = $this->addFunction;
+				return $this->addFunction;
 				break;
 			case 'DELETE':
 				if(isset($data['id']) or isset($data['parent-id']))
 				{
-					$func = $this->deleteFunction;
+					return $this->deleteFunction;
 				}
 				else
 				{
@@ -171,10 +165,9 @@ class Endpoint
 				break;
 			case 'GET':
 			default:
-				$func = isset($data['id']) ? $this->getFunction : $this->listFunction;
+				return isset($data['id']) ? $this->getFunction : $this->listFunction;
 				break;
 		}
-		return $func;
 	}
 
 	public function handleSelf($method, $data)
