@@ -3,7 +3,7 @@ namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
-class AnonymousField
+class LessonContainer
 {
 	public $lessons = array();
 
