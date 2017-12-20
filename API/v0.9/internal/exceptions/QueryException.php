@@ -10,7 +10,7 @@ class QueryException extends Exception
 	const TYPE = 'QueryException';
 	const STATUS = 500;
 
-	public function __construct(string $query, mysqli $db)
+	public function __construct(string $query, \mysqli $db)
 	{
 		parent::__construct('Invalid query: "' . $query . '". Error message: "' . $db->error . '".');
 	}

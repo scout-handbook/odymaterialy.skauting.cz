@@ -42,7 +42,7 @@ SQL;
 		$count = '';
 		$db2->bind_result($count);
 		$db2->fetch_require('group');
-		$groups[] = new OdyMaterialyAPI\Group($id, $name, $count);
+		$groups[] = new OdyMaterialyAPI\Group($id, $name, intval($count));
 	}
 	return ['status' => 200, 'response' => $groups];
 };

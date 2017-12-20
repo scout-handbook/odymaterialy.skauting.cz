@@ -30,7 +30,7 @@ SQL;
 		if(checkLessonGroup(Uuid::fromBytes($lessonId), $overrideGroup))
 		{
 			// Create a new Lesson in the newly-created Field
-			$field->lessons[] = new OdyMaterialyAPI\Lesson($lessonId, $lessonName, $lessonVersion);
+			$field->lessons[] = new OdyMaterialyAPI\Lesson($lessonId, $lessonName, intval($lessonVersion));
 
 			// Find out the competences this Lesson belongs to
 			$db2 = new OdyMaterialyAPI\Database();
