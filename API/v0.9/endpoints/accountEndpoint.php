@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -12,9 +12,9 @@ use Ramsey\Uuid\Uuid;
 
 $accountEndpoint = new OdyMaterialyAPI\Endpoint('user');
 
-$listAccount = function($skautis, $data, $endpoint)
+$listAccount = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
-	$getAccount = function($skautis) use ($data)
+	$getAccount = function(Skautis\Skautis $skautis) use ($data) : array
 	{
 		$SQL = <<<SQL
 SELECT users_in_groups.group_id
@@ -29,7 +29,7 @@ SQL;
 		$response['role'] = OdyMaterialyAPI\getRole($loginDetail->ID_Person);
 		$response['groups'] = [];
 
-		$db = new OdymaterialyAPI\Database();
+		$db = new OdyMaterialyAPI\Database();
 		$db->prepare($SQL);
 		$db->bind_param('s', $loginDetail->ID_Person);
 		$db->execute();
@@ -63,9 +63,9 @@ SQL;
 		return ['status' => 401];
 	}
 };
-$accountEndpoint->setListMethod(new OdymaterialyAPI\Role('guest'), $listAccount);
+$accountEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $listAccount);
 
-$addAccount = function($skautis, $data, $endpoint)
+$addAccount = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	global $userEndpoint;
 	$id = $skautis->UserManagement->LoginDetail()->ID_Person;
@@ -74,4 +74,4 @@ $addAccount = function($skautis, $data, $endpoint)
 	$userEndpoint->call('POST', new OdyMaterialyAPI\Role('user'), $userData);
 	return ['status' => 200];
 };
-$accountEndpoint->setAddMethod(new OdymaterialyAPI\Role('user'), $addAccount);
+$accountEndpoint->setAddMethod(new OdyMaterialyAPI\Role('user'), $addAccount);

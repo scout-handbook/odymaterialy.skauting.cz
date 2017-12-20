@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -27,7 +27,7 @@ $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 $lessonEndpoint->addSubEndpoint('group', $lessonGroupEndpoint);
 $lessonEndpoint->addSubEndpoint('pdf', $lessonPDFEndpoint);
 
-function checkLessonGroup($lessonId, $overrideGroup = false)
+function checkLessonGroup(Uuid $lessonId, bool $overrideGroup = false) : bool
 {
 	global $accountEndpoint;
 
@@ -36,7 +36,7 @@ SELECT group_id FROM groups_for_lessons
 WHERE lesson_id = ?;
 SQL;
 
-	$loginState = $accountEndpoint->call('GET', new OdymaterialyAPI\Role('guest'), ['no-avatar' => 'true']);
+	$loginState = $accountEndpoint->call('GET', new OdyMaterialyAPI\Role('guest'), ['no-avatar' => 'true']);
 
 	if($loginState['status'] == '200')
 	{
@@ -53,7 +53,7 @@ SQL;
 	}
 	array_walk($groups, '\Ramsey\Uuid\Uuid::fromString');
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($groupSQL);
 	$lessonId = $lessonId->getBytes();
 	$db->bind_param('s', $lessonId);
@@ -72,6 +72,6 @@ SQL;
 
 $lessonEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $listLessons);
 $lessonEndpoint->setGetMethod(new OdyMaterialyAPI\Role('guest'), $getLesson);
-$lessonEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addLesson);
-$lessonEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateLesson);
-$lessonEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteLesson);
+$lessonEndpoint->setAddMethod(new OdyMaterialyAPI\Role('editor'), $addLesson);
+$lessonEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLesson);
+$lessonEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteLesson);

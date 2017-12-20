@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -10,7 +10,7 @@ class InvalidArgumentTypeException extends Exception
 	const TYPE = 'InvalidArgumentTypeException';
 	const STATUS = 415;
 
-	public function __construct($name, $types)
+	public function __construct(string $name, array $types)
 	{
 		$typesString = '';
 		$first = true;

@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 
-$deleteLesson = function($skautis, $data, $endpoint)
+$deleteLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$copySQL = <<<SQL
 INSERT INTO deleted_lessons (id, name, version, body)
@@ -30,7 +30,7 @@ SQL;
 
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($copySQL);
@@ -56,7 +56,7 @@ SQL;
 	$db->fetch_require('lesson');
 	if($count != 1)
 	{
-		throw new OdymaterialyAPI\NotFoundException("lesson");
+		throw new OdyMaterialyAPI\NotFoundException("lesson");
 	}
 
 	$db->finish_transaction();

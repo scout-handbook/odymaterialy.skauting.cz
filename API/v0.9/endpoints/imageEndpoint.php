@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -12,9 +12,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingA
 
 use Ramsey\Uuid\Uuid;
 
-$imageEndpoint = new OdymaterialyAPI\Endpoint('image');
+$imageEndpoint = new OdyMaterialyAPI\Endpoint('image');
 
-$listImages = function($skautis, $data, $endpoint)
+$listImages = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 SELECT id
@@ -22,7 +22,7 @@ FROM images
 ORDER BY time DESC;
 SQL;
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
 	$db->execute();
 	$id = '';
@@ -34,9 +34,9 @@ SQL;
 	}
 	return ['status' => 200, 'response' => $images];
 };
-$imageEndpoint->setListMethod(new OdymaterialyAPI\Role('editor'), $listImages);
+$imageEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listImages);
 
-$getImage = function($skautis, $data, $endpoint)
+$getImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : void
 {
 	$id = $endpoint->parseUuid($data['id'])->__toString();
 	$quality = "web";
@@ -49,7 +49,7 @@ $getImage = function($skautis, $data, $endpoint)
 
 	if(!file_exists($file))
 	{
-		throw new OdymaterialyAPI\NotFoundException('image');
+		throw new OdyMaterialyAPI\NotFoundException('image');
 	}
 
 	header('content-type: ' . mime_content_type($file));
@@ -69,9 +69,9 @@ $getImage = function($skautis, $data, $endpoint)
 	header('last-modified: ' . date('r', $modified));
 	readfile($file);
 };
-$imageEndpoint->setGetMethod(new OdymaterialyAPI\Role('guest'), $getImage);
+$imageEndpoint->setGetMethod(new OdyMaterialyAPI\Role('guest'), $getImage);
 
-$addImage = function($skautis, $data, $endpoint)
+$addImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 INSERT INTO images (id)
@@ -97,7 +97,7 @@ SQL;
 		throw new OdyMaterialyAPI\Exception('File upload failed.');
 	}
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 	$db->prepare($SQL);
 	$uuidBin = $uuid->getBytes();
@@ -121,9 +121,9 @@ SQL;
 	$db->finish_transaction();
 	return ['status' => 201];
 };
-$imageEndpoint->setAddMethod(new OdymaterialyAPI\Role('editor'), $addImage);
+$imageEndpoint->setAddMethod(new OdyMaterialyAPI\Role('editor'), $addImage);
 
-$deleteImage = function($skautis, $data, $endpoint)
+$deleteImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 DELETE FROM images
@@ -136,7 +136,7 @@ SQL;
 
 	$id = $endpoint->parseUuid($data['id']);
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($SQL);
@@ -151,7 +151,7 @@ SQL;
 	$db->fetch_require('image');
 	if($count != 1)
 	{
-		throw new OdymaterialyAPI\NotFoundException("image");
+		throw new OdyMaterialyAPI\NotFoundException("image");
 	}
 
 	$db->finish_transaction();
@@ -162,4 +162,4 @@ SQL;
 
 	return ['status' => 200];
 };
-$imageEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteImage);
+$imageEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteImage);

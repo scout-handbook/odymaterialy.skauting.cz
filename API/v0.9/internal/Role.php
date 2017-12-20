@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -15,7 +15,7 @@ class Role implements \JsonSerializable
 
 	public $role;
 
-	public function __construct($str)
+	public function __construct(string $str)
 	{
 		switch($str)
 		{
@@ -37,7 +37,7 @@ class Role implements \JsonSerializable
 		}
 	}
 
-	public function __toString()
+	public function __toString() : string
 	{
 		switch($this->role)
 		{
@@ -59,18 +59,18 @@ class Role implements \JsonSerializable
 		}
 	}
 
-	public function jsonSerialize()
+	public function jsonSerialize() : string
 	{
 		return $this->__toString();
 	}
 }
 
-function Role_cmp($first, $second)
+function Role_cmp(Role $first, Role $second) : int
 {
 	return $first->role <=> $second->role;
 }
 
-function getRole($idPerson)
+function getRole(int $idPerson) : Role
 {
 	$SQL = <<<SQL
 SELECT role

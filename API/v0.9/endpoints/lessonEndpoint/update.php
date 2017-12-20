@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -6,7 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
 
-$updateLesson = function($skautis, $data, $endpoint)
+$updateLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$selectSQL = <<<SQL
 SELECT name, body
@@ -39,7 +39,7 @@ SQL;
 		$body = $data['body'];
 	}
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 
 	if(!isset($name) or !isset($body))
 	{
@@ -51,7 +51,7 @@ SQL;
 		$db->bind_result($origName, $origBody);
 		if(!$db->fetch())
 		{
-			throw new OdymaterialyAPI\NotFoundException('lesson');
+			throw new OdyMaterialyAPI\NotFoundException('lesson');
 		}
 		if(!isset($name))
 		{
@@ -80,7 +80,7 @@ SQL;
 	$db->fetch_require('lesson');
 	if($count != 1)
 	{
-		throw new OdymaterialyAPI\NotFoundException("lesson");
+		throw new OdyMaterialyAPI\NotFoundException("lesson");
 	}
 
 	$db->finish_transaction();

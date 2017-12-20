@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -10,7 +10,7 @@ class ConnectionException extends Exception
 	const TYPE = 'ConnectionException';
 	const STATUS = 500;
 
-	public function __construct($db)
+	public function __construct(mysqli $db)
 	{
 		parent::__construct('Database connection request failed. Error message: "' . $db->connect_error . '".');
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 $fieldEndpoint = new OdyMaterialyAPI\Endpoint('field');
 
-$addField = function($skautis, $data, $endpoint)
+$addField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 INSERT INTO fields (id, name)
@@ -26,15 +26,15 @@ SQL;
 	$name = $endpoint->xssSanitize($data['name']);
 	$uuid = Uuid::uuid4()->getBytes();
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
 	$db->bind_param('ss', $uuid, $name);
 	$db->execute();
 	return ['status' => 201];
 };
-$fieldEndpoint->setAddMethod(new OdymaterialyAPI\Role('administrator'), $addField);
+$fieldEndpoint->setAddMethod(new OdyMaterialyAPI\Role('administrator'), $addField);
 
-$updateField = function($skautis, $data, $endpoint)
+$updateField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 UPDATE fields
@@ -53,7 +53,7 @@ SQL;
 	}
 	$name = $endpoint->xssSanitize($data['name']);
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($SQL);
@@ -67,15 +67,15 @@ SQL;
 	$db->fetch_require('field');
 	if($count != 1)
 	{
-		throw new OdymaterialyAPI\NotFoundException("field");
+		throw new OdyMaterialyAPI\NotFoundException("field");
 	}
 
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$fieldEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateField);
+$fieldEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateField);
 
-$deleteField = function($skautis, $data, $endpoint)
+$deleteField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint)
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM lessons_in_fields
@@ -92,7 +92,7 @@ SQL;
 
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($deleteLessonsSQL);
@@ -110,10 +110,10 @@ SQL;
 	$db->fetch_require('field');
 	if($count != 1)
 	{
-		throw new OdymaterialyAPI\NotFoundException("field");
+		throw new OdyMaterialyAPI\NotFoundException("field");
 	}
 
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$fieldEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteField);
+$fieldEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteField);

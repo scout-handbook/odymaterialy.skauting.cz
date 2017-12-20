@@ -29,28 +29,28 @@ class Endpoint
 	private $addRole;
 	private $deleteRole;
 
-	public function __construct($resourceName)
+	public function __construct(string $resourceName)
 	{
 		$this->resourceName = $resourceName;
 		$this->subEndpoints = [];
 
-		$this->listFunction = function($skautis, $data, $endpoint)
+		$this->listFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->getFunction = function($skautis, $data, $endpoint)
+		$this->getFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->updateFunction = function($skautis, $data, $endpoint)
+		$this->updateFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->addFunction = function($skautis, $data, $endpoint)
+		$this->addFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->deleteFunction = function($skautis, $data, $endpoint)
+		$this->deleteFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
 		{
 			throw new NotImplementedException();
 		};
@@ -62,48 +62,48 @@ class Endpoint
 		$this->deleteRole = new Role('guest');
 	}
 
-	public function addSubEndpoint($name, $endpoint)
+	public function addSubEndpoint(string $name, Endpoint $endpoint) : void
 	{
 		$this->subEndpoints[$name] = $endpoint;
 		$this->subEndpoints[$name]->parentEndpoint = $this;
 	}
 
-	public function getParent()
+	public function getParent() : Endpoint
 	{
 		return $this->parentEndpoint;
 	}
 
-	public function setListMethod($minimalRole, $callback)
+	public function setListMethod(Role $minimalRole, callable $callback) : void
 	{
 		$this->listRole = $minimalRole;
 		$this->listFunction = $callback;
 	}
 
-	public function setGetMethod($minimalRole, $callback)
+	public function setGetMethod(Role $minimalRole, callable $callback) : void
 	{
 		$this->getRole = $minimalRole;
 		$this->getFunction = $callback;
 	}
 
-	public function setUpdateMethod($minimalRole, $callback)
+	public function setUpdateMethod(Role $minimalRole, callable $callback) : void
 	{
 		$this->updateRole = $minimalRole;
 		$this->updateFunction = $callback;
 	}
 
-	public function setAddMethod($minimalRole, $callback)
+	public function setAddMethod(Role $minimalRole, callable $callback) : void
 	{
 		$this->addRole = $minimalRole;
 		$this->addFunction = $callback;
 	}
 
-	public function setDeleteMethod($minimalRole, $callback)
+	public function setDeleteMethod(Role $minimalRole, callable $callback) : void
 	{
 		$this->deleteRole = $minimalRole;
 		$this->deleteFunction = $callback;
 	}
 
-	public function parseUuid($id)
+	public function parseUuid(string $id) : \Ramsey\Uuid\Uuid
 	{
 		try
 		{
@@ -115,16 +115,16 @@ class Endpoint
 		}
 	}
 
-	public function xssSanitize($input)
+	public function xssSanitize(string $input) : string
 	{
 		return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 	}
 
-	public function call($method, $role, $data)
+	public function call(string $method, Role $role, array $data) : array
 	{
 		$func = $this->callFunctionHelper($method, $data);
 		$self = $this;
-		$wrapper = function($skautis) use ($data, $func, $self)
+		$wrapper = function(\Skautis\Skautis $skautis) use ($data, $func, $self) : array
 		{
 			return $func($skautis, $data, $self);
 		};
@@ -136,7 +136,7 @@ class Endpoint
 		}
 	}
 
-	private function callFunctionHelper($method, $data)
+	private function callFunctionHelper(string $method, array $data) : callable
 	{
 		switch($method)
 		{
@@ -168,7 +168,7 @@ class Endpoint
 		}
 	}
 
-	public function handleSelf($method, $data)
+	public function handleSelf(string $method, array $data) : void
 	{
 		unset($data['sub-id']);
 		unset($data['sub-resource']);
@@ -212,7 +212,7 @@ class Endpoint
 		}
 	}
 
-	public function handle()
+	public function handle() : void
 	{
 		$method = $_SERVER['REQUEST_METHOD'];
 		$data = $this->handleDataHelper($method);
@@ -244,7 +244,7 @@ class Endpoint
 		}
 	}
 
-	private function handleDataHelper($method)
+	private function handleDataHelper(string $method) : array
 	{
 		switch($method)
 		{

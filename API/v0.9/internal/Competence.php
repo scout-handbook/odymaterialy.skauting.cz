@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -14,7 +14,7 @@ class Competence implements \JsonSerializable
 	public $name;
 	public $description;
 
-	public function __construct($id, $number, $name, $description)
+	public function __construct(string $id, int $number, string $name, string $description)
 	{
 		$this->id = $id;
 		$this->number = $number;
@@ -22,7 +22,7 @@ class Competence implements \JsonSerializable
 		$this->description = $description;
 	}
 
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 		return ['id' => Uuid::fromBytes($this->id), 'number' => $this->number, 'name' => $this->name, 'description' => $this->description];
 	}

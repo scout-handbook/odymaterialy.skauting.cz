@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -9,9 +9,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.ph
 
 $loginEndpoint = new OdyMaterialyAPI\Endpoint('user');
 
-$loginUser = function($skautis, $data, $endpoint) use ($accountEndpoint)
+$loginUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) use ($accountEndpoint) : void
 {
-	$startsWith = function($haystack, $needle)
+	$startsWith = function(string $haystack, string $needle)
 	{
 		return (substr($haystack, 0, strlen($needle)) === $needle);
 	};
@@ -59,5 +59,5 @@ $loginUser = function($skautis, $data, $endpoint) use ($accountEndpoint)
 	header('Location: ' . $redirect);
 	die();
 };
-$loginEndpoint->setListMethod(new OdymaterialyAPI\Role('guest'), $loginUser);
-$loginEndpoint->setAddMethod(new OdymaterialyAPI\Role('guest'), $loginUser);
+$loginEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $loginUser);
+$loginEndpoint->setAddMethod(new OdyMaterialyAPI\Role('guest'), $loginUser);

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMarkdown;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -8,7 +8,7 @@ use \cebe\markdown\GithubMarkdown;
 class OdyMarkdown extends GithubMarkdown
 {
 	// Link rendering as text with address in parentheses
-	protected function renderLink($block)
+	protected function renderLink($block) : string
 	{
 		if(isset($block['refkey']))
 		{
@@ -25,7 +25,7 @@ class OdyMarkdown extends GithubMarkdown
 	}
 
 	// Image rendering in original quality
-	protected function renderImage($block)
+	protected function renderImage($block) : string
 	{
 		if(isset($block['refkey']))
 		{
@@ -56,7 +56,7 @@ class OdyMarkdown extends GithubMarkdown
 	}
 
     // Generic functions for command parsing
-    private function identifyCommand($line, $command)
+    private function identifyCommand(string $line, string $command) : bool
     {
         if (strncmp($line, '!' . $command, strlen($command) + 1) === 0)
         {
@@ -65,7 +65,7 @@ class OdyMarkdown extends GithubMarkdown
         return false;
     }
 
-    private function consumeCommand($lines, $current, $command)
+    private function consumeCommand(array $lines, int $current, string $command) : array
     {
         $block = [$command];
         $line = rtrim($lines[$current]);
@@ -112,17 +112,17 @@ class OdyMarkdown extends GithubMarkdown
     }
 
     // Notes extension
-    protected function identifyNotes($line)
+    protected function identifyNotes(string $line) : bool
     {
         return $this->identifyCommand($line, 'notes');
     }
 
-    protected function consumeNotes($lines, $current)
+    protected function consumeNotes(array $lines, int $current) : array
     {
         return $this->consumeCommand($lines, $current, 'notes');
     }
 
-    protected function renderNotes($block)
+    protected function renderNotes(array $block) : string
     {
         if(isset($block['style']) and $block['style'] === 'dotted')
         {

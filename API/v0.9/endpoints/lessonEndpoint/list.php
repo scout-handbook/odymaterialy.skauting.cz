@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -9,7 +9,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Lesson.php');
 
 use Ramsey\Uuid\Uuid;
 
-function populateField($db, $field, $overrideGroup = false)
+function populateField(OdyMaterialyAPI\Database $db, $field, bool $overrideGroup = false) : void
 {
 	$competenceSQL = <<<SQL
 SELECT competences.id, competences.number
@@ -33,7 +33,7 @@ SQL;
 			$field->lessons[] = new OdyMaterialyAPI\Lesson($lessonId, $lessonName, $lessonVersion);
 
 			// Find out the competences this Lesson belongs to
-			$db2 = new OdymaterialyAPI\Database();
+			$db2 = new OdyMaterialyAPI\Database();
 			$db2->prepare($competenceSQL);
 			$db2->bind_param('s', $lessonId);
 			$db2->execute();
@@ -58,7 +58,7 @@ SQL;
 	}
 }
 
-$listLessons = function($skautis, $data, $endpoint)
+$listLessons = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$fieldSQL = <<<SQL
 SELECT id, name
@@ -79,9 +79,9 @@ SQL;
 
 	$overrideGroup = (isset($data['override-group']) and $data['override-group'] == 'true');
 
-	$fields = [new OdymaterialyAPI\AnonymousField()];
+	$fields = [new OdyMaterialyAPI\AnonymousField()];
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($anonymousSQL);
 	populateField($db, end($fields), $overrideGroup);
 
@@ -96,7 +96,7 @@ SQL;
 	{
 		$fields[] = new OdyMaterialyAPI\Field($field_id, $field_name); // Create a new field
 
-		$db2 = new OdymaterialyAPI\Database();
+		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($lessonSQL);
 		$db2->bind_param('s', $field_id);
 		populateField($db2, end($fields), $overrideGroup);

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
@@ -14,7 +14,7 @@ class User implements \JsonSerializable
 	public $role;
 	public $groups;
 
-	public function __construct($id, $name, $role)
+	public function __construct(int $id, string $name, string $role)
 	{
 		$this->id = $id;
 		$this->name = $name;
@@ -22,7 +22,7 @@ class User implements \JsonSerializable
 		$this->groups = [];
 	}
 
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 		$ugroup = [];
 		foreach($this->groups as $group)

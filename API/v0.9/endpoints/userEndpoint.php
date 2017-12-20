@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -16,9 +16,9 @@ $userEndpoint->addSubEndpoint('role', $userRoleEndpoint);
 $userEndpoint->addSubEndpoint('group', $userGroupEndpoint);
 
 
-function constructSelectSQL($skautis)
+function constructSelectSQL(Skautis\Skautis $skautis) : string
 {
-	$role = OdymaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person);
+	$role = OdyMaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person);
 
 	$innerSQL = '';
 	if(OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('administrator')) >= 0)
@@ -43,7 +43,7 @@ SQL;
 	return $selectSQL;
 }
 
-$listUsers = function($skautis, $data, $endpoint)
+$listUsers = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$selectSQL = constructSelectSQL($skautis);
 	$countSQL = <<<SQL
@@ -79,7 +79,7 @@ SQL;
 		}
 	}
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($selectSQL);
 	$db->bind_param('sii', $searchName, $start, $per_page);
 	$db->execute();
@@ -94,9 +94,9 @@ SQL;
 	$users = [];
 	foreach($userResult as $row)
 	{
-		$users[] = new OdymaterialyAPI\User($row['id'], $row['name'], $row['role']);
+		$users[] = new OdyMaterialyAPI\User($row['id'], $row['name'], $row['role']);
 
-		$db2 = new OdymaterialyAPI\Database();
+		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($groupSQL);
 		$db2->bind_param('s', $row['id']);
 		$db2->execute();
@@ -110,9 +110,9 @@ SQL;
 
 	return ['status' => 200, 'response' => ['count' => $count, 'users' => $users]];
 };
-$userEndpoint->setListMethod(new OdymaterialyAPI\Role('editor'), $listUsers);
+$userEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listUsers);
 
-$addUser = function($skautis, $data, $endpoint)
+$addUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	if(!isset($data['id']))
 	{
@@ -135,7 +135,7 @@ VALUES (?, ?)
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 SQL;
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
 	$db->bind_param('is', $id, $name);
 	$db->execute();

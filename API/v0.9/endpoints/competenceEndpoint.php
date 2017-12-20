@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
 
 $competenceEndpoint = new OdyMaterialyAPI\Endpoint('competence');
 
-$listCompetences = function($skautis, $data, $endpoint)
+$listCompetences = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 SELECT id, number, name, description
@@ -23,7 +23,7 @@ FROM competences
 ORDER BY number;
 SQL;
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
 	$db->execute();
 	$id = '';
@@ -38,9 +38,9 @@ SQL;
 	}
 	return ['status' => 200, 'response' => $competences];
 };
-$competenceEndpoint->setListMethod(new OdymaterialyAPI\Role('guest'), $listCompetences);
+$competenceEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $listCompetences);
 
-$addCompetence = function($skautis, $data, $endpoint)
+$addCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 INSERT INTO competences (id, number, name, description)
@@ -68,15 +68,15 @@ SQL;
 	}
 	$uuid = Uuid::uuid4()->getBytes();
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
 	$db->bind_param('siss', $uuid, $number, $name, $description);
 	$db->execute();
 	return ['status' => 201];
 };
-$competenceEndpoint->setAddMethod(new OdymaterialyAPI\Role('administrator'), $addCompetence);
+$competenceEndpoint->setAddMethod(new OdyMaterialyAPI\Role('administrator'), $addCompetence);
 
-$updateCompetence = function($skautis, $data, $endpoint)
+$updateCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$selectSQL = <<<SQL
 SELECT number, name, description
@@ -111,7 +111,7 @@ SQL;
 		$description = $endpoint->xssSanitize($data['description']);
 	}
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 
 	if(!isset($number) or !isset($name) or !isset($description))
 	{
@@ -150,15 +150,15 @@ SQL;
 	$db->fetch_require('competence');
 	if($count != 1)
 	{
-		throw new OdymaterialyAPI\NotFoundException("competence");
+		throw new OdyMaterialyAPI\NotFoundException("competence");
 	}
 
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$competenceEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateCompetence);
+$competenceEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateCompetence);
 
-$deleteCompetence = function($skautis, $data, $endpoint)
+$deleteCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM competences_for_lessons
@@ -175,7 +175,7 @@ SQL;
 
 	$id = $endpoint->parseUuid($data['id'])->getBytes();
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($deleteLessonsSQL);
@@ -193,10 +193,10 @@ SQL;
 	$db->fetch_require('competence');
 	if($count != 1)
 	{
-		throw new OdymaterialyAPI\NotFoundException("competence");
+		throw new OdyMaterialyAPI\NotFoundException("competence");
 	}
 
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$competenceEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteCompetence);
+$competenceEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteCompetence);

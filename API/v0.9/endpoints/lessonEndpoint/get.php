@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -6,7 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RoleException.php');
 
-$getLesson = function($skautis, $data, $endpoint)
+$getLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 SELECT body
@@ -18,7 +18,7 @@ SQL;
 
 	if(!checkLessonGroup($id, true))
 	{
-		throw new OdymaterialyAPI\RoleException();
+		throw new OdyMaterialyAPI\RoleException();
 	}
 
 	$id = $id->getBytes();

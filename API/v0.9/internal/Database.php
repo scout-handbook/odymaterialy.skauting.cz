@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -27,7 +27,7 @@ class Database
 		self::$instanceCount = self::$instanceCount + 1;
 	}
 
-	public function prepare($SQL)
+	public function prepare(string $SQL) : void
 	{
 		$this->SQL = $SQL;
 		if(isset($this->statement))
@@ -41,12 +41,12 @@ class Database
 		}
 	}
 
-	public function bind_param($type, ...$vars)
+	public function bind_param(string $type, ...$vars) : void
 	{
 		$this->statement->bind_param($type, ...$vars);
 	}
 
-	public function execute($resourceName = "")
+	public function execute(string $resourceName = "") : void
 	{
 		if(!$this->statement->execute())
 		{
@@ -58,18 +58,18 @@ class Database
 		}
 	}
 
-	public function bind_result(&...$vars)
+	public function bind_result(&...$vars) : void
 	{
 		$this->statement->store_result();
 		$this->statement->bind_result(...$vars);
 	}
 
-	public function fetch()
+	public function fetch() : ?bool // Nullable return type
 	{
 		return $this->statement->fetch();
 	}
 
-	public function fetch_require($resourceName)
+	public function fetch_require(string $resourceName) : void
 	{
 		if(!$this->fetch())
 		{
@@ -77,17 +77,17 @@ class Database
 		}
 	}
 
-	public function fetch_all()
+	public function fetch_all() : array
 	{
 		return $this->statement->get_result()->fetch_all(MYSQLI_ASSOC);
 	}
 
-	public function start_transaction()
+	public function start_transaction() : void
 	{
 		self::$db->autocommit(false);
 	}
 
-	public function finish_transaction()
+	public function finish_transaction() : void
 	{
 		self::$db->commit();
 		self::$db->autocommit(true);

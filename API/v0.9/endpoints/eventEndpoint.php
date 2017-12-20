@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -10,7 +10,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/eventParticipantEn
 $eventEndpoint = new OdyMaterialyAPI\Endpoint('user');
 $eventEndpoint->addSubEndpoint('participant', $eventParticipantEndpoint);
 
-$listUsers = function($skautis, $data, $endpoint)
+$listUsers = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint)
 {
 	$ISevents = $skautis->Events->EventEducationAllMyActions();
 	$events = [];
@@ -20,4 +20,4 @@ $listUsers = function($skautis, $data, $endpoint)
 	}
 	return ['status' => 200, 'response' => $events];
 };
-$eventEndpoint->setListMethod(new OdymaterialyAPI\Role('editor'), $listUsers);
+$eventEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listUsers);

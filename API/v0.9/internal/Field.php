@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -13,20 +13,20 @@ class Field implements \JsonSerializable
 	public $name;
 	public $lessons = array();
 
-	public function __construct($id, $name)
+	public function __construct(string $id, string $name)
 	{
 		$this->id = $id;
 		$this->name = $name;
 	}
 
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 		return ['id' => Uuid::fromBytes($this->id), 'name' => $this->name, 'lessons' => $this->lessons];
 	}
 }
 
 // Field comparison function used in usort. Assumes that both Fields have their lessons sorted low-to-high.
-function Field_cmp($first, $second)
+function Field_cmp($first, $second) : int
 {
 	if(get_class($first) === "OdyMaterialyAPI\AnonymousField")
 	{

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -9,13 +9,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidA
 
 $userGroupEndpoint = new OdyMaterialyAPI\Endpoint('group');
 
-$updateUserRole = function($skautis, $data, $endpoint)
+$updateUserRole = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
-	$checkRole = function($my_role, $role)
+	$checkRole = function(OdyMaterialyAPI\Role $my_role, OdyMaterialyAPI\Role $role) : void
 	{
-		if((OdyMaterialyAPI\Role_cmp($my_role, new OdyMaterialyAPI\Role('administrator')) === 0) and (OdymaterialyAPI\Role_cmp($role, new OdymaterialyAPI\Role('administrator')) >= 0))
+		if((OdyMaterialyAPI\Role_cmp($my_role, new OdyMaterialyAPI\Role('administrator')) === 0) and (OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('administrator')) >= 0))
 		{
-			throw new OdymaterialyAPI\RoleException();
+			throw new OdyMaterialyAPI\RoleException();
 		}
 	};
 
@@ -54,9 +54,9 @@ SQL;
 		}
 	}
 
-	$my_role = new OdyMaterialyAPI\Role(OdymaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person));
+	$my_role = new OdyMaterialyAPI\Role(OdyMaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person));
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($selectSQL);
@@ -65,7 +65,7 @@ SQL;
 	$other_role = '';
 	$db->bind_result($other_role);
 	$db->fetch_require('user');
-	$checkRole($my_role, new OdymaterialyAPI\Role($other_role));
+	$checkRole($my_role, new OdyMaterialyAPI\Role($other_role));
 
 	$db->prepare($deleteSQL);
 	$db->bind_param('s', $id);
@@ -81,4 +81,4 @@ SQL;
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$userGroupEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateUserRole);
+$userGroupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateUserRole);
