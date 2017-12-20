@@ -24,6 +24,7 @@ class Database
 		{
 			throw new ConnectionException(self::$db);
 		}
+		self::$db->set_charset('utf8');
 		self::$instanceCount = self::$instanceCount + 1;
 	}
 
