@@ -82,7 +82,9 @@ engines:
         enabled: false
   phan:
     enabled: true
-    dead-code-detection: true
+    config:
+      backward-compatibility-checks: true
+      dead-code-detection: true
     checks:
       PhanUndeclaredClass:
         enabled: false
