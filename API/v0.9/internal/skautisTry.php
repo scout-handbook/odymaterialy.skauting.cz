@@ -62,22 +62,3 @@ function roleTry($callback, $hardCheck, $requiredRole)
 	};
 	return skautisTry($safeCallback, $hardCheck);
 }
-
-function userTry($callback, $hardCheck = true)
-{
-	return roleTry($callback, $hardCheck, new Role('user'));
-}
-
-function editorTry($callback, $hardCheck = true)
-{
-	return roleTry($callback, $hardCheck, new Role('editor'));
-}
-
-function administratorTry($callback, $hardCheck = true)
-{
-	return roleTry($callback, $hardCheck, new Role('administrator'));
-}
-function superuserTry($callback, $hardCheck = true)
-{
-	return roleTry($callback, $hardCheck, new Role('superuser'));
-}
