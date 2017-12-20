@@ -9,7 +9,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/LessonContainer.php
 
 use Ramsey\Uuid\Uuid;
 
-function populateField(OdyMaterialyAPI\Database $db, $field, bool $overrideGroup = false) : void
+function populateContainer(OdyMaterialyAPI\Database $db, OdyMaterialyAPI\LessonContainer $container, bool $overrideGroup = false) : void
 {
 	$competenceSQL = <<<SQL
 SELECT competences.id, competences.number
@@ -30,7 +30,7 @@ SQL;
 		if(checkLessonGroup(Uuid::fromBytes($lessonId), $overrideGroup))
 		{
 			// Create a new Lesson in the newly-created Field
-			$field->lessons[] = new OdyMaterialyAPI\Lesson($lessonId, $lessonName, intval($lessonVersion));
+			$container->lessons[] = new OdyMaterialyAPI\Lesson($lessonId, $lessonName, intval($lessonVersion));
 
 			// Find out the competences this Lesson belongs to
 			$db2 = new OdyMaterialyAPI\Database();
@@ -40,19 +40,19 @@ SQL;
 			$competenceId = '';
 			$competenceNumber = '';
 			$db2->bind_result($competenceId, $competenceNumber);
-			end($field->lessons)->lowestCompetence = 0;
+			end($container->lessons)->lowestCompetence = 0;
 			if($db2->fetch())
 			{
-				end($field->lessons)->lowestCompetence = intval($competenceNumber);
-				end($field->lessons)->competences[] = $competenceId;
+				end($container->lessons)->lowestCompetence = intval($competenceNumber);
+				end($container->lessons)->competences[] = $competenceId;
 			}
 			else
 			{
-				end($field->lessons)->lowestCompetence = 0;
+				end($container->lessons)->lowestCompetence = 0;
 			}
 			while($db2->fetch())
 			{
-				end($field->lessons)->competences[] = $competenceId;
+				end($container->lessons)->competences[] = $competenceId;
 			}
 		}
 	}
@@ -83,7 +83,7 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($anonymousSQL);
-	populateField($db, end($fields), $overrideGroup);
+	populateContainer($db, end($fields), $overrideGroup);
 
 	// Select all the fields in the database
 	$db->prepare($fieldSQL);
@@ -99,11 +99,11 @@ SQL;
 		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($lessonSQL);
 		$db2->bind_param('s', $field_id);
-		populateField($db2, end($fields), $overrideGroup);
+		populateContainer($db2, end($fields), $overrideGroup);
 
 		// Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high
 		usort(end($fields)->lessons, "OdyMaterialyAPI\Lesson_cmp");
 	}
-	usort($fields, 'OdyMaterialyAPI\Field_cmp'); // Sort all the Fields by lowest competence in the Field low-to-high
+	usort($fields, 'OdyMaterialyAPI\LessonContainer_cmp'); // Sort all the Fields by lowest competence in the Field low-to-high
 	return ['status' => 200, 'response' => $fields];
 };
