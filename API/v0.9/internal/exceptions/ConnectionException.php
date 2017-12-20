@@ -10,7 +10,7 @@ class ConnectionException extends Exception
 	const TYPE = 'ConnectionException';
 	const STATUS = 500;
 
-	public function __construct(\mysqli $db)
+	public function __construct($db)
 	{
 		parent::__construct('Database connection request failed. Error message: "' . $db->connect_error . '".');
 	}
