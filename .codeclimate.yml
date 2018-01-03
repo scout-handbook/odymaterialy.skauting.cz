@@ -111,6 +111,8 @@ engines:
     checks:
       php:S115:
         enabled: false
+      php:S1134:
+        enabled: false
       php:S1142:
         enabled: false
       php:S1172:
