@@ -1,4 +1,4 @@
-var CACHE = "odymaterialy-v5";
+var CACHE = "odymaterialy-v6";
 var FIELDS;
 var COMPETENCES;
 
