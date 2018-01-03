@@ -14,6 +14,40 @@ use Ramsey\Uuid\Uuid;
 
 $imageEndpoint = new OdyMaterialyAPI\Endpoint('image');
 
+function applyRotation(Imagick $image) : void
+{
+	switch($image->getImageOrientation())
+	{
+		case Imagick::ORIENTATION_TOPRIGHT:
+			$image->flopImage();
+			break;
+		case Imagick::ORIENTATION_BOTTOMRIGHT:
+			$image->rotateImage("#000", 180);
+			break;
+		case Imagick::ORIENTATION_BOTTOMLEFT:
+			$image->flopImage();
+			$image->rotateImage("#000", 180);
+			break;
+		case Imagick::ORIENTATION_LEFTTOP:
+			$image->flopImage();
+			$image->rotateImage("#000", -90);
+			break;
+		case Imagick::ORIENTATION_RIGHTTOP:
+			$image->rotateImage("#000", 90);
+			break;
+		case Imagick::ORIENTATION_RIGHTBOTTOM:
+			$image->flopImage();
+			$image->rotateImage("#000", 90);
+			break;
+		case Imagick::ORIENTATION_LEFTBOTTOM:
+			$image->rotateImage("#000", -90);
+			break;
+		default:
+			break;
+	}
+	$image->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
+}
+
 $listImages = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
@@ -91,8 +125,8 @@ SQL;
 		throw new OdyMaterialyAPI\InvalidArgumentTypeException('image', ['image/jpeg', 'image/png']);
 	}
 	$uuid = Uuid::uuid4();
-	$orig = $_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg';
-	if(!move_uploaded_file($_FILES['image']['tmp_name'], $orig))
+	$tmp = $_SERVER['DOCUMENT_ROOT'] . '/images/tmp/' . $uuid->__toString() . '.jpg';
+	if(!move_uploaded_file($_FILES['image']['tmp_name'], $tmp))
 	{
 		throw new OdyMaterialyAPI\Exception('File upload failed.');
 	}
@@ -104,20 +138,32 @@ SQL;
 	$db->bind_param('s', $uuidBin);
 	$db->execute();
 
+	$orig = $_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg';
 	$web = $_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $uuid->__toString() . '.jpg';
 	$thumbnail = $_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $uuid->__toString() . '.jpg';
 
-	$webmagick = new Imagick($orig);
-	$webmagick->thumbnailImage(770, 1400, true);
-	$webmagick->setImageCompressionQuality(60);
-	$webmagick->setFormat('JPEG');
-	$webmagick->writeImage($web);
+	$origMagick = new Imagick($tmp);
+	$ICCProfile = $origMagick->getImageProfiles("icc", true);
+	applyRotation($origMagick);
+	$origMagick->stripImage();
+	if(!empty($ICCProfile))
+	{
+		$origMagick->profileImage("icc", $ICCProfile['icc']);
+	}
+	$origMagick->writeImage($orig);
+	unlink($tmp);
 
-	$thumbmagick = new Imagick($orig);
-	$thumbmagick->thumbnailImage(256, 256, true);
-	$thumbmagick->setImageCompressionQuality(60);
-	$thumbmagick->setFormat('JPEG');
-	$thumbmagick->writeImage($thumbnail);
+	$webMagick = new Imagick($orig);
+	$webMagick->thumbnailImage(770, 1400, true);
+	$webMagick->setImageCompressionQuality(60);
+	$webMagick->setFormat('JPEG');
+	$webMagick->writeImage($web);
+
+	$thumbMagick = new Imagick($orig);
+	$thumbMagick->thumbnailImage(256, 256, true);
+	$thumbMagick->setImageCompressionQuality(60);
+	$thumbMagick->setFormat('JPEG');
+	$thumbMagick->writeImage($thumbnail);
 	$db->finish_transaction();
 	return ['status' => 201];
 };
