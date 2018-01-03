@@ -43,19 +43,14 @@ class Role implements \JsonSerializable
 		{
 			case self::SUPERUSER:
 				return 'superuser';
-				break;
 			case self::ADMINISTRATOR:
 				return 'administrator';
-				break;
 			case self::EDITOR:
 				return 'editor';
-				break;
 			case self::USER:
 				return 'user';
-				break;
 			default:
 				return 'guest';
-				break;
 		}
 	}
 

@@ -100,6 +100,10 @@ engines:
         enabled: false
       PhanUndeclaredConstant:
         enabled: false
+      PhanUndeclaredClassConstant:
+        enabled: false
+      PhanUndeclaredTypeParameter:
+        enabled: false
   stylelint:
     enabled: true
   sonar-php:
