@@ -18,5 +18,9 @@ tags
 
 images/original/*
 images/thumbnail/*
+images/tmp/*
 images/web/*
+!images/original/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg
+!images/thumbnail/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg
+!images/web/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg
 *.secret.php
