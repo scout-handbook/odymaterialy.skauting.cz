@@ -5,7 +5,11 @@ function metadataSetup()
 	cacheThenNetworkRequest("/API/v0.9/lesson", "", function(response, second)
 		{
 			FIELDS = response;
-			if(!second)
+			if(second)
+			{
+				metadataEvent.retrigger();
+			}
+			else
 			{
 				metadataEvent.trigger();
 			}
@@ -13,7 +17,11 @@ function metadataSetup()
 	cacheThenNetworkRequest("/API/v0.9/competence", "", function(response, second)
 		{
 			COMPETENCES = response;
-			if(!second)
+			if(second)
+			{
+				metadataEvent.retrigger();
+			}
+			else
 			{
 				metadataEvent.trigger();
 			}

@@ -1,4 +1,4 @@
-var CACHE = "odymaterialy-v6";
+var CACHE = "odymaterialy-v7";
 var cacheBlocking = [
 	"/index.html",
 	"/scripts/tools/AfterLoadEvent.js",
@@ -77,7 +77,19 @@ function cacheUpdatingResponse(request)
 {
 	if(request.headers.get("Accept") === "x-cache/only")
 	{
-		return caches.match(request);
+		return new Promise((resolve, reject) => {
+				caches.match(request).then(function(response)
+					{
+						if(response)
+						{
+							resolve(response);
+						}
+						else
+						{
+							resolve(new Response(new Blob(["{\"status\": 404}"]), {"status": 404, "statusText": "Not Found"}));
+						}
+					});
+			});
 	}
 	else
 	{
