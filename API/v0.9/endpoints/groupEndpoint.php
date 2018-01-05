@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
 
 $groupEndpoint = new OdyMaterialyAPI\Endpoint('group');
 
-$listGroups = function($skautis, $data, $endpoint)
+$listGroups = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$selectSQL = <<<SQL
 SELECT id, name
@@ -26,7 +26,7 @@ SELECT COUNT(*) FROM users_in_groups
 WHERE group_id = ?;
 SQL;
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($selectSQL);
 	$db->execute();
 	$id = '';
@@ -35,20 +35,20 @@ SQL;
 	$groups = [];
 	while($db->fetch())
 	{
-		$db2 =  new OdymaterialyAPI\Database();
+		$db2 =  new OdyMaterialyAPI\Database();
 		$db2->prepare($countSQL);
 		$db2->bind_param('s', $id);
 		$db2->execute();
 		$count = '';
 		$db2->bind_result($count);
 		$db2->fetch_require('group');
-		$groups[] = new OdyMaterialyAPI\Group($id, $name, $count);
+		$groups[] = new OdyMaterialyAPI\Group($id, $name, intval($count));
 	}
 	return ['status' => 200, 'response' => $groups];
 };
 $groupEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listGroups);
 
-$addGroup = function($skautis, $data, $endpoint)
+$addGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 INSERT INTO groups (id, name)
@@ -59,18 +59,18 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $endpoint->xss_sanitize($data['name']);
+	$name = $endpoint->xssSanitize($data['name']);
 	$uuid = Uuid::uuid4()->getBytes();
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
 	$db->bind_param('ss', $uuid, $name);
 	$db->execute();
 	return ['status' => 201];
 };
-$groupEndpoint->setAddMethod(new OdymaterialyAPI\Role('administrator'), $addGroup);
+$groupEndpoint->setAddMethod(new OdyMaterialyAPI\Role('administrator'), $addGroup);
 
-$updateGroup = function($skautis, $data, $endpoint)
+$updateGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$updateSQL = <<<SQL
 UPDATE groups
@@ -87,9 +87,9 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $endpoint->xss_sanitize($data['name']);
+	$name = $endpoint->xssSanitize($data['name']);
 	
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($updateSQL);
@@ -103,15 +103,15 @@ SQL;
 	$db->fetch_require('group');
 	if($count != 1)
 	{
-		throw new OdymaterialyAPI\NotFoundException("group");
+		throw new OdyMaterialyAPI\NotFoundException("group");
 	}
 
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$groupEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateGroup);
+$groupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateGroup);
 
-$deleteGroup = function($skautis, $data, $endpoint)
+$deleteGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM groups_for_lessons
@@ -133,11 +133,11 @@ SQL;
 	$id = $endpoint->parseUuid($data['id']);
 	if($id == Uuid::fromString('00000000-0000-0000-0000-000000000000'))
 	{
-		throw new OdymaterialyAPI\RefusedException();
+		throw new OdyMaterialyAPI\RefusedException();
 	}
 	$id = $id->getBytes();
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($deleteLessonsSQL);
@@ -159,10 +159,10 @@ SQL;
 	$db->fetch_require('group');
 	if($count != 1)
 	{
-		throw new OdymaterialyAPI\NotFoundException("group");
+		throw new OdyMaterialyAPI\NotFoundException("group");
 	}
 
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$groupEndpoint->setDeleteMethod(new OdymaterialyAPI\Role('administrator'), $deleteGroup);
+$groupEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteGroup);

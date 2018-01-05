@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonPDFEndpoint = new OdyMaterialyAPI\Endpoint('lesson');
 
-$getLessonLatex = function($skautis, $data, $endpoint)
+$getLessonLatex = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : void
 {
 	$SQL = <<<SQL
 SELECT name
@@ -20,7 +20,7 @@ SQL;
 
 	$id = $endpoint->parseUuid($data['parent-id'])->getBytes();
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
 	$db->bind_param('s', $id);
 	$db->execute();
@@ -84,4 +84,4 @@ SQL;
 	header('content-type:application/pdf; charset=utf-8');
 	$mpdf->Output();
 };
-$lessonPDFEndpoint->setListMethod(new OdymaterialyAPI\Role('guest'), $getLessonLatex);
+$lessonPDFEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $getLessonLatex);

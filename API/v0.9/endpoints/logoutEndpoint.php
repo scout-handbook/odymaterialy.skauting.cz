@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -7,7 +7,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 $logoutEndpoint = new OdyMaterialyAPI\Endpoint('user');
 
-$logoutUser = function($skautis, $data, $endpoint)
+$logoutUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : void
 {
 	if(isset($data['return-uri']) and isset($_COOKIE['skautis_token']))
 	{
@@ -44,5 +44,5 @@ $logoutUser = function($skautis, $data, $endpoint)
 	header('Location: https://odymaterialy.skauting.cz/');
 	die();
 };
-$logoutEndpoint->setListMethod(new OdymaterialyAPI\Role('guest'), $logoutUser);
-$logoutEndpoint->setAddMethod(new OdymaterialyAPI\Role('guest'), $logoutUser);
+$logoutEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $logoutUser);
+$logoutEndpoint->setAddMethod(new OdyMaterialyAPI\Role('guest'), $logoutUser);

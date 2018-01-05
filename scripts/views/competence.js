@@ -17,7 +17,7 @@ function renderCompetenceView(id, noHistory)
 	var competence = {};
 	for(var i = 0; i < COMPETENCES.length; i++)
 	{
-		if(COMPETENCES[i].id == id)
+		if(COMPETENCES[i].id === id)
 		{
 			competence = COMPETENCES[i];
 			break;
@@ -25,7 +25,22 @@ function renderCompetenceView(id, noHistory)
 	}
 	var html = "<h1>" + competence.number + ": " + competence.name + "</h1>";
 	html += competence.description;
-	html += renderCompetenceLessonList(competence);
+	var lessonList = [];
+	for(var j = 0; j < FIELDS.length; j++)
+	{
+		for(var k = 0; k < FIELDS[j].lessons.length; k++)
+		{
+			for(var m = 0; m < FIELDS[j].lessons[k].competences.length; m++)
+			{
+				if(FIELDS[j].lessons[k].competences[m] === competence.id)
+				{
+					lessonList.push(FIELDS[j].lessons[k]);
+					break;
+				}
+			}
+		}
+	}
+	html += renderCompetenceLessonList(lessonList);
 	document.getElementById("content").innerHTML = html;
 
 	nodes = document.getElementById("content").getElementsByTagName("h3");
@@ -42,23 +57,8 @@ function renderCompetenceView(id, noHistory)
 	document.getElementById("offlineSwitch").style.display = "none";
 }
 
-function renderCompetenceLessonList(competence)
+function renderCompetenceLessonList(lessonList)
 {
-	var lessonList = [];
-	for(var k = 0; k < FIELDS.length; k++)
-	{
-		for(var l = 0; l < FIELDS[k].lessons.length; l++)
-		{
-			for(var m = 0; m < FIELDS[k].lessons[l].competences.length; m++)
-			{
-				if(FIELDS[k].lessons[l].competences[m] == competence.id)
-				{
-					lessonList.push(FIELDS[k].lessons[l]);
-					break;
-				}
-			}
-		}
-	}
 	var html = "";
 	for(var n = 0; n < lessonList.length; n++)
 	{

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -15,14 +15,14 @@ class Lesson implements \JsonSerializable
 	public $competences = array();
 	public $lowestCompetence;
 
-	public function __construct($id, $name, $version)
+	public function __construct(string $id, string $name, int $version)
 	{
 		$this->id = $id;
 		$this->name = $name;
 		$this->version = $version;
 	}
 
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 		$ucomp = [];
 		foreach($this->competences as $competence)
@@ -34,21 +34,21 @@ class Lesson implements \JsonSerializable
 }
 
 // Lesson comparison function used in usort. Assumes that both Lessons have their competences field sorted low-to-high.
-function Lesson_cmp($first, $second)
+function Lesson_cmp(Lesson $first, Lesson $second) : int
 {
-	if (empty($first->competences))
+	if(empty($first->competences))
 	{
-		if (empty($second->competences))
+		if(empty($second->competences))
 		{
 			return 0;
 		}
 		return -1;
 	}
-	if (empty($second->competences))
+	if(empty($second->competences))
 	{
 		return 1;
 	}
-	if ($first->lowestCompetence == $second->lowestCompetence)
+	if($first->lowestCompetence == $second->lowestCompetence)
 	{
 		return 0;
 	}

@@ -45,6 +45,13 @@
 	margin-bottom: 1.85em;
 }
 
+.dottedline
+{
+	padding-right: -250px;
+	margin-right: -250px;
+	border-right: solid 250px white;
+}
+
 h1
 {
 	text-align: center;

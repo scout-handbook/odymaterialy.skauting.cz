@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 const _API_EXEC = 1;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
@@ -19,9 +19,9 @@ if(isset($loginState['status']))
 			}
 		}
 	}
-	else if($loginState['status'] == 401)
+	elseif($loginState['status'] == 401)
 	{
-		header('Location: https://odymaterialy.skauting.cz/API/v0.9/login?return-uri=' . urlencode($_SERVER[REQUEST_URI]));
+		header('Location: https://odymaterialy.skauting.cz/API/v0.9/login?return-uri=' . urlencode($_SERVER['REQUEST_URI']));
 		die();
 	}
 }

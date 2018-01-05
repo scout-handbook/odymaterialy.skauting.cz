@@ -2,9 +2,9 @@ function showImageSubview(noHistory)
 {
 	mainPageTab = "images";
 	var nodes = document.getElementsByClassName("topBarTab");
-	for(var l = 0; l < nodes.length; l++)
+	for(var i = 0; i < nodes.length; i++)
 	{
-		nodes[l].className = "topBarTab";
+		nodes[i].className = "topBarTab";
 	}
 	document.getElementById("imageManager").className += " activeTopBarTab";
 	var html = "<h1>OdyMateriály - Obrázky</h1>";
@@ -51,7 +51,7 @@ function downloadImageList(page, perPage)
 
 function showImageList(list, page, perPage)
 {
-	if(mainPageTab != "images")
+	if(mainPageTab !== "images")
 	{
 		return;
 	}
@@ -65,9 +65,9 @@ function showImageList(list, page, perPage)
 	document.getElementById("imageList").innerHTML = html;
 
 	var	nodes = document.getElementById("imageList").getElementsByTagName("img");
-	for(var k = 0; k < nodes.length; k++)
+	for(var j = 0; j < nodes.length; j++)
 	{
-		nodes[k].onclick = showImagePreview;
+		nodes[j].onclick = showImagePreview;
 	}
 	nodes = document.getElementsByClassName("deleteImage");
 	for(var k = 0; k < nodes.length; k++)
@@ -79,7 +79,7 @@ function showImageList(list, page, perPage)
 	{
 		nodes[l].onclick = function(event)
 			{
-				downloadImageList(parseInt(event.target.dataset.page), perPage);
+				downloadImageList(parseInt(event.target.dataset.page, 10), perPage);
 			};
 	}
 }

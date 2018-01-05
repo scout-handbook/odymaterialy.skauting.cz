@@ -1,3 +1,22 @@
+version: "22"
+checks:
+  argument-count:
+    config:
+      threshold: 6
+  method-complexity:
+    config:
+      threshold: 20
+  method-lines:
+    config:
+      threshold: 100
+  return-statements:
+    config:
+      threshold: 8
+  similar-code:
+    enabled: false
+  identical-code:
+    config:
+      threshold: 100
 engines:
   csslint:
     enabled: true
@@ -14,14 +33,19 @@ engines:
       - php
   eslint:
     enabled: true
+    checks:
+      no-extend-native:
+        enabled: false
+      max-statements:
+        enabled: false
   fixme:
-    enabled: true
-  git-legal:
     enabled: true
   phpcodesniffer:
     enabled: true
     checks:
       Generic WhiteSpace DisallowTabIndent TabsUsed:
+        enabled: false
+      Generic Files LineLength TooLong:
         enabled: false
       Squiz ControlStructures ControlSignature SpaceAfterCloseParenthesis:
         enabled: false
@@ -29,24 +53,38 @@ engines:
         enabled: false
       Squiz ControlStructures ControlSignature SpaceAfterKeyword:
         enabled: false
+      Squiz Functions MultiLineFunctionDeclaration BraceOnNewLine:
+        enabled: false
+      Squiz Functions MultiLineFunctionDeclaration SpaceAfterFunction:
+        enabled: false
       PSR1 Files SideEffects FoundWithSymbols:
         enabled: false
-      Squiz Functions MultiLineFunctionDeclaration BraceOnNewLine:
+      PSR2 ControlStructures SwitchDeclaration BreakIndent:
         enabled: false
   phpmd:
     enabled: true
+    config:
+      rulesets: "cleancode,controversial,design,naming,unusedcode,.phpmd.xml"
     checks:
       CleanCode/ElseExpression:
         enabled: false
       CleanCode/BooleanArgumentFlag:
         enabled: false
+      CleanCode/StaticAccess:
+        enabled: false
       Controversial/Superglobals:
         enabled: false
       Design/ExitExpression:
         enabled: false
+      Naming/ShortVariable:
+        enabled: false
+      Design/TooManyPublicMethods:
+        enabled: false
   phan:
     enabled: true
-    dead-code-detection: true
+    config:
+      backward-compatibility-checks: true
+      dead-code-detection: true
     checks:
       PhanUndeclaredClass:
         enabled: false
@@ -54,12 +92,34 @@ engines:
         enabled: false
       PhanUndeclaredFunction:
         enabled: false
+      PhanUndeclaredExtendedClass:
+        enabled: false
+      PhanUndeclaredClassCatch:
+        enabled: false
+      PhanUndeclaredVariable:
+        enabled: false
+      PhanUndeclaredConstant:
+        enabled: false
+      PhanUndeclaredClassConstant:
+        enabled: false
+      PhanUndeclaredTypeParameter:
+        enabled: false
   stylelint:
     enabled: true
   sonar-php:
     enabled: true
     checks:
       php:S115:
+        enabled: false
+      php:S1134:
+        enabled: false
+      php:S1142:
+        enabled: false
+      php:S1172:
+        enabled: false
+      php:S1192:
+        enabled: false
+      php:S2041:
         enabled: false
 ratings:
   paths:

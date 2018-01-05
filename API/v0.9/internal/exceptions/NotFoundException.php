@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -10,8 +10,8 @@ class NotFoundException extends Exception
 	const TYPE = 'NotFoundException';
 	const STATUS = 404;
 
-	public function __construct($resource_name)
+	public function __construct(string $resourceName)
 	{
-		parent::__construct('No such ' . $resource_name . ' has been found.');
+		parent::__construct('No such ' . $resourceName . ' has been found.');
 	}
 }

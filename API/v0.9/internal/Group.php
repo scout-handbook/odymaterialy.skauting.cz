@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -13,14 +13,14 @@ class Group implements \JsonSerializable
 	public $name;
 	public $count;
 
-	public function __construct($id, $name, $count)
+	public function __construct(string $id, string $name, int $count)
 	{
 		$this->id = $id;
 		$this->name = $name;
 		$this->count = $count;
 	}
 
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 		return ['id' => Uuid::fromBytes($this->id), 'name' => $this->name, 'count' => $this->count];
 	}

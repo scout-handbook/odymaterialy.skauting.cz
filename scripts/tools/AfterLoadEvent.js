@@ -15,6 +15,10 @@ function AfterLoadEvent(threshold)
 	this.trigger = function()
 		{
 			this.count++;
+			this.retrigger.apply(this, arguments);
+		};
+	this.retrigger = function()
+		{
 			if(this.count >= this.threshold)
 			{
 				this.triggered = true;

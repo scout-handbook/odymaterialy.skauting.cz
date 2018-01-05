@@ -10,7 +10,7 @@ function changeGroupOnClick(event)
 	html += "<legend for=\"fieldName\">Název:</legend>";
 	for(var i = 0; i < GROUPS.length; i++)
 	{
-		if(GROUPS[i].id == getAttribute(event, "id"))
+		if(GROUPS[i].id === getAttribute(event, "id"))
 		{
 			html += "<input type=\"text\" class=\"formText\" id=\"groupName\" value=\"" + GROUPS[i].name + "\" autocomplete=\"off\"><br>";
 			break;

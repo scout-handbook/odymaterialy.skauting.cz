@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -10,14 +10,14 @@ use Ramsey\Uuid\Uuid;
 
 $lessonGroupEndpoint = new OdyMaterialyAPI\Endpoint('group');
 
-$listLessonGroups = function($skautis, $data, $endpoint)
+$listLessonGroups = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 SELECT group_id FROM groups_for_lessons
 WHERE lesson_id = ?;
 SQL;
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
 	$id = $endpoint->parseUuid($data['parent-id'])->getBytes();
 	$db->bind_param('s', $id);
@@ -31,9 +31,9 @@ SQL;
 	}
 	return ['status' => 200, 'response' => $groups];
 };
-$lessonGroupEndpoint->setListMethod(new OdymaterialyAPI\Role('editor'), $listLessonGroups);
+$lessonGroupEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listLessonGroups);
 
-$updateLessonGroups = function($skautis, $data, $endpoint)
+$updateLessonGroups = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$deleteSQL = <<<SQL
 DELETE FROM groups_for_lessons
@@ -54,7 +54,7 @@ SQL;
 		}
 	}
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($deleteSQL);
@@ -70,4 +70,4 @@ SQL;
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$lessonGroupEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateLessonGroups);
+$lessonGroupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLessonGroups);

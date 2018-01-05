@@ -31,7 +31,7 @@ začít nový odstavec, musím vynechat jeden řádek. Můžu udělat kus textu 
 \n\
 Můžu do textu vložit [odkaz](http://tiny.cc/PAIN), i když ten nevím, jak bych ho vytisknul :D. Fungují i obrázky:\n\
 \n\
-![Text po najetí kurzorem](https://odymaterialy.skauting.cz/API/v0.9/image/590e43e4-e2ed-47c1-8520-2d3a9c594efd)\n\
+![Text po najetí kurzorem](https://odymaterialy.skauting.cz/API/v0.9/image/ed02b61f-ef4c-40e8-9018-3acbe071316d)\n\
 \n\
 Akorát jsem ještě neudělal nahrávání vlastních (a vlastně nevím, jak je vytisknout, tak mi je asi budete muset poslat...)...\n\
 \n\

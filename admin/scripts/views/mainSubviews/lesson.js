@@ -8,7 +8,7 @@ function showLessonSubview(noHistory)
 	}
 	document.getElementById("lessonManager").className += " activeTopBarTab";
 	var html = "<h1>OdyMateriály - Lekce</h1>";
-	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{
 		html += "<div class=\"button greenButton\" id=\"addField\"><i class=\"icon-plus\"></i>Přidat oblast</div>";
 	}
@@ -16,7 +16,7 @@ function showLessonSubview(noHistory)
 	html += renderLessonList();
 	document.getElementById("mainPage").innerHTML = html;
 
-	if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{
 		document.getElementById("addField").onclick = addField;
 	}
@@ -45,7 +45,7 @@ function renderLessonList()
 		{
 			secondLevel = " secondLevel";
 			html += "<br><h2 class=\"mainPage\">" + FIELDS[i].name + "</h2>";
-			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
+			if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 			{
 				html += "<div class=\"button cyanButton changeField\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
 				html += "<div class=\"button redButton deleteField\" data-id=\"" + FIELDS[i].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
@@ -54,33 +54,39 @@ function renderLessonList()
 		}
 		for(var j = 0; j < FIELDS[i].lessons.length; j++)
 		{
-			html += "<br><h3 class=\"mainPage" + secondLevel + "\">" + FIELDS[i].lessons[j].name + "</h3>";
-			html += "<div class=\"button cyanButton" + secondLevel + " changeLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
-			if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
-			{
-				html += "<div class=\"button redButton deleteLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
-			}
-			html += "<div class=\"button exportLesson\" data-id=\"" + FIELDS[i].lessons[j].id + "\"><i class=\"icon-file-pdf\"></i>PDF</div>";
-			html += "<br><span class=\"mainPage" + secondLevel + "\">Kompetence: ";
-			if(FIELDS[i].lessons[j].competences.length > 0)
-			{
-				var competences = [];
-				for(var k = 0; k < COMPETENCES.length; k++)
-				{
-					if(FIELDS[i].lessons[j].competences.indexOf(COMPETENCES[k].id) >= 0)
-					{
-						competences.push(COMPETENCES[k]);
-					}
-				}
-				html += competences[0].number;
-				for(var m = 1; m < competences.length; m++)
-				{
-					html += ", " + competences[m].number;
-				}
-			}
-			html += "</span>";
+			html += renderLessonListLesson(FIELDS[i].lessons[j], secondLevel);
 		}
 	}
+	return html;
+}
+
+function renderLessonListLesson(lesson, secondLevel)
+{
+	var html = "<br><h3 class=\"mainPage" + secondLevel + "\">" + lesson.name + "</h3>";
+	html += "<div class=\"button cyanButton" + secondLevel + " changeLesson\" data-id=\"" + lesson.id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
+	{
+		html += "<div class=\"button redButton deleteLesson\" data-id=\"" + lesson.id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
+	}
+	html += "<div class=\"button exportLesson\" data-id=\"" + lesson.id + "\"><i class=\"icon-file-pdf\"></i>PDF</div>";
+	html += "<br><span class=\"mainPage" + secondLevel + "\">Kompetence: ";
+	if(lesson.competences.length > 0)
+	{
+		var competences = [];
+		for(var k = 0; k < COMPETENCES.length; k++)
+		{
+			if(lesson.competences.indexOf(COMPETENCES[k].id) >= 0)
+			{
+				competences.push(COMPETENCES[k]);
+			}
+		}
+		html += competences[0].number;
+		for(var m = 1; m < competences.length; m++)
+		{
+			html += ", " + competences[m].number;
+		}
+	}
+	html += "</span>";
 	return html;
 }
 

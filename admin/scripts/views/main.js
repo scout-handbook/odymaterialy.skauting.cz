@@ -14,19 +14,19 @@ function showMainView(noHistory)
 	html += "</div>";
 	html += "<div id=\"mainPageContainer\"><div id=\"mainPage\">";
 	html += "<h1>OdyMateriály - ";
-	if(mainPageTab == "competences")
+	if(mainPageTab === "competences")
 	{
 		html += "Kompetence";
 	}
-	else if(mainPageTab == "images")
+	else if(mainPageTab === "images")
 	{
 		html += "Obrázky";
 	}
-	else if(mainPageTab == "users")
+	else if(mainPageTab === "users")
 	{
 		html += "Uživatelé";
 	}
-	else if(mainPageTab == "groups")
+	else if(mainPageTab === "groups")
 	{
 		html += "Uživatelské skupiny";
 	}
@@ -57,19 +57,19 @@ function renderMainView(noHistory)
 	document.getElementById("userManager").onclick = function() {showUserSubview()};
 	document.getElementById("groupManager").onclick = function() {showGroupSubview()};
 
-	if(mainPageTab == "competences")
+	if(mainPageTab === "competences")
 	{
 		showCompetenceSubview(noHistory);
 	}
-	else if(mainPageTab == "images")
+	else if(mainPageTab === "images")
 	{
 		showImageSubview(noHistory);
 	}
-	else if(mainPageTab == "users")
+	else if(mainPageTab === "users")
 	{
 		showUserSubview(noHistory);
 	}
-	else if(mainPageTab == "groups")
+	else if(mainPageTab === "groups")
 	{
 		showGroupSubview(noHistory);
 	}

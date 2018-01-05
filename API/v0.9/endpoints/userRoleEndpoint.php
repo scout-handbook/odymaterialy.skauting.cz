@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -9,13 +9,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidA
 
 $userRoleEndpoint = new OdyMaterialyAPI\Endpoint('user');
 
-$updateUserRole = function($skautis, $data, $endpoint)
+$updateUserRole = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
-	$checkRole = function($my_role, $role)
+	$checkRole = function(OdyMaterialyAPI\Role $my_role, OdyMaterialyAPI\Role $role) : void
 	{
-		if((OdyMaterialyAPI\Role_cmp($my_role, new OdyMaterialyAPI\Role('administrator')) === 0) and (OdymaterialyAPI\Role_cmp($role, new OdymaterialyAPI\Role('administrator')) >= 0))
+		if((OdyMaterialyAPI\Role_cmp($my_role, new OdyMaterialyAPI\Role('administrator')) === 0) and (OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('administrator')) >= 0))
 		{
-			throw new OdymaterialyAPI\RoleException();
+			throw new OdyMaterialyAPI\RoleException();
 		}
 	};
 
@@ -40,19 +40,19 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'role');
 	}
-	$new_role = new OdymaterialyAPI\Role($data['role']);
+	$new_role = new OdyMaterialyAPI\Role($data['role']);
 
-	$my_role = new OdyMaterialyAPI\Role(OdymaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person));
+	$my_role = OdyMaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person);
 	$checkRole($my_role, $new_role);
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($selectSQL);
 	$db->bind_param('i', $id);
 	$db->execute();
 	$old_role = '';
 	$db->bind_result($old_role);
 	$db->fetch_require('user');
-	$checkRole($my_role, new OdymaterialyAPI\Role($old_role));
+	$checkRole($my_role, new OdyMaterialyAPI\Role($old_role));
 
 	$new_role_str = $new_role->__toString();
 	$db->prepare($updateSQL);
@@ -60,4 +60,4 @@ SQL;
 	$db->execute();
 	return ['status' => 200];
 };
-$userRoleEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('administrator'), $updateUserRole);
+$userRoleEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateUserRole);

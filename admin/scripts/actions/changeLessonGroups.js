@@ -16,7 +16,7 @@ function changeLessonGroupsOnClick(id, actionQueue)
 		}
 		html += " data-id=\"" + GROUPS[i].id + "\"";
 		html += "><span class=\"formCustom formCheckbox\"></span></label>";
-		if(GROUPS[i].id == "00000000-0000-0000-0000-000000000000")
+		if(GROUPS[i].id === "00000000-0000-0000-0000-000000000000")
 		{
 			html += "<span class=\"publicGroup\">" + GROUPS[i].name + "</span></div>";
 			publicName = GROUPS[i].name;
@@ -39,13 +39,15 @@ function changeLessonGroupsOnClick(id, actionQueue)
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
-		nodes[k].onchange = function()
-			{
-				lessonGroupsChanged = true;
-			};
+		nodes[k].onchange = lessonGroupsOnclick;
 	}
 
 	refreshLogin();
+}
+
+function lessonGroupsOnclick()
+{
+	lessonGroupsChanged = true;
 }
 
 function changeLessonGroupsSave(id, actionQueue)

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonFieldEndpoint = new OdyMaterialyAPI\Endpoint('field');
 
-$updateLessonField = function($skautis, $data, $endpoint)
+$updateLessonField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$deleteSQL = <<<SQL
 DELETE FROM lessons_in_fields
@@ -28,7 +28,7 @@ SQL;
 		$fieldId = $endpoint->parseUuid($data['field'])->getBytes();
 	}
 
-	$db = new OdymaterialyAPI\Database();
+	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
 
 	$db->prepare($deleteSQL);
@@ -44,4 +44,4 @@ SQL;
 	$db->finish_transaction();
 	return ['status' => 200];
 };
-$lessonFieldEndpoint->setUpdateMethod(new OdymaterialyAPI\Role('editor'), $updateLessonField);
+$lessonFieldEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLessonField);

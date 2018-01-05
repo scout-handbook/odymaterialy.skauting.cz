@@ -18,84 +18,92 @@ class Endpoint
 	private $parentEndpoint;
 
 	private $listFunction;
-	private $listRole;
-	
 	private $getFunction;
-	private $getRole;
-
 	private $updateFunction;
-	private $updateRole;
-
 	private $addFunction;
-	private $addRole;
-
 	private $deleteFunction;
+
+	private $listRole;
+	private $getRole;
+	private $updateRole;
+	private $addRole;
 	private $deleteRole;
 
-	public function __construct($resourceName)
+	public function __construct(string $resourceName)
 	{
 		$this->resourceName = $resourceName;
 		$this->subEndpoints = [];
-		$this->parentEndpoint = null;
 
-		$this->listFunction = function() {throw new NotImplementedException();};
+		$this->listFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		{
+			throw new NotImplementedException();
+		};
+		$this->getFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		{
+			throw new NotImplementedException();
+		};
+		$this->updateFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		{
+			throw new NotImplementedException();
+		};
+		$this->addFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		{
+			throw new NotImplementedException();
+		};
+		$this->deleteFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		{
+			throw new NotImplementedException();
+		};
+
 		$this->listRole = new Role('guest');
-
-		$this->getFunction = function() {throw new NotImplementedException();};
 		$this->getRole = new Role('guest');
-
-		$this->updateFunction = function() {throw new NotImplementedException();};
 		$this->updateRole = new Role('guest');
-
-		$this->addFunction = function() {throw new NotImplementedException();};
 		$this->addRole = new Role('guest');
-
-		$this->deleteFunction = function() {throw new NotImplementedException();};
 		$this->deleteRole = new Role('guest');
 	}
 
-	public function addSubEndpoint($name, $endpoint)
+	public function addSubEndpoint(string $name, Endpoint $endpoint) : void
 	{
 		$this->subEndpoints[$name] = $endpoint;
 		$this->subEndpoints[$name]->parentEndpoint = $this;
 	}
 
-	public function getParent()
+	public function getParent() : Endpoint
 	{
 		return $this->parentEndpoint;
 	}
 
-	public function setListMethod($minimalRole, $callback)
+	public function setListMethod(Role $minimalRole, callable $callback) : void
 	{
 		$this->listRole = $minimalRole;
 		$this->listFunction = $callback;
 	}
 
-	public function setGetMethod($minimalRole, $callback)
+	public function setGetMethod(Role $minimalRole, callable $callback) : void
 	{
 		$this->getRole = $minimalRole;
 		$this->getFunction = $callback;
 	}
 
-	public function setUpdateMethod($minimalRole, $callback)
+	public function setUpdateMethod(Role $minimalRole, callable $callback) : void
 	{
 		$this->updateRole = $minimalRole;
 		$this->updateFunction = $callback;
 	}
 
-	public function setAddMethod($minimalRole, $callback)
+	public function setAddMethod(Role $minimalRole, callable $callback) : void
 	{
 		$this->addRole = $minimalRole;
 		$this->addFunction = $callback;
 	}
 
-	public function setDeleteMethod($minimalRole, $callback)
+	public function setDeleteMethod(Role $minimalRole, callable $callback) : void
 	{
 		$this->deleteRole = $minimalRole;
 		$this->deleteFunction = $callback;
 	}
 
-	public function parseUuid($id)
+	public function parseUuid(string $id) : \Ramsey\Uuid\Uuid
 	{
 		try
 		{
@@ -107,51 +115,16 @@ class Endpoint
 		}
 	}
 
-	public function xss_sanitize($input)
+	public function xssSanitize(string $input) : string
 	{
 		return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 	}
 
-	public function call($method, $role, $data)
+	public function call(string $method, Role $role, array $data) : array
 	{
-		switch($method)
-		{
-		case 'GET':
-			if(isset($data['id']))
-			{
-				$func = $this->getFunction;
-			}
-			else
-			{
-				$func = $this->listFunction;
-			}
-			break;
-		case 'PUT':
-			if(isset($data['id']) or isset($data['parent-id']))
-			{
-				$func = $this->updateFunction;
-			}
-			else
-			{
-				throw new MissingArgumentException(MissingArgumentException::POST, 'id');
-			}
-			break;
-		case 'POST':
-			$func = $this->addFunction;
-			break;
-		case 'DELETE':
-			if(isset($data['id']) or isset($data['parent-id']))
-			{
-				$func = $this->deleteFunction;
-			}
-			else
-			{
-				throw new MissingArgumentException(MissingArgumentException::GET, 'id');
-			}
-			break;
-		}
+		$func = $this->callFunctionHelper($method, $data);
 		$self = $this;
-		$wrapper = function($skautis) use ($data, $func, $self)
+		$wrapper = function(\Skautis\Skautis $skautis) use ($data, $func, $self) : array
 		{
 			return $func($skautis, $data, $self);
 		};
@@ -163,31 +136,64 @@ class Endpoint
 		}
 	}
 
-	public function handle_self($method, $data)
+	private function callFunctionHelper(string $method, array $data) : callable
+	{
+		switch($method)
+		{
+			case 'PUT':
+				if(isset($data['id']) or isset($data['parent-id']))
+				{
+					return $this->updateFunction;
+				}
+				else
+				{
+					throw new MissingArgumentException(MissingArgumentException::POST, 'id');
+				}
+				break;
+			case 'POST':
+				return $this->addFunction;
+			case 'DELETE':
+				if(isset($data['id']) or isset($data['parent-id']))
+				{
+					return $this->deleteFunction;
+				}
+				else
+				{
+					throw new MissingArgumentException(MissingArgumentException::GET, 'id');
+				}
+				break;
+			case 'GET':
+			default:
+				return isset($data['id']) ? $this->getFunction : $this->listFunction;
+		}
+	}
+
+	public function handleSelf(string $method, array $data) : void
 	{
 		unset($data['sub-id']);
 		unset($data['sub-resource']);
 		switch($method)
 		{
-		case 'GET':
-			if(isset($data['id']))
-			{
-				$role = $this->getRole;
-			}
-			else
-			{
-				$role = $this->listRole;
-			}
-			break;
-		case 'PUT':
-			$role = $this->updateRole;
-			break;
-		case 'POST':
-			$role = $this->addRole;
-			break;
-		case 'DELETE':
-			$role = $this->deleteRole;
-			break;
+			case 'PUT':
+				$role = $this->updateRole;
+				break;
+			case 'POST':
+				$role = $this->addRole;
+				break;
+			case 'DELETE':
+				$role = $this->deleteRole;
+				break;
+			case 'GET':
+			default:
+				if(isset($data['id']))
+				{
+					$role = $this->getRole;
+				}
+				else
+				{
+					$role = $this->listRole;
+				}
+				break;
 		}
 		try
 		{
@@ -206,31 +212,10 @@ class Endpoint
 		}
 	}
 
-	public function handle()
+	public function handle() : void
 	{
 		$method = $_SERVER['REQUEST_METHOD'];
-		switch($method)
-		{
-			case 'GET':
-			case 'DELETE':
-				$data = $_GET;
-				break;
-			case 'PUT':
-				parse_str(file_get_contents("php://input"), $data);
-				break;
-			case 'POST':
-				$data = $_POST;
-				break;
-		}
-		if(isset($_GET['id']) and $_GET['id'] !== '')
-		{
-			$data['id'] = $_GET['id'];
-		}
-		elseif(!isset($_POST['id']))
-		{
-			unset($data['id']);
-		}
-
+		$data = $this->handleDataHelper($method);
 		if(isset($data['id']) and isset($_GET['sub-resource']) and $_GET['sub-resource'] !== '')
 		{
 		   	if(isset($this->subEndpoints[$_GET['sub-resource']]))
@@ -244,7 +229,7 @@ class Endpoint
 				{
 					unset($data['id']);
 				}
-				$this->subEndpoints[$_GET['sub-resource']]->handle_self($method, $data);
+				$this->subEndpoints[$_GET['sub-resource']]->handleSelf($method, $data);
 			}
 			else
 			{
@@ -255,7 +240,34 @@ class Endpoint
 		}
 		else
 		{
-			$this->handle_self($method, $data);
+			$this->handleSelf($method, $data);
 		}
+	}
+
+	private function handleDataHelper(string $method) : array
+	{
+		switch($method)
+		{
+			case 'PUT':
+				parse_str(file_get_contents("php://input"), $data);
+				break;
+			case 'POST':
+				$data = $_POST;
+				break;
+			case 'GET':
+			case 'DELETE':
+			default:
+				$data = $_GET;
+				break;
+		}
+		if(isset($_GET['id']) and $_GET['id'] !== '')
+		{
+			$data['id'] = $_GET['id'];
+		}
+		elseif(!isset($_POST['id']))
+		{
+			unset($data['id']);
+		}
+		return $data;
 	}
 }

@@ -10,7 +10,7 @@ function changeFieldOnClick(event)
 	html += "<legend for=\"fieldName\">Název:</legend>";
 	for(var i = 0; i < FIELDS.length; i++)
 	{
-		if(FIELDS[i].id == getAttribute(event, "id"))
+		if(FIELDS[i].id === getAttribute(event, "id"))
 		{
 			html += "<input type=\"text\" class=\"formText formName\" id=\"fieldName\" value=\"" + FIELDS[i].name + "\" autocomplete=\"off\">";
 			break;

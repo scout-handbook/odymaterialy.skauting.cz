@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -9,7 +9,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidA
 
 $eventParticipantEndpoint = new OdyMaterialyAPI\Endpoint('event');
 
-$listEventParticipants = function($skautis, $data, $endpoint)
+$listEventParticipants = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$id = ctype_digit($data['parent-id']) ? intval($data['parent-id']) : null;
 	if($id === null)
@@ -29,7 +29,7 @@ $listEventParticipants = function($skautis, $data, $endpoint)
 		if(strpos($ISrole->DisplayName, '"' . $eventName . '"') !== false)
 		{
 			$response = $skautis->UserManagement->LoginUpdate(["ID_UserRole" => $ISrole->ID, "ID" => $skautis->getUser()->getLoginId()]);
-			$skautis->getUser()->updateLoginData(NULL, $ISrole->ID, $response->ID_Unit);
+			$skautis->getUser()->updateLoginData(null, $ISrole->ID, $response->ID_Unit);
 			break;
 		}
 	}
@@ -46,4 +46,4 @@ $listEventParticipants = function($skautis, $data, $endpoint)
 	}
 	return ['status' => 200, 'response' => $participants];
 };
-$eventParticipantEndpoint->setListMethod(new OdymaterialyAPI\Role('editor'), $listEventParticipants);
+$eventParticipantEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listEventParticipants);

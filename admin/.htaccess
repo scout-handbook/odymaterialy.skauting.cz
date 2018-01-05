@@ -27,6 +27,7 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/styles/sidePanel.css>;rel=preload;as=style"
 	Header add Link "</admin/styles/userSubview.css>;rel=preload;as=style"
 	Header add Link "</scripts/tools/AfterLoadEvent.js>;rel=preload;as=script"
+	Header add Link "</scripts/tools/getLessonById.js>;rel=preload;as=script"
 	Header add Link "</scripts/tools/OdyMarkdown.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/addCompetence.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/actions/addField.js>;rel=preload;as=script"

@@ -21,7 +21,7 @@ function toggleLessonOffline()
 function toggleCompetenceBubble(event)
 {
 	element = event.target;
-	while(!element.classList.contains("competenceBubble") && (element = element.parentElement)) {}
+	while(!element.classList.contains("competenceBubble") && (element = element.parentElement)) { /* Empty */ }
 	if(element.style.width !== "")
 	{
 		activeCompetence = null;

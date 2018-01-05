@@ -28,7 +28,7 @@ function showAccountInfo()
 function renderUserAccount(response)
 {
 	document.getElementById("userName").innerHTML = response.name;
-	if(response.role == "editor" || response.role == "administrator" || response.role == "superuser")
+	if(response.role === "editor" || response.role === "administrator" || response.role === "superuser")
 	{
 		document.getElementById("logLink").innerHTML = "<a href=\"/error/enableJS.html\">Odhlásit</a><a href=\"/admin\" id=\"adminLink\">Administrace</a>";
 	}
@@ -71,7 +71,7 @@ function refreshLogin()
 {
 	var allCookies = "; " + document.cookie;
 	var parts = allCookies.split("; skautis_timeout=");
-	if(parts.length == 2)
+	if(parts.length === 2)
 	{
 		var timeout = parts.pop().split(";").shift();
 		if((timeout - Math.round(new Date().getTime() / 1000)) < 1500)

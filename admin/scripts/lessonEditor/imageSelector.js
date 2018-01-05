@@ -35,38 +35,33 @@ function renderImageSelector(list, page, perPage)
 	if(list.length > perPage)
 	{
 		var maxPage = Math.ceil(list.length / perPage);
-
-		function renderPage(page)
-		{
-			html += "<div class=\"paginationButton\" data-page=\"" + page + "\">" + page + "</div>";
-		}
 		html += "<div id=\"pagination\">";
 		if(page > 3)
 		{
-			renderPage(1);
+			html += "<div class=\"paginationButton\" data-page=\"1\">1</div>";
 			html += " ... ";
 		}
 		if(page > 2)
 		{
-			renderPage(page - 2);
+			html += "<div class=\"paginationButton\" data-page=\"" + (page - 2) + "\">" + (page - 2) + "</div>";
 		}
 		if(page > 1)
 		{
-			renderPage(page - 1);
+			html += "<div class=\"paginationButton\" data-page=\"" + (page - 1) + "\">" + (page - 1) + "</div>";
 		}
 		html += "<div class=\"paginationButton active\">" + page + "</div>";
 		if(page < maxPage)
 		{
-			renderPage(page + 1);
+			html += "<div class=\"paginationButton\" data-page=\"" + (page + 1) + "\">" + (page + 1) + "</div>";
 		}
 		if(page < maxPage - 1)
 		{
-			renderPage(page + 2);
+			html += "<div class=\"paginationButton\" data-page=\"" + (page + 2) + "\">" + (page + 2) + "</div>";
 		}
 		if(page < maxPage - 2)
 		{
 			html += " ... ";
-			renderPage(maxPage);
+			html += "<div class=\"paginationButton\" data-page=\"" + maxPage + "\">" + maxPage + "</div>";
 		}
 		html += "</div>";
 	}
@@ -82,7 +77,7 @@ function renderImageSelector(list, page, perPage)
 	{
 		nodes[l].onclick = function(event)
 			{
-				prepareImageSelector(parseInt(event.target.dataset.page), perPage);
+				prepareImageSelector(parseInt(event.target.dataset.page, 10), perPage);
 			};
 	}
 }

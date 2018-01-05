@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 const _API_EXEC = 1;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
@@ -7,13 +7,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonEndpoint.php
 
 use Ramsey\Uuid\Uuid;
 
-$lessonList = $lessonEndpoint->call('GET', [])['response'];
-$competenceList = $competenceEndpoint->call('GET', [])['response'];
+$lessonList = $lessonEndpoint->call('GET', new OdyMaterialyAPI\Role('guest'), [])['response'];
+$competenceList = $competenceEndpoint->call('GET', new OdyMaterialyAPI\Role('guest'), [])['response'];
 
 header('content-type:text/plain; charset=utf-8');
 $baseUrl = 'https://odymaterialy.skauting.cz';
 
-function urlEscape($str)
+function urlEscape(string $str) : string
 {
 	$lookupTable = [
 		['base' => 'A', 'letters' => '/[\x{0041}\x{24B6}\x{FF21}\x{00C0}\x{00C1}\x{00C2}\x{1EA6}\x{1EA4}\x{1EAA}\x{1EA8}\x{00C3}\x{0100}\x{0102}\x{1EB0}\x{1EAE}\x{1EB4}\x{1EB2}\x{0226}\x{01E0}\x{00C4}\x{01DE}\x{1EA2}\x{00C5}\x{01FA}\x{01CD}\x{0200}\x{0202}\x{1EA0}\x{1EAC}\x{1EB6}\x{1E00}\x{0104}\x{023A}\x{2C6F}]/u'],
@@ -118,6 +118,7 @@ function urlEscape($str)
 }
 
 echo($baseUrl . "\n");
+echo($baseUrl . "/competence\n");
 foreach($lessonList as $field)
 {
 	if(isset($field->id))

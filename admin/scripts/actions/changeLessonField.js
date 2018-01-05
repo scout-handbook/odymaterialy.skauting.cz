@@ -9,7 +9,7 @@ function changeLessonFieldOnClick(id, actionQueue)
 	for(var i = 0; i < FIELDS.length; i++)
 	{
 		var checked = false;
-		if((FIELDS[i].id && FIELDS[i].id == lessonSettingsCache.field) || (!FIELDS[i].id && lessonSettingsCache.field == ""))
+		if((FIELDS[i].id && FIELDS[i].id === lessonSettingsCache.field) || (!FIELDS[i].id && lessonSettingsCache.field === ""))
 		{
 			checked = true;
 		}
@@ -49,13 +49,15 @@ function changeLessonFieldOnClick(id, actionQueue)
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
-		nodes[k].onchange = function()
-			{
-				lessonFieldChanged = true;
-			};
+		nodes[k].onchange = lessonFieldOnclick;
 	}
 
 	refreshLogin();
+}
+
+function lessonFieldOnclick()
+{
+	lessonFieldChanged = true;
 }
 
 function changeLessonFieldSave(id, actionQueue)

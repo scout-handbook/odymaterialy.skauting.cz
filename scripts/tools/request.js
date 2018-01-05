@@ -4,9 +4,17 @@ function request(url, query, headers)
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function()
 		{
-			if(this.readyState === 4 && this.status === 200)
+			if(this.readyState === 4)
 			{
-				ret.trigger(JSON.parse(this.responseText).response)
+				var body = JSON.parse(this.responseText);
+				if(this.status === 200)
+				{
+					ret.trigger(body.response);
+				}
+				else if(this.status === 403 && body.type === "RoleException")
+				{
+					showLessonListView();
+				}
 			}
 		}
 	if(query !== undefined && query !== "")

@@ -52,7 +52,7 @@ function downloadUserList(searchName, page, perPage)
 
 function showUserList(list, searchName, page, perPage)
 {
-	if(mainPageTab != "users")
+	if(mainPageTab !== "users")
 	{
 		return;
 	}
@@ -67,46 +67,7 @@ function showUserList(list, searchName, page, perPage)
 	html += "</tr>";
 	for(var i = 0; i < users.length; i++)
 	{
-		html += "<tr><td>" + users[i].name + "</td><td>";
-		switch(users[i].role)
-		{
-			case "superuser":
-				html += "Superuser";
-				break;
-			case "administrator":
-				html += "Administrátor";
-				break;
-			case "editor":
-				html += "Editor";
-				break;
-			default:
-				html += "Uživatel";
-				break;
-		}
-		if(LOGINSTATE.role == "administrator" || LOGINSTATE.role == "superuser")
-		{
-			html += "<br><div class=\"button cyanButton changeUserRole\" data-id=\"" + users[i].id + "\" data-role=\"" + users[i].role + "\" data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
-		}
-		html += "</td><td>";
-		var first = true;
-		for(var j = 0; j < GROUPS.length; j++)
-		{
-			if(users[i].groups.indexOf(GROUPS[j].id) >= 0)
-			{
-				if(!first)
-				{
-					html += ", ";
-				}
-				html += GROUPS[j].name;
-				first = false;
-			}
-		}
-		if(users[i].groups.length > 0)
-		{
-			html += "<br>";
-		}
-		html += "<div class=\"button cyanButton changeUserGroups\" data-id=\"" + users[i].id + "\" data-groups=\'" + JSON.stringify(users[i].groups) + "\' data-name=\"" + users[i].name + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
-		html += "</td></tr>";
+		html += renderUserRow(users[i]);
 	}
 	html += "</table>";
 	html += renderPagination(Math.ceil(list.count / perPage), page);
@@ -133,10 +94,55 @@ function showUserList(list, searchName, page, perPage)
 	{
 		nodes[l].onclick = function(event)
 			{
-				downloadUserList(searchName, parseInt(event.target.dataset.page), perPage);
+				downloadUserList(searchName, parseInt(event.target.dataset.page, 10), perPage);
 			};
 	}
 
 	addOnClicks("changeUserRole", changeUserRoleOnClick);
 	addOnClicks("changeUserGroups", changeUserGroupsOnClick);
+}
+
+function renderUserRow(user)
+{
+	var html = "<tr><td>" + user.name + "</td><td>";
+	switch(user.role)
+	{
+		case "superuser":
+			html += "Superuser";
+			break;
+		case "administrator":
+			html += "Administrátor";
+			break;
+		case "editor":
+			html += "Editor";
+			break;
+		default:
+			html += "Uživatel";
+			break;
+	}
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
+	{
+		html += "<br><div class=\"button cyanButton changeUserRole\" data-id=\"" + user.id + "\" data-role=\"" + user.role + "\" data-name=\"" + user.name + "\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
+	}
+	html += "</td><td>";
+	var first = true;
+	for(var j = 0; j < GROUPS.length; j++)
+	{
+		if(user.groups.indexOf(GROUPS[j].id) >= 0)
+		{
+			if(!first)
+			{
+				html += ", ";
+			}
+			html += GROUPS[j].name;
+			first = false;
+		}
+	}
+	if(user.groups.length > 0)
+	{
+		html += "<br>";
+	}
+	html += "<div class=\"button cyanButton changeUserGroups\" data-id=\"" + user.id + "\" data-groups=\'" + JSON.stringify(user.groups) + "\' data-name=\"" + user.name + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
+	html += "</td></tr>";
+	return html;
 }

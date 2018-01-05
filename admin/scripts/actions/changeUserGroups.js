@@ -10,7 +10,7 @@ function changeUserGroupsOnClick(event)
 	var currentGroups = JSON.parse(getAttribute(event, "groups"));
 	for(var i = 0; i < GROUPS.length; i++)
 	{
-		if(GROUPS[i].id == "00000000-0000-0000-0000-000000000000")
+		if(GROUPS[i].id === "00000000-0000-0000-0000-000000000000")
 		{
 			publicName = GROUPS[i].name;
 		}
@@ -38,14 +38,16 @@ function changeUserGroupsOnClick(event)
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
-		nodes[k].onchange = function()
-			{
-				groupsChanged = true;
-			};
+		nodes[k].onchange = userGroupsOnclick;
 	}
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/users");
 	refreshLogin();
+}
+
+function userGroupsOnclick()
+{
+	groupsChanged = true;
 }
 
 function changeUserGroupsSave(id)

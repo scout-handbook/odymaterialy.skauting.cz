@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -11,7 +11,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/Authenti
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RoleException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/SkautISException.php');
 
-function skautisTry($callback, $hardCheck = true)
+function skautisTry(callable $callback, bool $hardCheck = true)
 {
 	$skautis = \Skautis\Skautis::getInstance(SKAUTIS_APP_ID, SKAUTIS_TEST_MODE);
 	if(isset($_COOKIE['skautis_token']) and isset($_COOKIE['skautis_timeout']))
@@ -38,7 +38,7 @@ function skautisTry($callback, $hardCheck = true)
 	throw new AuthenticationException();
 }
 
-function roleTry($callback, $hardCheck, $requiredRole)
+function roleTry(callable $callback, bool $hardCheck, Role $requiredRole)
 {
 	if(Role_cmp($requiredRole, new Role('guest')) === 0)
 	{
@@ -48,9 +48,9 @@ function roleTry($callback, $hardCheck, $requiredRole)
 	{
 		return skautisTry($callback, $hardCheck);
 	}
-	$safeCallback = function($skautis) use ($callback, $requiredRole)
+	$safeCallback = function(\Skautis\Skautis $skautis) use ($callback, $requiredRole)
 	{
-		$role = new Role(getRole($skautis->UserManagement->LoginDetail()->ID_Person));
+		$role = getRole($skautis->UserManagement->LoginDetail()->ID_Person);
 		if(Role_cmp($role, $requiredRole) >= 0)
 		{
 			return $callback($skautis);
@@ -61,23 +61,4 @@ function roleTry($callback, $hardCheck, $requiredRole)
 		}
 	};
 	return skautisTry($safeCallback, $hardCheck);
-}
-
-function userTry($callback, $hardCheck = true)
-{
-	return roleTry($callback, $hardCheck, new Role('user'));
-}
-
-function editorTry($callback, $hardCheck = true)
-{
-	return roleTry($callback, $hardCheck, new Role('editor'));
-}
-
-function administratorTry($callback, $hardCheck = true)
-{
-	return roleTry($callback, $hardCheck, new Role('administrator'));
-}
-function superuserTry($callback, $hardCheck = true)
-{
-	return roleTry($callback, $hardCheck, new Role('superuser'));
 }
