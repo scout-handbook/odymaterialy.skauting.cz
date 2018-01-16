@@ -1,6 +1,7 @@
 function main()
 {
 	refreshPreviewSetup();
+	MDrefreshPreviewSetup();
 	metadataSetup();
 	historySetup();
 	retryActionSetup();
