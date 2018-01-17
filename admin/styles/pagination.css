@@ -16,7 +16,7 @@
 	transition: color ease 0.15s, border-color ease 0.15s, background-color ease 0.15s;
 }
 
-.paginationButton:hover, .paginationButton.active
+.paginationButton:hover, .activePaginationButton
 {
 	color: #6534ad;
 	border-color: #6534ad;

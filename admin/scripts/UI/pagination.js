@@ -17,7 +17,7 @@ function renderPagination(total, current)
 	{
 		ret += "<div class=\"paginationButton\" data-page=\"" + (current - 1) + "\">" + (current - 1) + "</div>";
 	}
-	ret += "<div class=\"paginationButton active\">" + current + "</div>";
+	ret += "<div class=\"paginationButton activePaginationButton\">" + current + "</div>";
 	if(current < total)
 	{
 		ret += "<div class=\"paginationButton\" data-page=\"" + (current + 1) + "\">" + (current + 1) + "</div>";
