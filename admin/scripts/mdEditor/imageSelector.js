@@ -86,11 +86,11 @@ function MDtoggleImageSelector()
 {
 	if(MDimageSelectorOpen)
 	{
-		document.getElementById("imageSelector").style.top = "-100%";
+		document.getElementById("MDimageSelector").style.top = "-100%";
 	}
 	else
 	{
-		document.getElementById("imageSelector").style.top = "-91px";
+		document.getElementById("MDimageSelector").style.top = "-91px";
 	}
 	MDimageSelectorOpen = !MDimageSelectorOpen;
 	refreshLogin();
@@ -99,8 +99,8 @@ function MDtoggleImageSelector()
 function MDinsertImage(event)
 {
 	var markdown = "![Text po najetí kurzorem](https://odymaterialy.skauting.cz/API/v0.9/image/" + event.target.dataset.id + ")"
-	var editor = ace.edit("editor");
-	editor.session.insert(editor.getCursorPosition(), markdown);
+	var doc = editor.codemirror.getDoc();
+	doc.replaceRange(markdown, doc.getCursor());
 	MDtoggleImageSelector();
 	refreshLogin();
 }

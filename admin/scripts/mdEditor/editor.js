@@ -1,6 +1,7 @@
 var MDchanged;
 var MDlessonSettingsCache = {};
 var MDlessonSettingsCacheEvent;
+var editor;
 
 function MDshowLessonEditor(name, body, actionQueue, id)
 {
@@ -22,7 +23,7 @@ function MDshowLessonEditor(name, body, actionQueue, id)
 		<i class="icon-cog"></i>Nastavení\
 	</div>\
 </header>\
-<div id="imageSelector">\
+<div id="MDimageSelector">\
 	<div id="imageScroller">\
 		<div class="button yellowButton" id="closeImageSelector">\
 			<i class=\"icon-up-open"></i> Zavřít\
@@ -40,22 +41,76 @@ function MDshowLessonEditor(name, body, actionQueue, id)
 	document.getElementById("lessonSettings").onclick = function() {MDlessonSettings(id, actionQueue);};
 	document.getElementById("closeImageSelector").onclick = MDtoggleImageSelector;
 
-	var editor = new SimpleMDE({
-		element: document.getElementById("MDeditor").firstchild,
+	editor = new SimpleMDE({
 		autoDownloadFontAwesome: false,
+		autofocus: true,
+		element: document.getElementById("MDeditor").firstchild,
+		indentWithTabs: false,
 		spellChecker: false,
-		status: false
+		status: false,
+		tabSize: 4,
+		toolbar: [{
+				name: "bold",
+				action: SimpleMDE.toggleBold,
+				className: "icon-bold",
+				title: "Tučné"
+			},
+			{
+				name: "italic",
+				action: SimpleMDE.toggleItalic,
+				className: "icon-italic",
+				title: "Kurzíva"
+			},
+			{
+				name: "heading",
+				action: SimpleMDE.toggleHeadingSmaller,
+				className: "icon-header",
+				title: "Nadpis"
+			},
+			"|",
+			{
+				name: "unordered-list",
+				action: SimpleMDE.toggleUnorderedList,
+				className: "icon-list-bullet",
+				title: "Seznam s odrážkami"
+			},
+			{
+				name: "ordered-list",
+				action: SimpleMDE.toggleOrderedList,
+				className: "icon-list-numbered",
+				title: "Číslovaný seznam"
+			},
+			"|",
+			{
+				name: "link",
+				action: SimpleMDE.drawLink,
+				className: "icon-link",
+				title: "Vložit odkaz"
+			},
+			{
+				name: "image",
+				action: MDtoggleImageSelector,
+				className: "icon-picture",
+				title: "Vložit obrázek"
+			},
+			{
+				name: "table",
+				action: SimpleMDE.drawTable,
+				className: "icon-table",
+				title: "Vložit tabulku"
+			}
+		]
 	});
 	editor.value(body);
-	editor.codemirror.on("change", function () {MDeditorOnChange(editor);});
+	editor.codemirror.on("change", MDeditorOnChange);
 
-	document.getElementById("name").oninput = function () {MDeditorOnChange(editor);};
-	document.getElementById("name").onchange = function () {MDeditorOnChange(editor);};
+	document.getElementById("name").oninput = MDeditorOnChange;
+	document.getElementById("name").onchange = MDeditorOnChange;
 
-	prepareImageSelector();
+	MDprepareImageSelector();
 }
 
-function MDeditorOnChange(editor)
+function MDeditorOnChange()
 {
 	MDchanged = true;
 	MDrefreshPreview(document.getElementById("name").value, editor.value());
