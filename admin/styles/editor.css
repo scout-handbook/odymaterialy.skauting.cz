@@ -54,7 +54,7 @@ header
 	margin: 0 20px 20px 20px;
 }
 
-#discard, #save, #lessonSettings, #addImageButton, #closeImageSelector
+#discard, #save, #lessonSettings, #closeImageSelector
 {
 	margin-top: 10px;
 }
@@ -71,7 +71,7 @@ header
 	float: right;
 }
 
-#addImageButton, #closeImageSelector
+#closeImageSelector
 {
 	margin-left: 10px;
 }
