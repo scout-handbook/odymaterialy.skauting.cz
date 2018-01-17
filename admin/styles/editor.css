@@ -33,6 +33,19 @@ header
 	top: 91px;
 }
 
+.editor-toolbar
+{
+	border: none;
+}
+
+.CodeMirror
+{
+	position: absolute;
+	top: 57px;
+	bottom: 0;
+	overflow-y: auto;
+}
+
 #preview
 {
 	top: 90px;

@@ -30,7 +30,7 @@ function MDshowLessonEditor(name, body, actionQueue, id)
 		<div id="imageWrapper"></div>\
 	</div>\
 </div>\
-<div id="MDeditor"></div><div id="preview"><div id="preview-inner"></div></div>';
+<div id="MDeditor"><textarea></textarea></div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	MDrefreshPreview(name, body);
@@ -38,27 +38,27 @@ function MDshowLessonEditor(name, body, actionQueue, id)
 	document.getElementById("discard").onclick = MDeditorDiscard;
 	document.getElementById("save").onclick = function() {actionQueue.addDefaultCallback(); actionQueue.dispatch();};
 	document.getElementById("lessonSettings").onclick = function() {MDlessonSettings(id, actionQueue);};
-	//document.getElementById("addImageButton").onclick = MDtoggleImageSelector;
 	document.getElementById("closeImageSelector").onclick = MDtoggleImageSelector;
 
-	var editor = ace.edit("MDeditor");
-	editor.$blockScrolling = Infinity;
-	editor.setValue(body, -1);
-	editor.setOption("scrollPastEnd", 0.9);
-	editor.setTheme("ace/theme/odymaterialy");
-	editor.getSession().setMode("ace/mode/markdown");
-	editor.getSession().setUseWrapMode(true);
-	editor.getSession().on("change", MDeditorOnChange);
-	document.getElementById("name").oninput = MDeditorOnChange;
-	document.getElementById("name").onchange = MDeditorOnChange;
+	var editor = new SimpleMDE({
+		element: document.getElementById("MDeditor").firstchild,
+		autoDownloadFontAwesome: false,
+		spellChecker: false,
+		status: false
+	});
+	editor.value(body);
+	editor.codemirror.on("change", function () {MDeditorOnChange(editor);});
+
+	document.getElementById("name").oninput = function () {MDeditorOnChange(editor);};
+	document.getElementById("name").onchange = function () {MDeditorOnChange(editor);};
 
 	prepareImageSelector();
 }
 
-function MDeditorOnChange()
+function MDeditorOnChange(editor)
 {
 	MDchanged = true;
-	MDrefreshPreview(document.getElementById("name").value, ace.edit("MDeditor").getValue());
+	MDrefreshPreview(document.getElementById("name").value, editor.value());
 	refreshLogin();
 }
 
