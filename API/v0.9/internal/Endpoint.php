@@ -16,13 +16,11 @@ class Endpoint
 	private $resourceName;
 	private $subEndpoints;
 	private $parentEndpoint;
-
 	private $listFunction;
 	private $getFunction;
 	private $updateFunction;
 	private $addFunction;
 	private $deleteFunction;
-
 	private $listRole;
 	private $getRole;
 	private $updateRole;
