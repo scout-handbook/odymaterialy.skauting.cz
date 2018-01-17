@@ -151,6 +151,7 @@ SQL;
 		$origMagick->profileImage("icc", $ICCProfile['icc']);
 	}
 	$origMagick->writeImage($orig);
+	chmod($orig, 0444);
 	unlink($tmp);
 
 	$webMagick = new Imagick($orig);
@@ -158,12 +159,15 @@ SQL;
 	$webMagick->setImageCompressionQuality(60);
 	$webMagick->setFormat('JPEG');
 	$webMagick->writeImage($web);
+	chmod($web, 0444);
 
 	$thumbMagick = new Imagick($orig);
 	$thumbMagick->thumbnailImage(256, 256, true);
 	$thumbMagick->setImageCompressionQuality(60);
 	$thumbMagick->setFormat('JPEG');
 	$thumbMagick->writeImage($thumbnail);
+	chmod($thumbnail, 0444);
+
 	$db->finish_transaction();
 	return ['status' => 201];
 };
