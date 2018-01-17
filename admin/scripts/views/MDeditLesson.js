@@ -35,5 +35,5 @@ function MDrenderLessonEditView(id, markdown, noHistory)
 
 function MDsaveLessonPayloadBuilder()
 {
-	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
+	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(editor.value())};
 }
