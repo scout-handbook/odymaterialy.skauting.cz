@@ -27,7 +27,7 @@ $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 $lessonEndpoint->addSubEndpoint('group', $lessonGroupEndpoint);
 $lessonEndpoint->addSubEndpoint('pdf', $lessonPDFEndpoint);
 
-function checkLessonGroup(UuidInterface $lessonId, bool $overrideGroup = false) : bool
+function checkLessonGroup(\Ramsey\Uuid\UuidInterface $lessonId, bool $overrideGroup = false) : bool
 {
 	global $accountEndpoint;
 
