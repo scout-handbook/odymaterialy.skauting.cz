@@ -13,7 +13,7 @@ function showLessonAddView(field)
 
 function addLessonPayloadBuilder()
 {
-	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
+	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(editor.value())};
 }
 
 function addLessonInFieldOnClick(event)

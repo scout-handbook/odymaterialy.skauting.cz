@@ -99,8 +99,8 @@ function toggleImageSelector()
 function insertImage(event)
 {
 	var markdown = "![Text po najetí kurzorem](https://odymaterialy.skauting.cz/API/v0.9/image/" + event.target.dataset.id + ")"
-	var editor = ace.edit("editor");
-	editor.session.insert(editor.getCursorPosition(), markdown);
+	var doc = editor.codemirror.getDoc();
+	doc.replaceRange(markdown, doc.getCursor());
 	toggleImageSelector();
 	refreshLogin();
 }

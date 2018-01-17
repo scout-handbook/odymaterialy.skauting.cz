@@ -25,7 +25,20 @@ header
 
 #editor
 {
-	top: 147px;
+	top: 91px;
+}
+
+.editor-toolbar
+{
+	border: none;
+}
+
+.CodeMirror
+{
+	position: absolute;
+	top: 50px;
+	bottom: 0;
+	overflow-y: auto;
 }
 
 #preview
@@ -41,7 +54,7 @@ header
 	margin: 0 20px 20px 20px;
 }
 
-#discard, #save, #lessonSettings, #addImageButton, #closeImageSelector
+#discard, #save, #lessonSettings, #closeImageSelector
 {
 	margin-top: 10px;
 }
@@ -58,7 +71,7 @@ header
 	float: right;
 }
 
-#addImageButton, #closeImageSelector
+#closeImageSelector
 {
 	margin-left: 10px;
 }
