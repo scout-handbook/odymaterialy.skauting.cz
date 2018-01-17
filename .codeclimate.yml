@@ -25,6 +25,10 @@ engines:
         enabled: false
       qualified-headings:
         enabled: false
+      box-model:
+        enabled: false
+      ids:
+        enabled: false
   duplication:
     enabled: true
     config:
