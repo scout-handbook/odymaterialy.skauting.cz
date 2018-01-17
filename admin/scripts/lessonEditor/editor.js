@@ -1,6 +1,7 @@
 var changed;
 var lessonSettingsCache = {};
 var lessonSettingsCacheEvent;
+var editor;
 
 function showLessonEditor(name, body, actionQueue, id)
 {
@@ -30,12 +31,7 @@ function showLessonEditor(name, body, actionQueue, id)
 		<div id="imageWrapper"></div>\
 	</div>\
 </div>\
-<div id="editor-bar">\
-	<div class="button" id="addImageButton">\
-		<i class="icon-picture"></i> Vložit obrázek\
-	</div>\
-</div>\
-<div id="editor"></div><div id="preview"><div id="preview-inner"></div></div>';
+<div id="editor"><textarea></textarea></div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(name, body);
@@ -43,17 +39,71 @@ function showLessonEditor(name, body, actionQueue, id)
 	document.getElementById("discard").onclick = editorDiscard;
 	document.getElementById("save").onclick = function() {actionQueue.addDefaultCallback(); actionQueue.dispatch();};
 	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id, actionQueue);};
-	document.getElementById("addImageButton").onclick = toggleImageSelector;
 	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
 
-	var editor = ace.edit("editor");
-	editor.$blockScrolling = Infinity;
-	editor.setValue(body, -1);
-	editor.setOption("scrollPastEnd", 0.9);
-	editor.setTheme("ace/theme/odymaterialy");
-	editor.getSession().setMode("ace/mode/markdown");
-	editor.getSession().setUseWrapMode(true);
-	editor.getSession().on("change", editorOnChange);
+	editor = new SimpleMDE({
+		autoDownloadFontAwesome: false,
+		autofocus: true,
+		element: document.getElementById("editor").firstchild,
+		indentWithTabs: false,
+		spellChecker: false,
+		status: false,
+		tabSize: 4,
+		toolbar: [{
+				name: "bold",
+				action: SimpleMDE.toggleBold,
+				className: "icon-bold",
+				title: "Tučné"
+			},
+			{
+				name: "italic",
+				action: SimpleMDE.toggleItalic,
+				className: "icon-italic",
+				title: "Kurzíva"
+			},
+			{
+				name: "heading",
+				action: SimpleMDE.toggleHeadingSmaller,
+				className: "icon-header",
+				title: "Nadpis"
+			},
+			"|",
+			{
+				name: "unordered-list",
+				action: SimpleMDE.toggleUnorderedList,
+				className: "icon-list-bullet",
+				title: "Seznam s odrážkami"
+			},
+			{
+				name: "ordered-list",
+				action: SimpleMDE.toggleOrderedList,
+				className: "icon-list-numbered",
+				title: "Číslovaný seznam"
+			},
+			"|",
+			{
+				name: "link",
+				action: SimpleMDE.drawLink,
+				className: "icon-link",
+				title: "Vložit odkaz"
+			},
+			{
+				name: "image",
+				action: toggleImageSelector,
+				className: "icon-picture",
+				title: "Vložit obrázek"
+			},
+			{
+				name: "table",
+				action: SimpleMDE.drawTable,
+				className: "icon-table",
+				title: "Vložit tabulku"
+			}
+		]
+	});
+	editor.value(body);
+	editor.codemirror.on("change", editorOnChange);
+
 	document.getElementById("name").oninput = editorOnChange;
 	document.getElementById("name").onchange = editorOnChange;
 
@@ -63,7 +113,7 @@ function showLessonEditor(name, body, actionQueue, id)
 function editorOnChange()
 {
 	changed = true;
-	refreshPreview(document.getElementById("name").value, ace.edit("editor").getValue());
+	refreshPreview(document.getElementById("name").value, editor.value());
 	refreshLogin();
 }
 

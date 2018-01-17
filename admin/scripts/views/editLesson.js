@@ -35,5 +35,5 @@ function renderLessonEditView(id, markdown, noHistory)
 
 function saveLessonPayloadBuilder()
 {
-	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(ace.edit("editor").getValue())};
+	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(editor.value())};
 }

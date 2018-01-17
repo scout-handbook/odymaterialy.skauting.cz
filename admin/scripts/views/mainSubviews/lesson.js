@@ -26,7 +26,6 @@ function showLessonSubview(noHistory)
 	addOnClicks("deleteField", deleteFieldOnClick);
 	addOnClicks("addLessonInField", addLessonInFieldOnClick);
 	addOnClicks("changeLesson", changeLessonOnClick);
-	addOnClicks("MDchangeLesson", MDchangeLessonOnClick);
 	addOnClicks("deleteLesson", deleteLessonOnClick);
 	addOnClicks("exportLesson", exportLessonOnClick);
 	if(!noHistory)
@@ -67,7 +66,6 @@ function renderLessonListLesson(lesson, secondLevel)
 	html += "<div class=\"button cyanButton" + secondLevel + " changeLesson\" data-id=\"" + lesson.id + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
 	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{
-		html += "<div class=\"button cyanButton" + secondLevel + " MDchangeLesson\" data-id=\"" + lesson.id + "\"><i class=\"icon-pencil\"></i>Experimentální editor</div>";
 		html += "<div class=\"button redButton deleteLesson\" data-id=\"" + lesson.id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
 	}
 	html += "<div class=\"button exportLesson\" data-id=\"" + lesson.id + "\"><i class=\"icon-file-pdf\"></i>PDF</div>";
@@ -95,12 +93,6 @@ function renderLessonListLesson(lesson, secondLevel)
 function changeLessonOnClick(event)
 {
 	showLessonEditView(getAttribute(event, "id"));
-	return false;
-}
-
-function MDchangeLessonOnClick(event)
-{
-	MDshowLessonEditView(getAttribute(event, "id"));
 	return false;
 }
 
