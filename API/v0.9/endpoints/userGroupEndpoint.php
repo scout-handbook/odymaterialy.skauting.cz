@@ -3,11 +3,12 @@
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
 
-$userGroupEndpoint = new OdyMaterialyAPI\Endpoint('group');
+$userGroupEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $updateUserRole = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
@@ -45,12 +46,12 @@ SQL;
 		{
 			foreach($data['group'] as $group)
 			{
-				$groups[] = $endpoint->parseUuid($group)->getBytes();
+				$groups[] = OdyMaterialyAPI\Helper::parseUuid($group, 'group')->getBytes();
 			}
 		}
 		else
 		{
-			$groups[] = $endpoint->parseUuid($data['group'])->getBytes();
+			$groups[] = OdyMaterialyAPI\Helper::parseUuid($data['group'], 'group')->getBytes();
 		}
 	}
 

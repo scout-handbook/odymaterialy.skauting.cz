@@ -5,7 +5,7 @@ namespace OdyMaterialyAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 
-use \Ramsey\Uuid\Uuid;
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 
 class Group implements \JsonSerializable
 {
@@ -16,12 +16,12 @@ class Group implements \JsonSerializable
 	public function __construct(string $id, string $name, int $count)
 	{
 		$this->id = $id;
-		$this->name = $name;
+		$this->name = Helper::xssSanitize($name);
 		$this->count = $count;
 	}
 
 	public function jsonSerialize() : array
 	{
-		return ['id' => Uuid::fromBytes($this->id), 'name' => $this->name, 'count' => $this->count];
+		return ['id' => \Ramsey\Uuid\Uuid::fromBytes($this->id), 'name' => $this->name, 'count' => $this->count];
 	}
 }

@@ -10,7 +10,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/userEndpoint.php')
 
 use Ramsey\Uuid\Uuid;
 
-$accountEndpoint = new OdyMaterialyAPI\Endpoint('user');
+$accountEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $listAccount = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {

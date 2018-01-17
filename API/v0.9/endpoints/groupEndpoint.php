@@ -5,6 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Group.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
@@ -13,7 +14,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RefusedE
 
 use Ramsey\Uuid\Uuid;
 
-$groupEndpoint = new OdyMaterialyAPI\Endpoint('group');
+$groupEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $listGroups = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
@@ -39,10 +40,10 @@ SQL;
 		$db2->prepare($countSQL);
 		$db2->bind_param('s', $id);
 		$db2->execute();
-		$count = '';
+		$count = [];
 		$db2->bind_result($count);
 		$db2->fetch_require('group');
-		$groups[] = new OdyMaterialyAPI\Group($id, $name, intval($count));
+		$groups[] = new OdyMaterialyAPI\Group(strval($id), strval($name), intval($count));
 	}
 	return ['status' => 200, 'response' => $groups];
 };
@@ -59,7 +60,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $endpoint->xssSanitize($data['name']);
+	$name = $data['name'];
 	$uuid = Uuid::uuid4()->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
@@ -82,12 +83,12 @@ SQL;
 SELECT ROW_COUNT();
 SQL;
 
-	$id = $endpoint->parseUuid($data['id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'group')->getBytes();
 	if(!isset($data['name']))
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $endpoint->xssSanitize($data['name']);
+	$name = $data['name'];
 	
 	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
@@ -130,7 +131,7 @@ SQL;
 SELECT ROW_COUNT();
 SQL;
 	
-	$id = $endpoint->parseUuid($data['id']);
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'group');
 	if($id == Uuid::fromString('00000000-0000-0000-0000-000000000000'))
 	{
 		throw new OdyMaterialyAPI\RefusedException();

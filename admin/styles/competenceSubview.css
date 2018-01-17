@@ -5,14 +5,14 @@
 
 #competenceNumber
 {
-	width: 37px;
 	margin-left: 5px;
+	width: 37px;
 }
 
 #competenceName, #groupName
 {
-	font-weight: bold;
 	font-size: 1.5em;
+	font-weight: bold;
 }
 
 #competenceDescription

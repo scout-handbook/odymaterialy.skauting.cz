@@ -7,11 +7,11 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.php');
 
-$loginEndpoint = new OdyMaterialyAPI\Endpoint('user');
+$loginEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $loginUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) use ($accountEndpoint) : void
 {
-	$startsWith = function(string $haystack, string $needle)
+	$startsWith = function(string $haystack, string $needle) : bool
 	{
 		return (substr($haystack, 0, strlen($needle)) === $needle);
 	};

@@ -80,5 +80,5 @@ SQL;
 	$role = '';
 	$db->bind_result($role);
 	$db->fetch_require('user');
-	return new Role($role);
+	return new Role(strval($role));
 }

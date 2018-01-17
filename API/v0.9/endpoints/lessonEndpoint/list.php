@@ -94,7 +94,7 @@ SQL;
 
 	while($db->fetch())
 	{
-		$fields[] = new OdyMaterialyAPI\Field($field_id, $field_name); // Create a new field
+		$fields[] = new OdyMaterialyAPI\Field(strval($field_id), strval($field_name)); // Create a new field
 
 		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($lessonSQL);

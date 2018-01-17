@@ -25,6 +25,10 @@ engines:
         enabled: false
       qualified-headings:
         enabled: false
+      box-model:
+        enabled: false
+      ids:
+        enabled: false
   duplication:
     enabled: true
     config:
@@ -103,6 +107,8 @@ engines:
       PhanUndeclaredClassConstant:
         enabled: false
       PhanUndeclaredTypeParameter:
+        enabled: false
+      PhanUndeclaredTypeReturnType:
         enabled: false
   stylelint:
     enabled: true

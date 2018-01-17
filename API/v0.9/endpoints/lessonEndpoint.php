@@ -21,13 +21,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonPDFEndpoint.
 
 use Ramsey\Uuid\Uuid;
 
-$lessonEndpoint = new OdyMaterialyAPI\Endpoint('lesson');
+$lessonEndpoint = new OdyMaterialyAPI\Endpoint();
 $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 $lessonEndpoint->addSubEndpoint('group', $lessonGroupEndpoint);
 $lessonEndpoint->addSubEndpoint('pdf', $lessonPDFEndpoint);
 
-function checkLessonGroup(Uuid $lessonId, bool $overrideGroup = false) : bool
+function checkLessonGroup(\Ramsey\Uuid\UuidInterface $lessonId, bool $overrideGroup = false) : bool
 {
 	global $accountEndpoint;
 
@@ -62,7 +62,7 @@ SQL;
 	$db->bind_result($groupId);
 	while($db->fetch())
 	{
-		if(in_array(Uuid::fromBytes($groupId), $groups))
+		if(in_array(Uuid::fromBytes(strval($groupId)), $groups))
 		{
 			return true;
 		}

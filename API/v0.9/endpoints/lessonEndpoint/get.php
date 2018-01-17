@@ -3,6 +3,7 @@
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RoleException.php');
 
@@ -14,7 +15,7 @@ FROM lessons
 WHERE id = ?;
 SQL;
 
-	$id = $endpoint->parseUuid($data['id']);
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'lesson');
 
 	if(!checkLessonGroup($id, true))
 	{

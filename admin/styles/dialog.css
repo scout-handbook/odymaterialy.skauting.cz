@@ -1,54 +1,54 @@
 #overlay
 {
-	width: 100%;
-	height: 100%;
-	position: fixed;
 	background-color: #999999;
 	background-color: rgba(0, 0, 0, 0.4);
-	z-index: 9;
 	display: none;
+	height: 100%;
+	position: fixed;
+	width: 100%;
+	z-index: 9;
 }
 
 #dialog
 {
-	width: 450px;
-	height: 150px;
-	border-radius: 5px;
 	background-color: #ffffff;
+	border-radius: 5px;
+	display: none;
+	height: 150px;
+	left: 50%;
+	padding: 40px;
 	position: absolute;
 	top: 50%;
-	left: 50%;
 	transform: translate(-50%, -50%);
-	padding: 40px;
+	width: 450px;
 	z-index: 9;
-	display: none;
 }
 
 #dismissText, #confirmText
 {
-	position: absolute;
 	bottom: 30px;
+	position: absolute;
 	right: 10px;
 }
 
 #dismissText
 {
-	right: 100px;
 	display: none;
+	right: 100px;
 }
 
 #spinner
 {
+	animation: spin 2s linear infinite;
+	border: 16px solid #fafafa;
+	border-radius: 50%;
+	border-top: 16px solid #6534ad;
+	display: none;
+	height: 120px;
+	left: 50%;
 	position: absolute;
 	top: 50%;
-	left: 50%;
-	width: 120px;
-	height: 120px;
-	border: 16px solid #fafafa;
-	border-top: 16px solid #6534ad;
-	border-radius: 50%;
 	transform: translate(-50%, -50%);
-	animation: spin 2s linear infinite;
+	width: 120px;
 	z-index: 9;
-	display: none;
 }

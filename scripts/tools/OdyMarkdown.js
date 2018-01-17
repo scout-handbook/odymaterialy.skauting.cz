@@ -14,7 +14,7 @@ var OdyMarkdown = function()
 	var blankLinks = {
 		type: "output",
 		regex: "<a href",
-		replace: "<a target=\"_blank\" href"
+		replace: "<a target=\"_blank\" rel=\"noopener noreferrer\" href"
 	};
 	var notes = {
 		type: "lang",

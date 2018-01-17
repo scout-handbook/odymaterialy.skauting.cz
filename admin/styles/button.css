@@ -1,29 +1,29 @@
 .button
 {
-	display: inline-block;
-	margin-right: 15px;
-	margin-bottom: -10px;
-	padding: 0 12px 0 8px;
-	max-width: 400px;
-	overflow: hidden;
-	height: 35px;
-	line-height: 35px;
-	text-align: center;
-	border: 1px solid #ffffff;
-	border: 1px solid rgba(255, 255, 255, 0);
 	background-clip: padding-box;
 	background-color: #0078e7;
-	color: #ffffff;
+	border: 1px solid #ffffff;
+	border: 1px solid rgba(255, 255, 255, 0);
 	border-radius: 5px;
-	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	color: #ffffff;
 	cursor: pointer;
+	display: inline-block;
+	height: 35px;
+	line-height: 35px;
+	margin-bottom: -10px;
+	margin-right: 15px;
+	max-width: 400px;
+	overflow: hidden;
+	padding: 0 12px 0 8px;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 	transition: box-shadow ease 0.15s, border-color ease 0.15s;
 }
 
 .button:hover
 {
-	box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 4px 1px;
 	border-color: #0078e7;
+	box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 4px 1px;
 }
 
 .greenButton
