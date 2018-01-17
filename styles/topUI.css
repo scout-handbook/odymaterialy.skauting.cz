@@ -2,12 +2,12 @@
 {
 	color: #67767a;
 	cursor: pointer;
-	transition: color ease 0.15s;
 	-webkit-touch-callout: none;
-	-webkit-user-select: none;
+	transition: color ease 0.15s;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+	-webkit-user-select: none;
 	user-select: none;
 }
 
@@ -18,14 +18,14 @@
 
 #fontDecrease
 {
-	margin-right: 20px;
 	float: right;
 	font-size: small;
+	margin-right: 20px;
 }
 
 #fontIncrease
 {
-	margin-right: 20px;
 	float: right;
 	font-size: x-large;
+	margin-right: 20px;
 }

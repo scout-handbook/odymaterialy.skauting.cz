@@ -1,8 +1,8 @@
 #mainPage
 {
-	padding: 20px;
-	max-width: 770px;
 	margin: 0 auto;
+	max-width: 770px;
+	padding: 20px;
 }
 
 h2.mainPage, h3.mainPage, .noNewline
@@ -13,44 +13,44 @@ h2.mainPage, h3.mainPage, .noNewline
 
 #mainPageContainer
 {
-	position: absolute;
-	top: 81px;
-	left: 0;
-	right: 0;
 	bottom: 0;
+	left: 0;
 	overflow-y: auto;
+	position: absolute;
+	right: 0;
+	top: 81px;
 }
 
 #topBar
 {
-	height: 80px;
 	background-color: #fafafa;
 	border-bottom: 1px solid #bfbfbf;
+	height: 80px;
 }
 
 .topBarTab
 {
-	cursor: pointer;
-	width: 150px;
-	height: 52px;
-	display: inline-block;
-	position: absolute;
-	margin-left: -1px;
 	border-left: 1px solid #bfbfbf;
 	border-right: 1px solid #bfbfbf;
-	padding-top: 28px;
-	text-align: center;
+	cursor: pointer;
+	display: inline-block;
 	font-size: 1.1em;
 	font-weight: bold;
+	height: 52px;
+	margin-left: -1px;
+	padding-top: 28px;
+	position: absolute;
+	text-align: center;
 	transition: color ease 0.15s, border-color ease 0.15s, background-color ease 0.15s;
+	width: 150px;
 }
 
 .topBarTab:hover, .activeTopBarTab
 {
-	z-index: 1;
-	color: #6534ad;
-	border-color: #6534ad;
 	background-color: #f5f5f5;
+	border-color: #6534ad;
+	color: #6534ad;
+	z-index: 1;
 }
 
 #lessonManager
@@ -76,27 +76,27 @@ h2.mainPage, h3.mainPage, .noNewline
 #groupManager
 {
 	left: 905px;
-	padding-top: 17px;
 	padding-bottom: 11px;
+	padding-top: 17px;
 }
 
 #userAccount
 {
+	border-right: 1px solid #bfbfbf;
+	display: inline-block;
 	height: 80px;
 	width: 300px;
-	display: inline-block;
-	border-right: 1px solid #bfbfbf;
 }
 
 #userAvatar
 {
-	margin: 5px 15px;
 	border: 5px solid #e0e0e0;
 	border-radius:50%;
+	float: left;
+	height: 60px;
+	margin: 5px 15px;
 	overflow:hidden;
 	width: 60px;
-	height: 60px;
-	float: left;
 }
 
 #userName

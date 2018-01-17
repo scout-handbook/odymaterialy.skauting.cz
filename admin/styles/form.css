@@ -1,9 +1,9 @@
 #sidePanelForm legend
 {
-	margin-left: 5px;
-	margin-bottom: 5px;
-	font-style: italic;
 	font-size: 1.1em;	
+	font-style: italic;
+	margin-bottom: 5px;
+	margin-left: 5px;
 }
 
 .heading
@@ -19,36 +19,36 @@
 
 .formText
 {
-	width: 90%;
-	padding: 5px 10px;
 	border: 1px solid #bfbfbf;
 	border-radius: 3px;
 	font-family: "Open Sans", sans-serif;
+	padding: 5px 10px;
 	transition: border-color ease 0.15s, background-color ease 0.15s;
+	width: 90%;
 }
 
 .formName
 {
-	padding: 10px 16px;
 	font-size: 1.5em;
 	font-weight: bold;
+	padding: 10px 16px;
 }
 
 .formText:focus, .formSelect:focus
 {
-	outline: none;
-	border-color: #6534ad;
 	background-color: #f5f5f5;
+	border-color: #6534ad;
+	outline: none;
 }
 
 .formSelect
 {
-	padding: 10px 15px;
+	background-color: #fafafa;
 	border: 1px solid #bfbfbf;
 	border-radius: 3px;
-	background-color: #fafafa;
 	font-family: "Open Sans", sans-serif;
 	font-size: 1.0em;
+	padding: 10px 15px;
 	transition: border-color ease 0.15s, background-color ease 0.15s;
 }
 
@@ -59,15 +59,15 @@
 
 .formCustom
 {
-	width: 15px;
-	height: 15px;
-	margin-right: 10px;
-	margin-bottom: -2px;
-	display: inline-block;
-	border: 1px solid #bfbfbf;
 	background-color: #fafafa;
+	border: 1px solid #bfbfbf;
 	cursor: pointer;
+	display: inline-block;
+	height: 15px;
+	margin-bottom: -2px;
+	margin-right: 10px;
 	transition: border-color ease 0.15s, background-color ease 0.15s;
+	width: 15px;
 }
 
 .formCustom:before
@@ -78,14 +78,14 @@
 
 .formCustom:hover
 {
-	border-color: #6534ad;
 	background-color: #f5f5f5;
+	border-color: #6534ad;
 }
 
 input:checked + .formCustom
 {
-	border-color: #6534ad;
 	background-color: #f5f5f5;
+	border-color: #6534ad;
 }
 
 .formRadio
@@ -95,13 +95,13 @@ input:checked + .formCustom
 
 .formRadio:before
 {
-	width: 7px;
-	height: 7px;
-	margin-top: 4px;
-	margin-left: 4px;
 	background-color: #bfbfbf;
 	border-radius: 4px;
+	height: 7px;
+	margin-left: 4px;
+	margin-top: 4px;
 	transition: background-color ease 0.15s;
+	width: 7px;
 }
 
 .formRadio:hover:before
@@ -121,15 +121,15 @@ input:checked + .formRadio:before
 
 .formCheckbox:before
 {
-	width: 8px;
-	height: 4px;
-	margin-top: 3px;
-	margin-left: 2px;
 	border: 3px solid #bfbfbf;
-	border-top: none;
 	border-right: none;
+	border-top: none;
+	height: 4px;
+	margin-left: 2px;
+	margin-top: 3px;
 	transform: rotate(-45deg);
 	transition: border-color ease 0.15s;
+	width: 8px;
 }
 
 .formCheckbox:hover:before
@@ -144,10 +144,10 @@ input:checked + .formCheckbox:before
 
 .formFile input
 {
-	width: 0.1px;
 	height: 0.1px;
 	opacity: 0;
 	overflow: hidden;
 	position: absolute;
+	width: 0.1px;
 	z-index: -1;
 }

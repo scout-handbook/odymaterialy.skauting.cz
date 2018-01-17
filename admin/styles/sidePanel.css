@@ -1,15 +1,15 @@
 #sidePanel
 {
-	position: absolute;
-	top:0;
-	right: -600px;
-	bottom: 0;
-	width: 539px;
-	padding: 30px;
-	border-left: solid 1px #bfbfbf;
 	background: white;
-	transition: right ease 0.3s;
+	border-left: solid 1px #bfbfbf;
+	bottom: 0;
 	overflow-y: auto;
+	padding: 30px;
+	position: absolute;
+	right: -600px;
+	top:0;
+	transition: right ease 0.3s;
+	width: 539px;
 	z-index: 10;
 }
 
@@ -26,11 +26,11 @@
 
 #sidePanelOverlay
 {
-	width: 100%;
-	height: 100%;
-	position: fixed;
 	background-color: #999999;
 	background-color: rgba(0, 0, 0, 0.4);
 	display: none;
+	height: 100%;
+	position: fixed;
+	width: 100%;
 	z-index: 9;
 }

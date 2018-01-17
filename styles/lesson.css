@@ -53,16 +53,16 @@ main .notes
 
 #embeddedSpinner
 {
+	animation: spin 2s linear infinite;
+	border: 16px solid #bfbfbf;
+	border-radius: 50%;
+	border-top: 16px solid #6534ad;
+	height: 120px;
+	left: 50%;
 	position: absolute;
 	top: 50%;
-	left: 50%;
-	width: 120px;
-	height: 120px;
-	border: 16px solid #bfbfbf;
-	border-top: 16px solid #6534ad;
-	border-radius: 50%;
 	transform: translate(-50%, -50%);
-	animation: spin 2s linear infinite;
+	width: 120px;
 }
 
 @keyframes spin

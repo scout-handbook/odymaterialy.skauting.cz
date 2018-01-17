@@ -1,25 +1,25 @@
 header
 {
-	position: relative;
-	z-index: 8;
-	height: 90px;
 	background-color: #ffffff;
 	border-bottom: 1px solid #bfbfbf;
+	height: 90px;
+	position: relative;
+	z-index: 8;
 }
 
 #editor-bar
 {
+	border-bottom: 1px solid #bfbfbf;
+	height: 56px;
 	position: absolute;
 	top: 90px;
 	width: 50%;
-	height: 56px;
-	border-bottom: 1px solid #bfbfbf;
 }
 
 #editor, #preview
 {
-	position: absolute;
 	bottom: 0;
+	position: absolute;
 	width: 50%;
 }
 
@@ -35,18 +35,18 @@ header
 
 .CodeMirror
 {
-	position: absolute;
-	top: 50px;
 	bottom: 0;
 	overflow-y: auto;
+	position: absolute;
+	top: 50px;
 }
 
 #preview
 {
-	top: 90px;
-	right: 0;
-	overflow-y: auto;
 	border-left: 1px solid #bfbfbf;
+	overflow-y: auto;
+	right: 0;
+	top: 90px;
 }
 
 #preview-inner
@@ -61,14 +61,14 @@ header
 
 #discard
 {
-	margin-left: 10px;
 	float: left;
+	margin-left: 10px;
 }
 
 #save, #lessonSettings
 {
-	margin-right: 10px;
 	float: right;
+	margin-right: 10px;
 }
 
 #closeImageSelector
@@ -79,30 +79,30 @@ header
 #name
 {
 	float: left;
-	margin-top: 10px;
 	margin-left: 20px;
+	margin-top: 10px;
 	width: 50%;
 }
 
 #imageSelector
 {
-	position: relative;
-	height: 100%;
-	z-index: 7;
 	background-color: #ffffff;
-	transition: top 0.4s ease;
+	height: 100%;
+	position: relative;
 	top: -100%;
+	transition: top 0.4s ease;
+	z-index: 7;
 }
 
 #imageScroller
 {
-	position: absolute;
-	top: 91px;
-	left: 0;
-	right: 0;
 	bottom: 0;
-	padding-bottom: 30px;
+	left: 0;
 	overflow-y: auto;
+	padding-bottom: 30px;
+	position: absolute;
+	right: 0;
+	top: 91px;
 }
 
 #imageWrapper
