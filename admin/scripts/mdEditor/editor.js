@@ -30,12 +30,7 @@ function MDshowLessonEditor(name, body, actionQueue, id)
 		<div id="imageWrapper"></div>\
 	</div>\
 </div>\
-<div id="editor-bar">\
-	<div class="button" id="addImageButton">\
-		<i class="icon-picture"></i> Vložit obrázek\
-	</div>\
-</div>\
-<div id="editor"></div><div id="preview"><div id="preview-inner"></div></div>';
+<div id="MDeditor"></div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	MDrefreshPreview(name, body);
@@ -43,10 +38,10 @@ function MDshowLessonEditor(name, body, actionQueue, id)
 	document.getElementById("discard").onclick = MDeditorDiscard;
 	document.getElementById("save").onclick = function() {actionQueue.addDefaultCallback(); actionQueue.dispatch();};
 	document.getElementById("lessonSettings").onclick = function() {MDlessonSettings(id, actionQueue);};
-	document.getElementById("addImageButton").onclick = MDtoggleImageSelector;
+	//document.getElementById("addImageButton").onclick = MDtoggleImageSelector;
 	document.getElementById("closeImageSelector").onclick = MDtoggleImageSelector;
 
-	var editor = ace.edit("editor");
+	var editor = ace.edit("MDeditor");
 	editor.$blockScrolling = Infinity;
 	editor.setValue(body, -1);
 	editor.setOption("scrollPastEnd", 0.9);
@@ -63,7 +58,7 @@ function MDshowLessonEditor(name, body, actionQueue, id)
 function MDeditorOnChange()
 {
 	MDchanged = true;
-	MDrefreshPreview(document.getElementById("name").value, ace.edit("editor").getValue());
+	MDrefreshPreview(document.getElementById("name").value, ace.edit("MDeditor").getValue());
 	refreshLogin();
 }
 

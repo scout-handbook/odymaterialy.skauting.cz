@@ -16,7 +16,7 @@ header
 	border-bottom: 1px solid #bfbfbf;
 }
 
-#editor, #preview
+#editor, #MDeditor, #preview
 {
 	position: absolute;
 	bottom: 0;
@@ -26,6 +26,11 @@ header
 #editor
 {
 	top: 147px;
+}
+
+#MDeditor
+{
+	top: 91px;
 }
 
 #preview
