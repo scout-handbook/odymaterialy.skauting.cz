@@ -108,6 +108,8 @@ engines:
         enabled: false
       PhanUndeclaredTypeParameter:
         enabled: false
+      PhanUndeclaredTypeReturnType:
+        enabled: false
   stylelint:
     enabled: true
   sonar-php:
