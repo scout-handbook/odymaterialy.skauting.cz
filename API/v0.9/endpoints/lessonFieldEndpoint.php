@@ -4,11 +4,12 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 use Ramsey\Uuid\Uuid;
 
-$lessonFieldEndpoint = new OdyMaterialyAPI\Endpoint('field');
+$lessonFieldEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $updateLessonField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
@@ -22,10 +23,10 @@ INSERT INTO lessons_in_fields (field_id, lesson_id)
 VALUES (?, ?);
 SQL;
 
-	$lessonId = $endpoint->parseUuid($data['parent-id'])->getBytes();
+	$lessonId = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 	if(isset($data['field']) and $data['field'] !== '')
 	{
-		$fieldId = $endpoint->parseUuid($data['field'])->getBytes();
+		$fieldId = OdyMaterialyAPI\Helper::parseUuid($data['field'], 'field')->getBytes();
 	}
 
 	$db = new OdyMaterialyAPI\Database();

@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 use Ramsey\Uuid\Uuid;
@@ -17,7 +18,7 @@ class User implements \JsonSerializable
 	public function __construct(int $id, string $name, string $role)
 	{
 		$this->id = $id;
-		$this->name = $name;
+		$this->name = Helper::xssSanitize($name);
 		$this->role = new Role($role);
 		$this->groups = [];
 	}

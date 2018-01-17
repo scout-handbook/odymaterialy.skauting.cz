@@ -5,6 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Competence.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
@@ -13,7 +14,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFound
 
 use Ramsey\Uuid\Uuid;
 
-$competenceEndpoint = new OdyMaterialyAPI\Endpoint('competence');
+$competenceEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $listCompetences = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
@@ -60,11 +61,11 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\InvalidArgumentTypeException('number', ['Integer']);
 	}
-	$name = $endpoint->xssSanitize($data['name']);
+	$name = $data['name'];
 	$description = '';
 	if(isset($data['description']))
 	{
-		$description = $endpoint->xssSanitize($data['description']);
+		$description = $data['description'];
 	}
 	$uuid = Uuid::uuid4()->getBytes();
 
@@ -93,7 +94,7 @@ SQL;
 SELECT ROW_COUNT();
 SQL;
 
-	$id = $endpoint->parseUuid($data['id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
 	if(isset($data['number']))
 	{
 		$number = ctype_digit($data['number']) ? intval($data['number']) : null;
@@ -104,11 +105,11 @@ SQL;
 	}
 	if(isset($data['name']))
 	{
-		$name = $endpoint->xssSanitize($data['name']);
+		$name = $data['name'];
 	}
 	if(isset($data['description']))
 	{
-		$description = $endpoint->xssSanitize($data['description']);
+		$description = $data['description'];
 	}
 
 	$db = new OdyMaterialyAPI\Database();
@@ -173,7 +174,7 @@ SQL;
 SELECT ROW_COUNT();
 SQL;
 
-	$id = $endpoint->parseUuid($data['id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();

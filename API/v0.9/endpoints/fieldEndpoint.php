@@ -4,13 +4,14 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
 
 use Ramsey\Uuid\Uuid;
 
-$fieldEndpoint = new OdyMaterialyAPI\Endpoint('field');
+$fieldEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $addField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
@@ -23,7 +24,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $endpoint->xssSanitize($data['name']);
+	$name = $data['name'];
 	$uuid = Uuid::uuid4()->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
@@ -46,12 +47,12 @@ SQL;
 SELECT ROW_COUNT();
 SQL;
 
-	$id = $endpoint->parseUuid($data['id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'field')->getBytes();
 	if(!isset($data['name']))
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $endpoint->xssSanitize($data['name']);
+	$name = $data['name'];
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();
@@ -90,7 +91,7 @@ SQL;
 SELECT ROW_COUNT();
 SQL;
 
-	$id = $endpoint->parseUuid($data['id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'field')->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();

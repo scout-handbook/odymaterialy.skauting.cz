@@ -19,7 +19,7 @@ SQL;
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $endpoint->xssSanitize($data['name']);
+	$name = $data['name'];
 	$body = '';
 	if(isset($data['body']))
 	{

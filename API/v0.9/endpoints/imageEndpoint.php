@@ -4,6 +4,7 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/Exception.php');
@@ -12,7 +13,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingA
 
 use Ramsey\Uuid\Uuid;
 
-$imageEndpoint = new OdyMaterialyAPI\Endpoint('image');
+$imageEndpoint = new OdyMaterialyAPI\Endpoint();
 
 function applyRotation(Imagick $image) : void
 {
@@ -72,7 +73,7 @@ $imageEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listImages);
 
 $getImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : void
 {
-	$id = $endpoint->parseUuid($data['id'])->__toString();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'image')->__toString();
 	$quality = "web";
 	if(isset($data['quality']) and in_array($data['quality'], ['original', 'web', 'thumbnail']))
 	{
@@ -184,7 +185,7 @@ SQL;
 SELECT ROW_COUNT();
 SQL;
 
-	$id = $endpoint->parseUuid($data['id']);
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'image');
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();

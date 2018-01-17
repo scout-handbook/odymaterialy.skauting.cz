@@ -4,11 +4,12 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 use Ramsey\Uuid\Uuid;
 
-$lessonGroupEndpoint = new OdyMaterialyAPI\Endpoint('group');
+$lessonGroupEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $listLessonGroups = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
@@ -19,7 +20,7 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$id = $endpoint->parseUuid($data['parent-id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 	$db->bind_param('s', $id);
 	$db->execute();
 	$groups = [];
@@ -44,13 +45,13 @@ INSERT INTO groups_for_lessons (lesson_id, group_id)
 VALUES (?, ?);
 SQL;
 
-	$id = $endpoint->parseUuid($data['parent-id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 	$groups = [];
 	if(isset($data['group']))
 	{
 		foreach($data['group'] as $group)
 		{
-			$groups[] = $endpoint->parseUuid($group)->getBytes();
+			$groups[] = OdyMaterialyAPI\Helper::parseUuid($group, 'group')->getBytes();
 		}
 	}
 

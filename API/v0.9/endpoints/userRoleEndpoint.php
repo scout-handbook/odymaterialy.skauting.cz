@@ -7,7 +7,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
 
-$userRoleEndpoint = new OdyMaterialyAPI\Endpoint('user');
+$userRoleEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $updateUserRole = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {

@@ -7,7 +7,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/eventParticipantEndpoint.php');
 
-$eventEndpoint = new OdyMaterialyAPI\Endpoint('user');
+$eventEndpoint = new OdyMaterialyAPI\Endpoint();
 $eventEndpoint->addSubEndpoint('participant', $eventParticipantEndpoint);
 
 $listUsers = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array

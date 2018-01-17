@@ -11,7 +11,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidA
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/userRoleEndpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/userGroupEndpoint.php');
 
-$userEndpoint = new OdyMaterialyAPI\Endpoint('user');
+$userEndpoint = new OdyMaterialyAPI\Endpoint();
 $userEndpoint->addSubEndpoint('role', $userRoleEndpoint);
 $userEndpoint->addSubEndpoint('group', $userGroupEndpoint);
 
@@ -127,7 +127,7 @@ $addUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpo
 	{
 		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
 	}
-	$name = $endpoint->xssSanitize($data['name']);
+	$name = $data['name'];
 
 	$SQL = <<<SQL
 INSERT INTO users (id, name)

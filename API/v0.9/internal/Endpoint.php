@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OdyMaterialyAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -8,14 +8,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/Exception.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotImplementedException.php');
 
 class Endpoint
 {
-	private $resourceName;
-	private $subEndpoints;
 	private $parentEndpoint;
+	private $subEndpoints;
 
 	private $listFunction;
 	private $getFunction;
@@ -29,9 +27,8 @@ class Endpoint
 	private $addRole;
 	private $deleteRole;
 
-	public function __construct(string $resourceName)
+	public function __construct()
 	{
-		$this->resourceName = $resourceName;
 		$this->subEndpoints = [];
 
 		$this->listFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
@@ -101,23 +98,6 @@ class Endpoint
 	{
 		$this->deleteRole = $minimalRole;
 		$this->deleteFunction = $callback;
-	}
-
-	public function parseUuid(string $id) : \Ramsey\Uuid\UuidInterface
-	{
-		try
-		{
-			return \Ramsey\Uuid\Uuid::fromString($id);
-		}
-		catch(\Ramsey\Uuid\Exception\InvalidUuidStringException $e)
-		{
-			throw new NotFoundException($this->resourceName);
-		}
-	}
-
-	public function xssSanitize(string $input) : string
-	{
-		return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 	}
 
 	public function call(string $method, Role $role, array $data) : array

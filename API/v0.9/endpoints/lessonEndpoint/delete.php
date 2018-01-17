@@ -3,6 +3,7 @@
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 
 $deleteLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
@@ -28,7 +29,7 @@ SQL;
 SELECT ROW_COUNT();
 SQL;
 
-	$id = $endpoint->parseUuid($data['id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'lesson')->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->start_transaction();

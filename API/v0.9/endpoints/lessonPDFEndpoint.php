@@ -4,11 +4,12 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/OdyMarkdown.php');
 
 use Ramsey\Uuid\Uuid;
 
-$lessonPDFEndpoint = new OdyMaterialyAPI\Endpoint('lesson');
+$lessonPDFEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $getLessonLatex = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : void
 {
@@ -18,7 +19,7 @@ FROM lessons
 WHERE id = ?;
 SQL;
 
-	$id = $endpoint->parseUuid($data['parent-id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);

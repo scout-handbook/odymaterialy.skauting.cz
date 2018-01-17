@@ -7,7 +7,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
 
-$eventParticipantEndpoint = new OdyMaterialyAPI\Endpoint('event');
+$eventParticipantEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $listEventParticipants = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {

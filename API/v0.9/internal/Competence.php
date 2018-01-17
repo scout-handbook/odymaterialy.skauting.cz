@@ -5,6 +5,8 @@ namespace OdyMaterialyAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
+
 use \Ramsey\Uuid\Uuid;
 
 class Competence implements \JsonSerializable
@@ -18,8 +20,8 @@ class Competence implements \JsonSerializable
 	{
 		$this->id = $id;
 		$this->number = $number;
-		$this->name = $name;
-		$this->description = $description;
+		$this->name = Helper::xssSanitize($name);
+		$this->description = Helper::xssSanitize($description);
 	}
 
 	public function jsonSerialize() : array

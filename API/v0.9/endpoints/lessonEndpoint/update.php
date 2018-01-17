@@ -3,6 +3,7 @@
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
 
@@ -29,10 +30,10 @@ SQL;
 SELECT ROW_COUNT();
 SQL;
 
-	$id = $endpoint->parseUuid($data['id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'lesson')->getBytes();
 	if(isset($data['name']))
 	{
-		$name = $endpoint->xssSanitize($data['name']);
+		$name = $data['name'];
 	}
 	if(isset($data['body']))
 	{

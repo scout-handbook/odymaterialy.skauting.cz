@@ -4,11 +4,12 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 use Ramsey\Uuid\Uuid;
 
-$lessonCompetenceEndpoint = new OdyMaterialyAPI\Endpoint('competence');
+$lessonCompetenceEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $updateLessonCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
@@ -21,13 +22,13 @@ INSERT INTO competences_for_lessons (lesson_id, competence_id)
 VALUES (?, ?);
 SQL;
 
-	$id = $endpoint->parseUuid($data['parent-id'])->getBytes();
+	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 	$competences = [];
 	if(isset($data['competence']))
 	{
 		foreach($data['competence'] as $competence)
 		{
-			$competences[] = $endpoint->parseUuid($competence)->getBytes();
+			$competences[] = OdyMaterialyAPI\Helper::parseUuid($competence, 'competence')->getBytes();
 		}
 	}
 

@@ -5,7 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
-$logoutEndpoint = new OdyMaterialyAPI\Endpoint('user');
+$logoutEndpoint = new OdyMaterialyAPI\Endpoint();
 
 $logoutUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : void
 {
