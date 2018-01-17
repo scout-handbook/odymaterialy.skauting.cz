@@ -7,8 +7,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/LessonContainer.php');
 
-use \Ramsey\Uuid\Uuid;
-
 class Field extends LessonContainer implements \JsonSerializable
 {
 	public $id;
@@ -22,6 +20,6 @@ class Field extends LessonContainer implements \JsonSerializable
 
 	public function jsonSerialize() : array
 	{
-		return ['id' => Uuid::fromBytes($this->id), 'name' => $this->name, 'lessons' => $this->lessons];
+		return ['id' => \Ramsey\Uuid\Uuid::fromBytes($this->id), 'name' => $this->name, 'lessons' => $this->lessons];
 	}
 }

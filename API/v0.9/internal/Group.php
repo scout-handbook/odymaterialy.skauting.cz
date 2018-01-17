@@ -7,8 +7,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 
-use \Ramsey\Uuid\Uuid;
-
 class Group implements \JsonSerializable
 {
 	public $id;
@@ -24,6 +22,6 @@ class Group implements \JsonSerializable
 
 	public function jsonSerialize() : array
 	{
-		return ['id' => Uuid::fromBytes($this->id), 'name' => $this->name, 'count' => $this->count];
+		return ['id' => \Ramsey\Uuid\Uuid::fromBytes($this->id), 'name' => $this->name, 'count' => $this->count];
 	}
 }

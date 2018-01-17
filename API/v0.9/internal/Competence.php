@@ -7,8 +7,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 
-use \Ramsey\Uuid\Uuid;
-
 class Competence implements \JsonSerializable
 {
 	public $id;
@@ -26,6 +24,6 @@ class Competence implements \JsonSerializable
 
 	public function jsonSerialize() : array
 	{
-		return ['id' => Uuid::fromBytes($this->id), 'number' => $this->number, 'name' => $this->name, 'description' => $this->description];
+		return ['id' => \Ramsey\Uuid\Uuid::fromBytes($this->id), 'number' => $this->number, 'name' => $this->name, 'description' => $this->description];
 	}
 }
