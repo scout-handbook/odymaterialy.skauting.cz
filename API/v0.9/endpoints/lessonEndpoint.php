@@ -62,7 +62,7 @@ SQL;
 	$db->bind_result($groupId);
 	while($db->fetch())
 	{
-		if(in_array(Uuid::fromBytes($groupId), $groups))
+		if(in_array(Uuid::fromBytes(strval($groupId)), $groups))
 		{
 			return true;
 		}

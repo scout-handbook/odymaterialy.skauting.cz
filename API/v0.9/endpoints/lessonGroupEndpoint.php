@@ -27,7 +27,7 @@ SQL;
 	$db->bind_result($group_id);
 	while($db->fetch())
 	{
-		$groups[] = Uuid::fromBytes($group_id);
+		$groups[] = Uuid::fromBytes(strval($group_id));
 	}
 	return ['status' => 200, 'response' => $groups];
 };

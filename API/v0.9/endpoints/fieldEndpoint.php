@@ -75,7 +75,7 @@ SQL;
 };
 $fieldEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateField);
 
-$deleteField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint)
+$deleteField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM lessons_in_fields

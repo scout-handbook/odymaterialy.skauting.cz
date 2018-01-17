@@ -103,7 +103,7 @@ class Endpoint
 		$this->deleteFunction = $callback;
 	}
 
-	public function parseUuid(string $id) : \Ramsey\Uuid\Uuid
+	public function parseUuid(string $id) : \Ramsey\Uuid\UuidInterface
 	{
 		try
 		{
@@ -134,6 +134,7 @@ class Endpoint
 		{
 			return $ret;
 		}
+		return [];
 	}
 
 	private function callFunctionHelper(string $method, array $data) : callable
@@ -246,6 +247,7 @@ class Endpoint
 
 	private function handleDataHelper(string $method) : array
 	{
+		$data = [];
 		switch($method)
 		{
 			case 'PUT':

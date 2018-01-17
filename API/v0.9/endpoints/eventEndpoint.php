@@ -10,7 +10,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/eventParticipantEn
 $eventEndpoint = new OdyMaterialyAPI\Endpoint('user');
 $eventEndpoint->addSubEndpoint('participant', $eventParticipantEndpoint);
 
-$listUsers = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint)
+$listUsers = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
 {
 	$ISevents = $skautis->Events->EventEducationAllMyActions();
 	$events = [];

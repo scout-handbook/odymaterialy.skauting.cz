@@ -69,7 +69,9 @@ class OdyMarkdown extends GithubMarkdown
 	{
 		$block = [$command];
 		$line = rtrim($lines[$current]);
-		$start = strpos($line, '[', strlen($command) + 1) + 1;
+		$start = intval(strpos($line, '[', strlen($command) + 1)) + 1;
+		$next = $current;
+		$argumentString = '';
 		if($start !== false)
 		{
 			$stop = strpos($line, ']', $start);
@@ -97,8 +99,8 @@ class OdyMarkdown extends GithubMarkdown
 				}
 			}
 		}
-		$argumentString = str_replace(' ', '', $argumentString);
-		$argumentArray = explode(',', $argumentString);
+		$argumentString = str_replace(' ', '', strval($argumentString));
+		$argumentArray = explode(',', strval($argumentString));
 		foreach($argumentArray as $arg)
 		{
 			$keyval = explode('=', $arg);

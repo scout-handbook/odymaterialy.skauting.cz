@@ -11,7 +11,7 @@ $loginEndpoint = new OdyMaterialyAPI\Endpoint('user');
 
 $loginUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) use ($accountEndpoint) : void
 {
-	$startsWith = function(string $haystack, string $needle)
+	$startsWith = function(string $haystack, string $needle) : bool
 	{
 		return (substr($haystack, 0, strlen($needle)) === $needle);
 	};

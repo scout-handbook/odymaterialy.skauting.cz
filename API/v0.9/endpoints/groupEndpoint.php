@@ -39,10 +39,10 @@ SQL;
 		$db2->prepare($countSQL);
 		$db2->bind_param('s', $id);
 		$db2->execute();
-		$count = '';
+		$count = [];
 		$db2->bind_result($count);
 		$db2->fetch_require('group');
-		$groups[] = new OdyMaterialyAPI\Group($id, $name, intval($count));
+		$groups[] = new OdyMaterialyAPI\Group(strval($id), strval($name), intval($count));
 	}
 	return ['status' => 200, 'response' => $groups];
 };

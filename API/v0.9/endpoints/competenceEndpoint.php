@@ -34,7 +34,7 @@ SQL;
 	$competences = [];
 	while($db->fetch())
 	{
-		$competences[] = new OdyMaterialyAPI\Competence($id, intval($number), $name, $description);
+		$competences[] = new OdyMaterialyAPI\Competence(strval($id), intval($number), strval($name), strval($description));
 	}
 	return ['status' => 200, 'response' => $competences];
 };
