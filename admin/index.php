@@ -1,10 +1,8 @@
 <?php declare(strict_types=1);
-const _API_EXEC = 1;
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.php');
-
-$loginState = $accountEndpoint->call('GET', new OdyMaterialyAPI\Role('guest'), ['no-avatar' => 'true']);
+$context = ['http' => ['header'=>'Cookie: skautis_timeout=' . $_COOKIE['skautis_timeout'] . '; skautis_token=' . $_COOKIE['skautis_token']]];
+$accountInfo = file_get_contents('https://odymaterialy.skauting.cz/API/v0.9/account?no-avatar=true', false, stream_context_create($context));
+$loginState = json_decode($accountInfo, true);
 if(isset($loginState['status']))
 {
 	if($loginState['status'] == 200)
