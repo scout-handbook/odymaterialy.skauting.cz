@@ -9,11 +9,11 @@
 
 .QRheader
 {
-	width: 60px;
-	height: 60px;
 	float: right;
-	margin-top: -2em;
+	height: 60px;
 	margin-right: -1em;
+	margin-top: -2em;
+	width: 60px;
 }
 
 .oddFooterLeft

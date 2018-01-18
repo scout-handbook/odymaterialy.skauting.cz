@@ -67,7 +67,7 @@ SQL;
 	$qrRenderer->setWidth(90);
 	$qrWriter = new \BaconQrCode\Writer($qrRenderer);
 
-	$mpdf->DefHTMLHeaderByName('OddHeaderFirst', '<img class="QRheader" src="data:image/png;base64,' . base64_encode($qrWriter->writeString('https://odymaterialy.skauting.cz/lesson/' . $endpoint->parseUuid($data['parent-id'])->toString())) . '">');
+	$mpdf->DefHTMLHeaderByName('OddHeaderFirst', '<img class="QRheader" src="data:image/png;base64,' . base64_encode($qrWriter->writeString('https://odymaterialy.skauting.cz/lesson/' . OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->toString())) . '">');
 	$mpdf->DefHTMLHeaderByName('OddHeader', '<div class="oddHeaderRight">' . strval($name) . '</div>');
 	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
 	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
