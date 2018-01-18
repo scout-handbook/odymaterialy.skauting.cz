@@ -21,7 +21,7 @@ SQL;
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
-	$db->bindParam(':lesson_id', $id);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 	$groups = [];
 	$group_id = '';
@@ -59,14 +59,14 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
-	$db->bindParam(':lesson_id', $id);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($insertSQL);
 	foreach($groups as $group)
 	{
-		$db->bindParam(':lesson_id', $id);
-		$db->bindParam(':group_id', $group);
+		$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
+		$db->bindParam(':group_id', $group, PDO::PARAM_STR);
 		$db->execute("lesson or group");
 	}
 	$db->endTransaction();

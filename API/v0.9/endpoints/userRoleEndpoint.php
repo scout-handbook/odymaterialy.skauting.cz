@@ -47,7 +47,7 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($selectSQL);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_INT);
 	$db->execute();
 	$old_role = '';
 	$db->bindColumn('role', $old_role);
@@ -56,8 +56,8 @@ SQL;
 
 	$new_role_str = $new_role->__toString();
 	$db->prepare($updateSQL);
-	$db->bindParam(':role', $new_role_str);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':role', $new_role_str, PDO::PARAM_STR);
+	$db->bindParam(':id', $id, PDO::PARAM_INT);
 	$db->execute();
 	return ['status' => 200];
 };

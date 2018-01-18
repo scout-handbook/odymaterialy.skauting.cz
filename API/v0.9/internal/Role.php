@@ -75,7 +75,7 @@ SQL;
 
 	$db = new Database();
 	$db->prepare($SQL);
-	$db->bindParam(':id', $idPerson);
+	$db->bindParam(':id', $idPerson, \PDO::PARAM_INT);
 	$db->execute();
 	$role = '';
 	$db->bindColumn('role', $role);

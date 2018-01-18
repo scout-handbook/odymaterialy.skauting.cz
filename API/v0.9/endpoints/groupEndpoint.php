@@ -39,7 +39,7 @@ SQL;
 	{
 		$db2 =  new OdyMaterialyAPI\Database();
 		$db2->prepare($countSQL);
-		$db2->bindParam(':group_id', $id);
+		$db2->bindParam(':group_id', $id, PDO::PARAM_STR);
 		$db2->execute();
 		$count = '';
 		$db2->bindColumn(1, $count);
@@ -66,8 +66,8 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bindParam(':id', $uuid);
-	$db->bindParam(':name', $name);
+	$db->bindParam(':id', $uuid, PDO::PARAM_STR);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 201];
 };
@@ -93,8 +93,8 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($updateSQL);
-	$db->bindParam(':name', $name);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	if($db->rowCount() != 1)
@@ -134,15 +134,15 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
-	$db->bindParam(':group_id', $id);
+	$db->bindParam(':group_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteUsersSQL);
-	$db->bindParam(':group_id', $id);
+	$db->bindParam(':group_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	if($db->rowCount() != 1)

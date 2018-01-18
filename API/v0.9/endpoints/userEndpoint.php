@@ -81,7 +81,7 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($selectSQL);
-	$db->bindParam(':name', $searchName);
+	$db->bindParam(':name', $searchName, PDO::PARAM_STR);
 	$db->bindParam(':start', $start, PDO::PARAM_INT);
 	$db->bindParam(':per_page', $per_page, PDO::PARAM_INT);
 	$db->execute();
@@ -100,7 +100,7 @@ SQL;
 
 		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($groupSQL);
-		$db2->bindParam(':user_id', $row['id']);
+		$db2->bindParam(':user_id', $row['id'], PDO::PARAM_STR);
 		$db2->execute();
 		$group = '';
 		$db2->bindColumn('group_id', $group);
@@ -139,8 +139,8 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bindParam(':id', $id);
-	$db->bindParam(':name', $name);
+	$db->bindParam(':id', $id, PDO::PARAM_INT);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 200];
 };

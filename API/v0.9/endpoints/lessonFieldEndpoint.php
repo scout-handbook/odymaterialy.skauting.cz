@@ -33,14 +33,14 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
-	$db->bindParam(':lesson_id', $lessonId);
+	$db->bindParam(':lesson_id', $lessonId, PDO::PARAM_STR);
 	$db->execute();
 
 	if(isset($fieldId))
 	{
 		$db->prepare($insertSQL);
-		$db->bindParam(':field_id', $fieldId);
-		$db->bindParam(':lesson_id', $lessonId);
+		$db->bindParam(':field_id', $fieldId, PDO::PARAM_STR);
+		$db->bindParam(':lesson_id', $lessonId, PDO::PARAM_STR);
 		$db->execute("lesson or field");
 	}
 	$db->endTransaction();

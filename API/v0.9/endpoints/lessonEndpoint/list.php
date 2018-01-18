@@ -37,7 +37,7 @@ SQL;
 			// Find out the competences this Lesson belongs to
 			$db2 = new OdyMaterialyAPI\Database();
 			$db2->prepare($competenceSQL);
-			$db2->bindParam(':lesson_id', $lessonId);
+			$db2->bindParam(':lesson_id', $lessonId, PDO::PARAM_STR);
 			$db2->execute();
 			$competenceId = '';
 			$competenceNumber = '';
@@ -102,7 +102,7 @@ SQL;
 
 		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($lessonSQL);
-		$db2->bindParam(':field_id', $field_id);
+		$db2->bindParam(':field_id', $field_id, PDO::PARAM_STR);
 		populateContainer($db2, end($fields), $overrideGroup);
 
 		// Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high

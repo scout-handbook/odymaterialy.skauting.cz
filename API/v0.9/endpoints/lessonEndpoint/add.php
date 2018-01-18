@@ -30,9 +30,9 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bindParam(':id', $id);
-	$db->bindParam(':name', $name);
-	$db->bindParam(':body', $body);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':body', $body, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 201, 'response' => $uuid];
 };

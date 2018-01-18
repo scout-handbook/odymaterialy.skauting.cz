@@ -31,7 +31,7 @@ SQL;
 
 		$db = new OdyMaterialyAPI\Database();
 		$db->prepare($SQL);
-		$db->bindParam(':id', $loginDetail->ID_Person);
+		$db->bindParam(':id', $loginDetail->ID_Person, PDO::PARAM_INT);
 		$db->execute();
 		$uuid = '';
 		$db->bindColumn('group_id', $uuid);

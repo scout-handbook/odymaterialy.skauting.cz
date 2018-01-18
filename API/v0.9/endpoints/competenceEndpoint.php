@@ -74,10 +74,10 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bindParam(':id', $uuid);
-	$db->bindParam(':number', $number);
-	$db->bindParam(':name', $name);
-	$db->bindParam(':description', $description);
+	$db->bindParam(':id', $uuid, PDO::PARAM_STR);
+	$db->bindParam(':number', $number, PDO::PARAM_INT);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':description', $description, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 201];
 };
@@ -120,7 +120,7 @@ SQL;
 	if(!isset($number) or !isset($name) or !isset($description))
 	{
 		$db->prepare($selectSQL);
-		$db->bindParam(':id', $id);
+		$db->bindParam(':id', $id, PDO::PARAM_STR);
 		$db->execute();
 		$origNumber = '';
 		$origName = '';
@@ -146,10 +146,10 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($updateSQL);
-	$db->bindParam(':number', $number);
-	$db->bindParam(':name', $name);
-	$db->bindParam(':description', $description);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':number', $number, PDO::PARAM_INT);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':description', $description, PDO::PARAM_STR);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	if($db->rowCount() != 1)
@@ -180,11 +180,11 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
-	$db->bindParam(':competence_id', $id);
+	$db->bindParam(':competence_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	if($db->rowCount() != 1)

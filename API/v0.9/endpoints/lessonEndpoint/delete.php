@@ -32,19 +32,19 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($copySQL);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteFieldSQL);
-	$db->bindParam(':lesson_id', $id);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteCompetencesSQL);
-	$db->bindParam(':lesson_id', $id);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	if($db->rowCount() != 1)

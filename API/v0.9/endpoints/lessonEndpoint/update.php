@@ -42,7 +42,7 @@ SQL;
 	if(!isset($name) or !isset($body))
 	{
 		$db->prepare($selectSQL);
-		$db->bindParam(':id', $id);
+		$db->bindParam(':id', $id, PDO::PARAM_STR);
 		$db->execute();
 		$origName = '';
 		$origBody = '';
@@ -65,13 +65,13 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($copySQL);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($updateSQL);
-	$db->bindParam(':name', $name);
-	$db->bindParam(':body', $body);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':body', $body, PDO::PARAM_STR);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	if($db->rowCount() != 1)

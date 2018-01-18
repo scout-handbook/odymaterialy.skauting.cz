@@ -36,7 +36,7 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
-	$db->bindParam(':lesson_id', $id);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	if(isset($competences))
@@ -44,8 +44,8 @@ SQL;
 		$db->prepare($insertSQL);
 		foreach($competences as $competence)
 		{
-			$db->bindParam(':lesson_id', $id);
-			$db->bindParam(':competence_id', $competence);
+			$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
+			$db->bindParam(':competence_id', $competence, PDO::PARAM_STR);
 			$db->execute("lesson or competence");
 		}
 	}

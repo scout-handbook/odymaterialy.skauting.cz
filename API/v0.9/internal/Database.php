@@ -41,7 +41,7 @@ class Database
 		}
 	}
 
-	public function bindParam(string $name, &$value, int $dataType = \PDO::PARAM_STR) : void
+	public function bindParam(string $name, &$value, int $dataType) : void
 	{
 		$this->statement->bindParam($name, $value, $dataType);
 	}

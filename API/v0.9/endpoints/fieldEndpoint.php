@@ -29,8 +29,8 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bindParam(':id', $uuid);
-	$db->bindParam(':name', $name);
+	$db->bindParam(':id', $uuid, PDO::PARAM_STR);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 201];
 };
@@ -56,8 +56,8 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($SQL);
-	$db->bindParam(':name', $name);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	if($db->rowCount() != 1)
@@ -88,11 +88,11 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
-	$db->bindParam(':field_id', $id);
+	$db->bindParam(':field_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	if($db->rowCount() != 1)

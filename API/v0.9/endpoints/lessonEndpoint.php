@@ -56,7 +56,7 @@ SQL;
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($groupSQL);
 	$lessonId = $lessonId->getBytes();
-	$db->bindParam(':lesson_id', $lessonId);
+	$db->bindParam(':lesson_id', $lessonId, PDO::PARAM_STR);
 	$db->execute();
 	$groupId = '';
 	$db->bindColumn('group_id', $groupId);

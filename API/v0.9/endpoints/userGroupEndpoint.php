@@ -61,7 +61,7 @@ SQL;
 	$db->beginTransaction();
 
 	$db->prepare($selectSQL);
-	$db->bindParam(':id', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_INT);
 	$db->execute();
 	$other_role = '';
 	$db->bindColumn('role', $other_role);
@@ -69,14 +69,14 @@ SQL;
 	$checkRole($my_role, new OdyMaterialyAPI\Role($other_role));
 
 	$db->prepare($deleteSQL);
-	$db->bindParam(':user_id', $id);
+	$db->bindParam(':user_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($insertSQL);
 	foreach($groups as $group)
 	{
-		$db->bindParam(':user_id', $id);
-		$db->bindParam(':group_id', $group);
+		$db->bindParam(':user_id', $id, PDO::PARAM_STR);
+		$db->bindParam(':group_id', $group, PDO::PARAM_STR);
 		$db->execute("user or group");
 	}
 

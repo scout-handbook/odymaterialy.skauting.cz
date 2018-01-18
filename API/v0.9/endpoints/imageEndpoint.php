@@ -136,7 +136,7 @@ SQL;
 	$db->beginTransaction();
 	$db->prepare($SQL);
 	$uuidBin = $uuid->getBytes();
-	$db->bindParam(':id', $uuidBin);
+	$db->bindParam(':id', $uuidBin, PDO::PARAM_STR);
 	$db->execute();
 
 	$orig = $_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg';
@@ -189,7 +189,7 @@ SQL;
 
 	$db->prepare($SQL);
 	$uuidBin = $id->getBytes();
-	$db->bindParam(':id', $uuidBin);
+	$db->bindParam(':id', $uuidBin, PDO::PARAM_STR);
 	$db->execute();
 
 	if($db->rowCount() != 1)
