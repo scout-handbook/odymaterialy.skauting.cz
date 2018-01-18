@@ -31,7 +31,10 @@ SQL;
 	$number = '';
 	$name = '';
 	$description = '';
-	$db->bind_result($id, $number, $name, $description);
+	$db->bindColumn('id', $id);
+	$db->bindColumn('number', $number);
+	$db->bindColumn('name', $name);
+	$db->bindColumn('description', $description);
 	$competences = [];
 	while($db->fetch())
 	{
@@ -45,7 +48,7 @@ $addCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI
 {
 	$SQL = <<<SQL
 INSERT INTO competences (id, number, name, description)
-VALUES (?, ?, ?, ?);
+VALUES (:id, :number, :name, :description);
 SQL;
 
 	if(!isset($data['number']))
@@ -71,7 +74,10 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('siss', $uuid, $number, $name, $description);
+	$db->bindParam(':id', $uuid, PDO::PARAM_STR);
+	$db->bindParam(':number', $number, PDO::PARAM_INT);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':description', $description, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 201];
 };
@@ -82,16 +88,13 @@ $updateCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialy
 	$selectSQL = <<<SQL
 SELECT number, name, description
 FROM competences
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$updateSQL = <<<SQL
 UPDATE competences
-SET number = ?, name = ?, description = ?
-WHERE id = ?
+SET number = :number, name = :name, description = :description
+WHERE id = :id
 LIMIT 1;
-SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
@@ -117,13 +120,15 @@ SQL;
 	if(!isset($number) or !isset($name) or !isset($description))
 	{
 		$db->prepare($selectSQL);
-		$db->bind_param('s', $id);
+		$db->bindParam(':id', $id, PDO::PARAM_STR);
 		$db->execute();
 		$origNumber = '';
 		$origName = '';
 		$origDescription = '';
-		$db->bind_result($origNumber, $origName, $origDescription);
-		$db->fetch_require('competence');
+		$db->bindColumn('number', $origNumber);
+		$db->bindColumn('name', $origName);
+		$db->bindColumn('description', $origDescription);
+		$db->fetchRequire('competence');
 		if(!isset($number))
 		{
 			$number = $origNumber;
@@ -138,23 +143,21 @@ SQL;
 		}
 	}
 
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($updateSQL);
-	$db->bind_param('isss', $number, $name, $description, $id);
+	$db->bindParam(':number', $number, PDO::PARAM_INT);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':description', $description, PDO::PARAM_STR);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('competence');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("competence");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $competenceEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateCompetence);
@@ -163,41 +166,33 @@ $deleteCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialy
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM competences_for_lessons
-WHERE competence_id = ?;
+WHERE competence_id = :competence_id;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM competences
-WHERE id = ?
+WHERE id = :id
 LIMIT 1;
-SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':competence_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('competence');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("competence");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $competenceEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteCompetence);

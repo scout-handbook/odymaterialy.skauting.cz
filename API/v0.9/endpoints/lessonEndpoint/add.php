@@ -12,7 +12,7 @@ $addLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\End
 {
 	$SQL = <<<SQL
 INSERT INTO lessons (id, name, body)
-VALUES (?, ?, ?);
+VALUES (:id, :name, :body);
 SQL;
 
 	if(!isset($data['name']))
@@ -30,7 +30,9 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('sss', $id, $name, $body);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':body', $body, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 201, 'response' => $uuid];
 };

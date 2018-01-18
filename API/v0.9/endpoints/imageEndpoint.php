@@ -61,7 +61,7 @@ SQL;
 	$db->prepare($SQL);
 	$db->execute();
 	$id = '';
-	$db->bind_result($id);
+	$db->bindColumn('id', $id);
 	$images = [];
 	while($db->fetch())
 	{
@@ -110,7 +110,7 @@ $addImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endp
 {
 	$SQL = <<<SQL
 INSERT INTO images (id)
-VALUES (?);
+VALUES (:id);
 SQL;
 
 	if(!isset($_FILES['image']))
@@ -133,10 +133,10 @@ SQL;
 	}
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 	$db->prepare($SQL);
 	$uuidBin = $uuid->getBytes();
-	$db->bind_param('s', $uuidBin);
+	$db->bindParam(':id', $uuidBin, PDO::PARAM_STR);
 	$db->execute();
 
 	$orig = $_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg';
@@ -169,7 +169,7 @@ SQL;
 	$thumbMagick->writeImage($thumbnail);
 	chmod($thumbnail, 0444);
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 201];
 };
 $imageEndpoint->setAddMethod(new OdyMaterialyAPI\Role('editor'), $addImage);
@@ -178,34 +178,26 @@ $deleteImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 {
 	$SQL = <<<SQL
 DELETE FROM images
-WHERE id = ?
+WHERE id = :id
 LIMIT 1;
-SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'image');
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($SQL);
 	$uuidBin = $id->getBytes();
-	$db->bind_param('s', $uuidBin);
+	$db->bindParam(':id', $uuidBin, PDO::PARAM_STR);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('image');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("image");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 
 	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $id->__toString() . '.jpg');
 	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $id->__toString() . '.jpg');

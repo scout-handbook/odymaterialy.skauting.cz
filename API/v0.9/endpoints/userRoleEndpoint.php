@@ -22,12 +22,12 @@ $updateUserRole = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAP
 	$selectSQL = <<<SQL
 SELECT role
 FROM users
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$updateSQL = <<<SQL
 UPDATE users
-SET role = ?
-WHERE id = ?
+SET role = :role
+WHERE id = :id
 LIMIT 1;
 SQL;
 
@@ -47,16 +47,17 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($selectSQL);
-	$db->bind_param('i', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_INT);
 	$db->execute();
 	$old_role = '';
-	$db->bind_result($old_role);
-	$db->fetch_require('user');
+	$db->bindColumn('role', $old_role);
+	$db->fetchRequire('user');
 	$checkRole($my_role, new OdyMaterialyAPI\Role($old_role));
 
 	$new_role_str = $new_role->__toString();
 	$db->prepare($updateSQL);
-	$db->bind_param('si', $new_role_str, $id);
+	$db->bindParam(':role', $new_role_str, PDO::PARAM_STR);
+	$db->bindParam(':id', $id, PDO::PARAM_INT);
 	$db->execute();
 	return ['status' => 200];
 };

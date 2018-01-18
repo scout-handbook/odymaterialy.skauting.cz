@@ -15,11 +15,11 @@ $updateLessonCompetence = function(Skautis\Skautis $skautis, array $data, OdyMat
 {
 	$deleteSQL = <<<SQL
 DELETE FROM competences_for_lessons
-WHERE lesson_id = ?;
+WHERE lesson_id = :lesson_id;
 SQL;
 	$insertSQL = <<<SQL
 INSERT INTO competences_for_lessons (lesson_id, competence_id)
-VALUES (?, ?);
+VALUES (:lesson_id, :competence_id);
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
@@ -33,10 +33,10 @@ SQL;
 	}
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	if(isset($competences))
@@ -44,11 +44,12 @@ SQL;
 		$db->prepare($insertSQL);
 		foreach($competences as $competence)
 		{
-			$db->bind_param('ss', $id, $competence);
+			$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
+			$db->bindParam(':competence_id', $competence, PDO::PARAM_STR);
 			$db->execute("lesson or competence");
 		}
 	}
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $lessonCompetenceEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLessonCompetence);

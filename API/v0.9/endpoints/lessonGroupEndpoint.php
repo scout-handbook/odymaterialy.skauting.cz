@@ -15,17 +15,17 @@ $listLessonGroups = function(Skautis\Skautis $skautis, array $data, OdyMaterialy
 {
 	$SQL = <<<SQL
 SELECT group_id FROM groups_for_lessons
-WHERE lesson_id = ?;
+WHERE lesson_id = :lesson_id;
 SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
-	$db->bind_param('s', $id);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 	$groups = [];
 	$group_id = '';
-	$db->bind_result($group_id);
+	$db->bindColumn('group_id', $group_id);
 	while($db->fetch())
 	{
 		$groups[] = Uuid::fromBytes(strval($group_id));
@@ -38,11 +38,11 @@ $updateLessonGroups = function(Skautis\Skautis $skautis, array $data, OdyMateria
 {
 	$deleteSQL = <<<SQL
 DELETE FROM groups_for_lessons
-WHERE lesson_id = ?;
+WHERE lesson_id = :lesson_id;
 SQL;
 	$insertSQL = <<<SQL
 INSERT INTO groups_for_lessons (lesson_id, group_id)
-VALUES (?, ?);
+VALUES (:lesson_id, :group_id);
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
@@ -56,19 +56,20 @@ SQL;
 	}
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($insertSQL);
 	foreach($groups as $group)
 	{
-		$db->bind_param('ss', $id, $group);
+		$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
+		$db->bindParam(':group_id', $group, PDO::PARAM_STR);
 		$db->execute("lesson or group");
 	}
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $lessonGroupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLessonGroups);

@@ -12,6 +12,6 @@ class ExecutionException extends Exception
 
 	public function __construct(string $query, $statement)
 	{
-		parent::__construct('Query "' . $query . '" has failed. Error message: "' . $statement->error . '".');
+		parent::__construct('Query "' . $query . '" has failed. Error message: "' . $statement->errorInfo()[2] . '".');
 	}
 }

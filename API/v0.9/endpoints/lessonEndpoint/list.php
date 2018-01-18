@@ -15,7 +15,7 @@ function populateContainer(OdyMaterialyAPI\Database $db, OdyMaterialyAPI\LessonC
 SELECT competences.id, competences.number
 FROM competences
 JOIN competences_for_lessons ON competences.id = competences_for_lessons.competence_id
-WHERE competences_for_lessons.lesson_id = ?
+WHERE competences_for_lessons.lesson_id = :lesson_id
 ORDER BY competences.number;
 SQL;
 
@@ -23,7 +23,9 @@ SQL;
 	$lessonId = '';
 	$lessonName = '';
 	$lessonVersion = '';
-	$db->bind_result($lessonId, $lessonName, $lessonVersion);
+	$db->bindColumn('id', $lessonId);
+	$db->bindColumn('name', $lessonName);
+	$db->bindColumn('version', $lessonVersion);
 
 	while($db->fetch())
 	{
@@ -35,11 +37,12 @@ SQL;
 			// Find out the competences this Lesson belongs to
 			$db2 = new OdyMaterialyAPI\Database();
 			$db2->prepare($competenceSQL);
-			$db2->bind_param('s', $lessonId);
+			$db2->bindParam(':lesson_id', $lessonId, PDO::PARAM_STR);
 			$db2->execute();
 			$competenceId = '';
 			$competenceNumber = '';
-			$db2->bind_result($competenceId, $competenceNumber);
+			$db2->bindColumn('id', $competenceId);
+			$db2->bindColumn('number', $competenceNumber);
 			end($container->lessons)->lowestCompetence = 0;
 			if($db2->fetch())
 			{
@@ -74,7 +77,7 @@ SQL;
 SELECT lessons.id, lessons.name, lessons.version
 FROM lessons
 JOIN lessons_in_fields ON lessons.id = lessons_in_fields.lesson_id
-WHERE lessons_in_fields.field_id = ?;
+WHERE lessons_in_fields.field_id = :field_id;
 SQL;
 
 	$overrideGroup = (isset($data['override-group']) and $data['override-group'] == 'true');
@@ -90,7 +93,8 @@ SQL;
 	$db->execute();
 	$field_id = '';
 	$field_name = '';
-	$db->bind_result($field_id, $field_name);
+	$db->bindColumn('id', $field_id);
+	$db->bindColumn('name', $field_name);
 
 	while($db->fetch())
 	{
@@ -98,7 +102,7 @@ SQL;
 
 		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($lessonSQL);
-		$db2->bind_param('s', $field_id);
+		$db2->bindParam(':field_id', $field_id, PDO::PARAM_STR);
 		populateContainer($db2, end($fields), $overrideGroup);
 
 		// Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high

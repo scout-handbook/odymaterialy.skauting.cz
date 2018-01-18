@@ -23,15 +23,15 @@ $updateUserRole = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAP
 	$selectSQL = <<<SQL
 SELECT role
 FROM users
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM users_in_groups
-WHERE user_id = ?;
+WHERE user_id = :user_id;
 SQL;
 	$insertSQL = <<<SQL
 INSERT INTO users_in_groups (user_id, group_id)
-VALUES (?, ?);
+VALUES (:user_id, :group_id);
 SQL;
 
 	$id = ctype_digit($data['parent-id']) ? intval($data['parent-id']) : null;
@@ -58,28 +58,29 @@ SQL;
 	$my_role = OdyMaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person);
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($selectSQL);
-	$db->bind_param('i', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_INT);
 	$db->execute();
 	$other_role = '';
-	$db->bind_result($other_role);
-	$db->fetch_require('user');
+	$db->bindColumn('role', $other_role);
+	$db->fetchRequire('user');
 	$checkRole($my_role, new OdyMaterialyAPI\Role($other_role));
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':user_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($insertSQL);
 	foreach($groups as $group)
 	{
-		$db->bind_param('ss', $id, $group);
+		$db->bindParam(':user_id', $id, PDO::PARAM_STR);
+		$db->bindParam(':group_id', $group, PDO::PARAM_STR);
 		$db->execute("user or group");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $userGroupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateUserRole);

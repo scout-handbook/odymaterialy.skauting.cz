@@ -79,6 +79,11 @@ nav a:hover
 	margin: 0;
 }
 
+#navContainer .secondLevel
+{
+	margin-left: 40px;
+}
+
 #navCloseButton
 {
 	float: right;

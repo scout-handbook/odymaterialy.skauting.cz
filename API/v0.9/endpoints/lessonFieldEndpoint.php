@@ -15,12 +15,12 @@ $updateLessonField = function(Skautis\Skautis $skautis, array $data, OdyMaterial
 {
 	$deleteSQL = <<<SQL
 DELETE FROM lessons_in_fields
-WHERE lesson_id = ?
+WHERE lesson_id = :lesson_id
 LIMIT 1;
 SQL;
 	$insertSQL = <<<SQL
 INSERT INTO lessons_in_fields (field_id, lesson_id)
-VALUES (?, ?);
+VALUES (:field_id, :lesson_id);
 SQL;
 
 	$lessonId = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
@@ -30,19 +30,20 @@ SQL;
 	}
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $lessonId);
+	$db->bindParam(':lesson_id', $lessonId, PDO::PARAM_STR);
 	$db->execute();
 
 	if(isset($fieldId))
 	{
 		$db->prepare($insertSQL);
-		$db->bind_param('ss', $fieldId, $lessonId);
+		$db->bindParam(':field_id', $fieldId, PDO::PARAM_STR);
+		$db->bindParam(':lesson_id', $lessonId, PDO::PARAM_STR);
 		$db->execute("lesson or field");
 	}
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $lessonFieldEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLessonField);

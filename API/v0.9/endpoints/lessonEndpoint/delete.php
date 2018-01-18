@@ -11,55 +11,47 @@ $deleteLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\
 INSERT INTO deleted_lessons (id, name, version, body)
 SELECT id, name, version, body
 FROM lessons
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$deleteFieldSQL = <<<SQL
 DELETE FROM lessons_in_fields
-WHERE lesson_id = ?;
+WHERE lesson_id = :lesson_id;
 SQL;
 	$deleteCompetencesSQL = <<<SQL
 DELETE FROM competences_for_lessons
-WHERE lesson_id = ?;
+WHERE lesson_id = :lesson_id;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM lessons
-WHERE id = ?;
-SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
+WHERE id = :id;
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'lesson')->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($copySQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteFieldSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteCompetencesSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('lesson');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("lesson");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };

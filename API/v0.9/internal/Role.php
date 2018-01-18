@@ -70,15 +70,15 @@ function getRole(int $idPerson) : Role
 	$SQL = <<<SQL
 SELECT role
 FROM users
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 
 	$db = new Database();
 	$db->prepare($SQL);
-	$db->bind_param('i', $idPerson);
+	$db->bindParam(':id', $idPerson, \PDO::PARAM_INT);
 	$db->execute();
 	$role = '';
-	$db->bind_result($role);
-	$db->fetch_require('user');
+	$db->bindColumn('role', $role);
+	$db->fetchRequire('user');
 	return new Role(strval($role));
 }

@@ -24,7 +24,7 @@ FROM groups;
 SQL;
 	$countSQL = <<<SQL
 SELECT COUNT(*) FROM users_in_groups
-WHERE group_id = ?;
+WHERE group_id = :group_id;
 SQL;
 
 	$db = new OdyMaterialyAPI\Database();
@@ -32,17 +32,18 @@ SQL;
 	$db->execute();
 	$id = '';
 	$name = '';
-	$db->bind_result($id, $name);
+	$db->bindColumn('id', $id);
+	$db->bindColumn('name', $name);
 	$groups = [];
 	while($db->fetch())
 	{
 		$db2 =  new OdyMaterialyAPI\Database();
 		$db2->prepare($countSQL);
-		$db2->bind_param('s', $id);
+		$db2->bindParam(':group_id', $id, PDO::PARAM_STR);
 		$db2->execute();
-		$count = [];
-		$db2->bind_result($count);
-		$db2->fetch_require('group');
+		$count = '';
+		$db2->bindColumn(1, $count);
+		$db2->fetchRequire('group');
 		$groups[] = new OdyMaterialyAPI\Group(strval($id), strval($name), intval($count));
 	}
 	return ['status' => 200, 'response' => $groups];
@@ -53,7 +54,7 @@ $addGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endp
 {
 	$SQL = <<<SQL
 INSERT INTO groups (id, name)
-VALUES (?, ?);
+VALUES (:id, :name);
 SQL;
 
 	if(!isset($data['name']))
@@ -65,7 +66,8 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('ss', $uuid, $name);
+	$db->bindParam(':id', $uuid, PDO::PARAM_STR);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 201];
 };
@@ -75,12 +77,9 @@ $updateGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 {
 	$updateSQL = <<<SQL
 UPDATE groups
-SET name = ?
-WHERE id = ?
+SET name = :name
+WHERE id = :id
 LIMIT 1;
-SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'group')->getBytes();
@@ -91,23 +90,19 @@ SQL;
 	$name = $data['name'];
 	
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($updateSQL);
-	$db->bind_param('ss', $name, $id);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('group');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("group");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $groupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateGroup);
@@ -116,19 +111,16 @@ $deleteGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM groups_for_lessons
-WHERE group_id = ?;
+WHERE group_id = :group_id;
 SQL;
 	$deleteUsersSQL = <<<SQL
 DELETE FROM users_in_groups
-WHERE group_id = ?;
+WHERE group_id = :group_id;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM groups
-WHERE id = ?
+WHERE id = :id
 LIMIT 1;
-SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
 SQL;
 	
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'group');
@@ -139,31 +131,26 @@ SQL;
 	$id = $id->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':group_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteUsersSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':group_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('group');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("group");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $groupEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteGroup);

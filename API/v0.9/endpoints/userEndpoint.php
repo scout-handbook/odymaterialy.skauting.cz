@@ -33,12 +33,12 @@ function constructSelectSQL(Skautis\Skautis $skautis) : string
 	$selectSQL = <<<SQL
 SELECT SQL_CALC_FOUND_ROWS id, name, role
 FROM users
-WHERE name LIKE CONCAT('%', ?, '%') AND role IN ('guest', 'user'
+WHERE name LIKE CONCAT('%', :name, '%') AND role IN ('guest', 'user'
 SQL
 	. $innerSQL . <<<SQL
 )
 ORDER BY name
-LIMIT ?, ?;
+LIMIT :start, :per_page;
 SQL;
 	return $selectSQL;
 }
@@ -52,7 +52,7 @@ SQL;
 	$groupSQL = <<<SQL
 SELECT group_id
 FROM users_in_groups
-WHERE user_id = ?;
+WHERE user_id = :user_id;
 SQL;
 
 	$searchName = '';
@@ -81,27 +81,29 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($selectSQL);
-	$db->bind_param('sii', $searchName, $start, $per_page);
+	$db->bindParam(':name', $searchName, PDO::PARAM_STR);
+	$db->bindParam(':start', $start, PDO::PARAM_INT);
+	$db->bindParam(':per_page', $per_page, PDO::PARAM_INT);
 	$db->execute();
-	$userResult = $db->fetch_all();
+	$userResult = $db->fetchAll();
 
 	$db->prepare($countSQL);
 	$db->execute();
 	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('users');
+	$db->bindColumn(1, $count);
+	$db->fetchRequire('users');
 
 	$users = [];
 	foreach($userResult as $row)
 	{
-		$users[] = new OdyMaterialyAPI\User($row['id'], $row['name'], $row['role']);
+		$users[] = new OdyMaterialyAPI\User(intval($row['id']), $row['name'], $row['role']);
 
 		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($groupSQL);
-		$db2->bind_param('s', $row['id']);
+		$db2->bindParam(':user_id', $row['id'], PDO::PARAM_STR);
 		$db2->execute();
 		$group = '';
-		$db2->bind_result($group);
+		$db2->bindColumn('group_id', $group);
 		while($db2->fetch())
 		{
 			end($users)->groups[] = $group;
@@ -131,13 +133,14 @@ $addUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpo
 
 	$SQL = <<<SQL
 INSERT INTO users (id, name)
-VALUES (?, ?)
+VALUES (:id, :name)
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('is', $id, $name);
+	$db->bindParam(':id', $id, PDO::PARAM_INT);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 200];
 };

@@ -20,7 +20,7 @@ $listAccount = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 SELECT users_in_groups.group_id
 FROM users_in_groups
 LEFT JOIN users ON users_in_groups.user_id = users.id
-WHERE users.id = ?;
+WHERE users.id = :id;
 SQL;
 
 		$response = [];
@@ -31,10 +31,10 @@ SQL;
 
 		$db = new OdyMaterialyAPI\Database();
 		$db->prepare($SQL);
-		$db->bind_param('s', $loginDetail->ID_Person);
+		$db->bindParam(':id', $loginDetail->ID_Person, PDO::PARAM_INT);
 		$db->execute();
 		$uuid = '';
-		$db->bind_result($uuid);
+		$db->bindColumn('group_id', $uuid);
 		while($db->fetch())
 		{
 			$response['groups'][] = Uuid::fromBytes($uuid)->toString();

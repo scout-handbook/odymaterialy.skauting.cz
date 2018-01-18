@@ -17,7 +17,7 @@ $addField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endp
 {
 	$SQL = <<<SQL
 INSERT INTO fields (id, name)
-VALUES (?, ?);
+VALUES (:id, :name);
 SQL;
 
 	if(!isset($data['name']))
@@ -29,7 +29,8 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('ss', $uuid, $name);
+	$db->bindParam(':id', $uuid, PDO::PARAM_STR);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 201];
 };
@@ -39,12 +40,9 @@ $updateField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 {
 	$SQL = <<<SQL
 UPDATE fields
-SET name = ?
-WHERE id = ?
+SET name = :name
+WHERE id = :id
 LIMIT 1;
-SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'field')->getBytes();
@@ -55,23 +53,19 @@ SQL;
 	$name = $data['name'];
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($SQL);
-	$db->bind_param('ss', $name, $id);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('field');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("field");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $fieldEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateField);
@@ -80,41 +74,33 @@ $deleteField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM lessons_in_fields
-WHERE field_id = ?;
+WHERE field_id = :field_id;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM fields
-WHERE id = ?
+WHERE id = :id
 LIMIT 1;
-SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'field')->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':field_id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('field');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("field");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $fieldEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteField);

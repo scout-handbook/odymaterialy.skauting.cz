@@ -12,22 +12,19 @@ $updateLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\
 	$selectSQL = <<<SQL
 SELECT name, body
 FROM lessons
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$copySQL = <<<SQL
 INSERT INTO deleted_lessons (id, name, version, body)
 SELECT id, name, version, body
 FROM lessons
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$updateSQL = <<<SQL
 UPDATE lessons
-SET name = ?, version = version + 1, body = ?
-WHERE id = ?
+SET name = :name, version = version + 1, body = :body
+WHERE id = :id
 LIMIT 1;
-SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'lesson')->getBytes();
@@ -45,11 +42,12 @@ SQL;
 	if(!isset($name) or !isset($body))
 	{
 		$db->prepare($selectSQL);
-		$db->bind_param('s', $id);
+		$db->bindParam(':id', $id, PDO::PARAM_STR);
 		$db->execute();
 		$origName = '';
 		$origBody = '';
-		$db->bind_result($origName, $origBody);
+		$db->bindColumn('name', $origName);
+		$db->bindColumn('body', $origBody);
 		if(!$db->fetch())
 		{
 			throw new OdyMaterialyAPI\NotFoundException('lesson');
@@ -64,26 +62,23 @@ SQL;
 		}
 	}
 
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($copySQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
 	$db->prepare($updateSQL);
-	$db->bind_param('sss', $name, $body, $id);
+	$db->bindParam(':name', $name, PDO::PARAM_STR);
+	$db->bindParam(':body', $body, PDO::PARAM_STR);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetch_require('lesson');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("lesson");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };

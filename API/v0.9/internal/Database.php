@@ -19,22 +19,21 @@ class Database
 
 	public function __construct()
 	{
-		self::$db = new \mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DBNAME);
-		if(self::$db->connect_error)
+		try
+		{
+			self::$db = new \PDO(DB_DSN . ';charset=utf8', DB_USER, DB_PASSWORD);
+			self::$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
+		}
+		catch(PDOException $e)
 		{
 			throw new ConnectionException(self::$db);
 		}
-		self::$db->set_charset('utf8');
 		self::$instanceCount = self::$instanceCount + 1;
 	}
 
 	public function prepare(string $SQL) : void
 	{
 		$this->SQL = $SQL;
-		if(isset($this->statement))
-		{
-			$this->statement->close();
-		}
 		$this->statement = self::$db->prepare($this->SQL);
 		if(!$this->statement)
 		{
@@ -42,16 +41,16 @@ class Database
 		}
 	}
 
-	public function bind_param(string $type, ...$vars) : void
+	public function bindParam(string $name, &$value, int $dataType) : void
 	{
-		$this->statement->bind_param($type, ...$vars);
+		$this->statement->bindParam($name, $value, $dataType);
 	}
 
 	public function execute(string $resourceName = "") : void
 	{
 		if(!$this->statement->execute())
 		{
-			if($this->statement->errno == 1452) // Foreign key constraint fail
+			if($this->statement->errorCode() == 23000) // Foreign key constraint fail
 			{
 				throw new NotFoundException($resourceName);
 			}
@@ -59,18 +58,22 @@ class Database
 		}
 	}
 
-	public function bind_result(&...$vars) : void
+	public function rowCount() : int
 	{
-		$this->statement->store_result();
-		$this->statement->bind_result(...$vars);
+		return $this->statement->rowCount();
 	}
 
-	public function fetch() : ?bool // Nullable return type
+	public function bindColumn($name, &$value) : void
 	{
-		return $this->statement->fetch();
+		$this->statement->bindColumn($name, $value);
 	}
 
-	public function fetch_require(string $resourceName) : void
+	public function fetch() : bool
+	{
+		return $this->statement->fetch(\PDO::FETCH_BOUND);
+	}
+
+	public function fetchRequire(string $resourceName) : void
 	{
 		if(!$this->fetch())
 		{
@@ -78,32 +81,31 @@ class Database
 		}
 	}
 
-	public function fetch_all() : array
+	public function fetchAll() : array
 	{
-		return $this->statement->get_result()->fetch_all(MYSQLI_ASSOC);
+		return $this->statement->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
-	public function start_transaction() : void
+	public function beginTransaction() : void
 	{
-		self::$db->autocommit(false);
+		self::$db->beginTransaction();
 	}
 
-	public function finish_transaction() : void
+	public function endTransaction() : void
 	{
 		self::$db->commit();
-		self::$db->autocommit(true);
 	}
 
 	public function __destruct()
 	{
 		if(isset($this->statement))
 		{
-			$this->statement->close();
+			$this->statement = null;
 		}
 		self::$instanceCount = self::$instanceCount - 1;
 		if(self::$instanceCount === 0)
 		{
-			self::$db->close();
+			self::$db = null;
 		}
 	}
 }
