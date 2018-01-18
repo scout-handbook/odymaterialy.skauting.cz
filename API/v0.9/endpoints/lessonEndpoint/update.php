@@ -64,7 +64,7 @@ SQL;
 		}
 	}
 
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($copySQL);
 	$db->bindParam(':id', $id);
@@ -80,12 +80,12 @@ SQL;
 	$db->execute();
 	$count = 0;
 	$db->bind_result($count);
-	$db->fetch_require('lesson');
+	$db->fetchRequire('lesson');
 	if($count != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("lesson");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };

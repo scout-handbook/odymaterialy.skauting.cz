@@ -85,13 +85,13 @@ SQL;
 	$db->bindParam(':start', $start);
 	$db->bindParam(':per_page', $per_page);
 	$db->execute();
-	$userResult = $db->fetch_all();
+	$userResult = $db->fetchAll();
 
 	$db->prepare($countSQL);
 	$db->execute();
 	$count = 0;
 	$db->bind_result($count);
-	$db->fetch_require('users');
+	$db->fetchRequire('users');
 
 	$users = [];
 	foreach($userResult as $row)

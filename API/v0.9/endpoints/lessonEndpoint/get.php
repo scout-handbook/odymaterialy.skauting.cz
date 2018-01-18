@@ -30,6 +30,6 @@ SQL;
 	$db->execute();
 	$body = '';
 	$db->bind_result($body);
-	$db->fetch_require('lesson');
+	$db->fetchRequire('lesson');
 	return ['status' => 200, 'response' => $body];
 };

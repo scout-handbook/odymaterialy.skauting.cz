@@ -126,7 +126,7 @@ SQL;
 		$origName = '';
 		$origDescription = '';
 		$db->bind_result($origNumber, $origName, $origDescription);
-		$db->fetch_require('competence');
+		$db->fetchRequire('competence');
 		if(!isset($number))
 		{
 			$number = $origNumber;
@@ -141,7 +141,7 @@ SQL;
 		}
 	}
 
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($updateSQL);
 	$db->bindParam(':number', $number);
@@ -154,13 +154,13 @@ SQL;
 	$db->execute();
 	$count = 0;
 	$db->bind_result($count);
-	$db->fetch_require('competence');
+	$db->fetchRequire('competence');
 	if($count != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("competence");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $competenceEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateCompetence);
@@ -183,7 +183,7 @@ SQL;
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
 	$db->bindParam(':competence_id', $id);
@@ -197,13 +197,13 @@ SQL;
 	$db->execute();
 	$count = 0;
 	$db->bind_result($count);
-	$db->fetch_require('competence');
+	$db->fetchRequire('competence');
 	if($count != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("competence");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $competenceEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteCompetence);

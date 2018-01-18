@@ -30,7 +30,7 @@ SQL;
 	}
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
 	$db->bindParam(':lesson_id', $lessonId);
@@ -43,7 +43,7 @@ SQL;
 		$db->bindParam(':lesson_id', $lessonId);
 		$db->execute("lesson or field");
 	}
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $lessonFieldEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLessonField);

@@ -51,7 +51,7 @@ SQL;
 	$db->execute();
 	$old_role = '';
 	$db->bind_result($old_role);
-	$db->fetch_require('user');
+	$db->fetchRequire('user');
 	$checkRole($my_role, new OdyMaterialyAPI\Role($old_role));
 
 	$new_role_str = $new_role->__toString();

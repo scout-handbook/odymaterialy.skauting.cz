@@ -133,7 +133,7 @@ SQL;
 	}
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 	$db->prepare($SQL);
 	$uuidBin = $uuid->getBytes();
 	$db->bindParam(':id', $uuidBin);
@@ -169,7 +169,7 @@ SQL;
 	$thumbMagick->writeImage($thumbnail);
 	chmod($thumbnail, 0444);
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 201];
 };
 $imageEndpoint->setAddMethod(new OdyMaterialyAPI\Role('editor'), $addImage);
@@ -188,7 +188,7 @@ SQL;
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'image');
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($SQL);
 	$uuidBin = $id->getBytes();
@@ -199,13 +199,13 @@ SQL;
 	$db->execute();
 	$count = 0;
 	$db->bind_result($count);
-	$db->fetch_require('image');
+	$db->fetchRequire('image');
 	if($count != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("image");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 
 	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $id->__toString() . '.jpg');
 	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $id->__toString() . '.jpg');

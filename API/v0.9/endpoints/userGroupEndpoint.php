@@ -58,14 +58,14 @@ SQL;
 	$my_role = OdyMaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person);
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($selectSQL);
 	$db->bindParam(':id', $id);
 	$db->execute();
 	$other_role = '';
 	$db->bind_result($other_role);
-	$db->fetch_require('user');
+	$db->fetchRequire('user');
 	$checkRole($my_role, new OdyMaterialyAPI\Role($other_role));
 
 	$db->prepare($deleteSQL);
@@ -80,7 +80,7 @@ SQL;
 		$db->execute("user or group");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $userGroupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateUserRole);

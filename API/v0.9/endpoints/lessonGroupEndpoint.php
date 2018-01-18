@@ -56,7 +56,7 @@ SQL;
 	}
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
 	$db->bindParam(':lesson_id', $id);
@@ -69,7 +69,7 @@ SQL;
 		$db->bindParam(':group_id', $group);
 		$db->execute("lesson or group");
 	}
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $lessonGroupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLessonGroups);

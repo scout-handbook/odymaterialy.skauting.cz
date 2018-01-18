@@ -27,7 +27,7 @@ SQL;
 	$db->execute();
 	$name = '';
 	$db->bind_result($name);
-	$db->fetch_require('lesson');
+	$db->fetchRequire('lesson');
 	unset($db);
 
 	$md = $endpoint->getParent()->call('GET', new OdyMaterialyAPI\Role('guest'), ['id' => $data['parent-id']])['response'];

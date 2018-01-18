@@ -42,7 +42,7 @@ SQL;
 		$db2->execute();
 		$count = [];
 		$db2->bind_result($count);
-		$db2->fetch_require('group');
+		$db2->fetchRequire('group');
 		$groups[] = new OdyMaterialyAPI\Group(strval($id), strval($name), intval($count));
 	}
 	return ['status' => 200, 'response' => $groups];
@@ -92,7 +92,7 @@ SQL;
 	$name = $data['name'];
 	
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($updateSQL);
 	$db->bindParam(':name', $name);
@@ -103,13 +103,13 @@ SQL;
 	$db->execute();
 	$count = 0;
 	$db->bind_result($count);
-	$db->fetch_require('group');
+	$db->fetchRequire('group');
 	if($count != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("group");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $groupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateGroup);
@@ -141,7 +141,7 @@ SQL;
 	$id = $id->getBytes();
 
 	$db = new OdyMaterialyAPI\Database();
-	$db->start_transaction();
+	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
 	$db->bindParam(':group_id', $id);
@@ -159,13 +159,13 @@ SQL;
 	$db->execute();
 	$count = 0;
 	$db->bind_result($count);
-	$db->fetch_require('group');
+	$db->fetchRequire('group');
 	if($count != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("group");
 	}
 
-	$db->finish_transaction();
+	$db->endTransaction();
 	return ['status' => 200];
 };
 $groupEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteGroup);
