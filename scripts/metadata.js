@@ -2,7 +2,7 @@ var metadataEvent = new AfterLoadEvent(2);
 
 function metadataSetup()
 {
-	cacheThenNetworkRequest("/API/v0.9/lesson", "", function(response, second)
+	cacheThenNetworkRequest(APIURI + "/lesson", "", function(response, second)
 		{
 			FIELDS = response;
 			if(second)
@@ -14,7 +14,7 @@ function metadataSetup()
 				metadataEvent.trigger();
 			}
 		});
-	cacheThenNetworkRequest("/API/v0.9/competence", "", function(response, second)
+	cacheThenNetworkRequest(APIURI + "/competence", "", function(response, second)
 		{
 			COMPETENCES = response;
 			if(second)

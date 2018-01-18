@@ -1,4 +1,3 @@
-var CACHE = "odymaterialy-v7";
 var FIELDS;
 var COMPETENCES;
 

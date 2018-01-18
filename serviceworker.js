@@ -1,4 +1,5 @@
-var CACHE = "odymaterialy-v7";
+var CACHE = "odymaterialy-v8";
+var APIURI = "https://odymaterialy.skauting.cz/API/v0.9"
 var cacheBlocking = [
 	"/index.html",
 	"/scripts/tools/AfterLoadEvent.js",
@@ -33,7 +34,7 @@ var cacheNonBlocking = [
 ];
 
 var cacheUpdating = [
-	"/API/v0.9/lesson"
+	APIURI + "/lesson"
 ];
 
 // Polyfill
@@ -63,7 +64,7 @@ self.addEventListener("fetch", function(event)
 		{
 			event.respondWith(cacheUpdatingResponse(event.request));
 		}
-		else if(url.pathname.startsWith("/API/v0.9/lesson"))
+		else if(url.pathname.startsWith(APIURI + "/lesson"))
 		{
 			event.respondWith(cacheOnDemandResponse(event.request));
 		}

@@ -21,7 +21,7 @@ function showAccountInfo()
 				}
 			}
 		}
-	xhttp.open("GET", "/API/v0.9/account", true);
+	xhttp.open("GET", APIURI + "/account", true);
 	xhttp.send();
 }
 
@@ -57,13 +57,13 @@ function renderLoginForm()
 
 function loginRedirect()
 {
-	window.location = "/API/v0.9/login?return-uri=" + encodeURIComponent(window.location.href);
+	window.location = APIURI + "/login?return-uri=" + encodeURIComponent(window.location.href);
 	return false;
 }
 
 function logoutRedirect()
 {
-	window.location = "/API/v0.9/logout?return-uri=" + encodeURIComponent(window.location.href);
+	window.location = APIURI + "/logout?return-uri=" + encodeURIComponent(window.location.href);
 	return false;
 }
 
@@ -76,7 +76,7 @@ function refreshLogin()
 		var timeout = parts.pop().split(";").shift();
 		if((timeout - Math.round(new Date().getTime() / 1000)) < 1500)
 		{
-			request("/API/v0.9/refresh");
+			request(APIURI + "/refresh");
 		}
 	}
 }

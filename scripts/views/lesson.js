@@ -17,7 +17,7 @@ function showLessonView(id, noHistory)
 		navigationOpen = false;
 		reflowNavigation();
 	}
-	cacheThenNetworkRequest("/API/v0.9/lesson/" + id, "", function(response, second)
+	cacheThenNetworkRequest(APIURI + "/lesson/" + id, "", function(response, second)
 		{
 			metadataEvent.addCallback(function()
 				{
@@ -67,7 +67,7 @@ function renderLessonView(id, markdown, noHistory, second)
 	}
 	if("serviceWorker" in navigator)
 	{
-		caches.match("/API/v0.9/lesson/" + id).then(function(response)
+		caches.match(APIURI + "/lesson/" + id).then(function(response)
 			{
 				if(response === undefined)
 				{
