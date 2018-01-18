@@ -44,7 +44,7 @@ SQL;
 		$db->prepare($insertSQL);
 		foreach($competences as $competence)
 		{
-			$db->bindParam(':lesson:id', $id);
+			$db->bindParam(':lesson_id', $id);
 			$db->bindParam(':competence_id', $competence);
 			$db->execute("lesson or competence");
 		}

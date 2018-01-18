@@ -78,7 +78,7 @@ SQL;
 	$db->bindParam(':id', $idPerson);
 	$db->execute();
 	$role = '';
-	$db->bind_result($role);
-	$db->fetch_require('user');
+	$db->bindColumn('role', $role);
+	$db->fetchRequire('user');
 	return new Role(strval($role));
 }

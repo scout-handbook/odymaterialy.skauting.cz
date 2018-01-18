@@ -41,7 +41,7 @@ SQL;
 		$db2->prepare($countSQL);
 		$db2->bindParam(':group_id', $id);
 		$db2->execute();
-		$count = [];
+		$count = '';
 		$db2->bindColumn(1, $count);
 		$db2->fetchRequire('group');
 		$groups[] = new OdyMaterialyAPI\Group(strval($id), strval($name), intval($count));

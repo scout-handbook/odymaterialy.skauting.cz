@@ -82,8 +82,8 @@ SQL;
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($selectSQL);
 	$db->bindParam(':name', $searchName);
-	$db->bindParam(':start', $start);
-	$db->bindParam(':per_page', $per_page);
+	$db->bindParam(':start', $start, PDO::PARAM_INT);
+	$db->bindParam(':per_page', $per_page, PDO::PARAM_INT);
 	$db->execute();
 	$userResult = $db->fetchAll();
 
@@ -96,7 +96,7 @@ SQL;
 	$users = [];
 	foreach($userResult as $row)
 	{
-		$users[] = new OdyMaterialyAPI\User($row['id'], $row['name'], $row['role']);
+		$users[] = new OdyMaterialyAPI\User(intval($row['id']), $row['name'], $row['role']);
 
 		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($groupSQL);

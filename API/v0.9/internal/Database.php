@@ -22,7 +22,7 @@ class Database
 		try
 		{
 			self::$db = new \PDO(DB_DSN . ';charset=utf8', DB_USER, DB_PASSWORD);
-			self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			self::$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
 		}
 		catch(PDOException $e)
 		{
@@ -34,19 +34,16 @@ class Database
 	public function prepare(string $SQL) : void
 	{
 		$this->SQL = $SQL;
-		try
-		{
-			$this->statement = self::$db->prepare($this->SQL);
-		}
-		catch(PDOException $e)
+		$this->statement = self::$db->prepare($this->SQL);
+		if(!$this->statement)
 		{
 			throw new QueryException($this->SQL, self::$db);
 		}
 	}
 
-	public function bindParam(string $name, &$value) : void
+	public function bindParam(string $name, &$value, int $dataType = \PDO::PARAM_STR) : void
 	{
-		$this->statement->bindParam($name, $value);
+		$this->statement->bindParam($name, $value, $dataType);
 	}
 
 	public function execute(string $resourceName = "") : void
@@ -66,14 +63,14 @@ class Database
 		return $this->statement->rowCount();
 	}
 
-	public function bindColumn(string $name, &$value) : void
+	public function bindColumn($name, &$value) : void
 	{
-		$this->statement->bindColumn(...$vars);
+		$this->statement->bindColumn($name, $value);
 	}
 
 	public function fetch() : bool
 	{
-		return $this->statement->fetch(PDO::FETCH_BOUND);
+		return $this->statement->fetch(\PDO::FETCH_BOUND);
 	}
 
 	public function fetchRequire(string $resourceName) : void
@@ -86,7 +83,7 @@ class Database
 
 	public function fetchAll() : array
 	{
-		return $this->statement->fetchAll(PDO::FETCH_ASSOC);
+		return $this->statement->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	public function beginTransaction() : void
