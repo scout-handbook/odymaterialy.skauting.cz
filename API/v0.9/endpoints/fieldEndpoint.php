@@ -44,9 +44,6 @@ SET name = :name
 WHERE id = :id
 LIMIT 1;
 SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
-SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'field')->getBytes();
 	if(!isset($data['name']))
@@ -63,12 +60,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetchRequire('field');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("field");
 	}
@@ -89,9 +81,6 @@ DELETE FROM fields
 WHERE id = :id
 LIMIT 1;
 SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
-SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'field')->getBytes();
 
@@ -106,12 +95,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetchRequire('field');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("field");
 	}

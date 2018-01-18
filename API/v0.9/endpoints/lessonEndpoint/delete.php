@@ -25,9 +25,6 @@ SQL;
 DELETE FROM lessons
 WHERE id = :id;
 SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
-SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'lesson')->getBytes();
 
@@ -50,12 +47,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetchRequire('lesson');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("lesson");
 	}

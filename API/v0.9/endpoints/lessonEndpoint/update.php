@@ -26,9 +26,6 @@ SET name = :name, version = version + 1, body = :body
 WHERE id = :id
 LIMIT 1;
 SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
-SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'lesson')->getBytes();
 	if(isset($data['name']))
@@ -77,12 +74,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetchRequire('lesson');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("lesson");
 	}

@@ -96,9 +96,6 @@ SET number = :number, name = :name, description = :description
 WHERE id = :id
 LIMIT 1;
 SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
-SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
 	if(isset($data['number']))
@@ -155,12 +152,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetchRequire('competence');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("competence");
 	}
@@ -181,9 +173,6 @@ DELETE FROM competences
 WHERE id = :id
 LIMIT 1;
 SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
-SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
 
@@ -198,12 +187,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetchRequire('competence');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("competence");
 	}

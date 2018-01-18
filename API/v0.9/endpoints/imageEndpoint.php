@@ -181,9 +181,6 @@ DELETE FROM images
 WHERE id = :id
 LIMIT 1;
 SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
-SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'image');
 
@@ -195,12 +192,7 @@ SQL;
 	$db->bindParam(':id', $uuidBin);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetchRequire('image');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("image");
 	}

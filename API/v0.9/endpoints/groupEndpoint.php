@@ -81,9 +81,6 @@ SET name = :name
 WHERE id = :id
 LIMIT 1;
 SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
-SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'group')->getBytes();
 	if(!isset($data['name']))
@@ -100,12 +97,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetchRequire('group');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("group");
 	}
@@ -130,9 +122,6 @@ DELETE FROM groups
 WHERE id = :id
 LIMIT 1;
 SQL;
-	$countSQL = <<<SQL
-SELECT ROW_COUNT();
-SQL;
 	
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'group');
 	if($id == Uuid::fromString('00000000-0000-0000-0000-000000000000'))
@@ -156,12 +145,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 
-	$db->prepare($countSQL);
-	$db->execute();
-	$count = 0;
-	$db->bind_result($count);
-	$db->fetchRequire('group');
-	if($count != 1)
+	if($db->rowCount() != 1)
 	{
 		throw new OdyMaterialyAPI\NotFoundException("group");
 	}
