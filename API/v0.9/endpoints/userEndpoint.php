@@ -103,7 +103,7 @@ SQL;
 		$db2->bindParam(':user_id', $row['id']);
 		$db2->execute();
 		$group = '';
-		$db2->bind_result($group);
+		$db2->bindColumn('group_id', $group);
 		while($db2->fetch())
 		{
 			end($users)->groups[] = $group;

@@ -49,7 +49,8 @@ SQL;
 		$db->execute();
 		$origName = '';
 		$origBody = '';
-		$db->bind_result($origName, $origBody);
+		$db->bindColumn('name', $origName);
+		$db->bindColumn('body', $origBody);
 		if(!$db->fetch())
 		{
 			throw new OdyMaterialyAPI\NotFoundException('lesson');

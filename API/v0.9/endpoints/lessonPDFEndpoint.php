@@ -26,7 +26,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 	$name = '';
-	$db->bind_result($name);
+	$db->bindColumn('name', $name);
 	$db->fetchRequire('lesson');
 	unset($db);
 

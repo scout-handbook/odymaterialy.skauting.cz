@@ -25,7 +25,7 @@ SQL;
 	$db->execute();
 	$groups = [];
 	$group_id = '';
-	$db->bind_result($group_id);
+	$db->bindColumn('group_id', $group_id);
 	while($db->fetch())
 	{
 		$groups[] = Uuid::fromBytes(strval($group_id));

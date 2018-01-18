@@ -59,7 +59,7 @@ SQL;
 	$db->bindParam(':lesson_id', $lessonId);
 	$db->execute();
 	$groupId = '';
-	$db->bind_result($groupId);
+	$db->bindColumn('group_id', $groupId);
 	while($db->fetch())
 	{
 		if(in_array(Uuid::fromBytes(strval($groupId)), $groups))

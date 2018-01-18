@@ -61,7 +61,7 @@ SQL;
 	$db->prepare($SQL);
 	$db->execute();
 	$id = '';
-	$db->bind_result($id);
+	$db->bindColumn('id', $id);
 	$images = [];
 	while($db->fetch())
 	{

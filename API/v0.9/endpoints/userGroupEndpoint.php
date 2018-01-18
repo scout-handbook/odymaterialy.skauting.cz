@@ -64,7 +64,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 	$other_role = '';
-	$db->bind_result($other_role);
+	$db->bindColumn('role', $other_role);
 	$db->fetchRequire('user');
 	$checkRole($my_role, new OdyMaterialyAPI\Role($other_role));
 

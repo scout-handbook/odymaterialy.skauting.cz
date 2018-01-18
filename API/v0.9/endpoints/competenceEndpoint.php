@@ -31,7 +31,10 @@ SQL;
 	$number = '';
 	$name = '';
 	$description = '';
-	$db->bind_result($id, $number, $name, $description);
+	$db->bindColumn('id', $id);
+	$db->bindColumn('number', $number);
+	$db->bindColumn('name', $name);
+	$db->bindColumn('description', $description);
 	$competences = [];
 	while($db->fetch())
 	{
@@ -125,7 +128,9 @@ SQL;
 		$origNumber = '';
 		$origName = '';
 		$origDescription = '';
-		$db->bind_result($origNumber, $origName, $origDescription);
+		$db->bindColumn('number', $origNumber);
+		$db->bindColumn('name', $origName);
+		$db->bindColumn('description', $origDescription);
 		$db->fetchRequire('competence');
 		if(!isset($number))
 		{

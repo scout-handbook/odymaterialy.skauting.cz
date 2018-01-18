@@ -34,7 +34,7 @@ SQL;
 		$db->bindParam(':id', $loginDetail->ID_Person);
 		$db->execute();
 		$uuid = '';
-		$db->bind_result($uuid);
+		$db->bindColumn('group_id', $uuid);
 		while($db->fetch())
 		{
 			$response['groups'][] = Uuid::fromBytes($uuid)->toString();

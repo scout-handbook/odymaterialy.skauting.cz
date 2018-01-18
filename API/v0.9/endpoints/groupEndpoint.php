@@ -32,7 +32,8 @@ SQL;
 	$db->execute();
 	$id = '';
 	$name = '';
-	$db->bind_result($id, $name);
+	$db->bindColumn('id', $id);
+	$db->bindColumn('name', $name);
 	$groups = [];
 	while($db->fetch())
 	{

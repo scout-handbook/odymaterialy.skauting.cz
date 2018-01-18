@@ -23,7 +23,9 @@ SQL;
 	$lessonId = '';
 	$lessonName = '';
 	$lessonVersion = '';
-	$db->bind_result($lessonId, $lessonName, $lessonVersion);
+	$db->bindColumn('id', $lessonId);
+	$db->bindColumn('name', $lessonName);
+	$db->bindColumn('version', $lessonVersion);
 
 	while($db->fetch())
 	{
@@ -39,7 +41,8 @@ SQL;
 			$db2->execute();
 			$competenceId = '';
 			$competenceNumber = '';
-			$db2->bind_result($competenceId, $competenceNumber);
+			$db2->bindColumn('id', $competenceId);
+			$db2->bindColumn('number', $competenceNumber);
 			end($container->lessons)->lowestCompetence = 0;
 			if($db2->fetch())
 			{
@@ -90,7 +93,8 @@ SQL;
 	$db->execute();
 	$field_id = '';
 	$field_name = '';
-	$db->bind_result($field_id, $field_name);
+	$db->bindColumn('id', $field_id);
+	$db->bindColumn('name', $field_name);
 
 	while($db->fetch())
 	{

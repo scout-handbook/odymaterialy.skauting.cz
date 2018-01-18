@@ -29,7 +29,7 @@ SQL;
 	$db->bindParam(':id', $id);
 	$db->execute();
 	$body = '';
-	$db->bind_result($body);
+	$db->bindColumn('body', $body);
 	$db->fetchRequire('lesson');
 	return ['status' => 200, 'response' => $body];
 };
