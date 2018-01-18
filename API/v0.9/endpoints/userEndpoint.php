@@ -90,7 +90,7 @@ SQL;
 	$db->prepare($countSQL);
 	$db->execute();
 	$count = 0;
-	$db->bind_result($count);
+	$db->bindColumn(1, $count);
 	$db->fetchRequire('users');
 
 	$users = [];
