@@ -15,7 +15,7 @@ function populateContainer(OdyMaterialyAPI\Database $db, OdyMaterialyAPI\LessonC
 SELECT competences.id, competences.number
 FROM competences
 JOIN competences_for_lessons ON competences.id = competences_for_lessons.competence_id
-WHERE competences_for_lessons.lesson_id = ?
+WHERE competences_for_lessons.lesson_id = :lesson_id
 ORDER BY competences.number;
 SQL;
 
@@ -35,7 +35,7 @@ SQL;
 			// Find out the competences this Lesson belongs to
 			$db2 = new OdyMaterialyAPI\Database();
 			$db2->prepare($competenceSQL);
-			$db2->bind_param('s', $lessonId);
+			$db2->bindParam(':lesson_id', $lessonId);
 			$db2->execute();
 			$competenceId = '';
 			$competenceNumber = '';
@@ -74,7 +74,7 @@ SQL;
 SELECT lessons.id, lessons.name, lessons.version
 FROM lessons
 JOIN lessons_in_fields ON lessons.id = lessons_in_fields.lesson_id
-WHERE lessons_in_fields.field_id = ?;
+WHERE lessons_in_fields.field_id = :field_id;
 SQL;
 
 	$overrideGroup = (isset($data['override-group']) and $data['override-group'] == 'true');
@@ -98,7 +98,7 @@ SQL;
 
 		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($lessonSQL);
-		$db2->bind_param('s', $field_id);
+		$db2->bindParam(':field_id', $field_id);
 		populateContainer($db2, end($fields), $overrideGroup);
 
 		// Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high

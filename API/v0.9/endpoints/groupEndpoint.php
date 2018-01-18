@@ -24,7 +24,7 @@ FROM groups;
 SQL;
 	$countSQL = <<<SQL
 SELECT COUNT(*) FROM users_in_groups
-WHERE group_id = ?;
+WHERE group_id = :group_id;
 SQL;
 
 	$db = new OdyMaterialyAPI\Database();
@@ -38,7 +38,7 @@ SQL;
 	{
 		$db2 =  new OdyMaterialyAPI\Database();
 		$db2->prepare($countSQL);
-		$db2->bind_param('s', $id);
+		$db2->bindParam(':group_id', $id);
 		$db2->execute();
 		$count = [];
 		$db2->bind_result($count);
@@ -53,7 +53,7 @@ $addGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endp
 {
 	$SQL = <<<SQL
 INSERT INTO groups (id, name)
-VALUES (?, ?);
+VALUES (:id, :name);
 SQL;
 
 	if(!isset($data['name']))
@@ -65,7 +65,8 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('ss', $uuid, $name);
+	$db->bindParam(':id', $uuid);
+	$db->bindParam(':name', $name);
 	$db->execute();
 	return ['status' => 201];
 };
@@ -75,8 +76,8 @@ $updateGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 {
 	$updateSQL = <<<SQL
 UPDATE groups
-SET name = ?
-WHERE id = ?
+SET name = :name
+WHERE id = :id
 LIMIT 1;
 SQL;
 	$countSQL = <<<SQL
@@ -94,7 +95,8 @@ SQL;
 	$db->start_transaction();
 
 	$db->prepare($updateSQL);
-	$db->bind_param('ss', $name, $id);
+	$db->bindParam(':name', $name);
+	$db->bindParam(':id', $id);
 	$db->execute();
 
 	$db->prepare($countSQL);
@@ -116,15 +118,15 @@ $deleteGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM groups_for_lessons
-WHERE group_id = ?;
+WHERE group_id = :group_id;
 SQL;
 	$deleteUsersSQL = <<<SQL
 DELETE FROM users_in_groups
-WHERE group_id = ?;
+WHERE group_id = :group_id;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM groups
-WHERE id = ?
+WHERE id = :id
 LIMIT 1;
 SQL;
 	$countSQL = <<<SQL
@@ -142,15 +144,15 @@ SQL;
 	$db->start_transaction();
 
 	$db->prepare($deleteLessonsSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':group_id', $id);
 	$db->execute();
 
 	$db->prepare($deleteUsersSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':group_id', $id);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id);
 	$db->execute();
 
 	$db->prepare($countSQL);

@@ -12,7 +12,7 @@ $getLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\End
 	$SQL = <<<SQL
 SELECT body
 FROM lessons
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 
 	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'lesson');
@@ -26,7 +26,7 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id);
 	$db->execute();
 	$body = '';
 	$db->bind_result($body);

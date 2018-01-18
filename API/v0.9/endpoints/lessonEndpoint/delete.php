@@ -11,19 +11,19 @@ $deleteLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\
 INSERT INTO deleted_lessons (id, name, version, body)
 SELECT id, name, version, body
 FROM lessons
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$deleteFieldSQL = <<<SQL
 DELETE FROM lessons_in_fields
-WHERE lesson_id = ?;
+WHERE lesson_id = :lesson_id;
 SQL;
 	$deleteCompetencesSQL = <<<SQL
 DELETE FROM competences_for_lessons
-WHERE lesson_id = ?;
+WHERE lesson_id = :lesson_id;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM lessons
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$countSQL = <<<SQL
 SELECT ROW_COUNT();
@@ -35,19 +35,19 @@ SQL;
 	$db->start_transaction();
 
 	$db->prepare($copySQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id);
 	$db->execute();
 
 	$db->prepare($deleteFieldSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':lesson_id', $id);
 	$db->execute();
 
 	$db->prepare($deleteCompetencesSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':lesson_id', $id);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id);
 	$db->execute();
 
 	$db->prepare($countSQL);

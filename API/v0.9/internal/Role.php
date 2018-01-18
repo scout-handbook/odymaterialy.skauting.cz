@@ -70,12 +70,12 @@ function getRole(int $idPerson) : Role
 	$SQL = <<<SQL
 SELECT role
 FROM users
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 
 	$db = new Database();
 	$db->prepare($SQL);
-	$db->bind_param('i', $idPerson);
+	$db->bindParam(':id', $idPerson);
 	$db->execute();
 	$role = '';
 	$db->bind_result($role);

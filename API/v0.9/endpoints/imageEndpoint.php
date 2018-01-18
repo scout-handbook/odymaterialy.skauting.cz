@@ -110,7 +110,7 @@ $addImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endp
 {
 	$SQL = <<<SQL
 INSERT INTO images (id)
-VALUES (?);
+VALUES (:id);
 SQL;
 
 	if(!isset($_FILES['image']))
@@ -136,7 +136,7 @@ SQL;
 	$db->start_transaction();
 	$db->prepare($SQL);
 	$uuidBin = $uuid->getBytes();
-	$db->bind_param('s', $uuidBin);
+	$db->bindParam(':id', $uuidBin);
 	$db->execute();
 
 	$orig = $_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg';
@@ -178,7 +178,7 @@ $deleteImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 {
 	$SQL = <<<SQL
 DELETE FROM images
-WHERE id = ?
+WHERE id = :id
 LIMIT 1;
 SQL;
 	$countSQL = <<<SQL
@@ -192,7 +192,7 @@ SQL;
 
 	$db->prepare($SQL);
 	$uuidBin = $id->getBytes();
-	$db->bind_param('s', $uuidBin);
+	$db->bindParam(':id', $uuidBin);
 	$db->execute();
 
 	$db->prepare($countSQL);

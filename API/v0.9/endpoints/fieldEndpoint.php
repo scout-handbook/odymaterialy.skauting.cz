@@ -17,7 +17,7 @@ $addField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endp
 {
 	$SQL = <<<SQL
 INSERT INTO fields (id, name)
-VALUES (?, ?);
+VALUES (:id, :name);
 SQL;
 
 	if(!isset($data['name']))
@@ -29,7 +29,8 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('ss', $uuid, $name);
+	$db->bindParam(':id', $uuid);
+	$db->bindParam(':name', $name);
 	$db->execute();
 	return ['status' => 201];
 };
@@ -39,8 +40,8 @@ $updateField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 {
 	$SQL = <<<SQL
 UPDATE fields
-SET name = ?
-WHERE id = ?
+SET name = :name
+WHERE id = :id
 LIMIT 1;
 SQL;
 	$countSQL = <<<SQL
@@ -58,7 +59,8 @@ SQL;
 	$db->start_transaction();
 
 	$db->prepare($SQL);
-	$db->bind_param('ss', $name, $id);
+	$db->bindParam(':name', $name);
+	$db->bindParam(':id', $id);
 	$db->execute();
 
 	$db->prepare($countSQL);
@@ -80,11 +82,11 @@ $deleteField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\E
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM lessons_in_fields
-WHERE field_id = ?;
+WHERE field_id = :field_id;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM fields
-WHERE id = ?
+WHERE id = :id
 LIMIT 1;
 SQL;
 	$countSQL = <<<SQL
@@ -97,11 +99,11 @@ SQL;
 	$db->start_transaction();
 
 	$db->prepare($deleteLessonsSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':field_id', $id);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id);
 	$db->execute();
 
 	$db->prepare($countSQL);

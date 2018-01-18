@@ -45,7 +45,7 @@ $addCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI
 {
 	$SQL = <<<SQL
 INSERT INTO competences (id, number, name, description)
-VALUES (?, ?, ?, ?);
+VALUES (:id, :number, :name, :description);
 SQL;
 
 	if(!isset($data['number']))
@@ -71,7 +71,10 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('siss', $uuid, $number, $name, $description);
+	$db->bindParam(':id', $uuid);
+	$db->bindParam(':number', $number);
+	$db->bindParam(':name', $name);
+	$db->bindParam(':description', $description);
 	$db->execute();
 	return ['status' => 201];
 };
@@ -82,12 +85,12 @@ $updateCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialy
 	$selectSQL = <<<SQL
 SELECT number, name, description
 FROM competences
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$updateSQL = <<<SQL
 UPDATE competences
-SET number = ?, name = ?, description = ?
-WHERE id = ?
+SET number = :number, name = :name, description = :description
+WHERE id = :id
 LIMIT 1;
 SQL;
 	$countSQL = <<<SQL
@@ -117,7 +120,7 @@ SQL;
 	if(!isset($number) or !isset($name) or !isset($description))
 	{
 		$db->prepare($selectSQL);
-		$db->bind_param('s', $id);
+		$db->bindParam(':id', $id);
 		$db->execute();
 		$origNumber = '';
 		$origName = '';
@@ -141,7 +144,10 @@ SQL;
 	$db->start_transaction();
 
 	$db->prepare($updateSQL);
-	$db->bind_param('isss', $number, $name, $description, $id);
+	$db->bindParam(':number', $number);
+	$db->bindParam(':name', $name);
+	$db->bindParam(':description', $description);
+	$db->bindParam(':id', $id);
 	$db->execute();
 
 	$db->prepare($countSQL);
@@ -163,11 +169,11 @@ $deleteCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialy
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM competences_for_lessons
-WHERE competence_id = ?;
+WHERE competence_id = :competence_id;
 SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM competences
-WHERE id = ?
+WHERE id = :id
 LIMIT 1;
 SQL;
 	$countSQL = <<<SQL
@@ -180,11 +186,11 @@ SQL;
 	$db->start_transaction();
 
 	$db->prepare($deleteLessonsSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':competence_id', $id);
 	$db->execute();
 
 	$db->prepare($deleteSQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id);
 	$db->execute();
 
 	$db->prepare($countSQL);

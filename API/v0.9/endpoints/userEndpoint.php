@@ -33,12 +33,12 @@ function constructSelectSQL(Skautis\Skautis $skautis) : string
 	$selectSQL = <<<SQL
 SELECT SQL_CALC_FOUND_ROWS id, name, role
 FROM users
-WHERE name LIKE CONCAT('%', ?, '%') AND role IN ('guest', 'user'
+WHERE name LIKE CONCAT('%', :name, '%') AND role IN ('guest', 'user'
 SQL
 	. $innerSQL . <<<SQL
 )
 ORDER BY name
-LIMIT ?, ?;
+LIMIT :start, :per_page;
 SQL;
 	return $selectSQL;
 }
@@ -52,7 +52,7 @@ SQL;
 	$groupSQL = <<<SQL
 SELECT group_id
 FROM users_in_groups
-WHERE user_id = ?;
+WHERE user_id = :user_id;
 SQL;
 
 	$searchName = '';
@@ -81,7 +81,9 @@ SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($selectSQL);
-	$db->bind_param('sii', $searchName, $start, $per_page);
+	$db->bindParam(':name', $searchName);
+	$db->bindParam(':start', $start);
+	$db->bindParam(':per_page', $per_page);
 	$db->execute();
 	$userResult = $db->fetch_all();
 
@@ -98,7 +100,7 @@ SQL;
 
 		$db2 = new OdyMaterialyAPI\Database();
 		$db2->prepare($groupSQL);
-		$db2->bind_param('s', $row['id']);
+		$db2->bindParam(':user_id', $row['id']);
 		$db2->execute();
 		$group = '';
 		$db2->bind_result($group);
@@ -131,13 +133,14 @@ $addUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpo
 
 	$SQL = <<<SQL
 INSERT INTO users (id, name)
-VALUES (?, ?)
+VALUES (:id, :name)
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 SQL;
 
 	$db = new OdyMaterialyAPI\Database();
 	$db->prepare($SQL);
-	$db->bind_param('is', $id, $name);
+	$db->bindParam(':id', $id);
+	$db->bindParam(':name', $name);
 	$db->execute();
 	return ['status' => 200];
 };

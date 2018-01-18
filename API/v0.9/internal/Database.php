@@ -65,9 +65,9 @@ class Database
 		$this->statement->bindColumn(...$vars);
 	}
 
-	public function fetch() : ?bool // Nullable return type
+	public function fetch() : bool
 	{
-		return $this->statement->fetch();
+		return $this->statement->fetch(PDO::FETCH_BOUND);
 	}
 
 	public function fetchRequire(string $resourceName) : void
@@ -80,7 +80,7 @@ class Database
 
 	public function fetchAll() : array
 	{
-		return $this->statement->fetchAll(PDO:FETCH_ASSOC);
+		return $this->statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	public function beginTransaction() : void

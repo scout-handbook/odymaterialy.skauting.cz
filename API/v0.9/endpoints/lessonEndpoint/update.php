@@ -12,18 +12,18 @@ $updateLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\
 	$selectSQL = <<<SQL
 SELECT name, body
 FROM lessons
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$copySQL = <<<SQL
 INSERT INTO deleted_lessons (id, name, version, body)
 SELECT id, name, version, body
 FROM lessons
-WHERE id = ?;
+WHERE id = :id;
 SQL;
 	$updateSQL = <<<SQL
 UPDATE lessons
-SET name = ?, version = version + 1, body = ?
-WHERE id = ?
+SET name = :name, version = version + 1, body = :body
+WHERE id = :id
 LIMIT 1;
 SQL;
 	$countSQL = <<<SQL
@@ -45,7 +45,7 @@ SQL;
 	if(!isset($name) or !isset($body))
 	{
 		$db->prepare($selectSQL);
-		$db->bind_param('s', $id);
+		$db->bindParam(':id', $id);
 		$db->execute();
 		$origName = '';
 		$origBody = '';
@@ -67,11 +67,13 @@ SQL;
 	$db->start_transaction();
 
 	$db->prepare($copySQL);
-	$db->bind_param('s', $id);
+	$db->bindParam(':id', $id);
 	$db->execute();
 
 	$db->prepare($updateSQL);
-	$db->bind_param('sss', $name, $body, $id);
+	$db->bindParam(':name', $name);
+	$db->bindParam(':body', $body);
+	$db->bindParam(':id', $id);
 	$db->execute();
 
 	$db->prepare($countSQL);
