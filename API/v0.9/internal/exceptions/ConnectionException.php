@@ -12,6 +12,6 @@ class ConnectionException extends Exception
 
 	public function __construct($db)
 	{
-		parent::__construct('Database connection request failed. Error message: "' . $db->connect_error . '".');
+		parent::__construct('Database connection request failed. Error message: "' . $db->errorInfo()[2] . '".');
 	}
 }

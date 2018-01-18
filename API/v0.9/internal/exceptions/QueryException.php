@@ -12,6 +12,6 @@ class QueryException extends Exception
 
 	public function __construct(string $query, $db)
 	{
-		parent::__construct('Invalid query: "' . $query . '". Error message: "' . $db->error . '".');
+		parent::__construct('Invalid query: "' . $query . '". Error message: "' . $db->errorInfo()[2] . '".');
 	}
 }
