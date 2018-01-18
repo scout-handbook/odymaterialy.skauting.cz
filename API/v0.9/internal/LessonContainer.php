@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace OdyMaterialyAPI;
+namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
@@ -15,11 +15,11 @@ class LessonContainer
 // Container comparison function used in usort. Assumes that both Containers have their lessons sorted low-to-high.
 function LessonContainer_cmp(LessonContainer $first, LessonContainer $second) : int
 {
-	if(get_class($first) === "OdyMaterialyAPI\LessonContainer")
+	if(get_class($first) === "HandbookAPI\LessonContainer")
 	{
 		return -1;
 	}
-	if(get_class($second) === "OdyMaterialyAPI\LessonContainer")
+	if(get_class($second) === "HandbookAPI\LessonContainer")
 	{
 		return 1;
 	}

@@ -9,9 +9,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/OdyMark
 
 use Ramsey\Uuid\Uuid;
 
-$lessonPDFEndpoint = new OdyMaterialyAPI\Endpoint();
+$lessonPDFEndpoint = new HandbookAPI\Endpoint();
 
-$getLessonLatex = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : void
+$getLessonLatex = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : void
 {
 	$SQL = <<<SQL
 SELECT name
@@ -19,9 +19,9 @@ FROM lessons
 WHERE id = :id;
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($SQL);
 	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
@@ -30,7 +30,7 @@ SQL;
 	$db->fetchRequire('lesson');
 	unset($db);
 
-	$md = $endpoint->getParent()->call('GET', new OdyMaterialyAPI\Role('guest'), ['id' => $data['parent-id']])['response'];
+	$md = $endpoint->getParent()->call('GET', new HandbookAPI\Role('guest'), ['id' => $data['parent-id']])['response'];
 
 	$html = '<body><h1>' . strval($name) . '</h1>';
 	$parser = new OdyMarkdown\OdyMarkdown();
@@ -78,4 +78,4 @@ SQL;
 	header('content-type:application/pdf; charset=utf-8');
 	$mpdf->Output();
 };
-$lessonPDFEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $getLessonLatex);
+$lessonPDFEndpoint->setListMethod(new HandbookAPI\Role('guest'), $getLessonLatex);

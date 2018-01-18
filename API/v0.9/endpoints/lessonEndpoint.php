@@ -21,7 +21,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/lessonPDFEndpoint.
 
 use Ramsey\Uuid\Uuid;
 
-$lessonEndpoint = new OdyMaterialyAPI\Endpoint();
+$lessonEndpoint = new HandbookAPI\Endpoint();
 $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 $lessonEndpoint->addSubEndpoint('group', $lessonGroupEndpoint);
@@ -36,7 +36,7 @@ SELECT group_id FROM groups_for_lessons
 WHERE lesson_id = :lesson_id;
 SQL;
 
-	$loginState = $accountEndpoint->call('GET', new OdyMaterialyAPI\Role('guest'), ['no-avatar' => 'true']);
+	$loginState = $accountEndpoint->call('GET', new HandbookAPI\Role('guest'), ['no-avatar' => 'true']);
 
 	if($loginState['status'] == '200')
 	{
@@ -53,7 +53,7 @@ SQL;
 	}
 	array_walk($groups, '\Ramsey\Uuid\Uuid::fromString');
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($groupSQL);
 	$lessonId = $lessonId->getBytes();
 	$db->bindParam(':lesson_id', $lessonId, PDO::PARAM_STR);
@@ -70,8 +70,8 @@ SQL;
 	return false;
 }
 
-$lessonEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $listLessons);
-$lessonEndpoint->setGetMethod(new OdyMaterialyAPI\Role('guest'), $getLesson);
-$lessonEndpoint->setAddMethod(new OdyMaterialyAPI\Role('editor'), $addLesson);
-$lessonEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLesson);
-$lessonEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteLesson);
+$lessonEndpoint->setListMethod(new HandbookAPI\Role('guest'), $listLessons);
+$lessonEndpoint->setGetMethod(new HandbookAPI\Role('guest'), $getLesson);
+$lessonEndpoint->setAddMethod(new HandbookAPI\Role('editor'), $addLesson);
+$lessonEndpoint->setUpdateMethod(new HandbookAPI\Role('editor'), $updateLesson);
+$lessonEndpoint->setDeleteMethod(new HandbookAPI\Role('administrator'), $deleteLesson);

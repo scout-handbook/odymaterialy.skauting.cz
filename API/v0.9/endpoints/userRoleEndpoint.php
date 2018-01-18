@@ -7,15 +7,15 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
 
-$userRoleEndpoint = new OdyMaterialyAPI\Endpoint();
+$userRoleEndpoint = new HandbookAPI\Endpoint();
 
-$updateUserRole = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$updateUserRole = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
-	$checkRole = function(OdyMaterialyAPI\Role $my_role, OdyMaterialyAPI\Role $role) : void
+	$checkRole = function(HandbookAPI\Role $my_role, HandbookAPI\Role $role) : void
 	{
-		if((OdyMaterialyAPI\Role_cmp($my_role, new OdyMaterialyAPI\Role('administrator')) === 0) and (OdyMaterialyAPI\Role_cmp($role, new OdyMaterialyAPI\Role('administrator')) >= 0))
+		if((HandbookAPI\Role_cmp($my_role, new HandbookAPI\Role('administrator')) === 0) and (HandbookAPI\Role_cmp($role, new HandbookAPI\Role('administrator')) >= 0))
 		{
-			throw new OdyMaterialyAPI\RoleException();
+			throw new HandbookAPI\RoleException();
 		}
 	};
 
@@ -34,25 +34,25 @@ SQL;
 	$id = ctype_digit($data['parent-id']) ? intval($data['parent-id']) : null;
 	if($id === null)
 	{
-		throw new OdyMaterialyAPI\InvalidArgumentTypeException('id', ['Integer']);
+		throw new HandbookAPI\InvalidArgumentTypeException('id', ['Integer']);
 	}
 	if(!isset($data['role']))
 	{
-		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'role');
+		throw new HandbookAPI\MissingArgumentException(HandbookAPI\MissingArgumentException::POST, 'role');
 	}
-	$new_role = new OdyMaterialyAPI\Role($data['role']);
+	$new_role = new HandbookAPI\Role($data['role']);
 
-	$my_role = OdyMaterialyAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person);
+	$my_role = HandbookAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person);
 	$checkRole($my_role, $new_role);
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($selectSQL);
 	$db->bindParam(':id', $id, PDO::PARAM_INT);
 	$db->execute();
 	$old_role = '';
 	$db->bindColumn('role', $old_role);
 	$db->fetchRequire('user');
-	$checkRole($my_role, new OdyMaterialyAPI\Role($old_role));
+	$checkRole($my_role, new HandbookAPI\Role($old_role));
 
 	$new_role_str = $new_role->__toString();
 	$db->prepare($updateSQL);
@@ -61,4 +61,4 @@ SQL;
 	$db->execute();
 	return ['status' => 200];
 };
-$userRoleEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateUserRole);
+$userRoleEndpoint->setUpdateMethod(new HandbookAPI\Role('administrator'), $updateUserRole);

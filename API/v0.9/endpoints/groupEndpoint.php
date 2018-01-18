@@ -14,9 +14,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RefusedE
 
 use Ramsey\Uuid\Uuid;
 
-$groupEndpoint = new OdyMaterialyAPI\Endpoint();
+$groupEndpoint = new HandbookAPI\Endpoint();
 
-$listGroups = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$listGroups = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$selectSQL = <<<SQL
 SELECT id, name
@@ -27,7 +27,7 @@ SELECT COUNT(*) FROM users_in_groups
 WHERE group_id = :group_id;
 SQL;
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($selectSQL);
 	$db->execute();
 	$id = '';
@@ -37,20 +37,20 @@ SQL;
 	$groups = [];
 	while($db->fetch())
 	{
-		$db2 =  new OdyMaterialyAPI\Database();
+		$db2 =  new HandbookAPI\Database();
 		$db2->prepare($countSQL);
 		$db2->bindParam(':group_id', $id, PDO::PARAM_STR);
 		$db2->execute();
 		$count = '';
 		$db2->bindColumn(1, $count);
 		$db2->fetchRequire('group');
-		$groups[] = new OdyMaterialyAPI\Group(strval($id), strval($name), intval($count));
+		$groups[] = new HandbookAPI\Group(strval($id), strval($name), intval($count));
 	}
 	return ['status' => 200, 'response' => $groups];
 };
-$groupEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listGroups);
+$groupEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listGroups);
 
-$addGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$addGroup = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 INSERT INTO groups (id, name)
@@ -59,21 +59,21 @@ SQL;
 
 	if(!isset($data['name']))
 	{
-		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
+		throw new HandbookAPI\MissingArgumentException(HandbookAPI\MissingArgumentException::POST, 'name');
 	}
 	$name = $data['name'];
 	$uuid = Uuid::uuid4()->getBytes();
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($SQL);
 	$db->bindParam(':id', $uuid, PDO::PARAM_STR);
 	$db->bindParam(':name', $name, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 201];
 };
-$groupEndpoint->setAddMethod(new OdyMaterialyAPI\Role('administrator'), $addGroup);
+$groupEndpoint->setAddMethod(new HandbookAPI\Role('administrator'), $addGroup);
 
-$updateGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$updateGroup = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$updateSQL = <<<SQL
 UPDATE groups
@@ -82,14 +82,14 @@ WHERE id = :id
 LIMIT 1;
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'group')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'group')->getBytes();
 	if(!isset($data['name']))
 	{
-		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
+		throw new HandbookAPI\MissingArgumentException(HandbookAPI\MissingArgumentException::POST, 'name');
 	}
 	$name = $data['name'];
 	
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 
 	$db->prepare($updateSQL);
@@ -99,15 +99,15 @@ SQL;
 
 	if($db->rowCount() != 1)
 	{
-		throw new OdyMaterialyAPI\NotFoundException("group");
+		throw new HandbookAPI\NotFoundException("group");
 	}
 
 	$db->endTransaction();
 	return ['status' => 200];
 };
-$groupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateGroup);
+$groupEndpoint->setUpdateMethod(new HandbookAPI\Role('administrator'), $updateGroup);
 
-$deleteGroup = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$deleteGroup = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM groups_for_lessons
@@ -123,14 +123,14 @@ WHERE id = :id
 LIMIT 1;
 SQL;
 	
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'group');
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'group');
 	if($id == Uuid::fromString('00000000-0000-0000-0000-000000000000'))
 	{
-		throw new OdyMaterialyAPI\RefusedException();
+		throw new HandbookAPI\RefusedException();
 	}
 	$id = $id->getBytes();
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
@@ -147,10 +147,10 @@ SQL;
 
 	if($db->rowCount() != 1)
 	{
-		throw new OdyMaterialyAPI\NotFoundException("group");
+		throw new HandbookAPI\NotFoundException("group");
 	}
 
 	$db->endTransaction();
 	return ['status' => 200];
 };
-$groupEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteGroup);
+$groupEndpoint->setDeleteMethod(new HandbookAPI\Role('administrator'), $deleteGroup);

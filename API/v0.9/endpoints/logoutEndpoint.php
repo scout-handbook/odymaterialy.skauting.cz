@@ -5,9 +5,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
-$logoutEndpoint = new OdyMaterialyAPI\Endpoint();
+$logoutEndpoint = new HandbookAPI\Endpoint();
 
-$logoutUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : void
+$logoutUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : void
 {
 	if(isset($data['return-uri']) and isset($_COOKIE['skautis_token']))
 	{
@@ -44,5 +44,5 @@ $logoutUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\En
 	header('Location: https://odymaterialy.skauting.cz/');
 	die();
 };
-$logoutEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $logoutUser);
-$logoutEndpoint->setAddMethod(new OdyMaterialyAPI\Role('guest'), $logoutUser);
+$logoutEndpoint->setListMethod(new HandbookAPI\Role('guest'), $logoutUser);
+$logoutEndpoint->setAddMethod(new HandbookAPI\Role('guest'), $logoutUser);

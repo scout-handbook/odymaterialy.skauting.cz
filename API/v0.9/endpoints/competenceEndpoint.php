@@ -14,9 +14,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFound
 
 use Ramsey\Uuid\Uuid;
 
-$competenceEndpoint = new OdyMaterialyAPI\Endpoint();
+$competenceEndpoint = new HandbookAPI\Endpoint();
 
-$listCompetences = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$listCompetences = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 SELECT id, number, name, description
@@ -24,7 +24,7 @@ FROM competences
 ORDER BY number;
 SQL;
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($SQL);
 	$db->execute();
 	$id = '';
@@ -38,13 +38,13 @@ SQL;
 	$competences = [];
 	while($db->fetch())
 	{
-		$competences[] = new OdyMaterialyAPI\Competence(strval($id), intval($number), strval($name), strval($description));
+		$competences[] = new HandbookAPI\Competence(strval($id), intval($number), strval($name), strval($description));
 	}
 	return ['status' => 200, 'response' => $competences];
 };
-$competenceEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $listCompetences);
+$competenceEndpoint->setListMethod(new HandbookAPI\Role('guest'), $listCompetences);
 
-$addCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$addCompetence = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 INSERT INTO competences (id, number, name, description)
@@ -53,16 +53,16 @@ SQL;
 
 	if(!isset($data['number']))
 	{
-		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'number');
+		throw new HandbookAPI\MissingArgumentException(HandbookAPI\MissingArgumentException::POST, 'number');
 	}
 	if(!isset($data['name']))
 	{
-		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
+		throw new HandbookAPI\MissingArgumentException(HandbookAPI\MissingArgumentException::POST, 'name');
 	}
 	$number = ctype_digit($data['number']) ? intval($data['number']) : null;
 	if($number === null)
 	{
-		throw new OdyMaterialyAPI\InvalidArgumentTypeException('number', ['Integer']);
+		throw new HandbookAPI\InvalidArgumentTypeException('number', ['Integer']);
 	}
 	$name = $data['name'];
 	$description = '';
@@ -72,7 +72,7 @@ SQL;
 	}
 	$uuid = Uuid::uuid4()->getBytes();
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($SQL);
 	$db->bindParam(':id', $uuid, PDO::PARAM_STR);
 	$db->bindParam(':number', $number, PDO::PARAM_INT);
@@ -81,9 +81,9 @@ SQL;
 	$db->execute();
 	return ['status' => 201];
 };
-$competenceEndpoint->setAddMethod(new OdyMaterialyAPI\Role('administrator'), $addCompetence);
+$competenceEndpoint->setAddMethod(new HandbookAPI\Role('administrator'), $addCompetence);
 
-$updateCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$updateCompetence = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$selectSQL = <<<SQL
 SELECT number, name, description
@@ -97,13 +97,13 @@ WHERE id = :id
 LIMIT 1;
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
 	if(isset($data['number']))
 	{
 		$number = ctype_digit($data['number']) ? intval($data['number']) : null;
 		if($number === null)
 		{
-			throw new OdyMaterialyAPI\InvalidArgumentTypeException('number', ['Integer']);
+			throw new HandbookAPI\InvalidArgumentTypeException('number', ['Integer']);
 		}
 	}
 	if(isset($data['name']))
@@ -115,7 +115,7 @@ SQL;
 		$description = $data['description'];
 	}
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 
 	if(!isset($number) or !isset($name) or !isset($description))
 	{
@@ -154,15 +154,15 @@ SQL;
 
 	if($db->rowCount() != 1)
 	{
-		throw new OdyMaterialyAPI\NotFoundException("competence");
+		throw new HandbookAPI\NotFoundException("competence");
 	}
 
 	$db->endTransaction();
 	return ['status' => 200];
 };
-$competenceEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateCompetence);
+$competenceEndpoint->setUpdateMethod(new HandbookAPI\Role('administrator'), $updateCompetence);
 
-$deleteCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$deleteCompetence = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM competences_for_lessons
@@ -174,9 +174,9 @@ WHERE id = :id
 LIMIT 1;
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'competence')->getBytes();
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
@@ -189,10 +189,10 @@ SQL;
 
 	if($db->rowCount() != 1)
 	{
-		throw new OdyMaterialyAPI\NotFoundException("competence");
+		throw new HandbookAPI\NotFoundException("competence");
 	}
 
 	$db->endTransaction();
 	return ['status' => 200];
 };
-$competenceEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteCompetence);
+$competenceEndpoint->setDeleteMethod(new HandbookAPI\Role('administrator'), $deleteCompetence);

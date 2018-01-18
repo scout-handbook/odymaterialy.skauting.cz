@@ -5,9 +5,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
-$refreshEndpoint = new OdyMaterialyAPI\Endpoint();
+$refreshEndpoint = new HandbookAPI\Endpoint();
 
-$refreshLogin = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$refreshLogin = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$dateLogout = $skautis->UserManagement->LoginUpdateRefresh(['ID' => $_COOKIE['skautis_token']])->DateLogout;
 	$timeout = DateTime::createFromFormat('Y-m-d\TH:i:s.u', $dateLogout)->format('U');
@@ -15,4 +15,4 @@ $refreshLogin = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\
 	$_COOKIE['skautis_timeout'] = $timeout;
 	return ['status' => 200];
 };
-$refreshEndpoint->setListMethod(new OdyMaterialyAPI\Role('user'), $refreshLogin);
+$refreshEndpoint->setListMethod(new HandbookAPI\Role('user'), $refreshLogin);

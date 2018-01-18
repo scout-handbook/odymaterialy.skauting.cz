@@ -7,9 +7,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.php');
 
-$loginEndpoint = new OdyMaterialyAPI\Endpoint();
+$loginEndpoint = new HandbookAPI\Endpoint();
 
-$loginUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) use ($accountEndpoint) : void
+$loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($accountEndpoint) : void
 {
 	$startsWith = function(string $haystack, string $needle) : bool
 	{
@@ -50,7 +50,7 @@ $loginUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\End
 		$_COOKIE['skautis_token'] = $token;
 		$_COOKIE['skautis_timeout'] = $timeout;
 
-		$accountEndpoint->call('POST', new OdyMaterialyAPI\Role('user'), []);
+		$accountEndpoint->call('POST', new HandbookAPI\Role('user'), []);
 	}
 	else
 	{
@@ -59,5 +59,5 @@ $loginUser = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\End
 	header('Location: ' . $redirect);
 	die();
 };
-$loginEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $loginUser);
-$loginEndpoint->setAddMethod(new OdyMaterialyAPI\Role('guest'), $loginUser);
+$loginEndpoint->setListMethod(new HandbookAPI\Role('guest'), $loginUser);
+$loginEndpoint->setAddMethod(new HandbookAPI\Role('guest'), $loginUser);

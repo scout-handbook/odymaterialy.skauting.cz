@@ -1,5 +1,5 @@
 <?php
-namespace OdyMaterialyAPI;
+namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 

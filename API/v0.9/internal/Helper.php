@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace OdyMaterialyAPI;
+namespace HandbookAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 

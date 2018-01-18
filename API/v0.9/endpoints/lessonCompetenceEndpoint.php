@@ -9,9 +9,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 use Ramsey\Uuid\Uuid;
 
-$lessonCompetenceEndpoint = new OdyMaterialyAPI\Endpoint();
+$lessonCompetenceEndpoint = new HandbookAPI\Endpoint();
 
-$updateLessonCompetence = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$updateLessonCompetence = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$deleteSQL = <<<SQL
 DELETE FROM competences_for_lessons
@@ -22,17 +22,17 @@ INSERT INTO competences_for_lessons (lesson_id, competence_id)
 VALUES (:lesson_id, :competence_id);
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 	$competences = [];
 	if(isset($data['competence']))
 	{
 		foreach($data['competence'] as $competence)
 		{
-			$competences[] = OdyMaterialyAPI\Helper::parseUuid($competence, 'competence')->getBytes();
+			$competences[] = HandbookAPI\Helper::parseUuid($competence, 'competence')->getBytes();
 		}
 	}
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
@@ -52,4 +52,4 @@ SQL;
 	$db->endTransaction();
 	return ['status' => 200];
 };
-$lessonCompetenceEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLessonCompetence);
+$lessonCompetenceEndpoint->setUpdateMethod(new HandbookAPI\Role('editor'), $updateLessonCompetence);

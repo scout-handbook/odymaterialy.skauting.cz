@@ -5,7 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 
-$deleteLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$deleteLesson = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$copySQL = <<<SQL
 INSERT INTO deleted_lessons (id, name, version, body)
@@ -26,9 +26,9 @@ DELETE FROM lessons
 WHERE id = :id;
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'lesson')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'lesson')->getBytes();
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 
 	$db->prepare($copySQL);
@@ -49,7 +49,7 @@ SQL;
 
 	if($db->rowCount() != 1)
 	{
-		throw new OdyMaterialyAPI\NotFoundException("lesson");
+		throw new HandbookAPI\NotFoundException("lesson");
 	}
 
 	$db->endTransaction();

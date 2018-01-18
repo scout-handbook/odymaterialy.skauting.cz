@@ -7,14 +7,14 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
 
-$eventParticipantEndpoint = new OdyMaterialyAPI\Endpoint();
+$eventParticipantEndpoint = new HandbookAPI\Endpoint();
 
-$listEventParticipants = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$listEventParticipants = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$id = ctype_digit($data['parent-id']) ? intval($data['parent-id']) : null;
 	if($id === null)
 	{
-		throw new OdyMaterialyAPI\InvalidArgumentTypeException('id', ['Integer']);
+		throw new HandbookAPI\InvalidArgumentTypeException('id', ['Integer']);
 	}
 
 	// Set the right role
@@ -46,4 +46,4 @@ $listEventParticipants = function(Skautis\Skautis $skautis, array $data, OdyMate
 	}
 	return ['status' => 200, 'response' => $participants];
 };
-$eventParticipantEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listEventParticipants);
+$eventParticipantEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listEventParticipants);

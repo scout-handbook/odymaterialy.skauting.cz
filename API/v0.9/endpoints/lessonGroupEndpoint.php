@@ -9,18 +9,18 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 use Ramsey\Uuid\Uuid;
 
-$lessonGroupEndpoint = new OdyMaterialyAPI\Endpoint();
+$lessonGroupEndpoint = new HandbookAPI\Endpoint();
 
-$listLessonGroups = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$listLessonGroups = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 SELECT group_id FROM groups_for_lessons
 WHERE lesson_id = :lesson_id;
 SQL;
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($SQL);
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 	$groups = [];
@@ -32,9 +32,9 @@ SQL;
 	}
 	return ['status' => 200, 'response' => $groups];
 };
-$lessonGroupEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listLessonGroups);
+$lessonGroupEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listLessonGroups);
 
-$updateLessonGroups = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$updateLessonGroups = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$deleteSQL = <<<SQL
 DELETE FROM groups_for_lessons
@@ -45,17 +45,17 @@ INSERT INTO groups_for_lessons (lesson_id, group_id)
 VALUES (:lesson_id, :group_id);
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 	$groups = [];
 	if(isset($data['group']))
 	{
 		foreach($data['group'] as $group)
 		{
-			$groups[] = OdyMaterialyAPI\Helper::parseUuid($group, 'group')->getBytes();
+			$groups[] = HandbookAPI\Helper::parseUuid($group, 'group')->getBytes();
 		}
 	}
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
@@ -72,4 +72,4 @@ SQL;
 	$db->endTransaction();
 	return ['status' => 200];
 };
-$lessonGroupEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLessonGroups);
+$lessonGroupEndpoint->setUpdateMethod(new HandbookAPI\Role('editor'), $updateLessonGroups);

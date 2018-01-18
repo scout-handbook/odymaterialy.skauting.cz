@@ -10,9 +10,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/userEndpoint.php')
 
 use Ramsey\Uuid\Uuid;
 
-$accountEndpoint = new OdyMaterialyAPI\Endpoint();
+$accountEndpoint = new HandbookAPI\Endpoint();
 
-$listAccount = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$listAccount = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$getAccount = function(Skautis\Skautis $skautis) use ($data) : array
 	{
@@ -26,10 +26,10 @@ SQL;
 		$response = [];
 		$loginDetail = $skautis->UserManagement->LoginDetail();
 		$response['name'] = $loginDetail->Person;
-		$response['role'] = OdyMaterialyAPI\getRole($loginDetail->ID_Person);
+		$response['role'] = HandbookAPI\getRole($loginDetail->ID_Person);
 		$response['groups'] = [];
 
-		$db = new OdyMaterialyAPI\Database();
+		$db = new HandbookAPI\Database();
 		$db->prepare($SQL);
 		$db->bindParam(':id', $loginDetail->ID_Person, PDO::PARAM_INT);
 		$db->execute();
@@ -55,23 +55,23 @@ SQL;
 
 	try
 	{
-		return OdyMaterialyAPI\skautisTry($getAccount, false);
+		return HandbookAPI\skautisTry($getAccount, false);
 	}
-	catch(OdyMaterialyAPI\AuthenticationException $e)
+	catch(HandbookAPI\AuthenticationException $e)
 	{
 		header('WWW-Authenticate: SkautIS');
 		return ['status' => 401];
 	}
 };
-$accountEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $listAccount);
+$accountEndpoint->setListMethod(new HandbookAPI\Role('guest'), $listAccount);
 
-$addAccount = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$addAccount = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	global $userEndpoint;
 	$id = $skautis->UserManagement->LoginDetail()->ID_Person;
 	$loginDetail = $skautis->UserManagement->LoginDetail();
 	$userData = ['id' => $loginDetail->ID_Person, 'name' => $loginDetail->Person];
-	$userEndpoint->call('POST', new OdyMaterialyAPI\Role('user'), $userData);
+	$userEndpoint->call('POST', new HandbookAPI\Role('user'), $userData);
 	return ['status' => 200];
 };
-$accountEndpoint->setAddMethod(new OdyMaterialyAPI\Role('user'), $addAccount);
+$accountEndpoint->setAddMethod(new HandbookAPI\Role('user'), $addAccount);

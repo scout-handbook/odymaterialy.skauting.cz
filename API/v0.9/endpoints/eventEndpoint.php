@@ -7,10 +7,10 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/eventParticipantEndpoint.php');
 
-$eventEndpoint = new OdyMaterialyAPI\Endpoint();
+$eventEndpoint = new HandbookAPI\Endpoint();
 $eventEndpoint->addSubEndpoint('participant', $eventParticipantEndpoint);
 
-$listUsers = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$listUsers = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$ISevents = $skautis->Events->EventEducationAllMyActions();
 	$events = [];
@@ -20,4 +20,4 @@ $listUsers = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\End
 	}
 	return ['status' => 200, 'response' => $events];
 };
-$eventEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listUsers);
+$eventEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listUsers);

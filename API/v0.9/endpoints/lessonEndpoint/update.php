@@ -7,7 +7,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
 
-$updateLesson = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$updateLesson = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$selectSQL = <<<SQL
 SELECT name, body
@@ -27,7 +27,7 @@ WHERE id = :id
 LIMIT 1;
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'lesson')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'lesson')->getBytes();
 	if(isset($data['name']))
 	{
 		$name = $data['name'];
@@ -37,7 +37,7 @@ SQL;
 		$body = $data['body'];
 	}
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 
 	if(!isset($name) or !isset($body))
 	{
@@ -50,7 +50,7 @@ SQL;
 		$db->bindColumn('body', $origBody);
 		if(!$db->fetch())
 		{
-			throw new OdyMaterialyAPI\NotFoundException('lesson');
+			throw new HandbookAPI\NotFoundException('lesson');
 		}
 		if(!isset($name))
 		{
@@ -76,7 +76,7 @@ SQL;
 
 	if($db->rowCount() != 1)
 	{
-		throw new OdyMaterialyAPI\NotFoundException("lesson");
+		throw new HandbookAPI\NotFoundException("lesson");
 	}
 
 	$db->endTransaction();

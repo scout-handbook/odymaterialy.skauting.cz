@@ -9,9 +9,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
 
 use Ramsey\Uuid\Uuid;
 
-$lessonFieldEndpoint = new OdyMaterialyAPI\Endpoint();
+$lessonFieldEndpoint = new HandbookAPI\Endpoint();
 
-$updateLessonField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$updateLessonField = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$deleteSQL = <<<SQL
 DELETE FROM lessons_in_fields
@@ -23,13 +23,13 @@ INSERT INTO lessons_in_fields (field_id, lesson_id)
 VALUES (:field_id, :lesson_id);
 SQL;
 
-	$lessonId = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
+	$lessonId = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 	if(isset($data['field']) and $data['field'] !== '')
 	{
-		$fieldId = OdyMaterialyAPI\Helper::parseUuid($data['field'], 'field')->getBytes();
+		$fieldId = HandbookAPI\Helper::parseUuid($data['field'], 'field')->getBytes();
 	}
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 
 	$db->prepare($deleteSQL);
@@ -46,4 +46,4 @@ SQL;
 	$db->endTransaction();
 	return ['status' => 200];
 };
-$lessonFieldEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('editor'), $updateLessonField);
+$lessonFieldEndpoint->setUpdateMethod(new HandbookAPI\Role('editor'), $updateLessonField);
