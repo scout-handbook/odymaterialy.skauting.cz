@@ -28,6 +28,7 @@ class OdyMarkdown extends GithubMarkdown
 	// Image rendering in original quality
 	protected function renderImage($block) : string
 	{
+		global $APIURI;
 		if(isset($block['refkey']))
 		{
 			if(($ref = $this->lookupReference($block['refkey'])) !== false)
