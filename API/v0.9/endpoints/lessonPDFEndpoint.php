@@ -1,17 +1,18 @@
 <?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/OdyMarkdown.php');
+require_once($BASEPATH . '/v0.9/internal/Database.php');
+require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
+require_once($BASEPATH . '/v0.9/internal/Helper.php');
+require_once($BASEPATH . '/v0.9/internal/OdyMarkdown/OdyMarkdown.php');
 
 use Ramsey\Uuid\Uuid;
 
 $lessonPDFEndpoint = new HandbookAPI\Endpoint();
 
-$getLessonLatex = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : void
+$getLessonLatex = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEPATH) : void
 {
 	$SQL = <<<SQL
 SELECT name
@@ -39,7 +40,7 @@ SQL;
 	$html .= '</body>';
 
 	$mpdf = new \Mpdf\Mpdf([
-		'fontDir' => [$_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/fonts/'],
+		'fontDir' => [$BASEPATH . '/v0.9/internal/OdyMarkdown/fonts/'],
 		'fontdata' => [
 			'odymarathon' => [
 				'R' => 'OdyMarathon-Regular.ttf'
@@ -63,8 +64,8 @@ SQL;
 	]);
 
 	$mpdf->DefHTMLHeaderByName('OddHeader', '<div class="oddHeaderRight">' . strval($name) . '</div>');
-	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
-	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
+	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
+	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
 
 	$mpdf->SetHTMLFooterByName('OddFooter', 'O');
 	$mpdf->SetHTMLFooterByName('EvenFooter', 'E');
@@ -72,7 +73,7 @@ SQL;
 	$mpdf->WriteHTML('', 2);
 	$mpdf->SetHTMLHeaderByName('OddHeader', 'O');
 
-	$mpdf->WriteHTML(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/main.css'), 1);
+	$mpdf->WriteHTML(file_get_contents($BASEPATH . '/v0.9/internal/OdyMarkdown/main.css'), 1);
 	$mpdf->WriteHTML($html, 2);
 
 	header('content-type:application/pdf; charset=utf-8');

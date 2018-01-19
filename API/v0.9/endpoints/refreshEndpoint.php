@@ -3,12 +3,12 @@
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
+require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
+require_once($BASEPATH . '/v0.9/internal/Role.php');
 
 $refreshEndpoint = new HandbookAPI\Endpoint();
 
-$refreshLogin = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$refreshLogin = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($COOKIEURI) : array
 {
 	$dateLogout = $skautis->UserManagement->LoginUpdateRefresh(['ID' => $_COOKIE['skautis_token']])->DateLogout;
 	$timeout = DateTime::createFromFormat('Y-m-d\TH:i:s.u', $dateLogout)->format('U');

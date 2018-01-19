@@ -3,12 +3,12 @@
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
+require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
+require_once($BASEPATH . '/v0.9/internal/Role.php');
 
 $logoutEndpoint = new HandbookAPI\Endpoint();
 
-$logoutUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : void
+$logoutUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEURI, $COOKIEURI) : void
 {
 	if(isset($data['return-uri']) and isset($_COOKIE['skautis_token']))
 	{

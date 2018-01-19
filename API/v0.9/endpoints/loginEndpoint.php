@@ -3,14 +3,14 @@
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
+require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
+require_once($BASEPATH . '/v0.9/internal/Role.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.php');
+require_once($BASEPATH . '/v0.9/endpoints/accountEndpoint.php');
 
 $loginEndpoint = new HandbookAPI\Endpoint();
 
-$loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($accountEndpoint) : void
+$loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEURI, $COOKIEURI, $accountEndpoint) : void
 {
 	$startsWith = function(string $haystack, string $needle) : bool
 	{

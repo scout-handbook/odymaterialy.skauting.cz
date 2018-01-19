@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
+require_once($BASEPATH . '/v0.9/internal/Database.php');
+require_once($BASEPATH . '/v0.9/internal/Helper.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/NotFoundException.php');
 
 $updateLesson = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {

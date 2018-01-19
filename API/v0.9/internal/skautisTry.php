@@ -3,13 +3,14 @@ namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/skautis.secret.php');
+require_once($BASEPATH . '/v0.9/internal/Role.php');
+require_once($BASEPATH . '/v0.9/internal/skautis.secret.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/AuthenticationException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/RoleException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/SkautISException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/AuthenticationException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/RoleException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/SkautISException.php');
 
 function skautisTry(callable $callback, bool $hardCheck = true)
 {
