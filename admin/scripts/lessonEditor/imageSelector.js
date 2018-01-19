@@ -10,7 +10,7 @@ function prepareImageSelector(page, perPage)
 	{
 		perPage = 15;
 	}
-	request("/API/v0.9/image", "GET", "", function(response)
+	request(APIURI + "/image", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -30,7 +30,7 @@ function renderImageSelector(list, page, perPage)
 	var start = perPage * (page - 1);
 	for(var i = start; i < Math.min(list.length, start + perPage); i++)
 	{
-		html += "<img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\">";
+		html += "<img src=\"" + APIURI + "/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\">";
 	}
 	if(list.length > perPage)
 	{
@@ -98,7 +98,7 @@ function toggleImageSelector()
 
 function insertImage(event)
 {
-	var markdown = "![Text po najetí kurzorem](https://odymaterialy.skauting.cz/API/v0.9/image/" + event.target.dataset.id + ")"
+	var markdown = "![Text po najetí kurzorem](" + APIURI + "/image/" + event.target.dataset.id + ")"
 	var doc = editor.codemirror.getDoc();
 	doc.replaceRange(markdown, doc.getCursor());
 	toggleImageSelector();

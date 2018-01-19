@@ -1,14 +1,15 @@
 <?php declare(strict_types=1);
-namespace OdyMaterialyAPI;
+namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/database.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
+require_once($BASEPATH . '/v0.9/internal/database.secret.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/ConnectionException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/ExecutionException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotFoundException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/QueryException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/ConnectionException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/ExecutionException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/NotFoundException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/QueryException.php');
 
 class Database
 {

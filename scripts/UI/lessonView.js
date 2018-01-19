@@ -8,11 +8,11 @@ function toggleLessonOffline()
 			{
 				if(checked)
 				{
-					cache.add(new Request("/API/v0.9/lesson/" + id, {credentials: "same-origin"}));
+					cache.add(new Request(APIURI + "/lesson/" + id, {credentials: "same-origin"}));
 				}
 				else
 				{
-					cache.delete("/API/v0.9/lesson/" + id);
+					cache.delete(APIURI + "/lesson/" + id);
 				}
 		});
 	}

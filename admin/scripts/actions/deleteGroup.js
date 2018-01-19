@@ -13,7 +13,7 @@ function deleteGroupOnClick(event)
 	dialog("Opravdu si přejete smazat skupinu \"" + name + "\"?", "Ano", function()
 		{
 			spinner();
-			retryAction("/API/v0.9/group/" + encodeURIComponent(getAttribute(event, "id")), "DELETE", {});
+			retryAction(APIURI + "/group/" + encodeURIComponent(getAttribute(event, "id")), "DELETE", {});
 		}, "Ne", function(){history.back();});
 	history.pushState({"sidePanel": "open"}, "title", "/admin/groups");
 	refreshLogin();

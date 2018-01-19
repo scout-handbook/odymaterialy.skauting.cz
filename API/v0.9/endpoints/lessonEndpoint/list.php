@@ -1,15 +1,16 @@
 <?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Field.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Lesson.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/LessonContainer.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
+require_once($BASEPATH . '/vendor/autoload.php');
+require_once($BASEPATH . '/v0.9/internal/Database.php');
+require_once($BASEPATH . '/v0.9/internal/Field.php');
+require_once($BASEPATH . '/v0.9/internal/Lesson.php');
+require_once($BASEPATH . '/v0.9/internal/LessonContainer.php');
 
 use Ramsey\Uuid\Uuid;
 
-function populateContainer(OdyMaterialyAPI\Database $db, OdyMaterialyAPI\LessonContainer $container, bool $overrideGroup = false) : void
+function populateContainer(HandbookAPI\Database $db, HandbookAPI\LessonContainer $container, bool $overrideGroup = false) : void
 {
 	$competenceSQL = <<<SQL
 SELECT competences.id, competences.number
@@ -32,10 +33,10 @@ SQL;
 		if(checkLessonGroup(Uuid::fromBytes($lessonId), $overrideGroup))
 		{
 			// Create a new Lesson in the newly-created Field
-			$container->lessons[] = new OdyMaterialyAPI\Lesson($lessonId, $lessonName, intval($lessonVersion));
+			$container->lessons[] = new HandbookAPI\Lesson($lessonId, $lessonName, intval($lessonVersion));
 
 			// Find out the competences this Lesson belongs to
-			$db2 = new OdyMaterialyAPI\Database();
+			$db2 = new HandbookAPI\Database();
 			$db2->prepare($competenceSQL);
 			$db2->bindParam(':lesson_id', $lessonId, PDO::PARAM_STR);
 			$db2->execute();
@@ -61,7 +62,7 @@ SQL;
 	}
 }
 
-$listLessons = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$listLessons = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$fieldSQL = <<<SQL
 SELECT id, name
@@ -82,9 +83,9 @@ SQL;
 
 	$overrideGroup = (isset($data['override-group']) and $data['override-group'] == 'true');
 
-	$fields = [new OdyMaterialyAPI\LessonContainer()];
+	$fields = [new HandbookAPI\LessonContainer()];
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($anonymousSQL);
 	populateContainer($db, end($fields), $overrideGroup);
 
@@ -98,16 +99,16 @@ SQL;
 
 	while($db->fetch())
 	{
-		$fields[] = new OdyMaterialyAPI\Field(strval($field_id), strval($field_name)); // Create a new field
+		$fields[] = new HandbookAPI\Field(strval($field_id), strval($field_name)); // Create a new field
 
-		$db2 = new OdyMaterialyAPI\Database();
+		$db2 = new HandbookAPI\Database();
 		$db2->prepare($lessonSQL);
 		$db2->bindParam(':field_id', $field_id, PDO::PARAM_STR);
 		populateContainer($db2, end($fields), $overrideGroup);
 
 		// Sort the lessons in the newly-created Field - sorts by lowest competence low-to-high
-		usort(end($fields)->lessons, "OdyMaterialyAPI\Lesson_cmp");
+		usort(end($fields)->lessons, "HandbookAPI\Lesson_cmp");
 	}
-	usort($fields, 'OdyMaterialyAPI\LessonContainer_cmp'); // Sort all the Fields by lowest competence in the Field low-to-high
+	usort($fields, 'HandbookAPI\LessonContainer_cmp'); // Sort all the Fields by lowest competence in the Field low-to-high
 	return ['status' => 200, 'response' => $fields];
 };

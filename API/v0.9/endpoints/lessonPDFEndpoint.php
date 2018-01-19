@@ -1,17 +1,18 @@
 <?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/OdyMarkdown.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
+require_once($BASEPATH . '/vendor/autoload.php');
+require_once($BASEPATH . '/v0.9/internal/Database.php');
+require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
+require_once($BASEPATH . '/v0.9/internal/Helper.php');
+require_once($BASEPATH . '/v0.9/internal/OdyMarkdown/OdyMarkdown.php');
 
 use Ramsey\Uuid\Uuid;
 
-$lessonPDFEndpoint = new OdyMaterialyAPI\Endpoint();
+$lessonPDFEndpoint = new HandbookAPI\Endpoint();
 
-$getLessonLatex = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : void
+$getLessonLatex = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEPATH) : void
 {
 	$SQL = <<<SQL
 SELECT name
@@ -19,9 +20,9 @@ FROM lessons
 WHERE id = :id;
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($SQL);
 	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
@@ -30,7 +31,7 @@ SQL;
 	$db->fetchRequire('lesson');
 	unset($db);
 
-	$md = $endpoint->getParent()->call('GET', new OdyMaterialyAPI\Role('guest'), ['id' => $data['parent-id']])['response'];
+	$md = $endpoint->getParent()->call('GET', new HandbookAPI\Role('guest'), ['id' => $data['parent-id']])['response'];
 
 	$html = '<body><h1>' . strval($name) . '</h1>';
 	$parser = new OdyMarkdown\OdyMarkdown();
@@ -39,7 +40,7 @@ SQL;
 	$html .= '</body>';
 
 	$mpdf = new \Mpdf\Mpdf([
-		'fontDir' => [$_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/fonts/'],
+		'fontDir' => [$BASEPATH . '/v0.9/internal/OdyMarkdown/fonts/'],
 		'fontdata' => [
 			'odymarathon' => [
 				'R' => 'OdyMarathon-Regular.ttf'
@@ -69,8 +70,8 @@ SQL;
 
 	$mpdf->DefHTMLHeaderByName('OddHeaderFirst', '<img class="QRheader" src="data:image/png;base64,' . base64_encode($qrWriter->writeString('https://odymaterialy.skauting.cz/lesson/' . OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->toString())) . '">');
 	$mpdf->DefHTMLHeaderByName('OddHeader', '<div class="oddHeaderRight">' . strval($name) . '</div>');
-	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
-	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
+	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
+	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
 
 	$mpdf->SetHTMLHeaderByName('OddHeaderFirst', 'O');
 	$mpdf->SetHTMLFooterByName('OddFooter', 'O');
@@ -79,10 +80,10 @@ SQL;
 	$mpdf->WriteHTML('', 2);
 	$mpdf->SetHTMLHeaderByName('OddHeader', 'O');
 
-	$mpdf->WriteHTML(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/OdyMarkdown/main.css'), 1);
+	$mpdf->WriteHTML(file_get_contents($BASEPATH . '/v0.9/internal/OdyMarkdown/main.css'), 1);
 	$mpdf->WriteHTML($html, 2);
 
 	header('content-type:application/pdf; charset=utf-8');
 	$mpdf->Output();
 };
-$lessonPDFEndpoint->setListMethod(new OdyMaterialyAPI\Role('guest'), $getLessonLatex);
+$lessonPDFEndpoint->setListMethod(new HandbookAPI\Role('guest'), $getLessonLatex);

@@ -144,7 +144,7 @@ function populateEditorCache(id)
 		lessonSettingsCacheEvent.trigger();
 		return;
 	}
-	request("/API/v0.9/lesson/" + id + "/group", "GET", {}, function(response)
+	request(APIURI + "/lesson/" + id + "/group", "GET", {}, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -153,7 +153,7 @@ function populateEditorCache(id)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+				window.location.replace(APIURI + "/login");
 			}
 			else
 			{

@@ -7,14 +7,14 @@ function refreshLogin(forceRelogin)
 		var timeout = parts.pop().split(";").shift();
 		if((timeout - Math.round(new Date().getTime() / 1000)) < 1500)
 		{
-			request("/API/v0.9/refresh", "GET", undefined, function(response)
+			request(APIURI + "/refresh", "GET", undefined, function(response)
 				{
 					if(response.status === 200) { /* Success */ }
 					else if(response.type === "AuthenticationException")
 					{
 						if(forceRelogin)
 						{
-							window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login?return-uri=/admin/" + mainPageTab);
+							window.location.replace(APIURI + "/login?return-uri=/admin/" + mainPageTab);
 						}
 					}
 					else

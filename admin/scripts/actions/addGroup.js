@@ -24,5 +24,5 @@ function addGroupSave()
 	var payload = {"name": encodeURIComponent(document.getElementById("groupName").value)};
 	sidePanelClose();
 	spinner();
-	retryAction("/API/v0.9/group", "POST", payload);
+	retryAction(APIURI + "/group", "POST", payload);
 }

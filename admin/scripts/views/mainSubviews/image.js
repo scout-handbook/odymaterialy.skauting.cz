@@ -31,7 +31,7 @@ function downloadImageList(page, perPage)
 	{
 		perPage = 15;
 	}
-	request("/API/v0.9/image", "GET", "", function(response)
+	request(APIURI + "/image", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -39,7 +39,7 @@ function downloadImageList(page, perPage)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+				window.location.replace(APIURI + "/login");
 			}
 			else
 			{
@@ -59,7 +59,7 @@ function showImageList(list, page, perPage)
 	var start = perPage * (page - 1);
 	for(var i = start; i < Math.min(list.length, start + perPage); i++)
 	{
-		html += "<div class=\"thumbnailContainer\"><div class=\"buttonContainer\"><img src=\"/API/v0.9/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"><div class=\"button redButton deleteImage\" data-id=\"" + list[i] + "\"><i class=\"icon-trash-empty\"></i>Smazat</div></div></div>";
+		html += "<div class=\"thumbnailContainer\"><div class=\"buttonContainer\"><img src=\"" + APIURI + "/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"><div class=\"button redButton deleteImage\" data-id=\"" + list[i] + "\"><i class=\"icon-trash-empty\"></i>Smazat</div></div></div>";
 	}
 	html += renderPagination(Math.ceil(list.length / perPage), page);
 	document.getElementById("imageList").innerHTML = html;
@@ -89,7 +89,7 @@ function showImagePreview(event)
 	var overlay = document.getElementById("overlay");
 	overlay.style.display = "inline";
 	overlay.style.cursor = "pointer";
-	var html = "<img src=\"/API/v0.9/image/" + event.target.dataset.id + "\" class=\"previewImage\">";
+	var html = "<img src=\"" + APIURI + "/image/" + event.target.dataset.id + "\" class=\"previewImage\">";
 	overlay.innerHTML = html;
 	overlay.onclick = function()
 		{

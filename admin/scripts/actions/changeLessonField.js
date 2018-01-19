@@ -66,7 +66,7 @@ function changeLessonFieldSave(id, actionQueue)
 	{
 		id = typeof id !== 'undefined' ? id : "{id}";
 		var fieldId = parseBoolForm()[0];
-		actionQueue.actions.push(new Action("/API/v0.9/lesson/" + id + "/field", "PUT", function() {return {"field": encodeURIComponent(fieldId)};}));
+		actionQueue.actions.push(new Action(APIURI + "/lesson/" + id + "/field", "PUT", function() {return {"field": encodeURIComponent(fieldId)};}));
 		lessonSettingsCache.field = fieldId;
 		lessonSettings(id, actionQueue, true);
 	}

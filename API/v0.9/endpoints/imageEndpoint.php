@@ -1,19 +1,20 @@
 <?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
+require_once($BASEPATH . '/vendor/autoload.php');
+require_once($BASEPATH . '/v0.9/internal/Database.php');
+require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
+require_once($BASEPATH . '/v0.9/internal/Helper.php');
+require_once($BASEPATH . '/v0.9/internal/Role.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/Exception.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/Exception.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/MissingArgumentException.php');
 
 use Ramsey\Uuid\Uuid;
 
-$imageEndpoint = new OdyMaterialyAPI\Endpoint();
+$imageEndpoint = new HandbookAPI\Endpoint();
 
 function applyRotation(Imagick $image) : void
 {
@@ -49,7 +50,7 @@ function applyRotation(Imagick $image) : void
 	$image->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
 }
 
-$listImages = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$listImages = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 SELECT id
@@ -57,7 +58,7 @@ FROM images
 ORDER BY time DESC;
 SQL;
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($SQL);
 	$db->execute();
 	$id = '';
@@ -69,22 +70,22 @@ SQL;
 	}
 	return ['status' => 200, 'response' => $images];
 };
-$imageEndpoint->setListMethod(new OdyMaterialyAPI\Role('editor'), $listImages);
+$imageEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listImages);
 
-$getImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : void
+$getImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : void
 {
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'image')->__toString();
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'image')->__toString();
 	$quality = "web";
 	if(isset($data['quality']) and in_array($data['quality'], ['original', 'web', 'thumbnail']))
 	{
 		$quality = $data['quality'];
 	}
 
-	$file = $_SERVER['DOCUMENT_ROOT'] . '/images/' . $quality . '/' . $id . '.jpg';
+	$file = $IMAGEPATH . '/' . $quality . '/' . $id . '.jpg';
 
 	if(!file_exists($file))
 	{
-		throw new OdyMaterialyAPI\NotFoundException('image');
+		throw new HandbookAPI\NotFoundException('image');
 	}
 
 	header('content-type: ' . mime_content_type($file));
@@ -104,9 +105,9 @@ $getImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endp
 	header('last-modified: ' . date('r', $modified));
 	readfile($file);
 };
-$imageEndpoint->setGetMethod(new OdyMaterialyAPI\Role('guest'), $getImage);
+$imageEndpoint->setGetMethod(new HandbookAPI\Role('guest'), $getImage);
 
-$addImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$addImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : array
 {
 	$SQL = <<<SQL
 INSERT INTO images (id)
@@ -115,33 +116,33 @@ SQL;
 
 	if(!isset($_FILES['image']))
 	{
-		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::FILE, 'image');
+		throw new HandbookAPI\MissingArgumentException(HandbookAPI\MissingArgumentException::FILE, 'image');
 	}
 	if(!getimagesize($_FILES['image']['tmp_name']))
 	{
-		throw new OdyMaterialyAPI\InvalidArgumentTypeException('image', ['image/jpeg', 'image/png']);
+		throw new HandbookAPI\InvalidArgumentTypeException('image', ['image/jpeg', 'image/png']);
 	}
 	if(!in_array(strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png']))
 	{
-		throw new OdyMaterialyAPI\InvalidArgumentTypeException('image', ['image/jpeg', 'image/png']);
+		throw new HandbookAPI\InvalidArgumentTypeException('image', ['image/jpeg', 'image/png']);
 	}
 	$uuid = Uuid::uuid4();
-	$tmp = $_SERVER['DOCUMENT_ROOT'] . '/images/tmp/' . $uuid->__toString() . '.jpg';
+	$tmp = $IMAGEPATH . '/tmp/' . $uuid->__toString() . '.jpg';
 	if(!move_uploaded_file($_FILES['image']['tmp_name'], $tmp))
 	{
-		throw new OdyMaterialyAPI\Exception('File upload failed.');
+		throw new HandbookAPI\Exception('File upload failed.');
 	}
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 	$db->prepare($SQL);
 	$uuidBin = $uuid->getBytes();
 	$db->bindParam(':id', $uuidBin, PDO::PARAM_STR);
 	$db->execute();
 
-	$orig = $_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg';
-	$web = $_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $uuid->__toString() . '.jpg';
-	$thumbnail = $_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $uuid->__toString() . '.jpg';
+	$orig = $IMAGEPATH . '/original/' . $uuid->__toString() . '.jpg';
+	$web = $IMAGEPATH . '/web/' . $uuid->__toString() . '.jpg';
+	$thumbnail = $IMAGEPATH . '/thumbnail/' . $uuid->__toString() . '.jpg';
 
 	$origMagick = new Imagick($tmp);
 	$ICCProfile = $origMagick->getImageProfiles("icc", true);
@@ -172,9 +173,9 @@ SQL;
 	$db->endTransaction();
 	return ['status' => 201];
 };
-$imageEndpoint->setAddMethod(new OdyMaterialyAPI\Role('editor'), $addImage);
+$imageEndpoint->setAddMethod(new HandbookAPI\Role('editor'), $addImage);
 
-$deleteImage = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$deleteImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : array
 {
 	$SQL = <<<SQL
 DELETE FROM images
@@ -182,9 +183,9 @@ WHERE id = :id
 LIMIT 1;
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'image');
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'image');
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 
 	$db->prepare($SQL);
@@ -194,15 +195,15 @@ SQL;
 
 	if($db->rowCount() != 1)
 	{
-		throw new OdyMaterialyAPI\NotFoundException("image");
+		throw new HandbookAPI\NotFoundException("image");
 	}
 
 	$db->endTransaction();
 
-	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $id->__toString() . '.jpg');
-	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $id->__toString() . '.jpg');
-	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $id->__toString() . '.jpg');
+	unlink($IMAGEPATH . '/original/' . $id->__toString() . '.jpg');
+	unlink($IMAGEPATH . '/web/' . $id->__toString() . '.jpg');
+	unlink($IMAGEPATH . '/thumbnail/' . $id->__toString() . '.jpg');
 
 	return ['status' => 200];
 };
-$imageEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteImage);
+$imageEndpoint->setDeleteMethod(new HandbookAPI\Role('administrator'), $deleteImage);

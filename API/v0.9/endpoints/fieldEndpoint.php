@@ -1,19 +1,20 @@
 <?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Database.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Helper.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
+require_once($BASEPATH . '/vendor/autoload.php');
+require_once($BASEPATH . '/v0.9/internal/Database.php');
+require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
+require_once($BASEPATH . '/v0.9/internal/Helper.php');
+require_once($BASEPATH . '/v0.9/internal/Role.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/MissingArgumentException.php');
 
 use Ramsey\Uuid\Uuid;
 
-$fieldEndpoint = new OdyMaterialyAPI\Endpoint();
+$fieldEndpoint = new HandbookAPI\Endpoint();
 
-$addField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$addField = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 INSERT INTO fields (id, name)
@@ -22,21 +23,21 @@ SQL;
 
 	if(!isset($data['name']))
 	{
-		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
+		throw new HandbookAPI\MissingArgumentException(HandbookAPI\MissingArgumentException::POST, 'name');
 	}
 	$name = $data['name'];
 	$uuid = Uuid::uuid4()->getBytes();
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->prepare($SQL);
 	$db->bindParam(':id', $uuid, PDO::PARAM_STR);
 	$db->bindParam(':name', $name, PDO::PARAM_STR);
 	$db->execute();
 	return ['status' => 201];
 };
-$fieldEndpoint->setAddMethod(new OdyMaterialyAPI\Role('administrator'), $addField);
+$fieldEndpoint->setAddMethod(new HandbookAPI\Role('administrator'), $addField);
 
-$updateField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$updateField = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 UPDATE fields
@@ -45,14 +46,14 @@ WHERE id = :id
 LIMIT 1;
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'field')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'field')->getBytes();
 	if(!isset($data['name']))
 	{
-		throw new OdyMaterialyAPI\MissingArgumentException(OdyMaterialyAPI\MissingArgumentException::POST, 'name');
+		throw new HandbookAPI\MissingArgumentException(HandbookAPI\MissingArgumentException::POST, 'name');
 	}
 	$name = $data['name'];
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 
 	$db->prepare($SQL);
@@ -62,15 +63,15 @@ SQL;
 
 	if($db->rowCount() != 1)
 	{
-		throw new OdyMaterialyAPI\NotFoundException("field");
+		throw new HandbookAPI\NotFoundException("field");
 	}
 
 	$db->endTransaction();
 	return ['status' => 200];
 };
-$fieldEndpoint->setUpdateMethod(new OdyMaterialyAPI\Role('administrator'), $updateField);
+$fieldEndpoint->setUpdateMethod(new HandbookAPI\Role('administrator'), $updateField);
 
-$deleteField = function(Skautis\Skautis $skautis, array $data, OdyMaterialyAPI\Endpoint $endpoint) : array
+$deleteField = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM lessons_in_fields
@@ -82,9 +83,9 @@ WHERE id = :id
 LIMIT 1;
 SQL;
 
-	$id = OdyMaterialyAPI\Helper::parseUuid($data['id'], 'field')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'field')->getBytes();
 
-	$db = new OdyMaterialyAPI\Database();
+	$db = new HandbookAPI\Database();
 	$db->beginTransaction();
 
 	$db->prepare($deleteLessonsSQL);
@@ -97,10 +98,10 @@ SQL;
 
 	if($db->rowCount() != 1)
 	{
-		throw new OdyMaterialyAPI\NotFoundException("field");
+		throw new HandbookAPI\NotFoundException("field");
 	}
 
 	$db->endTransaction();
 	return ['status' => 200];
 };
-$fieldEndpoint->setDeleteMethod(new OdyMaterialyAPI\Role('administrator'), $deleteField);
+$fieldEndpoint->setDeleteMethod(new HandbookAPI\Role('administrator'), $deleteField);

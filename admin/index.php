@@ -1,10 +1,14 @@
 <?php declare(strict_types=1);
-const _API_EXEC = 1;
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/endpoints/accountEndpoint.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 
-$loginState = $accountEndpoint->call('GET', new OdyMaterialyAPI\Role('guest'), ['no-avatar' => 'true']);
+$context = ['http' => ['ignore_errors' => true]];
+if(isset($_COOKIE['skautis_timeout']) and isset($_COOKIE['skautis_token']))
+{
+	$context = ['http' => ['ignore_errors' => true, 'header' => 'Cookie: skautis_timeout=' . $_COOKIE['skautis_timeout'] . '; skautis_token=' . $_COOKIE['skautis_token']]];
+}
+$accountInfo = file_get_contents($APIURI . '/account?no-avatar=true', false, stream_context_create($context));
+$loginState = json_decode($accountInfo, true);
 if(isset($loginState['status']))
 {
 	if($loginState['status'] == 200)
@@ -21,9 +25,9 @@ if(isset($loginState['status']))
 	}
 	elseif($loginState['status'] == 401)
 	{
-		header('Location: https://odymaterialy.skauting.cz/API/v0.9/login?return-uri=' . urlencode($_SERVER['REQUEST_URI']));
+		header('Location: ' . $APIURI . '/login?return-uri=' . urlencode($_SERVER['REQUEST_URI']));
 		die();
 	}
 }
-header('Location: https://odymaterialy.skauting.cz');
+header('Location: ' . $BASEURI);
 die();

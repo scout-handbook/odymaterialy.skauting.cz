@@ -12,7 +12,7 @@ function metadataSetup()
 function refreshMetadata()
 {
 	metadataEvent = new AfterLoadEvent(4);
-	request("/API/v0.9/lesson?override-group=true", "GET", "", function(response)
+	request(APIURI + "/lesson?override-group=true", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -24,7 +24,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request("/API/v0.9/competence", "GET", "", function(response)
+	request(APIURI + "/competence", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -36,7 +36,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request("/API/v0.9/group", "GET", "", function(response)
+	request(APIURI + "/group", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -48,7 +48,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request("/API/v0.9/account", "GET", "", function(response)
+	request(APIURI + "/account", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -57,7 +57,7 @@ function refreshMetadata()
 			}
 			else if(response.status === 401)
 			{
-				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+				window.location.replace(APIURI + "/login");
 			}
 			else
 			{

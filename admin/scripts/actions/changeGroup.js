@@ -45,7 +45,7 @@ function changeGroupSave(id)
 		var payload = {"name": encodeURIComponent(document.getElementById("groupName").value)};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/group/" + encodeURIComponent(id), "PUT", payload);
+		retryAction(APIURI + "/group/" + encodeURIComponent(id), "PUT", payload);
 	}
 	else
 	{

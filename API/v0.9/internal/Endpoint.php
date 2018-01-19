@@ -1,14 +1,15 @@
 <?php declare(strict_types=1);
-namespace OdyMaterialyAPI;
+namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/skautisTry.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
+require_once($BASEPATH . '/v0.9/internal/skautisTry.php');
+require_once($BASEPATH . '/v0.9/internal/Role.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/Exception.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/MissingArgumentException.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/exceptions/NotImplementedException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/Exception.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/MissingArgumentException.php');
+require_once($BASEPATH . '/v0.9/internal/exceptions/NotImplementedException.php');
 
 class Endpoint
 {
@@ -215,7 +216,6 @@ class Endpoint
 			else
 			{
 				http_response_code(404);
-				include_once($_SERVER['DOCUMENT_ROOT'] . '/error/404.html');
 				die();
 			}
 		}

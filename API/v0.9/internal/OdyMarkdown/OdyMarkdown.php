@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 namespace OdyMarkdown;
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
+require_once($BASEPATH . '/vendor/autoload.php');
 
 use \cebe\markdown\GithubMarkdown;
 
@@ -27,6 +28,7 @@ class OdyMarkdown extends GithubMarkdown
 	// Image rendering in original quality
 	protected function renderImage($block) : string
 	{
+		global $APIURI;
 		if(isset($block['refkey']))
 		{
 			if(($ref = $this->lookupReference($block['refkey'])) !== false)
@@ -39,7 +41,7 @@ class OdyMarkdown extends GithubMarkdown
 			}
 		}
 
-		if(strpos($block['url'], 'odymaterialy.skauting.cz/API/v0.9/image') !== false)
+		if(strpos($block['url'], strval($APIURI * '/image')) !== false)
 		{
 			if(strpos($block['url'], 'quality=') !== false)
 			{

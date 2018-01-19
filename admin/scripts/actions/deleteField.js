@@ -14,7 +14,7 @@ function deleteFieldOnClick(event)
 	dialog("Opravdu si přejete smazat oblast \"" + name + "\"?", "Ano", function()
 		{
 			spinner();
-			retryAction("/API/v0.9/field/" + encodeURIComponent(id), "DELETE", {});
+			retryAction(APIURI + "/field/" + encodeURIComponent(id), "DELETE", {});
 		}, "Ne", function(){history.back();});
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 	refreshLogin();

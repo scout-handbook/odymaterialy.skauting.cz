@@ -5,7 +5,7 @@ function showMainView(noHistory)
 	var html = "<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>";
 	html += "<div id=\"topBar\"><div id=\"userAccount\"><img id=\"userAvatar\" alt=\"Account avatar\" src=\"/avatar.png\">";
 	html += "<div id=\"userName\">&nbsp;</div>";
-	html += "<div id=\"logLink\"><a href=\"/API/v0.9/logout?redirect-uri=" + encodeURIComponent("https://odymaterialy.skauting.cz") + "\">Odhlásit</a><a href=\"/\" id=\"frontendLink\">Zpět na web</a></div></div>";
+	html += "<div id=\"logLink\"><a href=\"" + APIURI + "/logout?redirect-uri=" + encodeURIComponent(BASEURI) + "\">Odhlásit</a><a href=\"/\" id=\"frontendLink\">Zpět na web</a></div></div>";
 	html += "<div class=\"topBarTab\" id=\"lessonManager\">Lekce</div>";
 	html += "<div class=\"topBarTab\" id=\"competenceManager\">Kompetence</div>";
 	html += "<div class=\"topBarTab\" id=\"imageManager\">Obrázky</div>";
