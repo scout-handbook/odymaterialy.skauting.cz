@@ -134,7 +134,7 @@ ratings:
   - "**.php"
 exclude_paths:
   - "node_modules/"
-  - "vendor/"
+  - "API/vendor/"
   - "styles/fontello.css"
   - "styles/fontello-ie7.css"
 
