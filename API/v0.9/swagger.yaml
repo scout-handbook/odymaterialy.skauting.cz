@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: OdyMateriály API
+  title: Handbook API
   description:
     See [Github](https://github.com/GenaBitu/OdyMaterialy) or [OdyMateriály](https://odymaterialy.skauting.cz/) for more.
   version: "0.9"
@@ -584,8 +584,8 @@ paths:
           $ref: '#/components/responses/500'
   /login:
     get:
-      summary: Login to OdyMateriály
-      description: This page redirects to login via [SkautIS](https://is.skaut.cz). After login, `POST /account` is called and the page redirects to a specified URL. If no URL is specified (by neither `return-uri` nor `referer`), [https://odymaterialy.skauting.cz](https://odymaterialy.skauting.cz) is used.
+      summary: Login to the API
+      description: This page redirects to login via [SkautIS](https://is.skaut.cz). After login, `POST /account` is called and the page redirects to a specified URL. If no URL is specified (by neither `return-uri` nor `referer`), the base URL is used.
       tags:
         - authentication
       parameters:
@@ -621,8 +621,8 @@ paths:
           $ref: '#/components/responses/403'
   /logout:
     get:
-      summary: Logout of OdyMateriály
-      description: Delete all login information. A round-trip to [SkautIS](https://is.skaut.cz) may occur. After logout, the page redirects to a specified URL. If no URL is specified by `return-uri`, [https://odymaterialy.skauting.cz](https://odymaterialy.skauting.cz) is used.
+      summary: Logout of the API
+      description: Delete all login information. A round-trip to [SkautIS](https://is.skaut.cz) may occur. After logout, the page redirects to a specified URL. If no URL is specified by `return-uri`, the base URL is used.
       tags:
         - authentication
       parameters:
@@ -707,7 +707,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     post:
-      summary: Add current user to OdyMateriály / update account details
+      summary: Add current user to registered users / update account details
       tags:
         - account
       security:
@@ -1047,7 +1047,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     post:
-      summary: Add user to OdyMateriály / update account details
+      summary: Add user to registered users/ update account details
       description: User role must be **editor** or higher!
       tags:
         - user

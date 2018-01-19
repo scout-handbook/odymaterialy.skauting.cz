@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 @_API_EXEC === 1 or die('Restricted access.');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Endpoint.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/API/v0.9/internal/Role.php');
@@ -16,16 +17,15 @@ $loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoin
 		return (substr($haystack, 0, strlen($needle)) === $needle);
 	};
 
-	$localPrefix = 'https://odymaterialy.skauting.cz';
 	$ISprefix = 'https://is.skaut.cz/Login';
 
 	if(isset($data['return-uri']))
 	{
 		$redirect = $skautis->getLoginUrl($data['return-uri']);
 	}
-	elseif($startsWith($_SERVER['HTTP_REFERER'], $localPrefix))
+	elseif($startsWith($_SERVER['HTTP_REFERER'], $BASEURI))
 	{
-		$redirect = $skautis->getLoginUrl(substr($_SERVER['HTTP_REFERER'], strlen($localPrefix)));
+		$redirect = $skautis->getLoginUrl(substr($_SERVER['HTTP_REFERER'], strlen($BASEURI)));
 	}
 	elseif($startsWith($_SERVER['HTTP_REFERER'], $ISprefix)) // Back from login
 	{
@@ -40,13 +40,13 @@ $loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoin
 			{
 				$redirect = '/' . $redirect;
 			}
-			$redirect = $localPrefix . $redirect;
+			$redirect = $BASEURI . $redirect;
 		}
 		$token = $data['skautIS_Token'];
 		$timeout = DateTime::createFromFormat('j. n. Y H:i:s', $data['skautIS_DateLogout'])->format('U');
 
-		setcookie('skautis_token', $token, intval($timeout), "/", "odymaterialy.skauting.cz", true, true);
-		setcookie('skautis_timeout', $timeout, intval($timeout), "/", "odymaterialy.skauting.cz", true, false);
+		setcookie('skautis_token', $token, intval($timeout), "/", $COOKIEURI, true, true);
+		setcookie('skautis_timeout', $timeout, intval($timeout), "/", $COOKIEURI, true, false);
 		$_COOKIE['skautis_token'] = $token;
 		$_COOKIE['skautis_timeout'] = $timeout;
 
