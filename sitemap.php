@@ -1,9 +1,6 @@
 <?php declare(strict_types=1);
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-
-use Ramsey\Uuid\Uuid;
 
 $lessonList = json_decode(file_get_contents($APIURI . '/lesson'), true)['response'];
 $competenceList = json_decode(file_get_contents($APIURI . '/competence'), true)['response'];
@@ -120,14 +117,14 @@ foreach($lessonList as $field)
 {
 	if(isset($field['id']))
 	{
-		echo($BASEURI . '/field/' . Uuid::fromString($field['id'])->toString() . '/' . urlEscape($field['name']) . "\n");
+		echo($BASEURI . '/field/' . $field['id'] . '/' . urlEscape($field['name']) . "\n");
 	}
 	foreach($field['lessons'] as $lesson)
 	{
-		echo($BASEURI . '/lesson/' . Uuid::fromString($lesson['id'])->toString() . '/' . urlEscape($lesson['name']) . "\n");
+		echo($BASEURI . '/lesson/' . $lesson['id'] . '/' . urlEscape($lesson['name']) . "\n");
 	}
 }
 foreach($competenceList as $competence)
 {
-	echo($BASEURI . '/competence/' . Uuid::fromString($competence['id'])->toString() . '/' . urlEscape($competence['number'] . '-' . $competence['name']) . "\n");
+	echo($BASEURI . '/competence/' . $competence['id'] . '/' . urlEscape($competence['number'] . '-' . $competence['name']) . "\n");
 }
