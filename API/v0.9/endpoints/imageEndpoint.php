@@ -50,7 +50,7 @@ function applyRotation(Imagick $image) : void
 	$image->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
 }
 
-$listImages = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listImages = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : array
 {
 	$SQL = <<<SQL
 SELECT id
@@ -81,7 +81,7 @@ $getImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint
 		$quality = $data['quality'];
 	}
 
-	$file = $_SERVER['DOCUMENT_ROOT'] . '/images/' . $quality . '/' . $id . '.jpg';
+	$file = $IMAGEPATH . '/' . $quality . '/' . $id . '.jpg';
 
 	if(!file_exists($file))
 	{
@@ -107,7 +107,7 @@ $getImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint
 };
 $imageEndpoint->setGetMethod(new HandbookAPI\Role('guest'), $getImage);
 
-$addImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$addImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : array
 {
 	$SQL = <<<SQL
 INSERT INTO images (id)
@@ -127,7 +127,7 @@ SQL;
 		throw new HandbookAPI\InvalidArgumentTypeException('image', ['image/jpeg', 'image/png']);
 	}
 	$uuid = Uuid::uuid4();
-	$tmp = $_SERVER['DOCUMENT_ROOT'] . '/images/tmp/' . $uuid->__toString() . '.jpg';
+	$tmp = $IMAGEPATH . '/tmp/' . $uuid->__toString() . '.jpg';
 	if(!move_uploaded_file($_FILES['image']['tmp_name'], $tmp))
 	{
 		throw new HandbookAPI\Exception('File upload failed.');
@@ -140,9 +140,9 @@ SQL;
 	$db->bindParam(':id', $uuidBin, PDO::PARAM_STR);
 	$db->execute();
 
-	$orig = $_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $uuid->__toString() . '.jpg';
-	$web = $_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $uuid->__toString() . '.jpg';
-	$thumbnail = $_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $uuid->__toString() . '.jpg';
+	$orig = $IMAGEPATH . '/original/' . $uuid->__toString() . '.jpg';
+	$web = $IMAGEPATH . '/web/' . $uuid->__toString() . '.jpg';
+	$thumbnail = $IMAGEPATH . '/thumbnail/' . $uuid->__toString() . '.jpg';
 
 	$origMagick = new Imagick($tmp);
 	$ICCProfile = $origMagick->getImageProfiles("icc", true);
@@ -175,7 +175,7 @@ SQL;
 };
 $imageEndpoint->setAddMethod(new HandbookAPI\Role('editor'), $addImage);
 
-$deleteImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$deleteImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : array
 {
 	$SQL = <<<SQL
 DELETE FROM images
@@ -200,9 +200,9 @@ SQL;
 
 	$db->endTransaction();
 
-	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/original/' . $id->__toString() . '.jpg');
-	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/web/' . $id->__toString() . '.jpg');
-	unlink($_SERVER['DOCUMENT_ROOT'] . '/images/thumbnail/' . $id->__toString() . '.jpg');
+	unlink($IMAGEPATH . '/original/' . $id->__toString() . '.jpg');
+	unlink($IMAGEPATH . '/web/' . $id->__toString() . '.jpg');
+	unlink($IMAGEPATH . '/thumbnail/' . $id->__toString() . '.jpg');
 
 	return ['status' => 200];
 };

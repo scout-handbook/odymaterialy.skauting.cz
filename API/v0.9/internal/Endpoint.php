@@ -216,7 +216,6 @@ class Endpoint
 			else
 			{
 				http_response_code(404);
-				include_once($_SERVER['DOCUMENT_ROOT'] . '/error/404.html');
 				die();
 			}
 		}
