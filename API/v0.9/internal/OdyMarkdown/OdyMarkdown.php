@@ -41,7 +41,7 @@ class OdyMarkdown extends GithubMarkdown
 			}
 		}
 
-		if(strpos($block['url'], $APIURI * '/image') !== false)
+		if(strpos($block['url'], strval($APIURI) * '/image') !== false)
 		{
 			if(strpos($block['url'], 'quality=') !== false)
 			{
