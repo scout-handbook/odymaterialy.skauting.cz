@@ -2,7 +2,7 @@
 namespace OdyMarkdown;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+require_once($BASEPATH . '/vendor/autoload.php');
 
 use \cebe\markdown\GithubMarkdown;
 
