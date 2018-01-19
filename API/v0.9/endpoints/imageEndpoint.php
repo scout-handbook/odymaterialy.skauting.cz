@@ -50,7 +50,7 @@ function applyRotation(Imagick $image) : void
 	$image->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
 }
 
-$listImages = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : array
+$listImages = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
 SELECT id
@@ -72,7 +72,7 @@ SQL;
 };
 $imageEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listImages);
 
-$getImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : void
+$getImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : void
 {
 	$id = HandbookAPI\Helper::parseUuid($data['id'], 'image')->__toString();
 	$quality = "web";
