@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 
 use Ramsey\Uuid\Uuid;
 
-$lessonList = json_decode(file_get_contents('https://odymaterialy.skauting.cz/API/v0.9/lesson'), true)['response'];
-$competenceList = json_decode(file_get_contents('https://odymaterialy.skauting.cz/API/v0.9/competence'), true)['response'];
+$lessonList = json_decode(file_get_contents($APIURI . '/lesson'), true)['response'];
+$competenceList = json_decode(file_get_contents($APIURI . '/competence'), true)['response'];
 
 header('content-type:text/plain; charset=utf-8');
-$baseUrl = 'https://odymaterialy.skauting.cz';
 
 function urlEscape(string $str) : string
 {
@@ -114,20 +114,20 @@ function urlEscape(string $str) : string
 	return $str;
 }
 
-echo($baseUrl . "\n");
-echo($baseUrl . "/competence\n");
+echo($BASEURI . "\n");
+echo($BASEURI . "/competence\n");
 foreach($lessonList as $field)
 {
 	if(isset($field['id']))
 	{
-		echo($baseUrl . '/field/' . Uuid::fromString($field['id'])->toString() . '/' . urlEscape($field['name']) . "\n");
+		echo($BASEURI . '/field/' . Uuid::fromString($field['id'])->toString() . '/' . urlEscape($field['name']) . "\n");
 	}
 	foreach($field['lessons'] as $lesson)
 	{
-		echo($baseUrl . '/lesson/' . Uuid::fromString($lesson['id'])->toString() . '/' . urlEscape($lesson['name']) . "\n");
+		echo($BASEURI . '/lesson/' . Uuid::fromString($lesson['id'])->toString() . '/' . urlEscape($lesson['name']) . "\n");
 	}
 }
 foreach($competenceList as $competence)
 {
-	echo($baseUrl . '/competence/' . Uuid::fromString($competence['id'])->toString() . '/' . urlEscape($competence['number'] . '-' . $competence['name']) . "\n");
+	echo($BASEURI . '/competence/' . Uuid::fromString($competence['id'])->toString() . '/' . urlEscape($competence['number'] . '-' . $competence['name']) . "\n");
 }

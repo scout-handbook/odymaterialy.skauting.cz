@@ -98,6 +98,6 @@ function changeLessonOnClick(event)
 
 function exportLessonOnClick(event)
 {
-	window.open("/API/v0.9/lesson/" + getAttribute(event, "id") + "/pdf")
+	window.open(APIURI + "/lesson/" + getAttribute(event, "id") + "/pdf")
 	return false;
 }

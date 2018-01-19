@@ -3,7 +3,7 @@ var imageSelectorOpen = false;
 function showLessonEditView(id, noHistory)
 {
 	spinner();
-	request("/API/v0.9/lesson/" + id, "GET", "", function(response)
+	request(APIURI + "/lesson/" + id, "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -28,7 +28,7 @@ function renderLessonEditView(id, markdown, noHistory)
 		history.pushState({"id": id}, "title", "/admin/lessons");
 	}
 
-	aq = new ActionQueue([new Action("/API/v0.9/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder)]);
+	aq = new ActionQueue([new Action(APIURI + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder)]);
 	showLessonEditor(lesson.name, markdown, aq, id);
 	document.getElementById("save").dataset.id = id;
 }

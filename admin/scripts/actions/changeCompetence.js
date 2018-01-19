@@ -52,7 +52,7 @@ function changeCompetenceSave(id)
 		var payload = {"number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/competence/" + encodeURIComponent(id), "PUT", payload);
+		retryAction(APIURI + "/competence/" + encodeURIComponent(id), "PUT", payload);
 	}
 	else
 	{

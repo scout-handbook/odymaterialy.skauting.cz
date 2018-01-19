@@ -45,7 +45,7 @@ function changeFieldSave(id)
 		var payload = {"name": encodeURIComponent(document.getElementById("fieldName").value)};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/field/" + encodeURIComponent(id), "PUT", payload);
+		retryAction(APIURI + "/field/" + encodeURIComponent(id), "PUT", payload);
 	}
 	else
 	{

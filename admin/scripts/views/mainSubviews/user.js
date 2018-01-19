@@ -32,7 +32,7 @@ function downloadUserList(searchName, page, perPage)
 		perPage = 25;
 	}
 	var payload = {"name": searchName, "page": page, "per-page": perPage}
-	request("/API/v0.9/user", "GET", payload, function(response)
+	request(APIURI + "/user", "GET", payload, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -40,7 +40,7 @@ function downloadUserList(searchName, page, perPage)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+				window.location.replace(APIURI + "/login");
 			}
 			else
 			{

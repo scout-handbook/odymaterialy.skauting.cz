@@ -25,5 +25,5 @@ function addCompetenceSave()
 	var payload = {"number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
 	sidePanelClose();
 	spinner();
-	retryAction("/API/v0.9/competence", "POST", payload);
+	retryAction(APIURI + "/competence", "POST", payload);
 }

@@ -63,7 +63,7 @@ function changeUserGroupsSave(id)
 		var payload = {"group": encodedGroups};
 		sidePanelClose();
 		spinner();
-		retryAction("/API/v0.9/user/" + encodeURIComponent(id) + "/group", "PUT", payload);
+		retryAction(APIURI + "/user/" + encodeURIComponent(id) + "/group", "PUT", payload);
 	}
 	else
 	{

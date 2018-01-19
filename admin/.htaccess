@@ -69,4 +69,5 @@ RewriteRule (.*) /admin/ [QSA,L]
 	Header add Link "</admin/scripts/history.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/main.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/metadata.js>;rel=preload;as=script"
+	Header add Link "</settings.js>;rel=preload;as=script"
 </FilesMatch>

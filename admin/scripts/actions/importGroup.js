@@ -20,7 +20,7 @@ function importGroupOnClick(event)
 		{
 			history.back();
 		};
-	request("/API/v0.9/event", "GET", {}, function(response)
+	request(APIURI + "/event", "GET", {}, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -28,7 +28,7 @@ function importGroupOnClick(event)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+				window.location.replace(APIURI + "/login");
 			}
 			else
 			{
@@ -67,7 +67,7 @@ function importGroupSelectParticipants(id)
 	{
 		var html = "<div id=\"embeddedSpinner\"></div>";
 		document.getElementById("importList").innerHTML = html;
-		request("/API/v0.9/event/" + eventId + "/participant", "GET", {}, function(response)
+		request(APIURI + "/event/" + eventId + "/participant", "GET", {}, function(response)
 			{
 				if(response.status === 200)
 				{
@@ -75,7 +75,7 @@ function importGroupSelectParticipants(id)
 				}
 				else if(response.type === "AuthenticationException")
 				{
-					window.location.replace("https://odymaterialy.skauting.cz/API/v0.9/login");
+					window.location.replace(APIURI + "/login");
 				}
 				else
 				{
@@ -125,7 +125,7 @@ function importGroupSave(id)
 	addEvent = new AfterLoadEvent(participants.length);
 	for(var j = 0; j < participants.length; j++)
 	{
-		request("/API/v0.9/user", "POST", participants[j], importAddUserCallback);
+		request(APIURI + "/user", "POST", participants[j], importAddUserCallback);
 	}
 
 	addEvent.addCallback(function()
@@ -134,7 +134,7 @@ function importGroupSave(id)
 			for(var k = 0; k < participants.length; k++)
 			{
 				var payload = {"group": id};
-				request("/API/v0.9/user/" + participants[k].id + "/group", "PUT", payload, importUserGroupCallback);
+				request(APIURI + "/user/" + participants[k].id + "/group", "PUT", payload, importUserGroupCallback);
 			}
 
 			groupEvent.addCallback(function()
