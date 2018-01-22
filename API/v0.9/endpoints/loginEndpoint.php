@@ -5,6 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 require_once($BASEPATH . '/vendor/autoload.php');
 require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
 require_once($BASEPATH . '/v0.9/internal/Role.php');
+require_once($BASEPATH . '/v0.9/internal/skautis.secret.php');
 
 require_once($BASEPATH . '/v0.9/endpoints/accountEndpoint.php');
 
@@ -17,7 +18,7 @@ $loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoin
 		return (substr($haystack, 0, strlen($needle)) === $needle);
 	};
 
-	$ISprefix = 'https://is.skaut.cz/Login';
+	$ISprefix = HandbookAPI\SKAUTIS_TEST_MODE ? 'https://test-is.skaut.cz/Login' : 'https://is.skaut.cz/Login';
 
 	if(isset($data['return-uri']))
 	{
