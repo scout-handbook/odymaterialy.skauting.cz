@@ -1,4 +1,4 @@
-var CACHE = "odymaterialy-v10";
+var CACHE = "odymaterialy-v11";
 var APIURI = "https://odymaterialy.skauting.cz/API/v0.9"
 var cacheBlocking = [
 	"/index.html",
@@ -10,9 +10,9 @@ var cacheBlocking = [
 	"/styles/nav.css",
 	"/styles/offlineSwitch.css",
 	"/styles/topUI.css",
-	"/styles/handheld.css"
+	"/styles/handheld.css",
 	"/styles/computer.css",
-	"/scripts/settings.js",
+	"/settings.js",
 	"/scripts/tools/AfterLoadEvent.js",
 	"/scripts/tools/cacheThenNetworkRequest.js",
 	"/scripts/tools/getLessonById.js",
