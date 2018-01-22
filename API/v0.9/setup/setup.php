@@ -8,7 +8,7 @@ echo("Please edit this file and comment out line 8.");
 die(); // Comment out this line by putting // at its beginning. Do not delete this line.
 
 $setupQuery = file_get_contents($BASEPATH . '/v0.9/setup/setupQuery.sql', true);
-$db = new PDO(DB_DSN . ';charset=utf8', DB_USER, DB_PASSWORD);
+$db = new PDO(HandbookAPI\DB_DSN . ';charset=utf8', HandbookAPI\DB_USER, HandbookAPI\DB_PASSWORD);
 $db->exec($setupQuery);
 
 mkdir($IMAGEPATH, 0750);
