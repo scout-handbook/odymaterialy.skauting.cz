@@ -5,8 +5,10 @@
 CREATE TABLE IF NOT EXISTS `competences` (
   `id` binary(16) NOT NULL,
   `number` int(11) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8_czech_ci NOT NULL,
-  `description` text COLLATE utf8_czech_ci NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -63,7 +65,9 @@ INSERT INTO `competences` (`id`, `number`, `name`, `description`) VALUES
 
 CREATE TABLE IF NOT EXISTS `competences_for_lessons` (
   `lesson_id` binary(16) NOT NULL,
-  `competence_id` binary(16) NOT NULL
+  `competence_id` binary(16) NOT NULL,
+  KEY `lesson_id` (`lesson_id`) USING BTREE,
+  KEY `competence_id` (`competence_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -72,9 +76,9 @@ CREATE TABLE IF NOT EXISTS `competences_for_lessons` (
 
 CREATE TABLE IF NOT EXISTS `deleted_lessons` (
   `id` binary(16) NOT NULL,
-  `name` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
   `version` int(10) UNSIGNED NOT NULL,
-  `body` text COLLATE utf8_czech_ci NOT NULL
+  `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -83,7 +87,9 @@ CREATE TABLE IF NOT EXISTS `deleted_lessons` (
 
 CREATE TABLE IF NOT EXISTS `fields` (
   `id` binary(16) NOT NULL,
-  `name` varchar(255) COLLATE utf8_czech_ci NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -106,7 +112,9 @@ INSERT INTO `fields` (`id`, `name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `groups` (
   `id` binary(16) NOT NULL,
-  `name` varchar(255) COLLATE utf8_czech_ci NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -122,7 +130,9 @@ INSERT INTO `groups` (`id`, `name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `groups_for_lessons` (
   `lesson_id` binary(16) NOT NULL,
-  `group_id` binary(16) NOT NULL
+  `group_id` binary(16) NOT NULL,
+  KEY `lesson_id` (`lesson_id`),
+  KEY `group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -147,9 +157,11 @@ INSERT INTO `images` (`id`, `time`) VALUES
 
 CREATE TABLE IF NOT EXISTS `lessons` (
   `id` binary(16) NOT NULL,
-  `name` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
   `version` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `body` text COLLATE utf8_czech_ci NOT NULL
+  `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -158,7 +170,9 @@ CREATE TABLE IF NOT EXISTS `lessons` (
 
 CREATE TABLE IF NOT EXISTS `lessons_in_fields` (
   `field_id` binary(16) NOT NULL,
-  `lesson_id` binary(16) NOT NULL
+  `lesson_id` binary(16) NOT NULL,
+  UNIQUE KEY `lesson_id` (`lesson_id`) USING BTREE,
+  KEY `field_id` (`field_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -167,8 +181,10 @@ CREATE TABLE IF NOT EXISTS `lessons_in_fields` (
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
-  `role` enum('user','editor','administrator','superuser') CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL DEFAULT 'user'
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  `role` enum('user','editor','administrator','superuser') CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL DEFAULT 'user',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ID` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -184,22 +200,10 @@ INSERT INTO `users` (`id`, `name`, `role`) VALUES
 
 CREATE TABLE IF NOT EXISTS `users_in_groups` (
   `user_id` int(11) UNSIGNED NOT NULL,
-  `group_id` binary(16) NOT NULL
+  `group_id` binary(16) NOT NULL,
+  KEY `user_id` (`user_id`),
+  KEY `group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-
---
--- Indexes for table `competences`
---
-ALTER TABLE `competences`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`);
-
---
--- Indexes for table `competences_for_lessons`
---
-ALTER TABLE `competences_for_lessons`
-  ADD KEY `lesson_id` (`lesson_id`) USING BTREE,
-  ADD KEY `competence_id` (`competence_id`);
 
 --
 -- Indexes for table `deleted_lessons`
@@ -207,54 +211,9 @@ ALTER TABLE `competences_for_lessons`
 ALTER TABLE `deleted_lessons` ADD FULLTEXT KEY `body` (`body`);
 
 --
--- Indexes for table `fields`
---
-ALTER TABLE `fields`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`);
-
---
--- Indexes for table `groups`
---
-ALTER TABLE `groups`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`);
-
---
--- Indexes for table `groups_for_lessons`
---
-ALTER TABLE `groups_for_lessons`
-  ADD KEY `lesson_id` (`lesson_id`),
-  ADD KEY `group_id` (`group_id`);
-
---
 -- Indexes for table `lessons`
 --
-ALTER TABLE `lessons`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`) USING BTREE;
 ALTER TABLE `lessons` ADD FULLTEXT KEY `body` (`body`);
-
---
--- Indexes for table `lessons_in_fields`
---
-ALTER TABLE `lessons_in_fields`
-  ADD UNIQUE KEY `lesson_id` (`lesson_id`) USING BTREE,
-  ADD KEY `field_id` (`field_id`) USING BTREE;
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `ID` (`id`);
-
---
--- Indexes for table `users_in_groups`
---
-ALTER TABLE `users_in_groups`
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `group_id` (`group_id`);
 
 --
 -- Constraints for table `competences_for_lessons`

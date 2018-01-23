@@ -22,7 +22,7 @@ class Database
 	{
 		try
 		{
-			self::$db = new \PDO(DB_DSN . ';charset=utf8', DB_USER, DB_PASSWORD);
+			self::$db = new \PDO(DB_DSN . ';charset=utf8mb4', DB_USER, DB_PASSWORD);
 			self::$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
 		}
 		catch(PDOException $e)
