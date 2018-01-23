@@ -16,6 +16,7 @@ mkdir($IMAGEPATH . '/original', 0750);
 mkdir($IMAGEPATH . '/web', 0750);
 mkdir($IMAGEPATH . '/thumbnail', 0750);
 mkdir($IMAGEPATH . '/tmp', 0750);
+copy($BASEPATH . '/v0.9/setup/images_htaccess', $IMAGEPATH . '/.htaccess');
 
 copy($BASEPATH . '/v0.9/setup/original.jpg', $IMAGEPATH . '/original/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg');
 copy($BASEPATH . '/v0.9/setup/web.jpg', $IMAGEPATH . '/web/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg');

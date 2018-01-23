@@ -18,8 +18,5 @@ tags
 
 node_modules/
 API/vendor/
-images/original/
-images/thumbnail/
-images/tmp/
-images/web/
+images/*
 *.secret.php
