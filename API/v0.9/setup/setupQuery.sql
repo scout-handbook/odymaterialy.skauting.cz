@@ -2,7 +2,7 @@
 -- Table structure for table `competences`
 --
 
-CREATE TABLE `competences` (
+CREATE TABLE IF NOT EXISTS `competences` (
   `id` binary(16) NOT NULL,
   `number` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_czech_ci NOT NULL,
@@ -61,7 +61,7 @@ INSERT INTO `competences` (`id`, `number`, `name`, `description`) VALUES
 -- Table structure for table `competences_for_lessons`
 --
 
-CREATE TABLE `competences_for_lessons` (
+CREATE TABLE IF NOT EXISTS `competences_for_lessons` (
   `lesson_id` binary(16) NOT NULL,
   `competence_id` binary(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
@@ -70,7 +70,7 @@ CREATE TABLE `competences_for_lessons` (
 -- Table structure for table `deleted_lessons`
 --
 
-CREATE TABLE `deleted_lessons` (
+CREATE TABLE IF NOT EXISTS `deleted_lessons` (
   `id` binary(16) NOT NULL,
   `name` varchar(255) COLLATE utf8_czech_ci NOT NULL,
   `version` int(10) UNSIGNED NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE `deleted_lessons` (
 -- Table structure for table `fields`
 --
 
-CREATE TABLE `fields` (
+CREATE TABLE IF NOT EXISTS `fields` (
   `id` binary(16) NOT NULL,
   `name` varchar(255) COLLATE utf8_czech_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
@@ -104,7 +104,7 @@ INSERT INTO `fields` (`id`, `name`) VALUES
 -- Table structure for table `groups`
 --
 
-CREATE TABLE `groups` (
+CREATE TABLE IF NOT EXISTS `groups` (
   `id` binary(16) NOT NULL,
   `name` varchar(255) COLLATE utf8_czech_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
@@ -114,13 +114,13 @@ CREATE TABLE `groups` (
 --
 
 INSERT INTO `groups` (`id`, `name`) VALUES
-(0x00000000000000000000000000000000, 'Veřejné'),
+(0x00000000000000000000000000000000, 'Veřejné');
 
 --
 -- Table structure for table `groups_for_lessons`
 --
 
-CREATE TABLE `groups_for_lessons` (
+CREATE TABLE IF NOT EXISTS `groups_for_lessons` (
   `lesson_id` binary(16) NOT NULL,
   `group_id` binary(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
@@ -129,7 +129,7 @@ CREATE TABLE `groups_for_lessons` (
 -- Table structure for table `images`
 --
 
-CREATE TABLE `images` (
+CREATE TABLE IF NOT EXISTS `images` (
   `id` binary(16) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
@@ -145,7 +145,7 @@ INSERT INTO `images` (`id`, `time`) VALUES
 -- Table structure for table `lessons`
 --
 
-CREATE TABLE `lessons` (
+CREATE TABLE IF NOT EXISTS `lessons` (
   `id` binary(16) NOT NULL,
   `name` varchar(255) COLLATE utf8_czech_ci NOT NULL,
   `version` int(10) UNSIGNED NOT NULL DEFAULT '1',
@@ -156,7 +156,7 @@ CREATE TABLE `lessons` (
 -- Table structure for table `lessons_in_fields`
 --
 
-CREATE TABLE `lessons_in_fields` (
+CREATE TABLE IF NOT EXISTS `lessons_in_fields` (
   `field_id` binary(16) NOT NULL,
   `lesson_id` binary(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
@@ -165,7 +165,7 @@ CREATE TABLE `lessons_in_fields` (
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
   `role` enum('user','editor','administrator','superuser') CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL DEFAULT 'user'
@@ -182,7 +182,7 @@ INSERT INTO `users` (`id`, `name`, `role`) VALUES
 -- Table structure for table `users_in_groups`
 --
 
-CREATE TABLE `users_in_groups` (
+CREATE TABLE IF NOT EXISTS `users_in_groups` (
   `user_id` int(11) UNSIGNED NOT NULL,
   `group_id` binary(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
