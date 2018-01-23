@@ -24,13 +24,13 @@ $loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoin
 	{
 		$redirect = $skautis->getLoginUrl($data['return-uri']);
 	}
-	elseif($startsWith($_SERVER['HTTP_REFERER'], $BASEURI))
+	elseif(isset($_SERVER['HTTP_REFERER']) and $startsWith($_SERVER['HTTP_REFERER'], $BASEURI))
 	{
 		$redirect = $skautis->getLoginUrl(substr($_SERVER['HTTP_REFERER'], strlen($BASEURI)));
 	}
-	elseif($startsWith($_SERVER['HTTP_REFERER'], $ISprefix)) // Back from login
+	elseif(isset($_SERVER['HTTP_REFERER']) and $startsWith($_SERVER['HTTP_REFERER'], $ISprefix)) // Back from login
 	{
-		$redirect = $_GET['ReturnUrl'];
+		$redirect = $_GET['ReturnUrl'] ?? $BASEURI;
 		if($startsWith($redirect, 'http://'))
 		{
 			$redirect = 'https://' . substr($redirect, 7);
