@@ -41,9 +41,9 @@ class OdyMarkdown extends GithubMarkdown
 			}
 		}
 
-		if(strpos($block['url'], strval($APIURI * '/image')) !== false)
+		if(mb_strpos($block['url'], strval($APIURI * '/image')) !== false)
 		{
-			if(strpos($block['url'], 'quality=') !== false)
+			if(mb_strpos($block['url'], 'quality=') !== false)
 			{
 				$block['url'] = str_replace('quality=web', 'quality=original', $block['url']);
 				$block['url'] = str_replace('quality=thumbnail', 'quality=original', $block['url']);
@@ -60,7 +60,7 @@ class OdyMarkdown extends GithubMarkdown
 	// Generic functions for command parsing
 	private function identifyCommand(string $line, string $command) : bool
 	{
-		if(strncmp($line, '!' . $command, strlen($command) + 1) === 0)
+		if(strncmp($line, '!' . $command, mb_strlen($command) + 1) === 0)
 		{
 			return true;
 		}
@@ -71,26 +71,26 @@ class OdyMarkdown extends GithubMarkdown
 	{
 		$block = [$command];
 		$line = rtrim($lines[$current]);
-		$start = intval(strpos($line, '[', strlen($command) + 1)) + 1;
+		$start = intval(mb_strpos($line, '[', mb_strlen($command) + 1)) + 1;
 		$next = $current;
 		$argumentString = '';
 		if($start !== false)
 		{
-			$stop = strpos($line, ']', $start);
+			$stop = mb_strpos($line, ']', $start);
 			if($stop !== false)
 			{
-				$argumentString = substr($line, $start, $stop - $start);
+				$argumentString = mb_substr($line, $start, $stop - $start);
 				$next = $current;
 			}
 			else
 			{
-				$argumentString = substr($line, $start);
+				$argumentString = mb_substr($line, $start);
 				for($i = $current + 1; $i < count($lines); ++$i)
 				{
-					$stop = strpos($lines[$i], "]");
+					$stop = mb_strpos($lines[$i], "]");
 					if($stop !== false)
 					{
-						$argumentString .= substr($lines[$i], 0, $stop);
+						$argumentString .= mb_substr($lines[$i], 0, $stop);
 						$next = $i;
 						break;
 					}

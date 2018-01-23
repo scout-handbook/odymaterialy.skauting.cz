@@ -122,7 +122,7 @@ SQL;
 	{
 		throw new HandbookAPI\InvalidArgumentTypeException('image', ['image/jpeg', 'image/png']);
 	}
-	if(!in_array(strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png']))
+	if(!in_array(mb_strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png']))
 	{
 		throw new HandbookAPI\InvalidArgumentTypeException('image', ['image/jpeg', 'image/png']);
 	}

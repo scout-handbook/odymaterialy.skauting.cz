@@ -15,7 +15,7 @@ $loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoin
 {
 	$startsWith = function(string $haystack, string $needle) : bool
 	{
-		return (substr($haystack, 0, strlen($needle)) === $needle);
+		return (mb_substr($haystack, 0, mb_strlen($needle)) === $needle);
 	};
 
 	$ISprefix = HandbookAPI\SKAUTIS_TEST_MODE ? 'https://test-is.skaut.cz/Login' : 'https://is.skaut.cz/Login';
@@ -26,14 +26,14 @@ $loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoin
 	}
 	elseif(isset($_SERVER['HTTP_REFERER']) and $startsWith($_SERVER['HTTP_REFERER'], $BASEURI))
 	{
-		$redirect = $skautis->getLoginUrl(substr($_SERVER['HTTP_REFERER'], strlen($BASEURI)));
+		$redirect = $skautis->getLoginUrl(mb_substr($_SERVER['HTTP_REFERER'], mb_strlen($BASEURI)));
 	}
 	elseif(isset($_SERVER['HTTP_REFERER']) and $startsWith($_SERVER['HTTP_REFERER'], $ISprefix)) // Back from login
 	{
 		$redirect = $_GET['ReturnUrl'] ?? $BASEURI;
 		if($startsWith($redirect, 'http://'))
 		{
-			$redirect = 'https://' . substr($redirect, 7);
+			$redirect = 'https://' . mb_substr($redirect, 7);
 		}
 		elseif(!$startsWith($redirect, 'https://'))
 		{
