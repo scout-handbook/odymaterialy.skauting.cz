@@ -1,9 +1,21 @@
-var CACHE = "odymaterialy-v9";
+var CACHE = "odymaterialy-v11";
 var APIURI = "https://odymaterialy.skauting.cz/API/v0.9"
 var cacheBlocking = [
 	"/index.html",
+	"/styles/fontello.css",
+	"/styles/competenceBubble.css",
+	"/styles/lesson.css",
+	"/styles/main.css",
+	"/styles/mainPage.css",
+	"/styles/nav.css",
+	"/styles/offlineSwitch.css",
+	"/styles/topUI.css",
+	"/styles/handheld.css",
+	"/styles/computer.css",
+	"/settings.js",
 	"/scripts/tools/AfterLoadEvent.js",
 	"/scripts/tools/cacheThenNetworkRequest.js",
+	"/scripts/tools/getLessonById.js",
 	"/scripts/tools/OdyMarkdown.js",
 	"/scripts/tools/request.js",
 	"/scripts/tools/urlEscape.js",
@@ -12,25 +24,19 @@ var cacheBlocking = [
 	"/scripts/UI/navigation.js",
 	"/scripts/UI/TOC.js",
 	"/scripts/views/competence.js",
+	"/scripts/views/competenceList.js",
 	"/scripts/views/field.js",
 	"/scripts/views/lesson.js",
 	"/scripts/views/lessonList.js",
 	"/scripts/authentication.js",
 	"/scripts/history.js",
 	"/scripts/main.js",
-	"/scripts/metadata.js",
-	"/styles/competenceBubble.css",
-	"/styles/lesson.css",
-	"/styles/main.css",
-	"/styles/mainPage.css",
-	"/styles/nav.css",
-	"/styles/offlineSwitch.css",
-	"/styles/topUI.css",
-	"/styles/computer.css",
-	"/styles/handheld.css"
+	"/scripts/metadata.js"
 ];
 var cacheNonBlocking = [
-	"/node_modules/showdown/dist/showdown.min.js"
+	"/node_modules/showdown/dist/showdown.min.js",
+	"/node_modules/xss/dist/xss.min.js",
+	"/font/fontello.woff"
 ];
 
 var cacheUpdating = [

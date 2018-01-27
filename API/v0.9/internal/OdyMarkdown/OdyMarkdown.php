@@ -41,9 +41,9 @@ class OdyMarkdown extends GithubMarkdown
 			}
 		}
 
-		if(strpos($block['url'], strval($APIURI * '/image')) !== false)
+		if(mb_strpos($block['url'], $APIURI . '/image') !== false)
 		{
-			if(strpos($block['url'], 'quality=') !== false)
+			if(mb_strpos($block['url'], 'quality=') !== false)
 			{
 				$block['url'] = str_replace('quality=web', 'quality=original', $block['url']);
 				$block['url'] = str_replace('quality=thumbnail', 'quality=original', $block['url']);
@@ -60,7 +60,7 @@ class OdyMarkdown extends GithubMarkdown
 	// Generic functions for command parsing
 	private function identifyCommand(string $line, string $command) : bool
 	{
-		if(strncmp($line, '!' . $command, strlen($command) + 1) === 0)
+		if(strncmp($line, '!' . $command, mb_strlen($command) + 1) === 0)
 		{
 			return true;
 		}
@@ -71,26 +71,26 @@ class OdyMarkdown extends GithubMarkdown
 	{
 		$block = [$command];
 		$line = rtrim($lines[$current]);
-		$start = intval(strpos($line, '[', strlen($command) + 1)) + 1;
+		$start = intval(mb_strpos($line, '[', mb_strlen($command) + 1)) + 1;
 		$next = $current;
 		$argumentString = '';
 		if($start !== false)
 		{
-			$stop = strpos($line, ']', $start);
+			$stop = mb_strpos($line, ']', $start);
 			if($stop !== false)
 			{
-				$argumentString = substr($line, $start, $stop - $start);
+				$argumentString = mb_substr($line, $start, $stop - $start);
 				$next = $current;
 			}
 			else
 			{
-				$argumentString = substr($line, $start);
+				$argumentString = mb_substr($line, $start);
 				for($i = $current + 1; $i < count($lines); ++$i)
 				{
-					$stop = strpos($lines[$i], "]");
+					$stop = mb_strpos($lines[$i], "]");
 					if($stop !== false)
 					{
-						$argumentString .= substr($lines[$i], 0, $stop);
+						$argumentString .= mb_substr($lines[$i], 0, $stop);
 						$next = $i;
 						break;
 					}
@@ -106,11 +106,18 @@ class OdyMarkdown extends GithubMarkdown
 		foreach($argumentArray as $arg)
 		{
 			$keyval = explode('=', $arg);
-			if(count($keyval) !== 2)
+			if(count($keyval) === 1)
+			{
+				$block[$keyval[0]] = true;
+			}
+			elseif(count($keyval) === 2)
+			{
+				$block[$keyval[0]] = $keyval[1];
+			}
+			else
 			{
 				break;
 			}
-			$block[$keyval[0]] = $keyval[1];
 		}
 		return [$block, $next];
 	}
@@ -118,33 +125,43 @@ class OdyMarkdown extends GithubMarkdown
 	// Notes extension
 	protected function identifyNotes(string $line) : bool
 	{
-		return $this->identifyCommand($line, 'notes');
+		return $this->identifyCommand($line, 'linky');
 	}
 
 	protected function consumeNotes(array $lines, int $current) : array
 	{
-		return $this->consumeCommand($lines, $current, 'notes');
+		return $this->consumeCommand($lines, $current, 'linky');
 	}
 
-	protected function renderNotes(array $block) : string
+	protected function renderLinky(array $block) : string
 	{
-		$leader = '';
-		if(isset($block['style']) and $block['style'] === 'dotted')
-		{
-			$leader = '.';
-		}
+		$dotted = (isset($block['teckovane']) and $block['teckovane'] === true);
 		$height = 1;
-		if(isset($block['height']))
+		if(isset($block['pocet']))
 		{
-			if($block["height"] === 'eop')
+			if($block['pocet'] === 'strana')
 			{
-				return ''; // FIXME: lines until end of page
+				if($dotted)
+				{
+					return '<br><div class="dottedpage"></div><pagebreak>';
+				}
+				else
+				{
+					return '<pagebreak>';
+				}
 			}
 			else
 			{
-				$height = intval($block['height']);
+				$height = intval($block['pocet']);
 			}
 		}
-		return str_repeat('<br><div class="dottedline">' . str_repeat($leader, 256) . '</div>', $height);
+		if($dotted)
+		{
+			return str_repeat('<br><div class="dottedline">' . str_repeat('.', 256) . '</div>', $height);
+		}
+		else
+		{
+			return str_repeat('<br>', $height);
+		}
 	}
 }

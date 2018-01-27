@@ -27,7 +27,7 @@ $listEventParticipants = function(Skautis\Skautis $skautis, array $data, Handboo
 		'ID_User' => $userID]);
 	foreach($ISroles as $ISrole)
 	{
-		if(strpos($ISrole->DisplayName, '"' . $eventName . '"') !== false)
+		if(mb_strpos($ISrole->DisplayName, '"' . $eventName . '"') !== false)
 		{
 			$response = $skautis->UserManagement->LoginUpdate(["ID_UserRole" => $ISrole->ID, "ID" => $skautis->getUser()->getLoginId()]);
 			$skautis->getUser()->updateLoginData(null, $ISrole->ID, $response->ID_Unit);

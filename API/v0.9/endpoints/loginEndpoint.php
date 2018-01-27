@@ -5,6 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 require_once($BASEPATH . '/vendor/autoload.php');
 require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
 require_once($BASEPATH . '/v0.9/internal/Role.php');
+require_once($BASEPATH . '/v0.9/internal/skautis.secret.php');
 
 require_once($BASEPATH . '/v0.9/endpoints/accountEndpoint.php');
 
@@ -14,25 +15,25 @@ $loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoin
 {
 	$startsWith = function(string $haystack, string $needle) : bool
 	{
-		return (substr($haystack, 0, strlen($needle)) === $needle);
+		return (mb_substr($haystack, 0, mb_strlen($needle)) === $needle);
 	};
 
-	$ISprefix = 'https://is.skaut.cz/Login';
+	$ISprefix = HandbookAPI\SKAUTIS_TEST_MODE ? 'https://test-is.skaut.cz/Login' : 'https://is.skaut.cz/Login';
 
 	if(isset($data['return-uri']))
 	{
 		$redirect = $skautis->getLoginUrl($data['return-uri']);
 	}
-	elseif($startsWith($_SERVER['HTTP_REFERER'], $BASEURI))
+	elseif(isset($_SERVER['HTTP_REFERER']) and $startsWith($_SERVER['HTTP_REFERER'], $BASEURI))
 	{
-		$redirect = $skautis->getLoginUrl(substr($_SERVER['HTTP_REFERER'], strlen($BASEURI)));
+		$redirect = $skautis->getLoginUrl(mb_substr($_SERVER['HTTP_REFERER'], mb_strlen($BASEURI)));
 	}
-	elseif($startsWith($_SERVER['HTTP_REFERER'], $ISprefix)) // Back from login
+	elseif(isset($_SERVER['HTTP_REFERER']) and $startsWith($_SERVER['HTTP_REFERER'], $ISprefix)) // Back from login
 	{
-		$redirect = $_GET['ReturnUrl'];
+		$redirect = $_GET['ReturnUrl'] ?? $BASEURI;
 		if($startsWith($redirect, 'http://'))
 		{
-			$redirect = 'https://' . substr($redirect, 7);
+			$redirect = 'https://' . mb_substr($redirect, 7);
 		}
 		elseif(!$startsWith($redirect, 'https://'))
 		{

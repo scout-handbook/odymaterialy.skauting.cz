@@ -52,6 +52,14 @@
 	padding-right: -250px;
 }
 
+.dottedpage
+{
+	background-image: url('https://odymaterialy.skauting.cz/API/v0.9/internal/OdyMarkdown/dottedlines.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 1000px;
+}
+
 h1
 {
 	font-size: 1.7em;

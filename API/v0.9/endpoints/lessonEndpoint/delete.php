@@ -22,6 +22,10 @@ SQL;
 DELETE FROM competences_for_lessons
 WHERE lesson_id = :lesson_id;
 SQL;
+	$deleteGroupsSQL = <<<SQL
+DELETE FROM groups_for_lessons
+WHERE lesson_id = :lesson_id;
+SQL;
 	$deleteSQL = <<<SQL
 DELETE FROM lessons
 WHERE id = :id;
@@ -41,6 +45,10 @@ SQL;
 	$db->execute();
 
 	$db->prepare($deleteCompetencesSQL);
+	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
+	$db->execute();
+
+	$db->prepare($deleteGroupsSQL);
 	$db->bindParam(':lesson_id', $id, PDO::PARAM_STR);
 	$db->execute();
 

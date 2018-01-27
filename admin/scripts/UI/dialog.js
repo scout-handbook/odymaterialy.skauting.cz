@@ -1,3 +1,5 @@
+var confirmCallbackWrapped;
+
 function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCallback)
 {
 	dismissSpinner();
@@ -5,7 +7,6 @@ function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCall
 	document.getElementById("dialog").style.display = "block";
 	document.getElementById("dialogText").innerHTML = mainText;
 	document.getElementById("confirmText").innerHTML = "<i class=\"icon-ok\"></i>" + confirmText;
-	var confirmCallbackWrapped;
 	if(confirmCallback)
 	{
 		confirmCallbackWrapped = function()
@@ -38,6 +39,18 @@ function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCall
 		}
 		document.getElementById("dismissText").onclick = dismissCallbackWrapped;
 	}
+	else
+	{
+		document.addEventListener('keypress', keyPressDialog);
+	}
+}
+
+function keyPressDialog(event)
+{
+	if(event.keyCode === 13)
+	{
+		confirmCallbackWrapped();
+	}
 }
 
 function dismissDialog()
@@ -45,4 +58,5 @@ function dismissDialog()
 	document.getElementById("overlay").style.display = "none";
 	document.getElementById("dialog").style.display = "none";
 	document.getElementById("dismissText").style.display = "none";
+	document.removeEventListener('keypress', keyPressDialog);
 }

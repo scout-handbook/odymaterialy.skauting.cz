@@ -18,7 +18,7 @@ var OdyMarkdown = function()
 	};
 	var notes = {
 		type: "lang",
-		filter: function(text, c, o) {return filterCommand(text, "notes", notesCommand);}
+		filter: function(text, c, o) {return filterCommand(text, "linky", notesCommand);}
 	};
 	return [responsiveTablesBegin, responsiveTablesEnd, blankLinks, notes];
 }
