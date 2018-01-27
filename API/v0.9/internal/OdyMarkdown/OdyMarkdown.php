@@ -128,23 +128,33 @@ class OdyMarkdown extends GithubMarkdown
 
 	protected function renderNotes(array $block) : string
 	{
-		$leader = '';
-		if(isset($block['style']) and $block['style'] === 'dotted')
-		{
-			$leader = '.';
-		}
+		$dotted = (isset($block['style']) and $block['style'] === 'dotted');
 		$height = 1;
 		if(isset($block['height']))
 		{
 			if($block["height"] === 'eop')
 			{
-				return ''; // FIXME: lines until end of page
+				if($dotted)
+				{
+					return '<br><div class="dottedpage"></div><pagebreak>';
+				}
+				else
+				{
+					return '<pagebreak>';
+				}
 			}
 			else
 			{
 				$height = intval($block['height']);
 			}
 		}
-		return str_repeat('<br><div class="dottedline">' . str_repeat($leader, 256) . '</div>', $height);
+		if($dotted)
+		{
+			return str_repeat('<br><div class="dottedline">' . str_repeat('.', 256) . '</div>', $height);
+		}
+		else
+		{
+			return str_repeat('<br>', $height);
+		}
 	}
 }
