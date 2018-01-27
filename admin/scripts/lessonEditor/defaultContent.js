@@ -52,10 +52,14 @@ Markdown | Less | Pretty\n\
 \n\
 A pro opravdové fajnšmekry můžu dělat v textu i místo na poznámky (zatím použitelné jenom v tisku):\n\
 \n\
-!notes[style=blank, height=3]\n\
+!linky[pocet=3]\n\
 \n\
 mi udělá tři prázdné řádky, nebo můžu:\n\
 \n\
-!notes[style=dotted, height = 5]\n\
+!linky[teckovane, pocet = 5]\n\
 \n\
-udělat takové ty vytečkované řádky (tady 5 řádků). Na webu se to nezobrazí, ale v PDF ano."
+udělat takové ty vytečkované řádky (tady 5 řádků). Pokud chci udělat místo až do konce stránky (v PDF), pak použiju:\n\
+\n\
+!linky[teckovane, pocet = strana]\n\
+\n\
+Na webu se toto vůbec nezobrazí, ale v PDF ano."

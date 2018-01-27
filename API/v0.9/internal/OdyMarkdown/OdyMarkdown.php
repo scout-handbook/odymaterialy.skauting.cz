@@ -41,7 +41,7 @@ class OdyMarkdown extends GithubMarkdown
 			}
 		}
 
-		if(mb_strpos($block['url'], strval($APIURI * '/image')) !== false)
+		if(mb_strpos($block['url'], $APIURI . '/image') !== false)
 		{
 			if(mb_strpos($block['url'], 'quality=') !== false)
 			{
@@ -106,11 +106,18 @@ class OdyMarkdown extends GithubMarkdown
 		foreach($argumentArray as $arg)
 		{
 			$keyval = explode('=', $arg);
-			if(count($keyval) !== 2)
+			if(count($keyval) === 1)
+			{
+				$block[$keyval[0]] = true;
+			}
+			elseif(count($keyval) === 2)
+			{
+				$block[$keyval[0]] = $keyval[1];
+			}
+			else
 			{
 				break;
 			}
-			$block[$keyval[0]] = $keyval[1];
 		}
 		return [$block, $next];
 	}
@@ -118,21 +125,21 @@ class OdyMarkdown extends GithubMarkdown
 	// Notes extension
 	protected function identifyNotes(string $line) : bool
 	{
-		return $this->identifyCommand($line, 'notes');
+		return $this->identifyCommand($line, 'linky');
 	}
 
 	protected function consumeNotes(array $lines, int $current) : array
 	{
-		return $this->consumeCommand($lines, $current, 'notes');
+		return $this->consumeCommand($lines, $current, 'linky');
 	}
 
-	protected function renderNotes(array $block) : string
+	protected function renderLinky(array $block) : string
 	{
-		$dotted = (isset($block['style']) and $block['style'] === 'dotted');
+		$dotted = (isset($block['teckovane']) and $block['teckovane'] === true);
 		$height = 1;
-		if(isset($block['height']))
+		if(isset($block['pocet']))
 		{
-			if($block["height"] === 'eop')
+			if($block['pocet'] === 'strana')
 			{
 				if($dotted)
 				{
@@ -145,7 +152,7 @@ class OdyMarkdown extends GithubMarkdown
 			}
 			else
 			{
-				$height = intval($block['height']);
+				$height = intval($block['pocet']);
 			}
 		}
 		if($dotted)
