@@ -18,10 +18,17 @@ function popback()
 		}
 		else if(history.state.id)
 		{
-			metadataEvent.addCallback(function()
-				{
-					showLessonEditView(history.state.id, true);
-				});
+			if(imageSelectorOpen)
+			{
+				prepareImageSelector();
+			}
+			else
+			{
+				metadataEvent.addCallback(function()
+					{
+						showLessonEditView(history.state.id, true);
+					});
+			}
 		}
 		else if(history.state.page)
 		{

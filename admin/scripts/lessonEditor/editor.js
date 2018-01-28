@@ -28,6 +28,9 @@ function showLessonEditor(name, body, actionQueue, id)
 		<div class="button yellowButton" id="closeImageSelector">\
 			<i class=\"icon-up-open"></i> Zavřít\
 		</div>\
+		<div class="button greenButton" id="imageSelectorAdd">\
+			<i class=\"icon-plus"></i> Nahrát\
+		</div>\
 		<div id="imageWrapper"></div>\
 	</div>\
 </div>\
@@ -40,6 +43,7 @@ function showLessonEditor(name, body, actionQueue, id)
 	document.getElementById("save").onclick = function() {actionQueue.addDefaultCallback(); actionQueue.dispatch();};
 	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id, actionQueue);};
 	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
+	document.getElementById("imageSelectorAdd").onclick = function() {addImage(true);};
 
 	editor = new SimpleMDE({
 		autoDownloadFontAwesome: false,
