@@ -149,7 +149,6 @@ CREATE TABLE IF NOT EXISTS `images` (
 --
 
 INSERT INTO `images` (`id`, `time`) VALUES
-(0xed02b61fef4c40e890183acbe071316d, '2018-01-01 00:00:01');
 
 --
 -- Table structure for table `lessons`
