@@ -23,7 +23,7 @@ WHERE id = :id;
 SQL;
 	$updateSQL = <<<SQL
 UPDATE lessons
-SET name = :name, version = version + 1, body = :body
+SET name = :name, version = CURRENT_TIMESTAMP(3), body = :body
 WHERE id = :id
 LIMIT 1;
 SQL;

@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `competences_for_lessons` (
 CREATE TABLE IF NOT EXISTS `deleted_lessons` (
   `id` binary(16) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
-  `version` int(10) UNSIGNED NOT NULL,
+  `version` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
@@ -158,7 +158,7 @@ INSERT INTO `images` (`id`, `time`) VALUES
 CREATE TABLE IF NOT EXISTS `lessons` (
   `id` binary(16) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
-  `version` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `version` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`) USING BTREE
