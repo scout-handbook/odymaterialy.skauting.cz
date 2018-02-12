@@ -13,16 +13,15 @@ function addField()
 		{
 			history.back();
 		};
-	document.getElementById("addFieldSave").onclick = addFieldSave;
+
+	aq = new ActionQueue([new Action(APIURI + "/field", "POST", addFiledPayloadBuilder)]);
+	document.getElementById("addFieldSave").onclick = aq.closeDispatch;
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 	refreshLogin();
 }
 
-function addFieldSave()
+function addFiledPayloadBuilder()
 {
-	var payload = {"name": encodeURIComponent(document.getElementById("fieldName").value)};
-	sidePanelClose();
-	spinner();
-	retryAction(APIURI + "/field", "POST", payload);
+	return {"name": encodeURIComponent(document.getElementById("fieldName").value)};
 }

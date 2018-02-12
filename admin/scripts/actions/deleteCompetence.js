@@ -12,11 +12,9 @@ function deleteCompetenceOnClick(event)
 		}
 	}
 
-	dialog("Opravdu si přejete smazat kompetenci " + number + ": \"" + name + "\"?", "Ano", function()
-		{
-			spinner();
-			retryAction(APIURI + "/competence/" + encodeURIComponent(getAttribute(event, "id")), "DELETE", {});
-		}, "Ne", function(){history.back();});
+	aq = new ActionQueue([new Action(APIURI + "/competence/" + encodeURIComponent(getAttribute(event, "id")), "DELETE")]);
+
+	dialog("Opravdu si přejete smazat kompetenci " + number + ": \"" + name + "\"?", "Ano", aq.closeDispatch, "Ne", function(){history.back();});
 	history.pushState({"sidePanel": "open"}, "title", "/admin/competences");
 	refreshLogin();
 }
