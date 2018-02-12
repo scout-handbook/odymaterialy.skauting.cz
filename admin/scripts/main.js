@@ -3,7 +3,6 @@ function main()
 	refreshPreviewSetup();
 	metadataSetup();
 	historySetup();
-	retryActionSetup();
 	ActionQueueSetup();
 }
 
