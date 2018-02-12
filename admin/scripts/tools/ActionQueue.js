@@ -88,6 +88,11 @@ function ActionQueue(actions, retry)
 		{
 			queue.pop(true);
 		};
+	this.defaultDispatch = function()
+		{
+			queue.addDefaultCallback();
+			queue.dispatch();
+		};
 
 	this.after = function(response, action)
 		{
