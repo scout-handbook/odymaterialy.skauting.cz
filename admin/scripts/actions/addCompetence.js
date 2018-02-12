@@ -14,16 +14,15 @@ function addCompetence()
 		{
 			history.back();
 		};
-	document.getElementById("addCompetenceSave").onclick = addCompetenceSave;
+
+	aq = new ActionQueue([new Action(APIURI + "/competence", "POST", addCompetencePayloadBuilder)]);
+	document.getElementById("addCompetenceSave").onclick = aq.closeDispatch;
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/competences");
 	refreshLogin();
 }
 
-function addCompetenceSave()
+function addCompetencePayloadBuilder()
 {
-	var payload = {"number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
-	sidePanelClose();
-	spinner();
-	retryAction(APIURI + "/competence", "POST", payload);
+	return {"number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
 }

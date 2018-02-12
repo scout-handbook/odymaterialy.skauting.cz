@@ -93,6 +93,11 @@ function ActionQueue(actions, retry)
 			queue.addDefaultCallback();
 			queue.dispatch();
 		};
+	this.closeDispatch = function()
+		{
+			sidePanelClose();
+			queue.defaultDispatch();
+		};
 
 	this.after = function(response, action)
 		{
