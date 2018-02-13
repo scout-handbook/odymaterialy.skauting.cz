@@ -71,10 +71,10 @@ CREATE TABLE IF NOT EXISTS `competences_for_lessons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
--- Table structure for table `deleted_lessons`
+-- Table structure for table `lesson_history`
 --
 
-CREATE TABLE IF NOT EXISTS `deleted_lessons` (
+CREATE TABLE IF NOT EXISTS `lesson_history` (
   `id` binary(16) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
   `version` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -205,9 +205,9 @@ CREATE TABLE IF NOT EXISTS `users_in_groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
--- Indexes for table `deleted_lessons`
+-- Indexes for table `lesson_history`
 --
-ALTER TABLE `deleted_lessons` ADD FULLTEXT KEY `body` (`body`);
+ALTER TABLE `lesson_history` ADD FULLTEXT KEY `body` (`body`);
 
 --
 -- Indexes for table `lessons`

@@ -16,7 +16,7 @@ FROM lessons
 WHERE id = :id;
 SQL;
 	$copySQL = <<<SQL
-INSERT INTO deleted_lessons (id, name, version, body)
+INSERT INTO lesson_history (id, name, version, body)
 SELECT id, name, version, body
 FROM lessons
 WHERE id = :id;

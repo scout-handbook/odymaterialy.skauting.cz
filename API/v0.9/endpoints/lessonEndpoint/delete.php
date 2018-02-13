@@ -9,7 +9,7 @@ require_once($BASEPATH . '/v0.9/internal/Helper.php');
 $deleteLesson = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$copySQL = <<<SQL
-INSERT INTO deleted_lessons (id, name, version, body)
+INSERT INTO lesson_history (id, name, version, body)
 SELECT id, name, version, body
 FROM lessons
 WHERE id = :id;
