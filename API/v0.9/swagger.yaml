@@ -408,6 +408,56 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /lesson/{id}/history:
+    get:
+      summary: Get a list of all past versions of a lesson
+      tags:
+        - lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      responses:
+        '200':
+          description: A list of all versions of the lesson
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: Lesson 1
+                        version:
+                          type: integer
+                          example: 1
+                      required:
+                        - name
+                        - version
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /lesson/{id}/pdf:
     get:
       summary: Get the lesson in PDF
