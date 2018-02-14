@@ -411,6 +411,7 @@ paths:
   /lesson/{id}/history:
     get:
       summary: Get a list of all past versions of a lesson
+      description: User role must be **editor** or higher!
       tags:
         - lesson
       security:
@@ -449,6 +450,55 @@ paths:
                       required:
                         - name
                         - version
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /lesson/{id}/history/{version}:
+    get:
+      summary: Get the body of a past version of a lesson
+      description: User role must be **editor** or higher!
+      tags:
+        - lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+        - in: path
+          name: version
+          schema:
+            type: integer
+            example: 1
+          required: true
+          description: The version to be returned
+      responses:
+        '200':
+          description: The body of the lesson
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                    example: 200
+                  response:
+                    type: string
+                    format: markdown
+                    example: 'The body of Lesson 1'
                 required:
                   - status
                   - response
