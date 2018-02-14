@@ -106,6 +106,7 @@ function showLessonEditor(name, body, actionQueue, id)
 		]
 	});
 	editor.value(body);
+	editor.codemirror.getDoc().clearHistory();
 	editor.codemirror.on("change", editorOnChange);
 
 	document.getElementById("name").oninput = editorOnChange;
