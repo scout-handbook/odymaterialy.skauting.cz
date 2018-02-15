@@ -16,6 +16,10 @@ function prepareImageSelector(page, perPage)
 			{
 				renderImageSelector(response.response, page, perPage);
 			}
+			else if(response.type === "AuthenticationException")
+			{
+				window.location.replace(APIURI + "/login");
+			}
 			else
 			{
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");

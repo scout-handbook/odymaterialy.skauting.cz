@@ -43,6 +43,10 @@ function refreshMetadata()
 				GROUPS = response.response;
 				metadataEvent.trigger();
 			}
+			else if(response.type === "AuthenticationException")
+			{
+				window.location.replace(APIURI + "/login");
+			}
 			else
 			{
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
