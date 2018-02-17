@@ -8,7 +8,7 @@
 	position: absolute;
 	right: -600px;
 	top:0;
-	transition: right ease 0.3s;
+	transition: right ease 0.3s, width ease 0.3s;
 	width: 539px;
 	z-index: 10;
 }
