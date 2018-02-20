@@ -5,12 +5,11 @@ branches:
   only:
     - master
 script: ./deploy.sh
-before_deploy:
-  - cd swagger-ui/dist
 deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
+  local-dir: swagger-ui/dist
   on:
     branch: master
 notifications:
