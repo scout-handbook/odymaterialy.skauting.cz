@@ -126,3 +126,14 @@ header
 	top: 0;
 	width: 700px;
 }
+
+.lessonHistoryCurrent
+{
+	font-style: italic;
+	font-weight: bold;
+}
+
+.lessonHistoryVersion
+{
+	font-weight: bold;
+}
