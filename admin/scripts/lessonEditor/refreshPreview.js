@@ -8,9 +8,9 @@ function refreshPreviewSetup()
 	if(window.Worker)
 	{
 		worker = new Worker("scripts/lessonEditor/previewWorker.js");
-		worker.onmessage = function(message)
+		worker.onmessage = function(payload)
 		{
-			document.getElementById("preview-inner").innerHTML = filterXSS(message.data, xssOptions());
+			document.getElementById(payload.data.id).innerHTML = filterXSS(payload.data.body, xssOptions());
 			if(queue)
 			{
 				worker.postMessage(queue);
@@ -31,26 +31,26 @@ function refreshPreviewSetup()
 	}
 }
 
-function refreshPreview(name, markdown)
+function refreshPreview(name, markdown, id)
 {
-	markdown = "# " + name + "\n" + markdown;
+	payload = {"id": id, "body": "# " + name + "\n" + markdown};
 	if(window.Worker)
 	{
 		if(running)
 		{
-			queue = markdown;
+			queue = payload;
 		}
 		else
 		{
 			running = true;
-			worker.postMessage(markdown);
+			worker.postMessage(payload);
 		}
 	}
 	else
 	{
 		var html = "<h1>" + name + "</h1>";
-		html += filterXSS(converter.makeHtml(markdown), xssOptions());
-		document.getElementById("preview").innerHTML = html;
+		html += filterXSS(converter.makeHtml(payload.body), xssOptions());
+		document.getElementById(payload.id).innerHTML = html;
 	}
 }
 

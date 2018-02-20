@@ -37,7 +37,7 @@ function showLessonEditor(name, body, actionQueue, id)
 <div id="editor"><textarea></textarea></div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
-	refreshPreview(name, body);
+	refreshPreview(name, body, "preview-inner");
 
 	document.getElementById("discard").onclick = editorDiscard;
 	document.getElementById("save").onclick = actionQueue.defaultDispatch;
@@ -118,7 +118,7 @@ function showLessonEditor(name, body, actionQueue, id)
 function editorOnChange()
 {
 	changed = true;
-	refreshPreview(document.getElementById("name").value, editor.value());
+	refreshPreview(document.getElementById("name").value, editor.value(), "preview-inner");
 	refreshLogin();
 }
 

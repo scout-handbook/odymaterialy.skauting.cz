@@ -11,10 +11,10 @@ function main()
 	converter.setOption("smoothLivePreview", "true");
 }
 
-function process(message)
+function process(payload)
 {
-	var html = converter.makeHtml(message.data);
-	postMessage(html);
+	var html = converter.makeHtml(payload.data.body);
+	postMessage({"id": payload.data.id, "body": html});
 }
 
 main();
