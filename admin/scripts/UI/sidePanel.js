@@ -13,7 +13,7 @@ function sidePanelOpen()
 function sidePanelDoubleOpen()
 {
 	var sidePanel = document.getElementById("sidePanel");
-	sidePanel.style.width = "1000px";
+	sidePanel.style.width = "939px";
 }
 
 function sidePanelClose()
