@@ -30,7 +30,7 @@ function lessonHistoryOpen(id, actionQueue)
 function parseVersionToDate(version)
 {
 	var d = new Date(version);
-	return d.getDay() + ". " + d.getMonth() + ". " + d.getFullYear() + " " + d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
+	return d.getDate() + ". " + (d.getMonth() + 1) + ". " + d.getFullYear() + " " + d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
 }
 
 function lessonHistoryListRender(id, actionQueue, list)
