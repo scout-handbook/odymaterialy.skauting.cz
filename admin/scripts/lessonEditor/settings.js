@@ -1,4 +1,4 @@
-function lessonSettings(id, body, actionQueue, noHistory)
+function lessonSettings(id, actionQueue, noHistory)
 {
 	sidePanelOpen();
 	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-right-open\"></i>Zavřít</div>";
@@ -16,10 +16,10 @@ function lessonSettings(id, body, actionQueue, noHistory)
 		{
 			history.back();
 		};
-	document.getElementById("lessonHistoryOpen").onclick = function() {lessonHistoryOpen(id, body, actionQueue);};
-	document.getElementById("changeField").onclick = function() {changeLessonFieldOnClick(id, body, actionQueue);};
-	document.getElementById("changeCompetences").onclick = function() {changeLessonCompetencesOnClick(id, body, actionQueue);};
-	document.getElementById("changeGroups").onclick = function() {changeLessonGroupsOnClick(id, body, actionQueue);};
+	document.getElementById("lessonHistoryOpen").onclick = function() {lessonHistoryOpen(id, actionQueue);};
+	document.getElementById("changeField").onclick = function() {changeLessonFieldOnClick(id, actionQueue);};
+	document.getElementById("changeCompetences").onclick = function() {changeLessonCompetencesOnClick(id, actionQueue);};
+	document.getElementById("changeGroups").onclick = function() {changeLessonGroupsOnClick(id, actionQueue);};
 	if(!noHistory)
 	{
 		history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");

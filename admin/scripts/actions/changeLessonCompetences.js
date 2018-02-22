@@ -1,6 +1,6 @@
 var lessonCompetencesChanged = false;
 
-function changeLessonCompetencesOnClick(id, body, actionQueue)
+function changeLessonCompetencesOnClick(id, actionQueue)
 {
 	lessonCompetencesChanged = false;
 	var html = "<div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div>";
@@ -22,9 +22,9 @@ function changeLessonCompetencesOnClick(id, body, actionQueue)
 
 	document.getElementById("cancelEditorAction").onclick = function()
 		{
-			lessonSettings(id, body, actionQueue, true);
+			lessonSettings(id, actionQueue, true);
 		};
-	document.getElementById("changeLessonCompetencesSave").onclick = function() {changeLessonCompetencesSave(id, body, actionQueue);};
+	document.getElementById("changeLessonCompetencesSave").onclick = function() {changeLessonCompetencesSave(id, actionQueue);};
 
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var j = 0; j < nodes.length; j++)
@@ -40,7 +40,7 @@ function lessonCompetenceOnclick()
 	lessonCompetencesChanged = true;
 }
 
-function changeLessonCompetencesSave(id, body, actionQueue)
+function changeLessonCompetencesSave(id, actionQueue)
 {
 	if(lessonCompetencesChanged)
 	{
@@ -53,10 +53,10 @@ function changeLessonCompetencesSave(id, body, actionQueue)
 		}
 		actionQueue.actions.push(new Action(APIURI + "/lesson/" + id + "/competence", "PUT", function() {return {"competence": encodedCompetences};}));
 		lessonSettingsCache.competences = competences;
-		lessonSettings(id, body, actionQueue, true);
+		lessonSettings(id, actionQueue, true);
 	}
 	else
 	{
-		lessonSettings(id, body, actionQueue, true);
+		lessonSettings(id, actionQueue, true);
 	}
 }

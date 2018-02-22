@@ -1,6 +1,6 @@
 var lessonGroupsChanged = false;
 
-function changeLessonGroupsOnClick(id, body, actionQueue)
+function changeLessonGroupsOnClick(id, actionQueue)
 {
 	lessonGroupsChanged = false;
 	var html = "<div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div>";
@@ -32,9 +32,9 @@ function changeLessonGroupsOnClick(id, body, actionQueue)
 
 	document.getElementById("cancelEditorAction").onclick = function()
 		{
-			lessonSettings(id, body, actionQueue, true);
+			lessonSettings(id, actionQueue, true);
 		};
-	document.getElementById("changeLessonGroupsSave").onclick = function() {changeLessonGroupsSave(id, body, actionQueue);};
+	document.getElementById("changeLessonGroupsSave").onclick = function() {changeLessonGroupsSave(id, actionQueue);};
 
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
@@ -50,7 +50,7 @@ function lessonGroupsOnclick()
 	lessonGroupsChanged = true;
 }
 
-function changeLessonGroupsSave(id, body, actionQueue)
+function changeLessonGroupsSave(id, actionQueue)
 {
 	if(lessonGroupsChanged)
 	{
@@ -63,10 +63,10 @@ function changeLessonGroupsSave(id, body, actionQueue)
 		}
 		actionQueue.actions.push(new Action(APIURI + "/lesson/" + id + "/group", "PUT", function () {return {"group": encodedGroups};}));
 		lessonSettingsCache.groups = groups;
-		lessonSettings(id, body, actionQueue, true);
+		lessonSettings(id, actionQueue, true);
 	}
 	else
 	{
-		lessonSettings(id, body, actionQueue, true);
+		lessonSettings(id, actionQueue, true);
 	}
 }

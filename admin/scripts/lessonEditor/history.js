@@ -1,4 +1,4 @@
-function lessonHistoryOpen(id, body, actionQueue)
+function lessonHistoryOpen(id, actionQueue)
 {
 	sidePanelDoubleOpen();
 	var html = "<div id=\"lessonHistoryList\"><div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div><span id=\"lessonHistoryListHeader\"></span><h3 class=\"sidePanelTitle\">Historie lekce</h3><div id=\"lessonHistoryForm\"><div id=\"embeddedSpinner\"></div></div></div><div id=\"lessonHistoryPreview\"></div>";
@@ -6,14 +6,14 @@ function lessonHistoryOpen(id, body, actionQueue)
 
 	document.getElementById("cancelEditorAction").onclick = function()
 		{
-			lessonSettings(id, body, actionQueue, true);
+			lessonSettings(id, actionQueue, true);
 		};
 
 	request(APIURI + "/lesson/" + id + "/history", "GET", {}, function(response)
 		{
 			if(response.status === 200)
 			{
-				lessonHistoryListRender(id, body, actionQueue, response.response);
+				lessonHistoryListRender(id, actionQueue, response.response);
 			}
 			else if(response.type === "AuthenticationException")
 			{
@@ -24,7 +24,7 @@ function lessonHistoryOpen(id, body, actionQueue)
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	lessonHistoryPreviewShowCurrent(id, body);
+	lessonHistoryPreviewShowCurrent();
 }
 
 function parseVersionToDate(version)
@@ -33,7 +33,7 @@ function parseVersionToDate(version)
 	return d.getDay() + ". " + d.getMonth() + ". " + d.getFullYear() + " " + d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
 }
 
-function lessonHistoryListRender(id, body, actionQueue, list)
+function lessonHistoryListRender(id, actionQueue, list)
 {
 	var html = "<form id=\"sidePanelForm\">";
 	outer:
@@ -56,7 +56,7 @@ function lessonHistoryListRender(id, body, actionQueue, list)
 	document.getElementById("lessonHistoryForm").innerHTML = html;
 
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
-	nodes[0].onchange = function() {lessonHistoryPreviewShowCurrent(id, body);};
+	nodes[0].onchange = function() {lessonHistoryPreviewShowCurrent();};
 	if(nodes.length > 1)
 	{
 		for(var l = 1; l < nodes.length; l++)
@@ -66,21 +66,10 @@ function lessonHistoryListRender(id, body, actionQueue, list)
 	}
 }
 
-function lessonHistoryPreviewShowCurrent(id, body)
+function lessonHistoryPreviewShowCurrent()
 {
 	document.getElementById("lessonHistoryPreview").innerHTML = "<div id=\"embeddedSpinner\"></div>";
-	outer:
-	for(var i = 0; i < FIELDS.length; i++)
-	{
-		for(var j = 0; j < FIELDS[i].lessons.length; j++)
-		{
-			if(FIELDS[i].lessons[j].id === id)
-			{
-				refreshPreview(FIELDS[i].lessons[j].name, body, "lessonHistoryPreview");
-				break outer;
-			}
-		}
-	}
+	refreshPreview(document.getElementById("name").value, editor.value(), "lessonHistoryPreview");
 
 	document.getElementById("lessonHistoryListHeader").innerHTML = "";
 

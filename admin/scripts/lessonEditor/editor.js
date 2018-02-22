@@ -41,7 +41,7 @@ function showLessonEditor(name, body, actionQueue, id)
 
 	document.getElementById("discard").onclick = editorDiscard;
 	document.getElementById("save").onclick = actionQueue.defaultDispatch;
-	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id, body, actionQueue);};
+	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id, actionQueue);};
 	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
 	document.getElementById("imageSelectorAdd").onclick = function() {addImage(true);};
 
