@@ -1,7 +1,7 @@
 function lessonHistoryOpen(id, body, actionQueue)
 {
 	sidePanelDoubleOpen();
-	var html = "<div id=\"lessonHistoryList\"><div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div><h3 class=\"sidePanelTitle\">Historie lekce</h3><div id=\"lessonHistoryForm\"><div id=\"embeddedSpinner\"></div></div></div><div id=\"lessonHistoryPreview\"><div id=\"embeddedSpinner\"></div></div>";
+	var html = "<div id=\"lessonHistoryList\"><div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div><h3 class=\"sidePanelTitle\">Historie lekce</h3><div id=\"lessonHistoryForm\"><div id=\"embeddedSpinner\"></div></div></div><div id=\"lessonHistoryPreview\"></div>";
 	document.getElementById("sidePanel").innerHTML = html;
 
 	document.getElementById("cancelEditorAction").onclick = function()
@@ -13,7 +13,86 @@ function lessonHistoryOpen(id, body, actionQueue)
 		{
 			if(response.status === 200)
 			{
-				lessonHistoryListRender(id, response.response);
+				lessonHistoryListRender(id, body, response.response);
+			}
+			else if(response.type === "AuthenticationException")
+			{
+				dialog("Proběhlo automatické odhlášení. Přihlašte se a zkuste to znovu.");
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
+			}
+		});
+	lessonHistoryPreviewShowCurrent(id, body);
+}
+
+function parseVersionToDate(version)
+{
+	var d = new Date(version);
+	return d.getDay() + ". " + d.getMonth() + ". " + d.getFullYear() + " " + d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
+}
+
+function lessonHistoryListRender(id, body, list)
+{
+	var html = "<form id=\"sidePanelForm\">";
+	outer:
+	for(var i = 0; i < FIELDS.length; i++)
+	{
+		for(var j = 0; j < FIELDS[i].lessons.length; j++)
+		{
+			if(FIELDS[i].lessons[j].id === id)
+			{
+				html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"version\" checked><span class=\"formCustom formRadio\"></span></label><span class=\"lessonHistoryCurrent\">Současná verze</span> — " + parseVersionToDate(FIELDS[i].lessons[j].version) + "</div>";
+				break outer;
+			}
+		}
+	}
+	for(var k = 0; k < list.length; k++)
+	{
+		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"version\" data-name=\"" + list[k].name + "\" data-version=\"" + list[k].version + "\"><span class=\"formCustom formRadio\"></span></label><span class=\"lessonHistoryVersion\">" + list[k].name + "</span> — " + parseVersionToDate(list[k].version) + "</div>";
+	}
+	html += "</form>";
+	document.getElementById("lessonHistoryForm").innerHTML = html;
+
+	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
+	nodes[0].onchange = function() {lessonHistoryPreviewShowCurrent(id, body);};
+	if(nodes.length > 1)
+	{
+		for(var l = 1; l < nodes.length; l++)
+		{
+			nodes[l].onchange = function(event) {lessonHistoryPreviewShowVersion(id, event);};
+		}
+	}
+}
+
+function lessonHistoryPreviewShowCurrent(id, body)
+{
+	document.getElementById("lessonHistoryPreview").innerHTML = "<div id=\"embeddedSpinner\"></div>";
+	outer:
+	for(var i = 0; i < FIELDS.length; i++)
+	{
+		for(var j = 0; j < FIELDS[i].lessons.length; j++)
+		{
+			if(FIELDS[i].lessons[j].id === id)
+			{
+				refreshPreview(FIELDS[i].lessons[j].name, body, "lessonHistoryPreview");
+				break outer;
+			}
+		}
+	}
+
+	refreshLogin();
+}
+
+function lessonHistoryPreviewShowVersion(id, event)
+{
+	document.getElementById("lessonHistoryPreview").innerHTML = "<div id=\"embeddedSpinner\"></div>";
+	request(APIURI + "/lesson/" + id + "/history/" + event.target.dataset.version, "GET", {}, function(response)
+		{
+			if(response.status === 200)
+			{
+				refreshPreview(event.target.dataset.name, response.response, "lessonHistoryPreview");
 			}
 			else if(response.type === "AuthenticationException")
 			{
@@ -26,33 +105,4 @@ function lessonHistoryOpen(id, body, actionQueue)
 		});
 
 	refreshLogin();
-}
-
-function parseVersionToDate(version)
-{
-	var d = new Date(version);
-	return d.getDay() + ". " + d.getMonth() + ". " + d.getFullYear() + " " + d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
-}
-
-function lessonHistoryListRender(id, list)
-{
-	var html = "<form id=\"sidePanelForm\">";
-	outer:
-	for(var i = 0; i < FIELDS.length; i++)
-	{
-		for(var j = 0; j < FIELDS[i].lessons.length; j++)
-		{
-			if(FIELDS[i].lessons[j].id === id)
-			{
-				html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"version\" checked data-id=\"current\"><span class=\"formCustom formRadio\"></span></label><span class=\"lessonHistoryCurrent\">Současná verze</span> — " + parseVersionToDate(FIELDS[i].lessons[j].version) + "</div>";
-				break outer;
-			}
-		}
-	}
-	for(var k = 0; k < list.length; k++)
-	{
-		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"version\" data-id=\"current\"><span class=\"formCustom formRadio\"></span></label><span class=\"lessonHistoryVersion\">" + list[k].name + "</span> — " + parseVersionToDate(list[k].version) + "</div>";
-	}
-	html += "</form>";
-	document.getElementById("lessonHistoryForm").innerHTML = html;
 }
