@@ -2,10 +2,7 @@ function lessonSettings(id, actionQueue, noHistory)
 {
 	sidePanelOpen();
 	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-right-open\"></i>Zavřít</div>";
-	if(LOGINSTATE.role === "superuser") // TODO: Remove when feature is ready
-	{
-		html += "<div class=\"button\" id=\"lessonHistoryOpen\"><i class=\"icon-history\"></i>Historie lekce</div>";
-	}
+	html += "<div class=\"button\" id=\"lessonHistoryOpen\"><i class=\"icon-history\"></i>Historie lekce</div>";
 	html += renderField();
 	html += renderCompetences();
 	html += prerenderGroups();
