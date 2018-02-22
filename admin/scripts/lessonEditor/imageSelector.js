@@ -16,6 +16,10 @@ function prepareImageSelector(page, perPage)
 			{
 				renderImageSelector(response.response, page, perPage);
 			}
+			else if(response.type === "AuthenticationException")
+			{
+				window.location.replace(APIURI + "/login");
+			}
 			else
 			{
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
@@ -30,7 +34,7 @@ function renderImageSelector(list, page, perPage)
 	var start = perPage * (page - 1);
 	for(var i = start; i < Math.min(list.length, start + perPage); i++)
 	{
-		html += "<img src=\"" + APIURI + "/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\">";
+		html += "<div class=\"thumbnailContainer\"><div class=\"buttonContainer\"><img src=\"" + APIURI + "/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"></div></div>";
 	}
 	if(list.length > perPage)
 	{
@@ -90,7 +94,7 @@ function toggleImageSelector()
 	}
 	else
 	{
-		document.getElementById("imageSelector").style.top = "-91px";
+		document.getElementById("imageSelector").style.top = "-76px";
 	}
 	imageSelectorOpen = !imageSelectorOpen;
 	refreshLogin();

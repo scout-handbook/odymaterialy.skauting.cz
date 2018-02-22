@@ -2,6 +2,7 @@ function lessonSettings(id, actionQueue, noHistory)
 {
 	sidePanelOpen();
 	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-right-open\"></i>Zavřít</div>";
+	html += "<div class=\"button\" id=\"lessonHistoryOpen\"><i class=\"icon-history\"></i>Historie lekce</div>";
 	html += renderField();
 	html += renderCompetences();
 	html += prerenderGroups();
@@ -12,6 +13,7 @@ function lessonSettings(id, actionQueue, noHistory)
 		{
 			history.back();
 		};
+	document.getElementById("lessonHistoryOpen").onclick = function() {lessonHistoryOpen(id, actionQueue);};
 	document.getElementById("changeField").onclick = function() {changeLessonFieldOnClick(id, actionQueue);};
 	document.getElementById("changeCompetences").onclick = function() {changeLessonCompetencesOnClick(id, actionQueue);};
 	document.getElementById("changeGroups").onclick = function() {changeLessonGroupsOnClick(id, actionQueue);};

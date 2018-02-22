@@ -1,4 +1,4 @@
-function addImage()
+function addImage(inEditor)
 {
 	sidePanelOpen();
 	var html = "<div class=\"button yellowButton\" id=\"sidePanelCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
@@ -18,7 +18,14 @@ function addImage()
 
 	document.getElementById("addImageFile").onchange = changeLabel;
 
-	history.pushState({"sidePanel": "open"}, "title", "/admin/images");
+	if(inEditor)
+	{
+		history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
+	}
+	else
+	{
+		history.pushState({"sidePanel": "open"}, "title", "/admin/images");
+	}
 	refreshLogin();
 }
 

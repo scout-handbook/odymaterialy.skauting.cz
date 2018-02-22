@@ -42,7 +42,7 @@ h2.mainPage, h3.mainPage, .noNewline
 	position: absolute;
 	text-align: center;
 	transition: color ease 0.15s, border-color ease 0.15s, background-color ease 0.15s;
-	width: 150px;
+	width: 140px;
 }
 
 .topBarTab:hover, .activeTopBarTab
@@ -60,22 +60,22 @@ h2.mainPage, h3.mainPage, .noNewline
 
 #competenceManager
 {
-	left: 452px;
+	left: 442px;
 }
 
 #imageManager
 {
-	left: 603px;
+	left: 583px;
 }
 
 #userManager
 {
-	left: 754px;
+	left: 724px;
 }
 
 #groupManager
 {
-	left: 905px;
+	left: 865px;
 	padding-bottom: 11px;
 	padding-top: 17px;
 }

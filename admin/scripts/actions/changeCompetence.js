@@ -24,7 +24,9 @@ function changeCompetenceOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeCompetenceSave").onclick = function() {changeCompetenceSave(getAttribute(event, "id"));};
+
+	aq = new ActionQueue([new Action(APIURI + "/competence/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeCompetencePayloadBuilder)]);
+	document.getElementById("changeCompetenceSave").onclick = aq.closeDispatch;
 
 	function addOnChange(id)
 	{
@@ -45,17 +47,7 @@ function changeCompetenceOnClick(event)
 	refreshLogin();
 }
 
-function changeCompetenceSave(id)
+function changeCompetencePayloadBuilder()
 {
-	if(competenceChanged)
-	{
-		var payload = {"number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
-		sidePanelClose();
-		spinner();
-		retryAction(APIURI + "/competence/" + encodeURIComponent(id), "PUT", payload);
-	}
-	else
-	{
-		history.back();
-	}
+	return {"number": encodeURIComponent(document.getElementById("competenceNumber").value), "name": encodeURIComponent(document.getElementById("competenceName").value), "description": encodeURIComponent(document.getElementById("competenceDescription").value)};
 }

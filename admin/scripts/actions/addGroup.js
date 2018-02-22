@@ -13,16 +13,15 @@ function addGroup()
 		{
 			history.back();
 		};
-	document.getElementById("addGroupSave").onclick = addGroupSave;
+
+	aq = new ActionQueue([new Action(APIURI + "/group", "POST", addGroupPayloadBuilder)]);
+	document.getElementById("addGroupSave").onclick = aq.closeDispatch;
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/groups");
 	refreshLogin();
 }
 
-function addGroupSave()
+function addGroupPayloadBuilder()
 {
-	var payload = {"name": encodeURIComponent(document.getElementById("groupName").value)};
-	sidePanelClose();
-	spinner();
-	retryAction(APIURI + "/group", "POST", payload);
+	return {"name": encodeURIComponent(document.getElementById("groupName").value)};
 }

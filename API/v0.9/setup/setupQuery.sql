@@ -5,11 +5,11 @@
 CREATE TABLE IF NOT EXISTS `competences` (
   `id` binary(16) NOT NULL,
   `number` int(11) UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
+  `description` text COLLATE utf8mb4_czech_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Dumping data for table `competences`
@@ -68,18 +68,7 @@ CREATE TABLE IF NOT EXISTS `competences_for_lessons` (
   `competence_id` binary(16) NOT NULL,
   KEY `lesson_id` (`lesson_id`) USING BTREE,
   KEY `competence_id` (`competence_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-
---
--- Table structure for table `deleted_lessons`
---
-
-CREATE TABLE IF NOT EXISTS `deleted_lessons` (
-  `id` binary(16) NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
-  `version` int(10) UNSIGNED NOT NULL,
-  `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Table structure for table `fields`
@@ -87,10 +76,10 @@ CREATE TABLE IF NOT EXISTS `deleted_lessons` (
 
 CREATE TABLE IF NOT EXISTS `fields` (
   `id` binary(16) NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Dumping data for table `fields`
@@ -112,10 +101,10 @@ INSERT INTO `fields` (`id`, `name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `groups` (
   `id` binary(16) NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Dumping data for table `groups`
@@ -133,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `groups_for_lessons` (
   `group_id` binary(16) NOT NULL,
   KEY `lesson_id` (`lesson_id`),
   KEY `group_id` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Table structure for table `images`
@@ -142,14 +131,7 @@ CREATE TABLE IF NOT EXISTS `groups_for_lessons` (
 CREATE TABLE IF NOT EXISTS `images` (
   `id` binary(16) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-
---
--- Dumping data for table `images`
---
-
-INSERT INTO `images` (`id`, `time`) VALUES
-(0xed02b61fef4c40e890183acbe071316d, '2018-01-01 00:00:01');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Table structure for table `lessons`
@@ -157,12 +139,12 @@ INSERT INTO `images` (`id`, `time`) VALUES
 
 CREATE TABLE IF NOT EXISTS `lessons` (
   `id` binary(16) NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
-  `version` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
+  `version` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `body` text COLLATE utf8mb4_czech_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Table structure for table `lessons_in_fields`
@@ -173,7 +155,19 @@ CREATE TABLE IF NOT EXISTS `lessons_in_fields` (
   `lesson_id` binary(16) NOT NULL,
   UNIQUE KEY `lesson_id` (`lesson_id`) USING BTREE,
   KEY `field_id` (`field_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
+--
+-- Table structure for table `lesson_history`
+--
+
+CREATE TABLE IF NOT EXISTS `lesson_history` (
+  `id` binary(16) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
+  `version` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `body` text COLLATE utf8mb4_czech_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Table structure for table `users`
@@ -181,11 +175,11 @@ CREATE TABLE IF NOT EXISTS `lessons_in_fields` (
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
-  `role` enum('user','editor','administrator','superuser') CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL DEFAULT 'user',
+  `name` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
+  `role` enum('user','editor','administrator','superuser') COLLATE utf8mb4_czech_ci NOT NULL DEFAULT 'user',
   PRIMARY KEY (`id`),
   UNIQUE KEY `ID` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Dumping data for table `users`
@@ -203,17 +197,21 @@ CREATE TABLE IF NOT EXISTS `users_in_groups` (
   `group_id` binary(16) NOT NULL,
   KEY `user_id` (`user_id`),
   KEY `group_id` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-
---
--- Indexes for table `deleted_lessons`
---
-ALTER TABLE `deleted_lessons` ADD FULLTEXT KEY `body` (`body`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Indexes for table `lessons`
 --
 ALTER TABLE `lessons` ADD FULLTEXT KEY `body` (`body`);
+
+--
+-- Indexes for table `lesson_history`
+--
+ALTER TABLE `lesson_history` ADD FULLTEXT KEY `body` (`body`);
+
+--
+-- Constraints for dumped tables
+--
 
 --
 -- Constraints for table `competences_for_lessons`

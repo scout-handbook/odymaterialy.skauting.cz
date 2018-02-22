@@ -100,11 +100,45 @@ header
 	padding-bottom: 30px;
 	position: absolute;
 	right: 0;
-	top: 91px;
+	top: 76px;
 }
 
 #imageWrapper
 {
 	margin: 0 auto;
 	max-width: 770px;
+}
+
+#lessonHistoryList
+{
+	bottom: 0;
+	overflow-y: auto;
+	padding-bottom: 30px;
+	padding-top: 30px;
+	position: absolute;
+	top: 0;
+	width: 400px;
+}
+
+#lessonHistoryPreview
+{
+	border-left: solid 1px #bfbfbf;
+	bottom: 0;
+	left: 430px;
+	overflow-y: auto;
+	padding: 0 20px 20px 20px;
+	position: absolute;
+	top: 0;
+	width: 528px;
+}
+
+.lessonHistoryCurrent
+{
+	font-style: italic;
+	font-weight: bold;
+}
+
+.lessonHistoryVersion
+{
+	font-weight: bold;
 }

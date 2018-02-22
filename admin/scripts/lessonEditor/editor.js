@@ -28,18 +28,22 @@ function showLessonEditor(name, body, actionQueue, id)
 		<div class="button yellowButton" id="closeImageSelector">\
 			<i class=\"icon-up-open"></i> Zavřít\
 		</div>\
+		<div class="button greenButton" id="imageSelectorAdd">\
+			<i class=\"icon-plus"></i> Nahrát\
+		</div>\
 		<div id="imageWrapper"></div>\
 	</div>\
 </div>\
 <div id="editor"><textarea></textarea></div><div id="preview"><div id="preview-inner"></div></div>';
 
 	document.getElementsByTagName("main")[0].innerHTML = html;
-	refreshPreview(name, body);
+	refreshPreview(name, body, "preview-inner");
 
 	document.getElementById("discard").onclick = editorDiscard;
-	document.getElementById("save").onclick = function() {actionQueue.addDefaultCallback(); actionQueue.dispatch();};
+	document.getElementById("save").onclick = actionQueue.defaultDispatch;
 	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id, actionQueue);};
 	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
+	document.getElementById("imageSelectorAdd").onclick = function() {addImage(true);};
 
 	editor = new SimpleMDE({
 		autoDownloadFontAwesome: false,
@@ -102,6 +106,7 @@ function showLessonEditor(name, body, actionQueue, id)
 		]
 	});
 	editor.value(body);
+	editor.codemirror.getDoc().clearHistory();
 	editor.codemirror.on("change", editorOnChange);
 
 	document.getElementById("name").oninput = editorOnChange;
@@ -113,7 +118,7 @@ function showLessonEditor(name, body, actionQueue, id)
 function editorOnChange()
 {
 	changed = true;
-	refreshPreview(document.getElementById("name").value, editor.value());
+	refreshPreview(document.getElementById("name").value, editor.value(), "preview-inner");
 	refreshLogin();
 }
 

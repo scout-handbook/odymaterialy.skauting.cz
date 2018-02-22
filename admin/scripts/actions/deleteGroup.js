@@ -10,11 +10,8 @@ function deleteGroupOnClick(event)
 		}
 	}
 
-	dialog("Opravdu si přejete smazat skupinu \"" + name + "\"?", "Ano", function()
-		{
-			spinner();
-			retryAction(APIURI + "/group/" + encodeURIComponent(getAttribute(event, "id")), "DELETE", {});
-		}, "Ne", function(){history.back();});
+	aq = new ActionQueue([new Action(APIURI + "/group/" + encodeURIComponent(getAttribute(event, "id")), "DELETE")]);
+	dialog("Opravdu si přejete smazat skupinu \"" + name + "\"?", "Ano", aq.closeDispatch, "Ne", function(){history.back();});
 	history.pushState({"sidePanel": "open"}, "title", "/admin/groups");
 	refreshLogin();
 }

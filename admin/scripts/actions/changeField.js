@@ -23,7 +23,9 @@ function changeFieldOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeFieldSave").onclick = function() {changeFieldSave(getAttribute(event, "id"));};
+
+	aq = new ActionQueue([new Action(APIURI + "/field/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeFieldPayloadBuilder)]);
+	document.getElementById("changeFieldSave").onclick = aq.closeDispatch;
 
 	document.getElementById("fieldName").oninput = function()
 		{
@@ -38,17 +40,7 @@ function changeFieldOnClick(event)
 	refreshLogin();
 }
 
-function changeFieldSave(id)
+function changeFieldPayloadBuilder()
 {
-	if(fieldChanged)
-	{
-		var payload = {"name": encodeURIComponent(document.getElementById("fieldName").value)};
-		sidePanelClose();
-		spinner();
-		retryAction(APIURI + "/field/" + encodeURIComponent(id), "PUT", payload);
-	}
-	else
-	{
-		history.back();
-	}
+	return {"name": encodeURIComponent(document.getElementById("fieldName").value)};
 }

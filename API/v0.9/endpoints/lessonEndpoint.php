@@ -18,6 +18,7 @@ require_once($BASEPATH . '/v0.9/endpoints/lessonEndpoint/delete.php');
 require_once($BASEPATH . '/v0.9/endpoints/lessonCompetenceEndpoint.php');
 require_once($BASEPATH . '/v0.9/endpoints/lessonFieldEndpoint.php');
 require_once($BASEPATH . '/v0.9/endpoints/lessonGroupEndpoint.php');
+require_once($BASEPATH . '/v0.9/endpoints/lessonHistoryEndpoint.php');
 require_once($BASEPATH . '/v0.9/endpoints/lessonPDFEndpoint.php');
 
 use Ramsey\Uuid\Uuid;
@@ -26,6 +27,7 @@ $lessonEndpoint = new HandbookAPI\Endpoint();
 $lessonEndpoint->addSubEndpoint('competence', $lessonCompetenceEndpoint);
 $lessonEndpoint->addSubEndpoint('field', $lessonFieldEndpoint);
 $lessonEndpoint->addSubEndpoint('group', $lessonGroupEndpoint);
+$lessonEndpoint->addSubEndpoint('history', $lessonHistoryEndpoint);
 $lessonEndpoint->addSubEndpoint('pdf', $lessonPDFEndpoint);
 
 function checkLessonGroup(\Ramsey\Uuid\UuidInterface $lessonId, bool $overrideGroup = false) : bool

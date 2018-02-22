@@ -26,14 +26,14 @@ SQL;
 	$lessonVersion = '';
 	$db->bindColumn('id', $lessonId);
 	$db->bindColumn('name', $lessonName);
-	$db->bindColumn('version', $lessonVersion);
+	$db->bindColumn(3, $lessonVersion);
 
 	while($db->fetch())
 	{
 		if(checkLessonGroup(Uuid::fromBytes($lessonId), $overrideGroup))
 		{
 			// Create a new Lesson in the newly-created Field
-			$container->lessons[] = new HandbookAPI\Lesson($lessonId, $lessonName, intval($lessonVersion));
+			$container->lessons[] = new HandbookAPI\Lesson($lessonId, $lessonName, floatval($lessonVersion));
 
 			// Find out the competences this Lesson belongs to
 			$db2 = new HandbookAPI\Database();
@@ -69,13 +69,13 @@ SELECT id, name
 FROM fields;
 SQL;
 	$anonymousSQL = <<<SQL
-SELECT lessons.id, lessons.name, lessons.version
+SELECT lessons.id, lessons.name, UNIX_TIMESTAMP(lessons.version)
 FROM lessons
 LEFT JOIN lessons_in_fields ON lessons.id = lessons_in_fields.lesson_id
 WHERE lessons_in_fields.field_id IS NULL;
 SQL;
 	$lessonSQL = <<<SQL
-SELECT lessons.id, lessons.name, lessons.version
+SELECT lessons.id, lessons.name, UNIX_TIMESTAMP(lessons.version)
 FROM lessons
 JOIN lessons_in_fields ON lessons.id = lessons_in_fields.lesson_id
 WHERE lessons_in_fields.field_id = :field_id;

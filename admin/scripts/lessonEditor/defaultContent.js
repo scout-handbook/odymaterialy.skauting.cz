@@ -31,7 +31,7 @@ začít nový odstavec, musím vynechat jeden řádek. Můžu udělat kus textu 
 \n\
 Můžu do textu vložit [odkaz](http://tiny.cc/PAIN), při tisku se adresa dá do závorky za textem. Fungují i obrázky:\n\
 \n\
-![Text po najetí kurzorem](" + APIURI + "/image/ed02b61f-ef4c-40e8-9018-3acbe071316d)\n\
+![Text po najetí kurzorem](" + APIURI + "/image/00000000-0000-0000-0000-000000000000)\n\
 \n\
 No a taky můžu dělat tabulky:\n\
 \n\

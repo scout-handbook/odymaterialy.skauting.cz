@@ -15,11 +15,11 @@ class Lesson implements \JsonSerializable
 	public $competences = array();
 	public $lowestCompetence;
 
-	public function __construct(string $id, string $name, int $version)
+	public function __construct(string $id, string $name, float $version)
 	{
 		$this->id = $id;
 		$this->name = Helper::xssSanitize($name);
-		$this->version = $version;
+		$this->version = round($version * 1000);
 	}
 
 	public function jsonSerialize() : array

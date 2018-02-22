@@ -12,6 +12,10 @@ function showLessonEditView(id, noHistory)
 						renderLessonEditView(id, response.response, noHistory);
 					});
 			}
+			else if(response.type === "AuthenticationException")
+			{
+				window.location.replace(APIURI + "/login");
+			}
 			else
 			{
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");

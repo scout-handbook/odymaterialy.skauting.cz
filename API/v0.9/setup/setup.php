@@ -18,12 +18,12 @@ mkdir($IMAGEPATH . '/thumbnail', 0750);
 mkdir($IMAGEPATH . '/tmp', 0750);
 copy($BASEPATH . '/v0.9/setup/images_htaccess', $IMAGEPATH . '/.htaccess');
 
-copy($BASEPATH . '/v0.9/setup/original.jpg', $IMAGEPATH . '/original/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg');
-copy($BASEPATH . '/v0.9/setup/web.jpg', $IMAGEPATH . '/web/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg');
-copy($BASEPATH . '/v0.9/setup/thumbnail.jpg', $IMAGEPATH . '/thumbnail/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg');
-chmod($IMAGEPATH . '/original/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg', 0444);
-chmod($IMAGEPATH . '/web/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg', 0444);
-chmod($IMAGEPATH . '/thumbnail/ed02b61f-ef4c-40e8-9018-3acbe071316d.jpg', 0444);
+copy($BASEPATH . '/v0.9/setup/original.jpg', $IMAGEPATH . '/original/00000000-0000-0000-0000-000000000000.jpg');
+copy($BASEPATH . '/v0.9/setup/web.jpg', $IMAGEPATH . '/web/00000000-0000-0000-0000-000000000000.jpg');
+copy($BASEPATH . '/v0.9/setup/thumbnail.jpg', $IMAGEPATH . '/thumbnail/00000000-0000-0000-0000-000000000000.jpg');
+chmod($IMAGEPATH . '/original/00000000-0000-0000-0000-000000000000.jpg', 0444);
+chmod($IMAGEPATH . '/web/00000000-0000-0000-0000-000000000000.jpg', 0444);
+chmod($IMAGEPATH . '/thumbnail/00000000-0000-0000-0000-000000000000.jpg', 0444);
 
 $file_content = file($BASEPATH . '/v0.9/setup/setup.php');
 $file_content[7] = "die(); // Comment out this line by putting // at its beginning. Do not delete this line.\n";

@@ -23,7 +23,9 @@ function changeGroupOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeGroupSave").onclick = function() {changeGroupSave(getAttribute(event, "id"));};
+
+	aq = new ActionQueue([new Action(APIURI + "/group/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeGrouPayloadBuilder)]);
+	document.getElementById("changeGroupSave").onclick = aq.closeDispatch;
 
 	document.getElementById("groupName").oninput = function()
 		{
@@ -38,17 +40,7 @@ function changeGroupOnClick(event)
 	refreshLogin();
 }
 
-function changeGroupSave(id)
+function changeGrouPayloadBuilder()
 {
-	if(groupChanged)
-	{
-		var payload = {"name": encodeURIComponent(document.getElementById("groupName").value)};
-		sidePanelClose();
-		spinner();
-		retryAction(APIURI + "/group/" + encodeURIComponent(id), "PUT", payload);
-	}
-	else
-	{
-		history.back();
-	}
+	return {"name": encodeURIComponent(document.getElementById("groupName").value)};
 }

@@ -34,7 +34,10 @@ function changeUserGroupsOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeUserGroupsSave").onclick = function() {changeUserGroupsSave(getAttribute(event, "id"))};
+
+	aq = new ActionQueue([new Action(APIURI + "/user/" + encodeURIComponent(getAttribute(event, "id")) + "/group", "PUT", changeUserPayloadBuilder)]);
+	document.getElementById("changeUserGroupsSave").onclick = aq.closeDispatch;
+
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
@@ -50,23 +53,13 @@ function userGroupsOnclick()
 	groupsChanged = true;
 }
 
-function changeUserGroupsSave(id)
+function changeUserPayloadBuilder()
 {
-	if(groupsChanged)
+	var groups = parseBoolForm();
+	var encodedGroups = [];
+	for(i = 0; i < groups.length; i++)
 	{
-		var groups = parseBoolForm();
-		var encodedGroups = [];
-		for(i = 0; i < groups.length; i++)
-		{
-			encodedGroups.push(encodeURIComponent(groups[i]));
-		}
-		var payload = {"group": encodedGroups};
-		sidePanelClose();
-		spinner();
-		retryAction(APIURI + "/user/" + encodeURIComponent(id) + "/group", "PUT", payload);
+		encodedGroups.push(encodeURIComponent(groups[i]));
 	}
-	else
-	{
-		history.back();
-	}
+	return {"group": encodedGroups};
 }

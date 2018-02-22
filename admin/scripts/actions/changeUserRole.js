@@ -32,7 +32,10 @@ function changeUserRoleOnClick(event)
 		{
 			history.back();
 		};
-	document.getElementById("changeUserRoleSave").onclick = function() {changeUserRoleSave(getAttribute(event, "id"))};
+
+	aq = new ActionQueue([new Action(APIURI + "/user/" + encodeURIComponent(getAttribute(event, "id")) + "/role", "PUT", changeUserRolePayloadBuilder)]);
+	document.getElementById("changeUserRoleSave").onclick = aq.closeDispatch;
+
 	document.getElementById("roleSelect").onchange = function()
 		{
 			roleChanged = true;
@@ -42,18 +45,8 @@ function changeUserRoleOnClick(event)
 	refreshLogin();
 }
 
-function changeUserRoleSave(id)
+function changeUserRolePayloadBuilder()
 {
-	if(roleChanged)
-	{
-		var sel = document.getElementById("roleSelect");
-		var payload = {"role": encodeURIComponent(sel.options[sel.selectedIndex].value)};
-		sidePanelClose();
-		spinner();
-		retryAction(APIURI + "/user/" + encodeURIComponent(id) + "/role", "PUT", payload);
-	}
-	else
-	{
-		history.back();
-	}
+	var sel = document.getElementById("roleSelect");
+	return {"role": encodeURIComponent(sel.options[sel.selectedIndex].value)};
 }

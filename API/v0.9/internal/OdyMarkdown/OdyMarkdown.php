@@ -70,10 +70,34 @@ class OdyMarkdown extends GithubMarkdown
 	private function consumeCommand(array $lines, int $current, string $command) : array
 	{
 		$block = [$command];
+		[$argumentString, $next] = self::getArgumentString($lines, $current, $command);
+		$argumentArray = explode(',', strval($argumentString));
+		foreach($argumentArray as $arg)
+		{
+			$keyval = explode('=', $arg);
+			if(count($keyval) === 1)
+			{
+				$block[$keyval[0]] = true;
+			}
+			elseif(count($keyval) === 2)
+			{
+				$block[$keyval[0]] = $keyval[1];
+			}
+			else
+			{
+				break;
+			}
+		}
+		return [$block, $next];
+	}
+
+
+	private static function getArgumentString(array $lines, int $current, string $command) : array
+	{
 		$line = rtrim($lines[$current]);
-		$start = intval(mb_strpos($line, '[', mb_strlen($command) + 1)) + 1;
 		$next = $current;
 		$argumentString = '';
+		$start = intval(mb_strpos($line, '[', mb_strlen($command) + 1)) + 1;
 		if($start !== false)
 		{
 			$stop = mb_strpos($line, ']', $start);
@@ -102,24 +126,7 @@ class OdyMarkdown extends GithubMarkdown
 			}
 		}
 		$argumentString = str_replace(' ', '', strval($argumentString));
-		$argumentArray = explode(',', strval($argumentString));
-		foreach($argumentArray as $arg)
-		{
-			$keyval = explode('=', $arg);
-			if(count($keyval) === 1)
-			{
-				$block[$keyval[0]] = true;
-			}
-			elseif(count($keyval) === 2)
-			{
-				$block[$keyval[0]] = $keyval[1];
-			}
-			else
-			{
-				break;
-			}
-		}
-		return [$block, $next];
+		return [$argumentString, $next];
 	}
 
 	// Notes extension
