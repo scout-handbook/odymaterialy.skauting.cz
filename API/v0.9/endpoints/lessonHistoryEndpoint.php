@@ -56,11 +56,12 @@ SQL;
 	{
 		throw new HandbookAPI\InvalidArgumentTypeException('number', ['Integer']);
 	}
+	$version = strval($version);
 
 	$db = new HandbookAPI\Database();
 	$db->prepare($SQL);
 	$db->bindParam(':id', $id, PDO::PARAM_STR);
-	$db->bindParam(':version', $version, PDO::PARAM_INT);
+	$db->bindParam(':version', $version, PDO::PARAM_STR);
 	$db->execute();
 	$body = '';
 	$db->bindColumn('body', $body);
