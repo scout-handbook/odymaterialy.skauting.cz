@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonPDFEndpoint = new HandbookAPI\Endpoint();
 
-$getLessonLatex = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEPATH) : void
+$getLessonPDF = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEPATH) : void
 {
 	$SQL = <<<SQL
 SELECT name
@@ -79,4 +79,4 @@ SQL;
 	header('content-type:application/pdf; charset=utf-8');
 	$mpdf->Output();
 };
-$lessonPDFEndpoint->setListMethod(new HandbookAPI\Role('guest'), $getLessonLatex);
+$lessonPDFEndpoint->setListMethod(new HandbookAPI\Role('guest'), $getLessonPDF);
