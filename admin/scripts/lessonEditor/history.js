@@ -1,7 +1,7 @@
 function lessonHistoryOpen(id, body, actionQueue)
 {
 	sidePanelDoubleOpen();
-	var html = "<div id=\"lessonHistoryList\"><div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div><h3 class=\"sidePanelTitle\">Historie lekce</h3><div id=\"lessonHistoryForm\"><div id=\"embeddedSpinner\"></div></div></div><div id=\"lessonHistoryPreview\"></div>";
+	var html = "<div id=\"lessonHistoryList\"><div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div><span id=\"lessonHistoryListHeader\"></span><h3 class=\"sidePanelTitle\">Historie lekce</h3><div id=\"lessonHistoryForm\"><div id=\"embeddedSpinner\"></div></div></div><div id=\"lessonHistoryPreview\"></div>";
 	document.getElementById("sidePanel").innerHTML = html;
 
 	document.getElementById("cancelEditorAction").onclick = function()
@@ -13,7 +13,7 @@ function lessonHistoryOpen(id, body, actionQueue)
 		{
 			if(response.status === 200)
 			{
-				lessonHistoryListRender(id, body, response.response);
+				lessonHistoryListRender(id, body, actionQueue, response.response);
 			}
 			else if(response.type === "AuthenticationException")
 			{
@@ -33,7 +33,7 @@ function parseVersionToDate(version)
 	return d.getDay() + ". " + d.getMonth() + ". " + d.getFullYear() + " " + d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
 }
 
-function lessonHistoryListRender(id, body, list)
+function lessonHistoryListRender(id, body, actionQueue, list)
 {
 	var html = "<form id=\"sidePanelForm\">";
 	outer:
@@ -61,7 +61,7 @@ function lessonHistoryListRender(id, body, list)
 	{
 		for(var l = 1; l < nodes.length; l++)
 		{
-			nodes[l].onchange = function(event) {lessonHistoryPreviewShowVersion(id, event);};
+			nodes[l].onchange = function(event) {lessonHistoryPreviewShowVersion(id, actionQueue, event);};
 		}
 	}
 }
@@ -82,17 +82,19 @@ function lessonHistoryPreviewShowCurrent(id, body)
 		}
 	}
 
+	document.getElementById("lessonHistoryListHeader").innerHTML = "";
+
 	refreshLogin();
 }
 
-function lessonHistoryPreviewShowVersion(id, event)
+function lessonHistoryPreviewShowVersion(id, actionQueue, event)
 {
 	document.getElementById("lessonHistoryPreview").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	request(APIURI + "/lesson/" + id + "/history/" + event.target.dataset.version, "GET", {}, function(response)
 		{
 			if(response.status === 200)
 			{
-				refreshPreview(event.target.dataset.name, response.response, "lessonHistoryPreview");
+				lessonHistoryPreviewRenderVersion(id, event.target.dataset.name, response.response, actionQueue);
 			}
 			else if(response.type === "AuthenticationException")
 			{
@@ -104,5 +106,21 @@ function lessonHistoryPreviewShowVersion(id, event)
 			}
 		});
 
+	document.getElementById("lessonHistoryListHeader").innerHTML = "";
+
 	refreshLogin();
+}
+
+function lessonHistoryPreviewRenderVersion(id, name, body, actionQueue)
+{
+	refreshPreview(name, body, "lessonHistoryPreview");
+	var html = "<div class=\"button greenButton\" id=\"lessonHistoryRevert\"><i class=\"icon-history\"></i>Obnovit</div>";
+	document.getElementById("lessonHistoryListHeader").innerHTML = html;
+
+	document.getElementById("lessonHistoryRevert").onclick = function()
+		{
+			document.getElementById("name").value = name;
+			editor.value(body);
+			lessonSettings(id, body, actionQueue, true);
+		};
 }
