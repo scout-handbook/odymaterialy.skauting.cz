@@ -1,4 +1,4 @@
-function lessonHistoryOpen(id, actionQueue)
+function lessonHistoryOpen(id, body, actionQueue)
 {
 	sidePanelDoubleOpen();
 	var html = "<div id=\"lessonHistoryList\"><div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div><h3 class=\"sidePanelTitle\">Historie lekce</h3><div id=\"lessonHistoryForm\"><div id=\"embeddedSpinner\"></div></div></div><div id=\"lessonHistoryPreview\"><div id=\"embeddedSpinner\"></div></div>";
@@ -6,7 +6,7 @@ function lessonHistoryOpen(id, actionQueue)
 
 	document.getElementById("cancelEditorAction").onclick = function()
 		{
-			lessonSettings(id, actionQueue, true);
+			lessonSettings(id, body, actionQueue, true);
 		};
 
 	request(APIURI + "/lesson/" + id + "/history", "GET", {}, function(response)

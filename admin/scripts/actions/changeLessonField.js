@@ -1,6 +1,6 @@
 var lessonFieldChanged = false;
 
-function changeLessonFieldOnClick(id, actionQueue)
+function changeLessonFieldOnClick(id, body, actionQueue)
 {
 	lessonFieldChanged = false;
 	var html = "<div class=\"button yellowButton\" id=\"cancelEditorAction\"><i class=\"icon-cancel\"></i>Zrušit</div>";
@@ -42,9 +42,9 @@ function changeLessonFieldOnClick(id, actionQueue)
 
 	document.getElementById("cancelEditorAction").onclick = function()
 		{
-			lessonSettings(id, actionQueue, true);
+			lessonSettings(id, body, actionQueue, true);
 		};
-	document.getElementById("changeLessonFieldSave").onclick = function() {changeLessonFieldSave(id, actionQueue);};
+	document.getElementById("changeLessonFieldSave").onclick = function() {changeLessonFieldSave(id, body, actionQueue);};
 
 	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
@@ -60,7 +60,7 @@ function lessonFieldOnclick()
 	lessonFieldChanged = true;
 }
 
-function changeLessonFieldSave(id, actionQueue)
+function changeLessonFieldSave(id, body, actionQueue)
 {
 	if(lessonFieldChanged)
 	{
@@ -68,10 +68,10 @@ function changeLessonFieldSave(id, actionQueue)
 		var fieldId = parseBoolForm()[0];
 		actionQueue.actions.push(new Action(APIURI + "/lesson/" + id + "/field", "PUT", function() {return {"field": encodeURIComponent(fieldId)};}));
 		lessonSettingsCache.field = fieldId;
-		lessonSettings(id, actionQueue, true);
+		lessonSettings(id, body, actionQueue, true);
 	}
 	else
 	{
-		lessonSettings(id, actionQueue, true);
+		lessonSettings(id, body, actionQueue, true);
 	}
 }
