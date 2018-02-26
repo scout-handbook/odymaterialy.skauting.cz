@@ -14,6 +14,8 @@ servers:
 tags:
   - name: lesson
     description: Lessons, their fields and competences
+  - name: deleted-lesson
+    description: Restoring deleted lessons
   - name: competence
   - name: authentication
     description: Login & logout
@@ -462,7 +464,7 @@ paths:
   /lesson/{id}/history/{version}:
     get:
       summary: Get the body of a past version of a lesson
-      description: User role must be **editor** or higher!
+      description: 'User role must be **editor** or higher!<br>**Warning:** Lesson body is **not** XSS sanitized. You need to do your own sanitization - see [here](https://github.com/showdownjs/showdown/wiki/Markdown%27s-XSS-Vulnerability-(and-how-to-mitigate-it)) for more details on how to do that.'
       tags:
         - lesson
       security:
@@ -529,6 +531,148 @@ paths:
               schema:
                 type: string
                 format: binary
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /deleted-lesson:
+    get:
+      summary: Get a list of all deleted lessons
+      description: User role must be **administrator** or higher!
+      tags:
+        - deleted-lesson
+      security:
+        - apiKey: []
+      responses:
+        '200':
+          description: A list of all deleted lessons, with their most recent names
+          content:
+            'aplication/json':
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: 1eb2adec-b262-491c-8f1b-0fc722dd7b2c
+                        name:
+                          type: string
+                          example: Lesson 1
+                      required:
+                        - id
+                        - name
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /deleted-lesson/{id}/history/:
+    get:
+      summary: Get a list of all past versions of a deleted lesson
+      description: User role must be **administrator** or higher!
+      tags:
+        - deleted-lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+      responses:
+        '200':
+          description: A list of all versions of the lesson
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: Lesson 1
+                        version:
+                          type: integer
+                          example: 1
+                      required:
+                        - name
+                        - version
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /deleted-lesson/{id}/history/{version}:
+    get:
+      summary: Get the body of a particular version of a deleted lesson
+      description: 'User role must be **administrator** or higher!<br>**Warning:** Lesson body is **not** XSS sanitized. You need to do your own sanitization - see [here](https://github.com/showdownjs/showdown/wiki/Markdown%27s-XSS-Vulnerability-(and-how-to-mitigate-it)) for more details on how to do that.'
+      tags:
+        - deleted-lesson
+      security:
+        - apiKey: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The id of the lesson
+        - in: path
+          name: version
+          schema:
+            type: integer
+            example: 1
+          required: true
+          description: The version to be returned
+      responses:
+        '200':
+          description: The body of the lesson
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    enum:
+                      - 200
+                    example: 200
+                  response:
+                    type: string
+                    format: markdown
+                    example: 'The body of Lesson 1'
+                required:
+                  - status
+                  - response
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
         '500':
@@ -1084,6 +1228,13 @@ paths:
             default: 1
           required: false
           description: Which page (paged by `per-page` entries) should be returned
+        - in: query
+          name: group
+          schema:
+            type: string
+            format: uuid
+          required: false
+          description: If present, only user in that group will be returned
       responses:
         '200':
           description: A list of users

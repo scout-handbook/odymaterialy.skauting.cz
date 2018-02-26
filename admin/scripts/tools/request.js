@@ -14,7 +14,7 @@ function request(url, method, payload, callback)
 		{
 			var query = requestQueryBuilder(payload);
 		}
-		if(method === "GET" || method === "DELETE")
+		if((method === "GET" || method === "DELETE") && query)
 		{
 			url += "?" + query;
 		}

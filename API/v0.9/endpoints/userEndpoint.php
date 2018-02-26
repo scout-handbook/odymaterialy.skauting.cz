@@ -17,7 +17,7 @@ $userEndpoint->addSubEndpoint('role', $userRoleEndpoint);
 $userEndpoint->addSubEndpoint('group', $userGroupEndpoint);
 
 
-function constructSelectSQL(Skautis\Skautis $skautis) : string
+function constructSelectSQL(Skautis\Skautis $skautis, bool $groupSelect) : string
 {
 	$role = HandbookAPI\getRole($skautis->UserManagement->LoginDetail()->ID_Person);
 
@@ -31,14 +31,19 @@ function constructSelectSQL(Skautis\Skautis $skautis) : string
 		$innerSQL .= ', \'administrator\', \'superuser\'';
 	}
 
+	$groupSQL = $groupSelect ? 'AND users_in_groups.group_id = :group_id ' : '' ;
+
 	$selectSQL = <<<SQL
-SELECT SQL_CALC_FOUND_ROWS id, name, role
+SELECT SQL_CALC_FOUND_ROWS users.id, users.name, users.role
 FROM users
-WHERE name LIKE CONCAT('%', :name, '%') AND role IN ('guest', 'user'
+LEFT JOIN users_in_groups ON users.id = users_in_groups.user_id
+WHERE users.name LIKE CONCAT('%', :name, '%') AND users.role IN ('guest', 'user'
 SQL
 	. $innerSQL . <<<SQL
 )
-ORDER BY name
+SQL
+	. $groupSQL . <<<SQL
+ORDER BY users.name
 LIMIT :start, :per_page;
 SQL;
 	return $selectSQL;
@@ -46,7 +51,7 @@ SQL;
 
 $listUsers = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
-	$selectSQL = constructSelectSQL($skautis);
+	$selectSQL = constructSelectSQL($skautis, isset($data['group']));
 	$countSQL = <<<SQL
 SELECT FOUND_ROWS();
 SQL;
@@ -54,6 +59,12 @@ SQL;
 SELECT group_id
 FROM users_in_groups
 WHERE user_id = :user_id;
+SQL;
+	$groupCheckSQL = <<<SQL
+SELECT 1
+FROM groups
+WHERE id = :id
+LIMIT 1;
 SQL;
 
 	$searchName = '';
@@ -81,8 +92,21 @@ SQL;
 	}
 
 	$db = new HandbookAPI\Database();
+	if(isset($data['group']))
+	{
+		$group_id = HandbookAPI\Helper::parseUuid($data['group'], 'group')->getBytes();
+		$db->prepare($groupCheckSQL);
+		$db->bindParam(':id', $group_id, PDO::PARAM_STR);
+		$db->execute();
+		$db->fetchRequire('group');
+	}
+
 	$db->prepare($selectSQL);
 	$db->bindParam(':name', $searchName, PDO::PARAM_STR);
+	if(isset($data['group']))
+	{
+		$db->bindParam(':group_id', $group_id, PDO::PARAM_STR);
+	}
 	$db->bindParam(':start', $start, PDO::PARAM_INT);
 	$db->bindParam(':per_page', $per_page, PDO::PARAM_INT);
 	$db->execute();

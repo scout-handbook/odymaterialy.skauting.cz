@@ -1,5 +1,9 @@
+var participantEvent;
 var addEvent;
 var groupEvent;
+
+var participants;
+var users;
 
 function importGroupOnClick(event)
 {
@@ -67,39 +71,35 @@ function importGroupSelectParticipants(id)
 	{
 		var html = "<div id=\"embeddedSpinner\"></div>";
 		document.getElementById("importList").innerHTML = html;
+		participantEvent = new AfterLoadEvent(2);
 		request(APIURI + "/event/" + eventId + "/participant", "GET", {}, function(response)
 			{
-				if(response.status === 200)
-				{
-					importGroupSelectParticipantsRender(id, response.response);
-				}
-				else if(response.type === "AuthenticationException")
-				{
-					window.location.replace(APIURI + "/login");
-				}
-				else
-				{
-					dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-				}
+				importGroupGetParticipantsCallback(id, response);
 			});
+		request(APIURI + "/user", "GET", {"page": 1, "per-page": 1000, "group": id}, function(response)
+			{
+				importGroupGetGroupCallback(id, response);
+			});
+		participantEvent.addCallback(importGroupSelectParticipantsRender);
 		document.getElementById("importGroupNext").onclick = function() {};
 	}
 }
 
-function importGroupSelectParticipantsRender(id, participants)
+function importGroupSelectParticipantsRender(id)
 {
-	if(participants.length === 0)
+	var newparticipants = setdiff(participants, users);
+	if(newparticipants.length === 0)
 	{
 		sidePanelClose();
 		spinner();
-		dialog("Akce nemá žádné účastníky.", "OK");
+		dialog("Akce nemá žádné účastníky (kteří ještě nebyli importováni).", "OK");
 		refreshMetadata();
 		history.back();
 	}
 	var html = "<h4>Výběr účastníků:</h4><form id=\"sidePanelForm\">";
-	for(var i = 0; i < participants.length; i++)
+	for(var i = 0; i < newparticipants.length; i++)
 	{
-		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"checkbox\" data-id=\"" + participants[i].id + "\" data-name=\"" + participants[i].name + "\"><span class=\"formCustom formCheckbox\"></span></label>" + participants[i].name + "</div>";
+		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"checkbox\" data-id=\"" + newparticipants[i].id + "\" data-name=\"" + newparticipants[i].name + "\"><span class=\"formCustom formCheckbox\"></span></label>" + newparticipants[i].name + "</div>";
 	}
 	html += "</form>";
 	document.getElementById("importList").innerHTML = html;
@@ -149,6 +149,54 @@ function importGroupSave(id)
 
 	sidePanelClose();
 	spinner();
+}
+
+function setdiff(a, b)
+{
+	var bArr = b.map(x => x.id);
+	var result = [];
+	for(var j = 0; j < a.length; j++)
+	{
+		if(bArr.indexOf(a[j].id) < 0)
+		{
+			result.push(a[j]);
+		}
+	}
+	return result;
+}
+
+function importGroupGetParticipantsCallback(id, response)
+{
+	if(response.status === 200)
+	{
+		participants = response.response;
+		participantEvent.trigger(id);
+	}
+	else if(response.type === "AuthenticationException")
+	{
+		window.location.replace(APIURI + "/login");
+	}
+	else
+	{
+		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
+	}
+}
+
+function importGroupGetGroupCallback(id, response)
+{
+	if(response.status === 200)
+	{
+		users = response.response.users;
+		participantEvent.trigger(id);
+	}
+	else if(response.type === "AuthenticationException")
+	{
+		window.location.replace(APIURI + "/login");
+	}
+	else
+	{
+		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
+	}
 }
 
 function importAddUserCallback(response)
