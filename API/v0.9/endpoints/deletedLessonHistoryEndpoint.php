@@ -60,8 +60,7 @@ SQL;
 };
 $deletedLessonHistoryEndpoint->setListMethod(new HandbookAPI\Role('administrator'), $listDeletedLessonHistory);
 
-/*
-$getLessonHistory = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$getDeletedLessonHistory = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$checkSQL = <<<SQL
 SELECT 1 FROM lessons
@@ -75,7 +74,7 @@ WHERE id = :id
 AND version = FROM_UNIXTIME(:version);
 SQL;
 
-	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
+	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'deleted lesson')->getBytes();
 	$version = ctype_digit($data['id']) ? intval($data['id']) / 1000 : null;
 	if($version === null)
 	{
@@ -87,7 +86,10 @@ SQL;
 	$db->prepare($checkSQL);
 	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
-	$db->fetchRequire('lesson');
+	if($db->fetch())
+	{
+		throw new HandbookAPI\NotFoundException('deleted lesson');
+	}
 
 	$db->prepare($selectSQL);
 	$db->bindParam(':id', $id, PDO::PARAM_STR);
@@ -95,8 +97,7 @@ SQL;
 	$db->execute();
 	$body = '';
 	$db->bindColumn('body', $body);
-	$db->fetchRequire('lesson');
+	$db->fetchRequire('deleted lesson');
 	return ['status' => 200, 'response' => $body];
 };
-$lessonHistoryEndpoint->setGetMethod(new HandbookAPI\Role('editor'), $getLessonHistory);
-*/
+$deletedLessonHistoryEndpoint->setGetMethod(new HandbookAPI\Role('administrator'), $getDeletedLessonHistory);
