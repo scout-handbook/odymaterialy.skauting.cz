@@ -15,10 +15,11 @@ $deletedLessonEndpoint = new HandbookAPI\Endpoint();
 $listDeletedLessons = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	$SQL = <<<SQL
-SELECT lesson_history.id, lesson_history.name
-FROM lesson_history
-LEFT JOIN lessons ON lesson_history.id = lessons.id
-WHERE lessons.id IS NULL;
+SELECT a.id, a.name
+FROM lesson_history a
+LEFT JOIN lessons ON a.id = lessons.id # Only deleted lessons
+LEFT JOIN lesson_history b ON a.id = b.id AND a.version < b.version # Only most recent version
+WHERE lessons.id IS NULL AND b.id IS NULL;
 SQL;
 
 	$db = new HandbookAPI\Database();
