@@ -16,7 +16,12 @@ $lessonHistoryEndpoint = new HandbookAPI\Endpoint();
 
 $listLessonHistory = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
-	$SQL = <<<SQL
+	$checkSQL = <<<SQL
+SELECT 1 FROM lessons
+WHERE id = :id
+LIMIT 1;
+SQL;
+	$selectSQL = <<<SQL
 SELECT name, UNIX_TIMESTAMP(version) FROM lesson_history
 WHERE id = :id
 ORDER BY version DESC;
@@ -25,7 +30,12 @@ SQL;
 	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
 
 	$db = new HandbookAPI\Database();
-	$db->prepare($SQL);
+	$db->prepare($checkSQL);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
+	$db->execute();
+	$db->fetchRequire('lesson');
+
+	$db->prepare($selectSQL);
 	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->execute();
 	$versions = [];
@@ -43,7 +53,12 @@ $lessonHistoryEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listLesso
 
 $getLessonHistory = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
-	$SQL = <<<SQL
+	$checkSQL = <<<SQL
+SELECT 1 FROM lessons
+WHERE id = :id
+LIMIT 1;
+SQL;
+	$selectSQL = <<<SQL
 SELECT body
 FROM lesson_history
 WHERE id = :id
@@ -59,7 +74,12 @@ SQL;
 	$version = strval($version);
 
 	$db = new HandbookAPI\Database();
-	$db->prepare($SQL);
+	$db->prepare($checkSQL);
+	$db->bindParam(':id', $id, PDO::PARAM_STR);
+	$db->execute();
+	$db->fetchRequire('lesson');
+
+	$db->prepare($selectSQL);
 	$db->bindParam(':id', $id, PDO::PARAM_STR);
 	$db->bindParam(':version', $version, PDO::PARAM_STR);
 	$db->execute();
