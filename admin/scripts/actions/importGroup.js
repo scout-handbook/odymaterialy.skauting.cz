@@ -1,5 +1,8 @@
+var participantEvent;
 var addEvent;
 var groupEvent;
+
+var participants;
 
 function importGroupOnClick(event)
 {
@@ -67,20 +70,14 @@ function importGroupSelectParticipants(id)
 	{
 		var html = "<div id=\"embeddedSpinner\"></div>";
 		document.getElementById("importList").innerHTML = html;
+		participantEvent = new AfterLoadEvent(1);
 		request(APIURI + "/event/" + eventId + "/participant", "GET", {}, function(response)
 			{
-				if(response.status === 200)
-				{
-					importGroupSelectParticipantsRender(id, response.response);
-				}
-				else if(response.type === "AuthenticationException")
-				{
-					window.location.replace(APIURI + "/login");
-				}
-				else
-				{
-					dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-				}
+				importGroupGetParticipantsCallback(id, response);
+			});
+		participantEvent.addCallback(function(id)
+			{
+				importGroupSelectParticipantsRender(id, participants);
 			});
 		document.getElementById("importGroupNext").onclick = function() {};
 	}
@@ -149,6 +146,23 @@ function importGroupSave(id)
 
 	sidePanelClose();
 	spinner();
+}
+
+function importGroupGetParticipantsCallback(id, response)
+{
+	if(response.status === 200)
+	{
+		participants = response.response;
+		participantEvent.trigger(id);
+	}
+	else if(response.type === "AuthenticationException")
+	{
+		window.location.replace(APIURI + "/login");
+	}
+	else
+	{
+		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
+	}
 }
 
 function importAddUserCallback(response)
