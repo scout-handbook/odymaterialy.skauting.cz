@@ -115,7 +115,7 @@ h2.mainPage, h3.mainPage, .noNewline
 	margin-right: 20px;
 }
 
-#addField, #addLesson
+#addField, #addLesson, #restoreLesson
 {
 	margin-bottom: -19px;
 }
