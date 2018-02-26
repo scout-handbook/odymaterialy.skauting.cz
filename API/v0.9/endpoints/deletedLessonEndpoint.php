@@ -8,9 +8,12 @@ require_once($BASEPATH . '/v0.9/internal/DeletedLesson.php');
 require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
 require_once($BASEPATH . '/v0.9/internal/Role.php');
 
+require_once($BASEPATH . '/v0.9/endpoints/deletedLessonHistoryEndpoint.php');
+
 use Ramsey\Uuid\Uuid;
 
 $deletedLessonEndpoint = new HandbookAPI\Endpoint();
+$deletedLessonEndpoint->addSubEndpoint('history', $deletedLessonHistoryEndpoint);
 
 $listDeletedLessons = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
