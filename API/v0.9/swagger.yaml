@@ -1228,6 +1228,13 @@ paths:
             default: 1
           required: false
           description: Which page (paged by `per-page` entries) should be returned
+        - in: query
+          name: group
+          schema:
+            type: string
+            format: uuid
+          required: false
+          description: If present, only user in that group will be returned
       responses:
         '200':
           description: A list of users
