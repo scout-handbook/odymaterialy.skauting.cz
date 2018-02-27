@@ -27,12 +27,6 @@ function lessonHistoryOpen(id, actionQueue)
 	lessonHistoryPreviewShowCurrent();
 }
 
-function parseVersionToDate(version)
-{
-	var d = new Date(version);
-	return d.getDate() + ". " + (d.getMonth() + 1) + ". " + d.getFullYear() + " " + d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
-}
-
 function lessonHistoryListRender(id, actionQueue, list)
 {
 	var html = "<form id=\"sidePanelForm\">";
@@ -43,14 +37,14 @@ function lessonHistoryListRender(id, actionQueue, list)
 		{
 			if(FIELDS[i].lessons[j].id === id)
 			{
-				html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"version\" checked><span class=\"formCustom formRadio\"></span></label><span class=\"lessonHistoryCurrent\">Současná verze</span> — " + parseVersionToDate(FIELDS[i].lessons[j].version) + "</div>";
+				html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"version\" checked><span class=\"formCustom formRadio\"></span></label><span class=\"lessonHistoryCurrent\">Současná verze</span> — " + parseVersion(FIELDS[i].lessons[j].version) + "</div>";
 				break outer;
 			}
 		}
 	}
 	for(var k = 0; k < list.length; k++)
 	{
-		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"version\" data-name=\"" + list[k].name + "\" data-version=\"" + list[k].version + "\"><span class=\"formCustom formRadio\"></span></label><span class=\"lessonHistoryVersion\">" + list[k].name + "</span> — " + parseVersionToDate(list[k].version) + "</div>";
+		html += "<div class=\"formRow\"><label class=\"formSwitch\"><input type=\"radio\" name=\"version\" data-name=\"" + list[k].name + "\" data-version=\"" + list[k].version + "\"><span class=\"formCustom formRadio\"></span></label><span class=\"lessonHistoryVersion\">" + list[k].name + "</span> — " + parseVersion(list[k].version) + "</div>";
 	}
 	html += "</form>";
 	document.getElementById("lessonHistoryForm").innerHTML = html;

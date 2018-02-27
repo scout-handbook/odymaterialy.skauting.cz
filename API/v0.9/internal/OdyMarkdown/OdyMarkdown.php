@@ -69,7 +69,7 @@ class OdyMarkdown extends GithubMarkdown
 
 	private function consumeCommand(array $lines, int $current, string $command) : array
 	{
-		$block = [$command];
+		$block = [$command, 'lastPage' => ($current + 1 == count($lines))];
 		[$argumentString, $next] = self::getArgumentString($lines, $current, $command);
 		$argumentArray = explode(',', strval($argumentString));
 		foreach($argumentArray as $arg)
@@ -150,11 +150,12 @@ class OdyMarkdown extends GithubMarkdown
 			{
 				if($dotted)
 				{
-					return '<br><div class="dottedpage"></div><pagebreak>';
+					$ret = '<br><div class="dottedpage"></div>';
+					return $block['lastPage'] ? $ret : $ret . '<pagebreak>';
 				}
 				else
 				{
-					return '<pagebreak>';
+					return $block['lastPage'] ? '' : '<pagebreak>';
 				}
 			}
 			else

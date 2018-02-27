@@ -14,26 +14,31 @@ $lessonPDFEndpoint = new HandbookAPI\Endpoint();
 
 $getLessonPDF = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEPATH) : void
 {
-	$SQL = <<<SQL
+	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
+
+	$name = '';
+	if(!isset($data['caption']) || $data['caption'] === 'true')
+	{
+		$SQL = <<<SQL
 SELECT name
 FROM lessons
 WHERE id = :id;
 SQL;
 
-	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson')->getBytes();
+		$db = new HandbookAPI\Database();
+		$db->prepare($SQL);
+		$db->bindParam(':id', $id, PDO::PARAM_STR);
+		$db->execute();
+		$db->bindColumn('name', $name);
+		$db->fetchRequire('lesson');
+		unset($db);
+		$name = strval($name);
+	}
 
-	$db = new HandbookAPI\Database();
-	$db->prepare($SQL);
-	$db->bindParam(':id', $id, PDO::PARAM_STR);
-	$db->execute();
-	$name = '';
-	$db->bindColumn('name', $name);
-	$db->fetchRequire('lesson');
-	unset($db);
 
 	$md = $endpoint->getParent()->call('GET', new HandbookAPI\Role('guest'), ['id' => $data['parent-id']])['response'];
 
-	$html = '<body><h1>' . strval($name) . '</h1>';
+	$html = '<body><h1>' . $name . '</h1>';
 	$parser = new OdyMarkdown\OdyMarkdown();
 	$html .= $parser->parse($md);
 
@@ -70,6 +75,7 @@ SQL;
 
 	$mpdf->DefHTMLHeaderByName('OddHeaderFirst', '<img class="QRheader" src="data:image/png;base64,' . base64_encode($qrWriter->writeString('https://odymaterialy.skauting.cz/lesson/' . OdyMaterialyAPI\Helper::parseUuid($data['parent-id'], 'lesson')->toString())) . '">');
 	$mpdf->DefHTMLHeaderByName('OddHeader', '<div class="oddHeaderRight">' . strval($name) . '</div>');
+	$mpdf->DefHTMLHeaderByName('OddHeader', '<div class="oddHeaderRight">' . $name . '</div>');
 	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
 	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
 

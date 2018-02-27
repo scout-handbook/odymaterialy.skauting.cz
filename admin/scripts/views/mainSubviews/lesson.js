@@ -13,6 +13,10 @@ function showLessonSubview(noHistory)
 		html += "<div class=\"button greenButton\" id=\"addField\"><i class=\"icon-plus\"></i>Přidat oblast</div>";
 	}
 	html += "<div class=\"button greenButton\" id=\"addLesson\"><i class=\"icon-plus\"></i>Přidat lekci</div>";
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
+	{
+		html += "<div class=\"button\" id=\"restoreLesson\"><i class=\"icon-history\"></i>Smazané lekce</div>";
+	}
 	html += renderLessonList();
 	document.getElementById("mainPage").innerHTML = html;
 
@@ -21,6 +25,10 @@ function showLessonSubview(noHistory)
 		document.getElementById("addField").onclick = addField;
 	}
 	document.getElementById("addLesson").onclick = function() {showLessonAddView();};
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
+	{
+		document.getElementById("restoreLesson").onclick = restoreLesson;
+	}
 
 	addOnClicks("changeField", changeFieldOnClick);
 	addOnClicks("deleteField", deleteFieldOnClick);
