@@ -523,6 +523,13 @@ paths:
             format: uuid
           required: true
           description: The id of the lesson
+        - in: query
+          name: caption
+          schema:
+            type: string
+            default: true
+          required: false
+          description: If present and not set to "true", then the lesson will be printed without the caption.
       responses:
         '200':
           description: The lesson as a PDF file
@@ -890,6 +897,7 @@ paths:
           name: no-avatar
           schema:
             type: string
+            default: false
           required: false
           description: If present and not set to "false", then the response won't contain the avatar field.
       responses:
