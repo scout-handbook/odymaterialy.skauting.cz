@@ -122,6 +122,8 @@ function restoreLessonShowVersion(id, event)
 			}
 		});
 	document.getElementById("restoreLessonListHeader").innerHTML = "";
+
+	refreshLogin();
 }
 
 function restoreLessonRenderVersion(name, body)
@@ -131,6 +133,8 @@ function restoreLessonRenderVersion(name, body)
 	document.getElementById("restoreLessonListHeader").innerHTML = html;
 	document.getElementById("restoreLessonEdit").onclick = function()
 		{
-			
+			sidePanelOpen();
+			sidePanelClose();
+			showLessonRestoreView(name, body);
 		};
 }
