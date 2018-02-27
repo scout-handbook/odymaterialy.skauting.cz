@@ -134,7 +134,7 @@ function restoreLessonRenderVersion(name, body)
 	document.getElementById("restoreLessonEdit").onclick = function()
 		{
 			sidePanelOpen();
-			sidePanelClose();
+			history.back();
 			showLessonRestoreView(name, body);
 		};
 }
