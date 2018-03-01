@@ -148,15 +148,12 @@ class OdyMarkdown extends GithubMarkdown
 		{
 			if($block['pocet'] === 'strana')
 			{
+				$pgbr = $block['lastPage'] ? '' : '<pagebreak>';
 				if($dotted)
 				{
-					$ret = '<br><div class="dottedpage"></div>';
-					return $block['lastPage'] ? $ret : $ret . '<pagebreak>';
+					return '<br><div class="dottedpage"></div>' . $pgbr;
 				}
-				else
-				{
-					return $block['lastPage'] ? '' : '<pagebreak>';
-				}
+				return $pgbr;
 			}
 			else
 			{
