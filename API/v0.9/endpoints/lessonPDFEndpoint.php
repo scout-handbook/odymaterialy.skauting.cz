@@ -79,7 +79,10 @@ SQL;
 	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
 	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
 
-	$mpdf->SetHTMLHeaderByName('OddHeaderFirst', 'O');
+	if(!isset($data['qr']) || $data['qr'] === 'true')
+	{
+		$mpdf->SetHTMLHeaderByName('OddHeaderFirst', 'O');
+	}
 	$mpdf->SetHTMLFooterByName('OddFooter', 'O');
 	$mpdf->SetHTMLFooterByName('EvenFooter', 'E');
 

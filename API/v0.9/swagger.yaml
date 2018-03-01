@@ -530,6 +530,13 @@ paths:
             default: true
           required: false
           description: If present and not set to "true", then the lesson will be printed without the caption.
+        - in: query
+          name: qr
+          schema:
+            type: string
+            default: true
+          required: false
+          description: If present and not set to "true", then the lesson will be printed without the QR code.
       responses:
         '200':
           description: The lesson as a PDF file
