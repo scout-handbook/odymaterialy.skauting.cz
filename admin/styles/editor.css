@@ -37,6 +37,7 @@ header
 	position: absolute;
 	right: 0;
 	top: 50px;
+	padding-top: 0;
 }
 
 #preview
