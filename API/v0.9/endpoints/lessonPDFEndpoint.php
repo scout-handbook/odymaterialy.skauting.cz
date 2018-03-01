@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonPDFEndpoint = new HandbookAPI\Endpoint();
 
-$getLessonPDF = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEPATH) : void
+$getLessonPDF = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEPATH, $BASEURI) : void
 {
 	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson');
 
@@ -74,7 +74,7 @@ SQL;
 	$qrRenderer->setWidth(90);
 	$qrWriter = new \BaconQrCode\Writer($qrRenderer);
 
-	$mpdf->DefHTMLHeaderByName('OddHeaderFirst', '<img class="QRheader" src="data:image/png;base64,' . base64_encode($qrWriter->writeString('https://odymaterialy.skauting.cz/lesson/' . $id->toString())) . '">');
+	$mpdf->DefHTMLHeaderByName('OddHeaderFirst', '<img class="QRheader" src="data:image/png;base64,' . base64_encode($qrWriter->writeString($BASEURI . '/lesson/' . $id->toString())) . '">');
 	$mpdf->DefHTMLHeaderByName('OddHeader', '<div class="oddHeaderRight">' . $name . '</div>');
 	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
 	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
