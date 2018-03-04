@@ -1,9 +1,15 @@
 function showLessonListView(noHistory)
 {
+	if(screen.width < 700)
+	{
+		navigationOpen = false;
+		reflowNavigation();
+	}
 	metadataEvent.addCallback(function()
 		{
 			renderLessonListView(noHistory);
 		});
+	refreshLogin();
 }
 
 function renderLessonListView(noHistory)

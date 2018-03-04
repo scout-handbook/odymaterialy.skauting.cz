@@ -1,9 +1,15 @@
 function showCompetenceListView(noHistory)
 {
+	if(screen.width < 700)
+	{
+		navigationOpen = false;
+		reflowNavigation();
+	}
 	metadataEvent.addCallback(function()
 		{
 			renderCompetenceListView(noHistory);
 		});
+	refreshLogin();
 }
 
 function renderCompetenceListView(noHistory)
