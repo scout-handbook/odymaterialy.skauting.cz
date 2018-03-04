@@ -5,30 +5,23 @@ function authenticationSetup()
 
 function showAccountInfo()
 {
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function()
+	metadataEvent.addCallback(function()
 		{
-			if(this.readyState === 4)
+			if(LOGINSTATE)
 			{
-				response = JSON.parse(this.responseText);
-				if(response.status === 200)
-				{
-					renderUserAccount(response.response);
-				}
-				else
-				{
-					renderLoginForm();
-				}
+				renderUserAccount();
 			}
-		}
-	xhttp.open("GET", APIURI + "/account", true);
-	xhttp.send();
+			else
+			{
+				renderLoginForm();
+			}
+		});
 }
 
-function renderUserAccount(response)
+function renderUserAccount()
 {
-	document.getElementById("userName").innerHTML = response.name;
-	if(response.role === "editor" || response.role === "administrator" || response.role === "superuser")
+	document.getElementById("userName").innerHTML = LOGINSTATE.name;
+	if(LOGINSTATE.role === "editor" || LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{
 		document.getElementById("logLink").innerHTML = "<a href=\"/error/enableJS.html\">Odhlásit</a><a href=\"/admin\" id=\"adminLink\">Administrace</a>";
 	}
@@ -37,9 +30,9 @@ function renderUserAccount(response)
 		document.getElementById("logLink").innerHTML = "<a href=\"/error/enableJS.html\">Odhlásit</a>";
 	}
 	document.getElementById("logLink").firstChild.onclick = logoutRedirect;
-	if(response.hasOwnProperty("avatar"))
+	if(LOGINSTATE.hasOwnProperty("avatar"))
 	{
-		document.getElementById("userAvatar").src = "data:image/png;base64," + response.avatar;
+		document.getElementById("userAvatar").src = "data:image/png;base64," + LOGINSTATE.avatar;
 	}
 	else
 	{

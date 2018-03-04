@@ -1,4 +1,4 @@
-var metadataEvent = new AfterLoadEvent(2);
+var metadataEvent = new AfterLoadEvent(3);
 
 function metadataSetup()
 {
@@ -26,4 +26,23 @@ function metadataSetup()
 				metadataEvent.trigger();
 			}
 		});
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function()
+		{
+			if(this.readyState === 4)
+			{
+				response = JSON.parse(this.responseText);
+				if(response.status === 200)
+				{
+					LOGINSTATE = response.response;
+				}
+				else
+				{
+					LOGINSTATE = undefined;
+				}
+				metadataEvent.trigger();
+			}
+		}
+	xhttp.open("GET", APIURI + "/account", true);
+	xhttp.send();
 }
