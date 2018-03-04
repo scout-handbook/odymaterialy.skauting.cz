@@ -56,7 +56,7 @@ function loginRedirect()
 
 function logoutRedirect()
 {
-	window.location = APIURI + "/logout?return-uri=" + encodeURIComponent(window.location.href);
+	window.location = APIURI + "/logout";
 	return false;
 }
 

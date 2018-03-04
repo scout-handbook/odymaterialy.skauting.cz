@@ -11,5 +11,5 @@ function getLessonById(id)
 			}
 		}
 	}
-	return {};
+	return undefined;
 }

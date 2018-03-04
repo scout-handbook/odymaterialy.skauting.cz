@@ -17,13 +17,27 @@ function showLessonView(id, noHistory)
 		navigationOpen = false;
 		reflowNavigation();
 	}
-	cacheThenNetworkRequest(APIURI + "/lesson/" + id, "", function(response, second)
+	if(!getLessonById(id))
+	{
+		if(LOGINSTATE)
 		{
-			metadataEvent.addCallback(function()
-				{
-					renderLessonView(id, response, noHistory, second);
-				});
-		});
+			window.location = BASEURI + "/error/404.html";
+		}
+		else
+		{
+			loginRedirect();
+		}
+	}
+	else
+	{
+		cacheThenNetworkRequest(APIURI + "/lesson/" + id, "", function(response, second)
+			{
+				metadataEvent.addCallback(function()
+					{
+						renderLessonView(id, response, noHistory, second);
+					});
+			});
+	}
 	refreshLogin();
 }
 

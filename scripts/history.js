@@ -18,7 +18,10 @@ function historySetup()
 	else if(window.location.pathname.substring(0, 8) === "/lesson/")
 	{
 		var lessonId = window.location.pathname.substring(8).split("/")[0];
-		showLessonView(lessonId);
+		metadataEvent.addCallback(function()
+			{
+				showLessonView(lessonId);
+			});
 	}
 	else
 	{
