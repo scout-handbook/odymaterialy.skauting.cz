@@ -17,6 +17,7 @@ tags
 # End of https://www.gitignore.io/api/vim
 
 settings.js
+settings.php
 
 node_modules/
 API/vendor/
