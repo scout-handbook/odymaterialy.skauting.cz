@@ -16,6 +16,8 @@ tags
 
 # End of https://www.gitignore.io/api/vim
 
+settings.js
+
 node_modules/
 API/vendor/
 images/*
