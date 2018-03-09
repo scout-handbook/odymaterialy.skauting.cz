@@ -2,12 +2,13 @@
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
 
-$context = ['http' => ['ignore_errors' => true]];
+$context = stream_context_get_default();
+stream_context_set_option($context, ['http' => ['ignore_errors' => true]]);
 if(isset($_COOKIE['skautis_timeout']) and isset($_COOKIE['skautis_token']))
 {
-	$context = ['http' => ['ignore_errors' => true, 'header' => 'Cookie: skautis_timeout=' . $_COOKIE['skautis_timeout'] . '; skautis_token=' . $_COOKIE['skautis_token']]];
+	stream_context_set_option($context, ['http' => ['header' => 'Cookie: skautis_timeout=' . $_COOKIE['skautis_timeout'] . '; skautis_token=' . $_COOKIE['skautis_token']]]);
 }
-$accountInfo = file_get_contents($APIURI . '/account?no-avatar=true', false, stream_context_create($context));
+$accountInfo = file_get_contents($APIURI . '/account?no-avatar=true', false, $context);
 $loginState = json_decode($accountInfo, true);
 if(isset($loginState['status']))
 {
