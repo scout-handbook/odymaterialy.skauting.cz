@@ -93,6 +93,6 @@ SQL;
 	$mpdf->WriteHTML($html, 2);
 
 	header('content-type:application/pdf; charset=utf-8');
-	$mpdf->Output();
+	$mpdf->Output($id . '_' . $name . '.pdf');
 };
 $lessonPDFEndpoint->setListMethod(new HandbookAPI\Role('guest'), $getLessonPDF);
