@@ -1,6 +1,12 @@
 {
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/GenaBitu/markdown.git"
+		}
+	],
 	"require": {
-		"cebe/markdown": "1.*",
+		"cebe/markdown": "dev-tables",
 		"skautis/skautis": "2.*",
 		"ramsey/uuid": "^3.6",
 		"mpdf/mpdf": "^7.0",

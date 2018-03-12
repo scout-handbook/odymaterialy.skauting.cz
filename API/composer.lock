@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "45281868e0f9232c3abfea7a2f59131f",
+    "content-hash": "f79e257e454f0ddb3ba2d91ccaf6b889",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -54,15 +54,15 @@
         },
         {
             "name": "cebe/markdown",
-            "version": "1.1.2",
+            "version": "dev-tables",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cebe/markdown.git",
+                "url": "https://github.com/GenaBitu/markdown.git",
                 "reference": "25b28bae8a6f185b5030673af77b32e1163d5c6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cebe/markdown/zipball/25b28bae8a6f185b5030673af77b32e1163d5c6e",
+                "url": "https://api.github.com/repos/GenaBitu/markdown/zipball/25b28bae8a6f185b5030673af77b32e1163d5c6e",
                 "reference": "25b28bae8a6f185b5030673af77b32e1163d5c6e",
                 "shasum": ""
             },
@@ -89,7 +89,6 @@
                     "cebe\\markdown\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -110,6 +109,10 @@
                 "markdown",
                 "markdown-extra"
             ],
+            "support": {
+                "issues": "https://github.com/cebe/markdown/issues",
+                "source": "https://github.com/cebe/markdown"
+            },
             "time": "2017-07-16T21:13:23+00:00"
         },
         {
@@ -465,7 +468,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "cebe/markdown": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
