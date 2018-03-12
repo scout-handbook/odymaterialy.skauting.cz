@@ -3,8 +3,11 @@ env:
   browser: true
   es6: true
 
+plugins: [compat]
+
 # http://eslint.org/docs/rules/
 rules:
+  compat/compat: error
   # Possible Errors
   comma-dangle: [2, never]
   no-cond-assign: 2
