@@ -58,12 +58,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/GenaBitu/markdown.git",
-                "reference": "25b28bae8a6f185b5030673af77b32e1163d5c6e"
+                "reference": "bc4509e9b556fe8454dbc4aaf3efc5cb6e6da172"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GenaBitu/markdown/zipball/25b28bae8a6f185b5030673af77b32e1163d5c6e",
-                "reference": "25b28bae8a6f185b5030673af77b32e1163d5c6e",
+                "url": "https://api.github.com/repos/GenaBitu/markdown/zipball/bc4509e9b556fe8454dbc4aaf3efc5cb6e6da172",
+                "reference": "bc4509e9b556fe8454dbc4aaf3efc5cb6e6da172",
                 "shasum": ""
             },
             "require": {
@@ -113,7 +113,7 @@
                 "issues": "https://github.com/cebe/markdown/issues",
                 "source": "https://github.com/cebe/markdown"
             },
-            "time": "2017-07-16T21:13:23+00:00"
+            "time": "2018-03-12T19:44:55+00:00"
         },
         {
             "name": "mpdf/mpdf",
