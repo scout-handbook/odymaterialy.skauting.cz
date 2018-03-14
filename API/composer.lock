@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f79e257e454f0ddb3ba2d91ccaf6b889",
+    "content-hash": "455e319e0da9ec6b21ef65c8afa88b6b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -54,16 +54,16 @@
         },
         {
             "name": "cebe/markdown",
-            "version": "dev-tables",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/GenaBitu/markdown.git",
-                "reference": "bc4509e9b556fe8454dbc4aaf3efc5cb6e6da172"
+                "url": "https://github.com/cebe/markdown.git",
+                "reference": "fccb6ac05937a0bebd6da126b5f9d2a23652d675"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GenaBitu/markdown/zipball/bc4509e9b556fe8454dbc4aaf3efc5cb6e6da172",
-                "reference": "bc4509e9b556fe8454dbc4aaf3efc5cb6e6da172",
+                "url": "https://api.github.com/repos/cebe/markdown/zipball/fccb6ac05937a0bebd6da126b5f9d2a23652d675",
+                "reference": "fccb6ac05937a0bebd6da126b5f9d2a23652d675",
                 "shasum": ""
             },
             "require": {
@@ -89,6 +89,7 @@
                     "cebe\\markdown\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -109,11 +110,7 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "support": {
-                "issues": "https://github.com/cebe/markdown/issues",
-                "source": "https://github.com/cebe/markdown"
-            },
-            "time": "2018-03-12T19:44:55+00:00"
+            "time": "2018-03-14T09:43:06+00:00"
         },
         {
             "name": "mpdf/mpdf",
