@@ -60,7 +60,7 @@ class OdyMarkdown extends GithubMarkdown
 	// Generic functions for command parsing
 	private function identifyCommand(string $line, string $command) : bool
 	{
-		if(strncmp($line, '!' . $command, mb_strlen($command) + 1) === 0)
+		if(strncmp(trim($line), '!' . $command, mb_strlen($command) + 1) === 0)
 		{
 			return true;
 		}
