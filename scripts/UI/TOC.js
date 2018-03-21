@@ -25,7 +25,7 @@ function renderTOC()
 		}
 	}
 	document.getElementById("navigation").innerHTML = html;
-	nodes = document.getElementById("navigation").getElementsByTagName("a");
+	var nodes = document.getElementById("navigation").getElementsByTagName("a");
 	for(var l = 0; l < nodes.length; l++)
 	{
 		if(nodes[l].parentElement.tagName === "H1")

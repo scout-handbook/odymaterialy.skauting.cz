@@ -49,7 +49,7 @@ function lessonHistoryListRender(id, actionQueue, list)
 	html += "</form>";
 	document.getElementById("lessonHistoryForm").innerHTML = html;
 
-	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
+	var nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	nodes[0].onchange = function() {lessonHistoryPreviewShowCurrent();};
 	if(nodes.length > 1)
 	{

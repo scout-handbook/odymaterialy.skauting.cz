@@ -60,7 +60,7 @@ function renderLessonView(id, markdown, noHistory, second)
 	}
 	html += filterXSS(converter.makeHtml(markdown), xssOptions());
 	document.getElementById("content").innerHTML = html;
-	nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
+	var nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
 	for(var m = 0; m < nodes.length; m++)
 	{
 		nodes[m].onclick = toggleCompetenceBubble;

@@ -36,9 +36,8 @@ function filterCommand(text, commandName, command)
 		if(lines[i].trim().substring(0, commandName.length + 1) === "!" + commandName)
 		{
 			var arr = getArgumentString(lines, i, commandName);
-			argumentObject = parseArgumentString(arr[0]);
 			i = arr[1];
-			ret += command(argumentObject) + "\n";
+			ret += command(parseArgumentString(arr[0])) + "\n";
 		}
 		else
 		{
@@ -88,7 +87,7 @@ function parseArgumentString(argumentString)
 {
 	var output = {};
 	var list = argumentString.split(",");
-	for(i = 0; i < list.length; ++i)
+	for(var i = 0; i < list.length; ++i)
 	{
 		if(list[i] === "")
 		{

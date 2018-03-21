@@ -2,7 +2,7 @@ function showLessonAddView(field)
 {
 	history.pushState({}, "title", "/admin/lessons");
 
-	aq = new ActionQueue([new Action(APIURI + "/lesson", "POST", addLessonPayloadBuilder)])
+	var aq = new ActionQueue([new Action(APIURI + "/lesson", "POST", addLessonPayloadBuilder)])
 	if(field)
 	{
 		aq.actions.push(new Action(APIURI + "/lesson/{id}/field", "PUT", function() {return {"field": encodeURIComponent(field)};}))

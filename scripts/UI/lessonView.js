@@ -20,7 +20,7 @@ function toggleLessonOffline()
 
 function toggleCompetenceBubble(event)
 {
-	element = event.target;
+	var element = event.target;
 	while(!element.classList.contains("competenceBubble") && (element = element.parentElement)) { /* Empty */ }
 	if(element.style.width !== "")
 	{
@@ -34,7 +34,7 @@ function toggleCompetenceBubble(event)
 	}
 	else
 	{
-		nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
+		var nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
 		for(var i = 0; i < nodes.length; i++)
 		{
 			nodes[i].childNodes[1].style.width = "";

@@ -42,7 +42,7 @@ function requestQueryBuilder(payload)
 {
 	var query = "";
 	var first = true;
-	for(key in payload)
+	for(var key in payload)
 	{
 		if(!payload.hasOwnProperty(key))
 		{

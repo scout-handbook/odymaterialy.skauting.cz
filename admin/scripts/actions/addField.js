@@ -14,7 +14,7 @@ function addField()
 			history.back();
 		};
 
-	aq = new ActionQueue([new Action(APIURI + "/field", "POST", addFiledPayloadBuilder)]);
+	var aq = new ActionQueue([new Action(APIURI + "/field", "POST", addFiledPayloadBuilder)]);
 	document.getElementById("addFieldSave").onclick = aq.closeDispatch;
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");

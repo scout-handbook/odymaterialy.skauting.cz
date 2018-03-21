@@ -56,7 +56,7 @@ function showUserList(list, searchName, page, perPage)
 	{
 		return;
 	}
-	users = list.users;
+	var users = list.users;
 	var html = "<form id=\"userSearchForm\"><input type=\"text\" class=\"formText\" id=\"userSearchBox\" placeholder=\"Jméno uživatele\"><div class=\"button\" id=\"userSearchButton\"><i class=\"icon-search\"></i>Vyhledat</div>";
 	if(searchName)
 	{

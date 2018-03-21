@@ -11,7 +11,7 @@ function deleteFieldOnClick(event)
 		}
 	}
 
-	aq = new ActionQueue([new Action(APIURI + "/field/" + encodeURIComponent(id), "DELETE")]);
+	var aq = new ActionQueue([new Action(APIURI + "/field/" + encodeURIComponent(id), "DELETE")]);
 	dialog("Opravdu si přejete smazat oblast \"" + name + "\"?", "Ano", aq.closeDispatch, "Ne", function(){history.back();});
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 	refreshLogin();

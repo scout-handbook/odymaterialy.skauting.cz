@@ -31,7 +31,7 @@ function metadataSetup()
 		{
 			if(this.readyState === 4)
 			{
-				response = JSON.parse(this.responseText);
+				var response = JSON.parse(this.responseText);
 				if(response.status === 200)
 				{
 					LOGINSTATE = response.response;

@@ -43,7 +43,7 @@ function renderCompetenceView(id, noHistory)
 	html += renderCompetenceLessonList(lessonList);
 	document.getElementById("content").innerHTML = html;
 
-	nodes = document.getElementById("content").getElementsByTagName("h3");
+	var nodes = document.getElementById("content").getElementsByTagName("h3");
 	for(var l = 0; l < nodes.length; l++)
 	{
 		nodes[l].firstChild.onclick = TOCLessonOnClick;

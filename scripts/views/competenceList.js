@@ -18,7 +18,7 @@ function renderCompetenceListView(noHistory)
 	html += renderCompetenceList();
 	document.getElementById("content").innerHTML = html;
 
-	nodes = document.getElementById("content").getElementsByTagName("a");
+	var nodes = document.getElementById("content").getElementsByTagName("a");
 	for(var l = 0; l < nodes.length; l++)
 	{
 		nodes[l].onclick = competenceBubbleDetailOnClick;

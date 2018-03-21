@@ -15,7 +15,7 @@ function addCompetence()
 			history.back();
 		};
 
-	aq = new ActionQueue([new Action(APIURI + "/competence", "POST", addCompetencePayloadBuilder)]);
+	var aq = new ActionQueue([new Action(APIURI + "/competence", "POST", addCompetencePayloadBuilder)]);
 	document.getElementById("addCompetenceSave").onclick = aq.closeDispatch;
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/competences");
