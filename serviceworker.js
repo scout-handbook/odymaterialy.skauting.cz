@@ -43,13 +43,9 @@ var cacheUpdating = [
 	APIURI + "/lesson"
 ];
 
-// Polyfill
-if(!String.prototype.startsWith)
+function startsWith(haystack, needle)
 {
-	String.prototype.startsWith = function(searchString, position)
-		{
-			return this.substr(position || 0, searchString.length) === searchString;
-		};
+	return haystack.substr(0, needle.length) === needle;
 }
 
 self.addEventListener("install", function(event)
@@ -70,7 +66,7 @@ self.addEventListener("fetch", function(event)
 		{
 			event.respondWith(cacheUpdatingResponse(event.request));
 		}
-		else if(url.pathname.startsWith(APIURI + "/lesson"))
+		else if(startsWith(url.pathname, APIURI + "/lesson"))
 		{
 			event.respondWith(cacheOnDemandResponse(event.request));
 		}
@@ -84,7 +80,7 @@ function cacheUpdatingResponse(request)
 {
 	if(request.headers.get("Accept") === "x-cache/only")
 	{
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 				caches.match(request).then(function(response)
 					{
 						if(response)

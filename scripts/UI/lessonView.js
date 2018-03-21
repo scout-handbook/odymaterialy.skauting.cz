@@ -54,7 +54,7 @@ function toggleCompetenceBubble(event)
 
 function reflowCompetenceBubbles()
 {
-	if(activeCompetence)
+	if(window.activeCompetence)
 	{
 		var fontSize = parseFloat(window.getComputedStyle(activeCompetence).getPropertyValue("font-size"));
 		activeCompetence.childNodes[1].style.width = Math.min(403 - 1.3 * fontSize, activeCompetence.parentElement.clientWidth - 1.3 * fontSize + 3) + "px";

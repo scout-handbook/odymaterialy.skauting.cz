@@ -107,7 +107,7 @@ function parseArgumentString(argumentString)
 }
 
 // Specific commands
-function notesCommand(argumentObject)
+function notesCommand()
 {
 	//return "<textarea class=\"notes\" placeholder=\"Tvoje poznámky\"></textarea>";
 	return "";

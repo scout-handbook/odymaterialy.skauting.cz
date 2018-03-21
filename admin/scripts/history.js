@@ -12,13 +12,13 @@ function popback()
 {
 	if(history.state)
 	{
-		if(sidePanelState)
+		if(window.sidePanelState)
 		{
 			sidePanelClose();
 		}
 		else if(history.state.id)
 		{
-			if(imageSelectorOpen)
+			if(window.imageSelectorOpen)
 			{
 				prepareImageSelector();
 			}

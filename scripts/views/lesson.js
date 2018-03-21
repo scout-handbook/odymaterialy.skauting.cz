@@ -19,7 +19,7 @@ function showLessonView(id, noHistory)
 	}
 	if(!getLessonById(id))
 	{
-		if(LOGINSTATE)
+		if(window.LOGINSTATE)
 		{
 			window.location = BASEURI + "/error/404.html";
 		}
