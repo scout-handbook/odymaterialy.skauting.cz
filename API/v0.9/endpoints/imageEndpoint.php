@@ -74,7 +74,7 @@ $imageEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listImages);
 
 $getImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : void
 {
-	$id = HandbookAPI\Helper::parseUuid($data['id'], 'image')->__toString();
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'image')->toString();
 	$quality = "web";
 	if(isset($data['quality']) and in_array($data['quality'], ['original', 'web', 'thumbnail']))
 	{
