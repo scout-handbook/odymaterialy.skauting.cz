@@ -66,7 +66,7 @@ SQL;
 	$images = [];
 	while($db->fetch())
 	{
-		$images[] = Uuid::fromBytes(strval($id))->__toString();
+		$images[] = Uuid::fromBytes(strval($id))->toString();
 	}
 	return ['status' => 200, 'response' => $images];
 };

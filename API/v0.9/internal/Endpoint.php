@@ -216,7 +216,8 @@ class Endpoint
 			else
 			{
 				http_response_code(404);
-				die();
+				header('content-type:application/json; charset=utf-8');
+				echo(json_encode(['status' => 404], JSON_UNESCAPED_UNICODE));
 			}
 		}
 		else
