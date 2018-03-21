@@ -14,7 +14,7 @@ function showLessonView(id, noHistory)
 	document.getElementById("content").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(screen.width < 700)
 	{
-		navigationOpen = false;
+		window.navigationOpen = false;
 		reflowNavigation();
 	}
 	if(!getLessonById(id))

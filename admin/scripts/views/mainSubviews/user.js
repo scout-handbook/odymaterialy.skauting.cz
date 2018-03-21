@@ -1,6 +1,6 @@
 function showUserSubview(noHistory)
 {
-	mainPageTab = "users";
+	window.mainPageTab = "users";
 	var nodes = document.getElementsByClassName("topBarTab");
 	for(var l = 0; l < nodes.length; l++)
 	{

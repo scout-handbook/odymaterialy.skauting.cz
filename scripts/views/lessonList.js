@@ -2,7 +2,7 @@ function showLessonListView(noHistory)
 {
 	if(screen.width < 700)
 	{
-		navigationOpen = false;
+		window.navigationOpen = false;
 		reflowNavigation();
 	}
 	metadataEvent.addCallback(function()

@@ -24,7 +24,7 @@ function toggleCompetenceBubble(event)
 	while(!element.classList.contains("competenceBubble") && (element = element.parentElement)) { /* Empty */ }
 	if(element.style.width !== "")
 	{
-		activeCompetence = null;
+		window.activeCompetence = null;
 		element.childNodes[1].style.width = "";
 		element.style.width = "";
 		element.style.height = "";
@@ -44,7 +44,7 @@ function toggleCompetenceBubble(event)
 			nodes[i].style.borderColor = "";
 			nodes[i].style.backgroundColor = "";
 		}
-		activeCompetence = element;
+		window.activeCompetence = element;
 		reflowCompetenceBubbles();
 		element.firstChild.style.color = "#6534ad";
 		element.style.borderColor = "#6534ad";
