@@ -26,9 +26,9 @@ function toggleNavigation()
 
 function reflowNavigation()
 {
-	main = document.getElementsByTagName("main")[0].style;
-	navBar = document.getElementsByTagName("nav")[0].style;
-	overlay = document.getElementById("overlay").style;
+	var main = document.getElementsByTagName("main")[0].style;
+	var navBar = document.getElementsByTagName("nav")[0].style;
+	var overlay = document.getElementById("overlay").style;
 	if(navigationOpen)
 	{
 		navBar.marginLeft = "0px"

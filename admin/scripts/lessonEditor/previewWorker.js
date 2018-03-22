@@ -2,7 +2,7 @@ var converter;
 
 function main()
 {
-	onmessage = process;
+	self.onmessage = process;
 	importScripts('/node_modules/showdown/dist/showdown.min.js');
 	importScripts('/scripts/tools/OdyMarkdown.js');
 	converter = new showdown.Converter({extensions: ["OdyMarkdown"]});

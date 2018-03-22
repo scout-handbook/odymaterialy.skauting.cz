@@ -36,7 +36,7 @@ function changeLessonGroupsOnClick(id, actionQueue)
 		};
 	document.getElementById("changeLessonGroupsSave").onclick = function() {changeLessonGroupsSave(id, actionQueue);};
 
-	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
+	var nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
 		nodes[k].onchange = lessonGroupsOnclick;
@@ -57,7 +57,7 @@ function changeLessonGroupsSave(id, actionQueue)
 		id = typeof id !== 'undefined' ? id : "{id}";
 		var groups = parseBoolForm();
 		var encodedGroups = [];
-		for(i = 0; i < groups.length; i++)
+		for(var i = 0; i < groups.length; i++)
 		{
 			encodedGroups.push(encodeURIComponent(groups[i]));
 		}

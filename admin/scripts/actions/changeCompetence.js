@@ -25,7 +25,7 @@ function changeCompetenceOnClick(event)
 			history.back();
 		};
 
-	aq = new ActionQueue([new Action(APIURI + "/competence/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeCompetencePayloadBuilder)]);
+	var aq = new ActionQueue([new Action(APIURI + "/competence/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeCompetencePayloadBuilder)]);
 	document.getElementById("changeCompetenceSave").onclick = aq.closeDispatch;
 
 	function addOnChange(id)

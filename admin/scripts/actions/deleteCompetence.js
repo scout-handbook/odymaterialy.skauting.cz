@@ -12,7 +12,7 @@ function deleteCompetenceOnClick(event)
 		}
 	}
 
-	aq = new ActionQueue([new Action(APIURI + "/competence/" + encodeURIComponent(getAttribute(event, "id")), "DELETE")]);
+	var aq = new ActionQueue([new Action(APIURI + "/competence/" + encodeURIComponent(getAttribute(event, "id")), "DELETE")]);
 
 	dialog("Opravdu si přejete smazat kompetenci " + number + ": \"" + name + "\"?", "Ano", aq.closeDispatch, "Ne", function(){history.back();});
 	history.pushState({"sidePanel": "open"}, "title", "/admin/competences");

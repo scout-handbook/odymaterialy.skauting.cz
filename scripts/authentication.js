@@ -7,7 +7,7 @@ function showAccountInfo()
 {
 	metadataEvent.addCallback(function()
 		{
-			if(LOGINSTATE)
+			if(window.LOGINSTATE)
 			{
 				renderUserAccount();
 			}

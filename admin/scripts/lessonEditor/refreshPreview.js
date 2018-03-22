@@ -33,7 +33,7 @@ function refreshPreviewSetup()
 
 function refreshPreview(name, markdown, id)
 {
-	payload = {"id": id, "body": "# " + name + "\n" + markdown};
+	var payload = {"id": id, "body": "# " + name + "\n" + markdown};
 	if(window.Worker)
 	{
 		if(running)

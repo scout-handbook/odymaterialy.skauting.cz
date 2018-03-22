@@ -32,7 +32,7 @@ function renderLessonEditView(id, markdown, noHistory)
 		history.pushState({"id": id}, "title", "/admin/lessons");
 	}
 
-	aq = new ActionQueue([new Action(APIURI + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder)]);
+	var aq = new ActionQueue([new Action(APIURI + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder)]);
 	showLessonEditor(lesson.name, markdown, aq, id);
 	document.getElementById("save").dataset.id = id;
 }

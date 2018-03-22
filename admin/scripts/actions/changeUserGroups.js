@@ -8,6 +8,7 @@ function changeUserGroupsOnClick(event)
 	html += "<div class=\"button greenButton\" id=\"changeUserGroupsSave\"><i class=\"icon-floppy\"></i>Uložit</div>";
 	html += "<h3 class=\"sidePanelTitle\">Změnit skupiny: " + getAttribute(event, "name") + "</h3><form id=\"sidePanelForm\">";
 	var currentGroups = JSON.parse(getAttribute(event, "groups"));
+	var publicName = "";
 	for(var i = 0; i < GROUPS.length; i++)
 	{
 		if(GROUPS[i].id === "00000000-0000-0000-0000-000000000000")
@@ -35,10 +36,10 @@ function changeUserGroupsOnClick(event)
 			history.back();
 		};
 
-	aq = new ActionQueue([new Action(APIURI + "/user/" + encodeURIComponent(getAttribute(event, "id")) + "/group", "PUT", changeUserPayloadBuilder)]);
+	var aq = new ActionQueue([new Action(APIURI + "/user/" + encodeURIComponent(getAttribute(event, "id")) + "/group", "PUT", changeUserPayloadBuilder)]);
 	document.getElementById("changeUserGroupsSave").onclick = aq.closeDispatch;
 
-	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
+	var nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
 		nodes[k].onchange = userGroupsOnclick;
@@ -57,7 +58,7 @@ function changeUserPayloadBuilder()
 {
 	var groups = parseBoolForm();
 	var encodedGroups = [];
-	for(i = 0; i < groups.length; i++)
+	for(var i = 0; i < groups.length; i++)
 	{
 		encodedGroups.push(encodeURIComponent(groups[i]));
 	}

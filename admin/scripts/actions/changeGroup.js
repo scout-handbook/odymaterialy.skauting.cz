@@ -24,7 +24,7 @@ function changeGroupOnClick(event)
 			history.back();
 		};
 
-	aq = new ActionQueue([new Action(APIURI + "/group/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeGrouPayloadBuilder)]);
+	var aq = new ActionQueue([new Action(APIURI + "/group/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeGrouPayloadBuilder)]);
 	document.getElementById("changeGroupSave").onclick = aq.closeDispatch;
 
 	document.getElementById("groupName").oninput = function()
