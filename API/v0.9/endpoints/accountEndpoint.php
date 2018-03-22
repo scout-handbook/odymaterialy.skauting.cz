@@ -69,7 +69,6 @@ $accountEndpoint->setListMethod(new HandbookAPI\Role('guest'), $listAccount);
 $addAccount = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
 {
 	global $userEndpoint;
-	$id = $skautis->UserManagement->LoginDetail()->ID_Person;
 	$loginDetail = $skautis->UserManagement->LoginDetail();
 	$userData = ['id' => $loginDetail->ID_Person, 'name' => $loginDetail->Person];
 	$userEndpoint->call('POST', new HandbookAPI\Role('user'), $userData);
