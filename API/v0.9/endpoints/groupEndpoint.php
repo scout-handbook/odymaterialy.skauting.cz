@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
@@ -38,7 +38,7 @@ SQL;
 	$groups = [];
 	while($db->fetch())
 	{
-		$db2 =  new HandbookAPI\Database();
+		$db2 = new HandbookAPI\Database();
 		$db2->prepare($countSQL);
 		$db2->bindParam(':group_id', $id, PDO::PARAM_STR);
 		$db2->execute();

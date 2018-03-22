@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 namespace HandbookAPI;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');

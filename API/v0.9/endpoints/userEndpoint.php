@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
@@ -31,7 +31,7 @@ function constructSelectSQL(Skautis\Skautis $skautis, bool $groupSelect) : strin
 		$innerSQL .= ', \'administrator\', \'superuser\'';
 	}
 
-	$groupSQL = $groupSelect ? 'AND users_in_groups.group_id = :group_id ' : '' ;
+	$groupSQL = $groupSelect ? 'AND users_in_groups.group_id = :group_id ' : '';
 
 	$selectSQL = <<<SQL
 SELECT SQL_CALC_FOUND_ROWS users.id, users.name, users.role
