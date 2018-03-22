@@ -2,7 +2,7 @@ function showLessonListView(noHistory)
 {
 	if(screen.width < 700)
 	{
-		navigationOpen = false;
+		window.navigationOpen = false;
 		reflowNavigation();
 	}
 	metadataEvent.addCallback(function()
@@ -18,7 +18,7 @@ function renderLessonListView(noHistory)
 	html += renderFieldList();
 	document.getElementById("content").innerHTML = html;
 
-	nodes = document.getElementById("content").getElementsByTagName("a");
+	var nodes = document.getElementById("content").getElementsByTagName("a");
 	for(var l = 0; l < nodes.length; l++)
 	{
 		if(nodes[l].parentElement.tagName === "H2")

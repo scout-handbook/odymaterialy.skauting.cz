@@ -60,7 +60,7 @@ class OdyMarkdown extends GithubMarkdown
 	// Generic functions for command parsing
 	private function identifyCommand(string $line, string $command) : bool
 	{
-		if(strncmp($line, '!' . $command, mb_strlen($command) + 1) === 0)
+		if(strncmp(trim($line), '!' . $command, mb_strlen($command) + 1) === 0)
 		{
 			return true;
 		}
@@ -74,6 +74,10 @@ class OdyMarkdown extends GithubMarkdown
 		$argumentArray = explode(',', strval($argumentString));
 		foreach($argumentArray as $arg)
 		{
+			if($arg === '')
+			{
+				continue;
+			}
 			$keyval = explode('=', $arg);
 			if(count($keyval) === 1)
 			{
@@ -97,19 +101,20 @@ class OdyMarkdown extends GithubMarkdown
 		$line = rtrim($lines[$current]);
 		$next = $current;
 		$argumentString = '';
-		$start = intval(mb_strpos($line, '[', mb_strlen($command) + 1)) + 1;
+		$start = mb_strpos($line, '[', mb_strlen($command) + 1);
 		if($start !== false)
 		{
-			$stop = mb_strpos($line, ']', $start);
+			$stop = mb_strpos($line, ']', $start + 1);
 			if($stop !== false)
 			{
-				$argumentString = mb_substr($line, $start, $stop - $start);
+				$argumentString = mb_substr($line, $start + 1, $stop - $start - 1);
 				$next = $current;
 			}
 			else
 			{
-				$argumentString = mb_substr($line, $start);
-				for($i = $current + 1; $i < count($lines); ++$i)
+				$argumentString = mb_substr($line, $start + 1);
+				$linecount = count($lines);
+				for($i = $current + 1; $i < $linecount; ++$i)
 				{
 					$stop = mb_strpos($lines[$i], "]");
 					if($stop !== false)
@@ -125,7 +130,7 @@ class OdyMarkdown extends GithubMarkdown
 				}
 			}
 		}
-		$argumentString = str_replace(' ', '', strval($argumentString));
+		$argumentString = mb_ereg_replace(' ', '', strval($argumentString));
 		return [$argumentString, $next];
 	}
 

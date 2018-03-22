@@ -94,7 +94,7 @@ function restoreLessonRenderVersionList(id, list)
 			sidePanelOpen();
 			history.back();
 		};
-	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
+	var nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var j = 0; j < nodes.length; j++)
 	{
 		nodes[j].onchange = function(event) {restoreLessonShowVersion(id, event);};

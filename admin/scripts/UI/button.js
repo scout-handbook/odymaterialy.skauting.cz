@@ -1,6 +1,6 @@
 function getAttribute(event, attribute)
 {
-	el = event.target;
+	var el = event.target;
 	while(!el.dataset.hasOwnProperty(attribute))
 	{
 		el = el.parentElement;

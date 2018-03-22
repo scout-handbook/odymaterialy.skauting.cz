@@ -14,12 +14,12 @@ function showLessonView(id, noHistory)
 	document.getElementById("content").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(screen.width < 700)
 	{
-		navigationOpen = false;
+		window.navigationOpen = false;
 		reflowNavigation();
 	}
 	if(!getLessonById(id))
 	{
-		if(LOGINSTATE)
+		if(window.LOGINSTATE)
 		{
 			window.location = BASEURI + "/error/404.html";
 		}
@@ -60,7 +60,7 @@ function renderLessonView(id, markdown, noHistory, second)
 	}
 	html += filterXSS(converter.makeHtml(markdown), xssOptions());
 	document.getElementById("content").innerHTML = html;
-	nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
+	var nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
 	for(var m = 0; m < nodes.length; m++)
 	{
 		nodes[m].onclick = toggleCompetenceBubble;

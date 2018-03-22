@@ -1,6 +1,6 @@
 function showImageSubview(noHistory)
 {
-	mainPageTab = "images";
+	window.mainPageTab = "images";
 	var nodes = document.getElementsByClassName("topBarTab");
 	for(var i = 0; i < nodes.length; i++)
 	{

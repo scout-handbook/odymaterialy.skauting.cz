@@ -3,7 +3,7 @@ function historySetup()
 	window.onpopstate = popback;
 	if(window.location.pathname.substring(7))
 	{
-		mainPageTab = window.location.pathname.substring(7);
+		window.mainPageTab = window.location.pathname.substring(7);
 	}
 	showMainView();
 }
@@ -12,13 +12,13 @@ function popback()
 {
 	if(history.state)
 	{
-		if(sidePanelState)
+		if(window.sidePanelState)
 		{
 			sidePanelClose();
 		}
 		else if(history.state.id)
 		{
-			if(imageSelectorOpen)
+			if(window.imageSelectorOpen)
 			{
 				prepareImageSelector();
 			}
@@ -32,7 +32,7 @@ function popback()
 		}
 		else if(history.state.page)
 		{
-			mainPageTab = history.state.page;
+			window.mainPageTab = history.state.page;
 			showMainView(true)
 		}
 		else

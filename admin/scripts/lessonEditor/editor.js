@@ -50,6 +50,9 @@ function showLessonEditor(name, body, actionQueue, id)
 		autofocus: true,
 		element: document.getElementById("editor").firstchild,
 		indentWithTabs: false,
+		parsingConfig: {
+			allowAtxHeaderWithoutSpace: true
+		},
 		spellChecker: false,
 		status: false,
 		tabSize: 4,

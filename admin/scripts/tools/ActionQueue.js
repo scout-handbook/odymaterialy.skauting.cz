@@ -30,7 +30,7 @@ function ActionQueueSetup()
 {
 	if(window.sessionStorage && sessionStorage.getItem("ActionQueue"))
 	{
-		aq = new ActionQueue(JSON.parse(sessionStorage.getItem("ActionQueue")).map(deserializeAction));
+		var aq = new ActionQueue(JSON.parse(sessionStorage.getItem("ActionQueue")).map(deserializeAction));
 		ActionQueueRetry = true;
 		sessionStorage.clear();
 		aq.dispatch();
@@ -53,7 +53,7 @@ function ActionQueue(actions, retry)
 
 	this.addDefaultCallback = function()
 		{
-			queue.actions[queue.actions.length - 1].callback = function(response)
+			queue.actions[queue.actions.length - 1].callback = function()
 				{
 					dialog("Akce byla úspěšná.", "OK");
 					refreshMetadata();

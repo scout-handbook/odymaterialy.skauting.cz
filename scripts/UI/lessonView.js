@@ -20,11 +20,11 @@ function toggleLessonOffline()
 
 function toggleCompetenceBubble(event)
 {
-	element = event.target;
+	var element = event.target;
 	while(!element.classList.contains("competenceBubble") && (element = element.parentElement)) { /* Empty */ }
 	if(element.style.width !== "")
 	{
-		activeCompetence = null;
+		window.activeCompetence = null;
 		element.childNodes[1].style.width = "";
 		element.style.width = "";
 		element.style.height = "";
@@ -34,7 +34,7 @@ function toggleCompetenceBubble(event)
 	}
 	else
 	{
-		nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
+		var nodes = document.getElementById("content").getElementsByClassName("competenceBubble");
 		for(var i = 0; i < nodes.length; i++)
 		{
 			nodes[i].childNodes[1].style.width = "";
@@ -44,7 +44,7 @@ function toggleCompetenceBubble(event)
 			nodes[i].style.borderColor = "";
 			nodes[i].style.backgroundColor = "";
 		}
-		activeCompetence = element;
+		window.activeCompetence = element;
 		reflowCompetenceBubbles();
 		element.firstChild.style.color = "#6534ad";
 		element.style.borderColor = "#6534ad";
@@ -54,7 +54,7 @@ function toggleCompetenceBubble(event)
 
 function reflowCompetenceBubbles()
 {
-	if(activeCompetence)
+	if(window.activeCompetence)
 	{
 		var fontSize = parseFloat(window.getComputedStyle(activeCompetence).getPropertyValue("font-size"));
 		activeCompetence.childNodes[1].style.width = Math.min(403 - 1.3 * fontSize, activeCompetence.parentElement.clientWidth - 1.3 * fontSize + 3) + "px";

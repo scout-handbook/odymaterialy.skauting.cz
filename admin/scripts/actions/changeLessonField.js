@@ -46,7 +46,7 @@ function changeLessonFieldOnClick(id, actionQueue)
 		};
 	document.getElementById("changeLessonFieldSave").onclick = function() {changeLessonFieldSave(id, actionQueue);};
 
-	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
+	var nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var k = 0; k < nodes.length; k++)
 	{
 		nodes[k].onchange = lessonFieldOnclick;

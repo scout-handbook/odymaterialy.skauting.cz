@@ -29,45 +29,85 @@ showdown.extension("OdyMarkdown", OdyMarkdown);
 // Generic command processing functions
 function filterCommand(text, commandName, command)
 {
-	var start = text.indexOf("!" + commandName);
-	while(start >= 0)
+	var lines = text.split("\n")
+	var ret = "";
+	for(var i = 0; i < lines.length; i++)
 	{
-		var argumentObject = {};
-		var stop = 0;
-		if(text.charAt(start + commandName.length + 1) === "[")
+		if(lines[i].trim().substring(0, commandName.length + 1) === "!" + commandName)
 		{
-			stop = text.indexOf("]", start + commandName.length + 2);
-			var argumentString = text.substring(start + commandName.length + 2, stop);
-			argumentObject = parseArguments(argumentString);
+			var arr = getArgumentString(lines, i, commandName);
+			i = arr[1];
+			ret += command(parseArgumentString(arr[0])) + "\n";
 		}
 		else
 		{
-			stop = start + commandName.length;
+			ret += lines[i] + "\n";
 		}
-		text = text.substring(0, start) + command(argumentObject) + text.substring(stop + 1, text.length)
-		start = text.indexOf("!" + commandName);
 	}
-	return text;
+	return ret;
 }
 
-function parseArguments(argumentString)
+function getArgumentString(lines, current, commandName)
+{
+	var line = lines[current].trim();
+	var next = current;
+	var argumentString = "";
+	var start = line.indexOf("[", commandName.length + 1) 
+	if(start !== -1)
+	{
+		var stop = line.indexOf("]", start + 1);
+		if(stop !== -1)
+		{
+			argumentString = line.substring(start + 1, stop);
+		}
+		else
+		{
+			argumentString = line.substring(start + 1);
+			for(var i = current + 1; i < lines.length; i++)
+			{
+				stop = lines[i].indexOf("]");
+				if(stop !== -1)
+				{
+					argumentString += lines[i].substring(0, stop);
+					next = i;
+					break;
+				}
+				else
+				{
+					argumentString += lines[i];
+				}
+			}
+		}
+	}
+	argumentString = argumentString.replace(/ /g, "");
+	return [argumentString, next];
+}
+
+function parseArgumentString(argumentString)
 {
 	var output = {};
-	var list = argumentString.replace(/ /g,"").split(",");
-	for(i = 0; i < list.length; ++i)
+	var list = argumentString.split(",");
+	for(var i = 0; i < list.length; ++i)
 	{
-		var tuple = list[i].split("=");
-		if (tuple.length !== 2)
+		if(list[i] === "")
 		{
-			return {};
+			continue;
 		}
-		output[tuple[0]] = tuple[1];
+		var tuple = list[i].split("=");
+		if(tuple.length !== 2)
+		{
+			output[tuple[0]] = true;
+		}
+		else
+		{
+			output[tuple[0]] = tuple[1];
+		}
 	}
 	return output;
 }
 
 // Specific commands
-function notesCommand(argumentObject)
+function notesCommand()
 {
 	//return "<textarea class=\"notes\" placeholder=\"Tvoje poznámky\"></textarea>";
 	return "";

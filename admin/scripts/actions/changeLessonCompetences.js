@@ -26,7 +26,7 @@ function changeLessonCompetencesOnClick(id, actionQueue)
 		};
 	document.getElementById("changeLessonCompetencesSave").onclick = function() {changeLessonCompetencesSave(id, actionQueue);};
 
-	nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
+	var nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");
 	for(var j = 0; j < nodes.length; j++)
 	{
 		nodes[j].onchange = lessonCompetenceOnclick;
@@ -47,7 +47,7 @@ function changeLessonCompetencesSave(id, actionQueue)
 		id = typeof id !== 'undefined' ? id : "{id}";
 		var competences = parseBoolForm();
 		var encodedCompetences = [];
-		for(i = 0; i < competences.length; i++)
+		for(var i = 0; i < competences.length; i++)
 		{
 			encodedCompetences.push(encodeURIComponent(competences[i]));
 		}

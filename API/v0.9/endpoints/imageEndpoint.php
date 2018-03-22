@@ -66,7 +66,7 @@ SQL;
 	$images = [];
 	while($db->fetch())
 	{
-		$images[] = Uuid::fromBytes(strval($id))->__toString();
+		$images[] = Uuid::fromBytes(strval($id))->toString();
 	}
 	return ['status' => 200, 'response' => $images];
 };
@@ -74,7 +74,7 @@ $imageEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listImages);
 
 $getImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : void
 {
-	$id = HandbookAPI\Helper::parseUuid($data['id'], 'image')->__toString();
+	$id = HandbookAPI\Helper::parseUuid($data['id'], 'image')->toString();
 	$quality = "web";
 	if(isset($data['quality']) and in_array($data['quality'], ['original', 'web', 'thumbnail']))
 	{
@@ -127,7 +127,7 @@ SQL;
 		throw new HandbookAPI\InvalidArgumentTypeException('image', ['image/jpeg', 'image/png']);
 	}
 	$uuid = Uuid::uuid4();
-	$tmp = $IMAGEPATH . '/tmp/' . $uuid->__toString() . '.jpg';
+	$tmp = $IMAGEPATH . '/tmp/' . $uuid->toString() . '.jpg';
 	if(!move_uploaded_file($_FILES['image']['tmp_name'], $tmp))
 	{
 		throw new HandbookAPI\Exception('File upload failed.');
@@ -140,9 +140,9 @@ SQL;
 	$db->bindParam(':id', $uuidBin, PDO::PARAM_STR);
 	$db->execute();
 
-	$orig = $IMAGEPATH . '/original/' . $uuid->__toString() . '.jpg';
-	$web = $IMAGEPATH . '/web/' . $uuid->__toString() . '.jpg';
-	$thumbnail = $IMAGEPATH . '/thumbnail/' . $uuid->__toString() . '.jpg';
+	$orig = $IMAGEPATH . '/original/' . $uuid->toString() . '.jpg';
+	$web = $IMAGEPATH . '/web/' . $uuid->toString() . '.jpg';
+	$thumbnail = $IMAGEPATH . '/thumbnail/' . $uuid->toString() . '.jpg';
 
 	$origMagick = new Imagick($tmp);
 	$ICCProfile = $origMagick->getImageProfiles("icc", true);
@@ -200,9 +200,9 @@ SQL;
 
 	$db->endTransaction();
 
-	unlink($IMAGEPATH . '/original/' . $id->__toString() . '.jpg');
-	unlink($IMAGEPATH . '/web/' . $id->__toString() . '.jpg');
-	unlink($IMAGEPATH . '/thumbnail/' . $id->__toString() . '.jpg');
+	unlink($IMAGEPATH . '/original/' . $id->toString() . '.jpg');
+	unlink($IMAGEPATH . '/web/' . $id->toString() . '.jpg');
+	unlink($IMAGEPATH . '/thumbnail/' . $id->toString() . '.jpg');
 
 	return ['status' => 200];
 };

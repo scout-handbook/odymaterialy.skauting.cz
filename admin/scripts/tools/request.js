@@ -8,11 +8,12 @@ function request(url, method, payload, callback)
 				callback(JSON.parse(this.responseText));
 			}
 		}
+	var query = "";
 	if(payload)
 	{
 		if(method === "GET" || method === "DELETE" || payload.toString() !== "[object FormData]")
 		{
-			var query = requestQueryBuilder(payload);
+			query = requestQueryBuilder(payload);
 		}
 		if((method === "GET" || method === "DELETE") && query)
 		{
@@ -42,7 +43,7 @@ function requestQueryBuilder(payload)
 {
 	var query = "";
 	var first = true;
-	for(key in payload)
+	for(var key in payload)
 	{
 		if(!payload.hasOwnProperty(key))
 		{

@@ -1,6 +1,6 @@
 function showLessonSubview(noHistory)
 {
-	mainPageTab = "lessons";
+	window.mainPageTab = "lessons";
 	var nodes = document.getElementsByClassName("topBarTab");
 	for(var l = 0; l < nodes.length; l++)
 	{

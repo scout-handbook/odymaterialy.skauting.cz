@@ -15,7 +15,7 @@ function deleteLessonOnClick(event)
 		}
 	}
 
-	aq = new ActionQueue([new Action(APIURI + "/lesson/" + encodeURIComponent(id), "DELETE")]);
+	var aq = new ActionQueue([new Action(APIURI + "/lesson/" + encodeURIComponent(id), "DELETE")]);
 	dialog("Opravdu si přejete smazat lekci \"" + name + "\"?", "Ano", aq.closeDispatch, "Ne", function(){history.back();});
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 	refreshLogin();
