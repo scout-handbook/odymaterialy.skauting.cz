@@ -200,9 +200,9 @@ SQL;
 
 	$db->endTransaction();
 
-	unlink($IMAGEPATH . '/original/' . $id->__toString() . '.jpg');
-	unlink($IMAGEPATH . '/web/' . $id->__toString() . '.jpg');
-	unlink($IMAGEPATH . '/thumbnail/' . $id->__toString() . '.jpg');
+	unlink($IMAGEPATH . '/original/' . $id->toString() . '.jpg');
+	unlink($IMAGEPATH . '/web/' . $id->toString() . '.jpg');
+	unlink($IMAGEPATH . '/thumbnail/' . $id->toString() . '.jpg');
 
 	return ['status' => 200];
 };
