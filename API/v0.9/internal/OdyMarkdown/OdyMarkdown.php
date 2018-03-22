@@ -113,7 +113,8 @@ class OdyMarkdown extends GithubMarkdown
 			else
 			{
 				$argumentString = mb_substr($line, $start + 1);
-				for($i = $current + 1; $i < count($lines); ++$i)
+				$linecount = count($lines);
+				for($i = $current + 1; $i < $linecount; ++$i)
 				{
 					$stop = mb_strpos($lines[$i], "]");
 					if($stop !== false)
