@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fcad4b82537f3eedc182f4420c8ef17",
+    "content-hash": "7a671bfe5c4915bd0930bc3902ff2b1c",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -54,16 +54,16 @@
         },
         {
             "name": "cebe/markdown",
-            "version": "dev-master",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cebe/markdown.git",
-                "reference": "8a11c4efc7cc3dc7f8d757b23851d82a1d38e3c7"
+                "reference": "62efec06056b045c8c5e9c1126d9253ba27b9cb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cebe/markdown/zipball/8a11c4efc7cc3dc7f8d757b23851d82a1d38e3c7",
-                "reference": "8a11c4efc7cc3dc7f8d757b23851d82a1d38e3c7",
+                "url": "https://api.github.com/repos/cebe/markdown/zipball/62efec06056b045c8c5e9c1126d9253ba27b9cb3",
+                "reference": "62efec06056b045c8c5e9c1126d9253ba27b9cb3",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "time": "2018-03-14T10:55:03+00:00"
+            "time": "2018-03-14T21:01:25+00:00"
         },
         {
             "name": "mpdf/mpdf",
@@ -465,9 +465,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "cebe/markdown": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
