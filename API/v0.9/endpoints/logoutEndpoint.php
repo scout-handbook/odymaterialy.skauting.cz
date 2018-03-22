@@ -8,7 +8,7 @@ require_once($BASEPATH . '/v0.9/internal/Role.php');
 
 $logoutEndpoint = new HandbookAPI\Endpoint();
 
-$logoutUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEURI, $COOKIEURI) : void
+$logoutUser = function(Skautis\Skautis $skautis, array $data) use ($BASEURI, $COOKIEURI) : void
 {
 	if(isset($data['return-uri']) and isset($_COOKIE['skautis_token']))
 	{

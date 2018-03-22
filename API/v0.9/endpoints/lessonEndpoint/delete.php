@@ -6,7 +6,7 @@ require_once($BASEPATH . '/vendor/autoload.php');
 require_once($BASEPATH . '/v0.9/internal/Database.php');
 require_once($BASEPATH . '/v0.9/internal/Helper.php');
 
-$deleteLesson = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$deleteLesson = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$copySQL = <<<SQL
 INSERT INTO lesson_history (id, name, version, body)

@@ -8,7 +8,7 @@ require_once($BASEPATH . '/v0.9/internal/Role.php');
 
 $refreshEndpoint = new HandbookAPI\Endpoint();
 
-$refreshLogin = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($COOKIEURI) : array
+$refreshLogin = function(Skautis\Skautis $skautis) use ($COOKIEURI) : array
 {
 	$dateLogout = $skautis->UserManagement->LoginUpdateRefresh(['ID' => $_COOKIE['skautis_token']])->DateLogout;
 	$timeout = DateTime::createFromFormat('Y-m-d\TH:i:s.u', $dateLogout)->format('U');

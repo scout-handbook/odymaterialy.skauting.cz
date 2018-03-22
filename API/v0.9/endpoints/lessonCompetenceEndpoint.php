@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonCompetenceEndpoint = new HandbookAPI\Endpoint();
 
-$updateLessonCompetence = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$updateLessonCompetence = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$deleteSQL = <<<SQL
 DELETE FROM competences_for_lessons

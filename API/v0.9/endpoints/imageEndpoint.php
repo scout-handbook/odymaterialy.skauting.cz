@@ -50,7 +50,7 @@ function applyRotation(Imagick $image) : void
 	$image->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
 }
 
-$listImages = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listImages = function() : array
 {
 	$SQL = <<<SQL
 SELECT id
@@ -72,7 +72,7 @@ SQL;
 };
 $imageEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listImages);
 
-$getImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : void
+$getImage = function(Skautis\Skautis $skautis, array $data) use ($IMAGEPATH) : void
 {
 	$id = HandbookAPI\Helper::parseUuid($data['id'], 'image')->toString();
 	$quality = "web";
@@ -107,7 +107,7 @@ $getImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint
 };
 $imageEndpoint->setGetMethod(new HandbookAPI\Role('guest'), $getImage);
 
-$addImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : array
+$addImage = function() use ($IMAGEPATH) : array
 {
 	$SQL = <<<SQL
 INSERT INTO images (id)
@@ -175,7 +175,7 @@ SQL;
 };
 $imageEndpoint->setAddMethod(new HandbookAPI\Role('editor'), $addImage);
 
-$deleteImage = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($IMAGEPATH) : array
+$deleteImage = function(Skautis\Skautis $skautis, array $data) use ($IMAGEPATH) : array
 {
 	$SQL = <<<SQL
 DELETE FROM images

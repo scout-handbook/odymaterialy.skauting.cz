@@ -11,7 +11,7 @@ require_once($BASEPATH . '/v0.9/endpoints/eventParticipantEndpoint.php');
 $eventEndpoint = new HandbookAPI\Endpoint();
 $eventEndpoint->addSubEndpoint('participant', $eventParticipantEndpoint);
 
-$listUsers = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listUsers = function(Skautis\Skautis $skautis) : array
 {
 	$ISevents = $skautis->Events->EventEducationAllMyActions();
 	$events = [];

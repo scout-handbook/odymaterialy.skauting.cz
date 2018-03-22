@@ -14,7 +14,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonHistoryEndpoint = new HandbookAPI\Endpoint();
 
-$listLessonHistory = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listLessonHistory = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$checkSQL = <<<SQL
 SELECT 1 FROM lessons
@@ -51,7 +51,7 @@ SQL;
 };
 $lessonHistoryEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listLessonHistory);
 
-$getLessonHistory = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$getLessonHistory = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$checkSQL = <<<SQL
 SELECT 1 FROM lessons

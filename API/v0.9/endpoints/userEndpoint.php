@@ -49,7 +49,7 @@ SQL;
 	return $selectSQL;
 }
 
-$listUsers = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listUsers = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$selectSQL = constructSelectSQL($skautis, isset($data['group']));
 	$countSQL = <<<SQL
@@ -139,7 +139,7 @@ SQL;
 };
 $userEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listUsers);
 
-$addUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$addUser = function(Skautis\Skautis $skautis, array $data) : array
 {
 	if(!isset($data['id']))
 	{

@@ -32,23 +32,23 @@ class Endpoint
 	{
 		$this->subEndpoints = [];
 
-		$this->listFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		$this->listFunction = function() : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->getFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		$this->getFunction = function() : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->updateFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		$this->updateFunction = function() : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->addFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		$this->addFunction = function() : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->deleteFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		$this->deleteFunction = function() : void
 		{
 			throw new NotImplementedException();
 		};

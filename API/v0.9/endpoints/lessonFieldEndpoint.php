@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonFieldEndpoint = new HandbookAPI\Endpoint();
 
-$updateLessonField = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$updateLessonField = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$deleteSQL = <<<SQL
 DELETE FROM lessons_in_fields

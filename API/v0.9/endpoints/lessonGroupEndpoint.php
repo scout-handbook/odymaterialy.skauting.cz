@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonGroupEndpoint = new HandbookAPI\Endpoint();
 
-$listLessonGroups = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listLessonGroups = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$SQL = <<<SQL
 SELECT group_id FROM groups_for_lessons
@@ -35,7 +35,7 @@ SQL;
 };
 $lessonGroupEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listLessonGroups);
 
-$updateLessonGroups = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$updateLessonGroups = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$deleteSQL = <<<SQL
 DELETE FROM groups_for_lessons

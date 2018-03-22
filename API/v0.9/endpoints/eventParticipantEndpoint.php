@@ -10,7 +10,7 @@ require_once($BASEPATH . '/v0.9/internal/exceptions/InvalidArgumentTypeException
 
 $eventParticipantEndpoint = new HandbookAPI\Endpoint();
 
-$listEventParticipants = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listEventParticipants = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$id = ctype_digit($data['parent-id']) ? intval($data['parent-id']) : null;
 	if($id === null)

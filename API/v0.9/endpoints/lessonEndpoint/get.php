@@ -8,7 +8,7 @@ require_once($BASEPATH . '/v0.9/internal/Helper.php');
 
 require_once($BASEPATH . '/v0.9/internal/exceptions/RoleException.php');
 
-$getLesson = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$getLesson = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$SQL = <<<SQL
 SELECT body

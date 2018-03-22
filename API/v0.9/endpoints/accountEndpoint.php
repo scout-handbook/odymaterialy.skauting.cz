@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
 
 $accountEndpoint = new HandbookAPI\Endpoint();
 
-$listAccount = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listAccount = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$getAccount = function(Skautis\Skautis $skautis) use ($data) : array
 	{
@@ -66,7 +66,7 @@ SQL;
 };
 $accountEndpoint->setListMethod(new HandbookAPI\Role('guest'), $listAccount);
 
-$addAccount = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$addAccount = function(Skautis\Skautis $skautis) : array
 {
 	global $userEndpoint;
 	$loginDetail = $skautis->UserManagement->LoginDetail();

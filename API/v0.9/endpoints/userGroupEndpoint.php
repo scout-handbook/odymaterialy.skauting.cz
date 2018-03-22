@@ -11,7 +11,7 @@ require_once($BASEPATH . '/v0.9/internal/exceptions/InvalidArgumentTypeException
 
 $userGroupEndpoint = new HandbookAPI\Endpoint();
 
-$updateUserRole = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$updateUserRole = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$checkRole = function(HandbookAPI\Role $my_role, HandbookAPI\Role $role) : void
 	{

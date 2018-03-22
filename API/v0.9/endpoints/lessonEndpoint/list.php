@@ -62,7 +62,7 @@ SQL;
 	}
 }
 
-$listLessons = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listLessons = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$fieldSQL = <<<SQL
 SELECT id, name

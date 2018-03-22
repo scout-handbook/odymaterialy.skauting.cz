@@ -17,7 +17,7 @@ use Ramsey\Uuid\Uuid;
 
 $groupEndpoint = new HandbookAPI\Endpoint();
 
-$listGroups = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listGroups = function() : array
 {
 	$selectSQL = <<<SQL
 SELECT id, name
@@ -51,7 +51,7 @@ SQL;
 };
 $groupEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listGroups);
 
-$addGroup = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$addGroup = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$SQL = <<<SQL
 INSERT INTO groups (id, name)
@@ -74,7 +74,7 @@ SQL;
 };
 $groupEndpoint->setAddMethod(new HandbookAPI\Role('administrator'), $addGroup);
 
-$updateGroup = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$updateGroup = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$updateSQL = <<<SQL
 UPDATE groups
@@ -108,7 +108,7 @@ SQL;
 };
 $groupEndpoint->setUpdateMethod(new HandbookAPI\Role('administrator'), $updateGroup);
 
-$deleteGroup = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$deleteGroup = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM groups_for_lessons
