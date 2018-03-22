@@ -16,7 +16,7 @@ function xssOptions()
 				{
 					return name + "=\"" + value + "\"";
 				}
-				return;
 			}
+			return;
 		}};
 }
