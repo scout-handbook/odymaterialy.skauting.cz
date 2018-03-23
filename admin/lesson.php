@@ -20,9 +20,13 @@ if(isset($loginState['status']))
 			$role = $loginState['response']['role'];
 			if($role == 'editor' or $role == 'administrator' or $role == 'superuser')
 			{
-				header('content-type:application/pdf; charset=utf-8');
-				fpassthru(fopen($APIURI . '/lesson/' . $_GET['id'] . '/pdf', 'rb'));
-				die();
+				$file = fopen($APIURI . '/lesson/' . $_GET['id'] . '/pdf', 'rb');
+				if($file !== false)
+				{
+					header('content-type:application/pdf; charset=utf-8');
+					fpassthru($file);
+					die();
+				}
 			}
 		}
 	}
