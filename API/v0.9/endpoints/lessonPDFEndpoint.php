@@ -97,4 +97,4 @@ SQL;
 	header('content-type:application/pdf; charset=utf-8');
 	$mpdf->Output($id->toString() . '_' . \HandbookAPI\Helper::urlEscape($name) . '.pdf', \Mpdf\Output\Destination::INLINE);
 };
-$lessonPDFEndpoint->setListMethod(new HandbookAPI\Role('guest'), $getLessonPDF);
+$lessonPDFEndpoint->setListMethod(new HandbookAPI\Role('editor'), $getLessonPDF);
