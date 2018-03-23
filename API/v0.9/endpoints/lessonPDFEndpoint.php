@@ -66,7 +66,9 @@ SQL;
 		'mirrorMargins' => true,
 		'margin_top' => 12.5,
 		'margin_left' => 19.5,
-		'margin_right' => 12.25
+		'margin_right' => 12.25,
+		'shrink_tables_to_fit' => 1,
+		'use_kwt' => true
 	]);
 
 	$qrRenderer = new \BaconQrCode\Renderer\Image\Png();
