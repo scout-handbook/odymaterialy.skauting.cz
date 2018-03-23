@@ -20,7 +20,11 @@ var OdyMarkdown = function()
 		type: "lang",
 		filter: function(text, c, o) {return filterCommand(text, "linky", notesCommand);}
 	};
-	return [responsiveTablesBegin, responsiveTablesEnd, blankLinks, notes];
+	var pagebreak = {
+		type: "lang",
+		filter: function(text, c, o) {return filterCommand(text, "novastrana", pagebreakCommand);}
+	};
+	return [responsiveTablesBegin, responsiveTablesEnd, blankLinks, notes, pagebreak];
 }
 
 //Register extensions
@@ -113,3 +117,7 @@ function notesCommand()
 	return "";
 }
 
+function pagebreakCommand()
+{
+	return "";
+}

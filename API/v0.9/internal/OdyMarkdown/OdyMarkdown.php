@@ -179,4 +179,20 @@ class OdyMarkdown extends GithubMarkdown
 			return str_repeat('<br>', $height);
 		}
 	}
+
+	// Pagebreak extension
+	protected function identifyPagebreak(string $line) : bool
+	{
+		return $this->identifyCommand($line, 'novastrana');
+	}
+
+	protected function consumePagebreak(array $lines, int $current) : array
+	{
+		return $this->consumeCommand($lines, $current, 'novastrana');
+	}
+
+	protected function renderNovastrana(array $block) : string
+	{
+		return $block['lastPage'] ? '' : '<pagebreak>';
+	}
 }
