@@ -22,7 +22,12 @@ class OdyMarkdown extends GithubMarkdown
 				return $block['orig'];
 			}
 		}
-		return $this->renderAbsy($block['text']) . ' (<a href="' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '">' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '</a>) ';
+		$ret = $this->renderAbsy($block['text']);
+		if(trim($this->renderAbsy($block['text'])) !== trim($block['url']))
+		{
+			$ret .= ' (' . $block['url'] . ') ';
+		}
+		return $ret;
 	}
 
 	// Image rendering in original quality
