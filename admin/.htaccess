@@ -8,6 +8,9 @@
 RewriteCond %{REQUEST_URI} ^/admin/(lessons|competences|images|users|groups)$
 RewriteRule (.*) /admin/ [QSA,L]
 
+# PDF rewrite
+RewriteRule ^lesson/(.*) lesson.php?id=$1
+
 # Server push
 <FilesMatch "index.php">
 	Header add Link "</styles/fontello.css>;rel=preload;as=style"
