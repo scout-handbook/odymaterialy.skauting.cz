@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');

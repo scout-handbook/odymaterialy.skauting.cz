@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
 
 $deletedLessonHistoryEndpoint = new HandbookAPI\Endpoint();
 
-$listDeletedLessonHistory = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listDeletedLessonHistory = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$checkSQL = <<<SQL
 SELECT 1 FROM lessons
@@ -60,7 +60,7 @@ SQL;
 };
 $deletedLessonHistoryEndpoint->setListMethod(new HandbookAPI\Role('administrator'), $listDeletedLessonHistory);
 
-$getDeletedLessonHistory = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$getDeletedLessonHistory = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$checkSQL = <<<SQL
 SELECT 1 FROM lessons

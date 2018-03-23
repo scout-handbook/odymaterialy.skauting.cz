@@ -513,8 +513,11 @@ paths:
   /lesson/{id}/pdf:
     get:
       summary: Get the lesson in PDF
+      description: User role must be **editor** or higher!
       tags:
         - lesson
+      security:
+        - apiKey: []
       parameters:
         - in: path
           name: id

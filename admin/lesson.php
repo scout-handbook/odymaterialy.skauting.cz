@@ -10,6 +10,7 @@ if(isset($_COOKIE['skautis_timeout']) and isset($_COOKIE['skautis_token']))
 }
 $accountInfo = file_get_contents($APIURI . '/account?no-avatar=true', false, $context);
 $loginState = json_decode($accountInfo, true);
+
 if(isset($loginState['status']))
 {
 	if($loginState['status'] == 200)
@@ -19,8 +20,13 @@ if(isset($loginState['status']))
 			$role = $loginState['response']['role'];
 			if($role == 'editor' or $role == 'administrator' or $role == 'superuser')
 			{
-				require('main.html');
-				die();
+				$file = fopen($APIURI . '/lesson/' . $_GET['id'] . '/pdf', 'rb');
+				if($file !== false)
+				{
+					header('content-type:application/pdf; charset=utf-8');
+					fpassthru($file);
+					die();
+				}
 			}
 		}
 	}

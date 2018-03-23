@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
@@ -31,7 +31,7 @@ function constructSelectSQL(Skautis\Skautis $skautis, bool $groupSelect) : strin
 		$innerSQL .= ', \'administrator\', \'superuser\'';
 	}
 
-	$groupSQL = $groupSelect ? 'AND users_in_groups.group_id = :group_id ' : '' ;
+	$groupSQL = $groupSelect ? 'AND users_in_groups.group_id = :group_id ' : '';
 
 	$selectSQL = <<<SQL
 SELECT SQL_CALC_FOUND_ROWS users.id, users.name, users.role
@@ -49,7 +49,7 @@ SQL;
 	return $selectSQL;
 }
 
-$listUsers = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listUsers = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$selectSQL = constructSelectSQL($skautis, isset($data['group']));
 	$countSQL = <<<SQL
@@ -139,7 +139,7 @@ SQL;
 };
 $userEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listUsers);
 
-$addUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$addUser = function(Skautis\Skautis $skautis, array $data) : array
 {
 	if(!isset($data['id']))
 	{

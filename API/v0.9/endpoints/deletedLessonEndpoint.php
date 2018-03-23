@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
 $deletedLessonEndpoint = new HandbookAPI\Endpoint();
 $deletedLessonEndpoint->addSubEndpoint('history', $deletedLessonHistoryEndpoint);
 
-$listDeletedLessons = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listDeletedLessons = function() : array
 {
 	$SQL = <<<SQL
 SELECT a.id, a.name

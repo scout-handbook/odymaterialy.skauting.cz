@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
@@ -17,7 +17,7 @@ use Ramsey\Uuid\Uuid;
 
 $groupEndpoint = new HandbookAPI\Endpoint();
 
-$listGroups = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listGroups = function() : array
 {
 	$selectSQL = <<<SQL
 SELECT id, name
@@ -38,7 +38,7 @@ SQL;
 	$groups = [];
 	while($db->fetch())
 	{
-		$db2 =  new HandbookAPI\Database();
+		$db2 = new HandbookAPI\Database();
 		$db2->prepare($countSQL);
 		$db2->bindParam(':group_id', $id, PDO::PARAM_STR);
 		$db2->execute();
@@ -51,7 +51,7 @@ SQL;
 };
 $groupEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listGroups);
 
-$addGroup = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$addGroup = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$SQL = <<<SQL
 INSERT INTO groups (id, name)
@@ -74,7 +74,7 @@ SQL;
 };
 $groupEndpoint->setAddMethod(new HandbookAPI\Role('administrator'), $addGroup);
 
-$updateGroup = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$updateGroup = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$updateSQL = <<<SQL
 UPDATE groups
@@ -108,7 +108,7 @@ SQL;
 };
 $groupEndpoint->setUpdateMethod(new HandbookAPI\Role('administrator'), $updateGroup);
 
-$deleteGroup = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$deleteGroup = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM groups_for_lessons

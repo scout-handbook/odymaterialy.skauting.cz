@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
@@ -11,7 +11,7 @@ require_once($BASEPATH . '/v0.9/endpoints/accountEndpoint.php');
 
 $loginEndpoint = new HandbookAPI\Endpoint();
 
-$loginUser = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEURI, $COOKIEURI, $accountEndpoint) : void
+$loginUser = function(Skautis\Skautis $skautis, array $data) use ($BASEURI, $COOKIEURI, $accountEndpoint) : void
 {
 	$startsWith = function(string $haystack, string $needle) : bool
 	{

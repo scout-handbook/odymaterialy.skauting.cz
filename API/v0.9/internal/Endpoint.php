@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
@@ -32,23 +32,23 @@ class Endpoint
 	{
 		$this->subEndpoints = [];
 
-		$this->listFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		$this->listFunction = function() : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->getFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		$this->getFunction = function() : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->updateFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		$this->updateFunction = function() : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->addFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		$this->addFunction = function() : void
 		{
 			throw new NotImplementedException();
 		};
-		$this->deleteFunction = function(\Skautis\Skautis $skautis, array $data, Endpoint $endpoint) : void
+		$this->deleteFunction = function() : void
 		{
 			throw new NotImplementedException();
 		};
@@ -200,7 +200,7 @@ class Endpoint
 		$data = $this->handleDataHelper($method);
 		if(isset($data['id']) and isset($_GET['sub-resource']) and $_GET['sub-resource'] !== '')
 		{
-		   	if(isset($this->subEndpoints[$_GET['sub-resource']]))
+			if(isset($this->subEndpoints[$_GET['sub-resource']]))
 			{
 				$data['parent-id'] = $data['id'];
 				if(isset($_GET['sub-id']) and $_GET['sub-id'] !== '')

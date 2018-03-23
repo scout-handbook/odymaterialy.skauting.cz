@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 $lessonFieldEndpoint = new HandbookAPI\Endpoint();
 
-$updateLessonField = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$updateLessonField = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$deleteSQL = <<<SQL
 DELETE FROM lessons_in_fields

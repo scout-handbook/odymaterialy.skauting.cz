@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
@@ -66,7 +66,9 @@ SQL;
 		'mirrorMargins' => true,
 		'margin_top' => 12.5,
 		'margin_left' => 19.5,
-		'margin_right' => 12.25
+		'margin_right' => 12.25,
+		'shrink_tables_to_fit' => 1,
+		'use_kwt' => true
 	]);
 
 	$qrRenderer = new \BaconQrCode\Renderer\Image\Png();
@@ -95,4 +97,4 @@ SQL;
 	header('content-type:application/pdf; charset=utf-8');
 	$mpdf->Output($id->toString() . '_' . \HandbookAPI\Helper::urlEscape($name) . '.pdf', \Mpdf\Output\Destination::INLINE);
 };
-$lessonPDFEndpoint->setListMethod(new HandbookAPI\Role('guest'), $getLessonPDF);
+$lessonPDFEndpoint->setListMethod(new HandbookAPI\Role('editor'), $getLessonPDF);

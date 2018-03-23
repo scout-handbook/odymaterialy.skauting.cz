@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
@@ -17,7 +17,7 @@ use Ramsey\Uuid\Uuid;
 
 $competenceEndpoint = new HandbookAPI\Endpoint();
 
-$listCompetences = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$listCompetences = function() : array
 {
 	$SQL = <<<SQL
 SELECT id, number, name, description
@@ -45,7 +45,7 @@ SQL;
 };
 $competenceEndpoint->setListMethod(new HandbookAPI\Role('guest'), $listCompetences);
 
-$addCompetence = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$addCompetence = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$SQL = <<<SQL
 INSERT INTO competences (id, number, name, description)
@@ -84,7 +84,7 @@ SQL;
 };
 $competenceEndpoint->setAddMethod(new HandbookAPI\Role('administrator'), $addCompetence);
 
-$updateCompetence = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$updateCompetence = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$selectSQL = <<<SQL
 SELECT number, name, description
@@ -163,7 +163,7 @@ SQL;
 };
 $competenceEndpoint->setUpdateMethod(new HandbookAPI\Role('administrator'), $updateCompetence);
 
-$deleteCompetence = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) : array
+$deleteCompetence = function(Skautis\Skautis $skautis, array $data) : array
 {
 	$deleteLessonsSQL = <<<SQL
 DELETE FROM competences_for_lessons
