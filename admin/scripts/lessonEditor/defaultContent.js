@@ -50,6 +50,10 @@ Markdown | Less | Pretty\n\
 *Still* | **renders** | ***nicely***\n\
 1 | 2 | 3\n\
 \n\
+Pokud chci v PDFku začít na nové stránce, můžu použít příkaz:\n\
+\n\
+!novastrana\n\
+\n\
 A pro opravdové fajnšmekry můžu dělat v textu i místo na poznámky (zatím použitelné jenom v tisku):\n\
 \n\
 !linky[pocet=3]\n\
