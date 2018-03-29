@@ -16,6 +16,7 @@ tags
 
 # End of https://www.gitignore.io/api/vim
 
+client-config.json
 settings.js
 settings.php
 
