@@ -2,6 +2,7 @@
 
 function main()
 {
+	configSetup();
 	refreshPreviewSetup();
 	metadataSetup();
 	historySetup();

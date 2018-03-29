@@ -8,7 +8,7 @@ var LOGINSTATE = [];
 
 function metadataSetup()
 {
-	refreshMetadata();
+	configEvent.addCallback(refreshMetadata);
 }
 
 function refreshMetadata()
@@ -51,7 +51,7 @@ function refreshMetadata()
 			}
 			else if(response.type === "RoleException")
 			{
-				window.location.replace(BASEURI);
+				window.location.replace(CONFIG.baseuri);
 			}
 			else
 			{
@@ -69,7 +69,7 @@ function refreshMetadata()
 				}
 				else
 				{
-					window.location.replace(BASEURI);
+					window.location.replace(CONFIG.baseuri);
 				}
 			}
 			else if(response.status === 401)

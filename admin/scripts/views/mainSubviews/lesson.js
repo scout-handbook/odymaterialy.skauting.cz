@@ -108,6 +108,6 @@ function changeLessonOnClick(event)
 
 function exportLessonOnClick(event)
 {
-	window.open(BASEURI + "/admin/lesson/" + getAttribute(event, "id"))
+	window.open(CONFIG.baseuri + "/admin/lesson/" + getAttribute(event, "id"))
 	return false;
 }

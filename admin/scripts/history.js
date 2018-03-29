@@ -7,7 +7,7 @@ function historySetup()
 	{
 		window.mainPageTab = window.location.pathname.substring(7);
 	}
-	showMainView();
+	configEvent.addCallback(showMainView);
 }
 
 function popback()
