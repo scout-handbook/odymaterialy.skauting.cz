@@ -1,9 +1,9 @@
 <?php declare(strict_types = 1);
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
+$CONFIG = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/client-config.json'));
 
-$lessonList = json_decode(file_get_contents($APIURI . '/lesson'), true)['response'];
-$competenceList = json_decode(file_get_contents($APIURI . '/competence'), true)['response'];
+$lessonList = json_decode(file_get_contents($CONFIG->apiuri . '/lesson'), true)['response'];
+$competenceList = json_decode(file_get_contents($CONFIG->apiuri . '/competence'), true)['response'];
 
 header('content-type:text/plain; charset=utf-8');
 
@@ -111,20 +111,20 @@ function urlEscape(string $str) : string
 	return $str;
 }
 
-echo($BASEURI . "\n");
-echo($BASEURI . "/competence\n");
+echo($CONFIG->baseuri . "\n");
+echo($CONFIG->baseuri . "/competence\n");
 foreach($lessonList as $field)
 {
 	if(isset($field['id']))
 	{
-		echo($BASEURI . '/field/' . $field['id'] . '/' . urlEscape($field['name']) . "\n");
+		echo($CONFIG->baseuri . '/field/' . $field['id'] . '/' . urlEscape($field['name']) . "\n");
 	}
 	foreach($field['lessons'] as $lesson)
 	{
-		echo($BASEURI . '/lesson/' . $lesson['id'] . '/' . urlEscape($lesson['name']) . "\n");
+		echo($CONFIG->baseuri . '/lesson/' . $lesson['id'] . '/' . urlEscape($lesson['name']) . "\n");
 	}
 }
 foreach($competenceList as $competence)
 {
-	echo($BASEURI . '/competence/' . $competence['id'] . '/' . urlEscape($competence['number'] . '-' . $competence['name']) . "\n");
+	echo($CONFIG->baseuri . '/competence/' . $competence['id'] . '/' . urlEscape($competence['number'] . '-' . $competence['name']) . "\n");
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
+$CONFIG = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/client-config.json'));
 
 $context = stream_context_get_default();
 stream_context_set_option($context, ['http' => ['ignore_errors' => true]]);
@@ -8,7 +8,7 @@ if(isset($_COOKIE['skautis_timeout']) and isset($_COOKIE['skautis_token']))
 {
 	stream_context_set_option($context, ['http' => ['header' => 'Cookie: skautis_timeout=' . $_COOKIE['skautis_timeout'] . '; skautis_token=' . $_COOKIE['skautis_token']]]);
 }
-$accountInfo = file_get_contents($APIURI . '/account?no-avatar=true', false, $context);
+$accountInfo = file_get_contents($CONFIG->apiuri . '/account?no-avatar=true', false, $context);
 $loginState = json_decode($accountInfo, true);
 
 if(isset($loginState['status']))
@@ -20,7 +20,7 @@ if(isset($loginState['status']))
 			$role = $loginState['response']['role'];
 			if($role == 'editor' or $role == 'administrator' or $role == 'superuser')
 			{
-				$file = fopen($APIURI . '/lesson/' . $_GET['id'] . '/pdf', 'rb');
+				$file = fopen($CONFIG->apiuri . '/lesson/' . $_GET['id'] . '/pdf', 'rb');
 				if($file !== false)
 				{
 					header('content-type:application/pdf; charset=utf-8');
@@ -32,9 +32,9 @@ if(isset($loginState['status']))
 	}
 	elseif($loginState['status'] == 401)
 	{
-		header('Location: ' . $APIURI . '/login?return-uri=' . urlencode($_SERVER['REQUEST_URI']));
+		header('Location: ' . $CONFIG->apiuri . '/login?return-uri=' . urlencode($_SERVER['REQUEST_URI']));
 		die();
 	}
 }
-header('Location: ' . $BASEURI);
+header('Location: ' . $CONFIG->baseuri);
 die();
