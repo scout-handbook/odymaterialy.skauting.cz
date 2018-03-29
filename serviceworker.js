@@ -14,7 +14,7 @@ var cacheBlocking = [
 	"/styles/topUI.css",
 	"/styles/handheld.css",
 	"/styles/computer.css",
-	"/settings.js",
+	"/client-config.json",
 	"/scripts/tools/AfterLoadEvent.js",
 	"/scripts/tools/cacheThenNetworkRequest.js",
 	"/scripts/tools/getLessonById.js",
@@ -31,6 +31,7 @@ var cacheBlocking = [
 	"/scripts/views/lesson.js",
 	"/scripts/views/lessonList.js",
 	"/scripts/authentication.js",
+	"/scripts/config.js",
 	"/scripts/history.js",
 	"/scripts/main.js",
 	"/scripts/metadata.js"
@@ -42,7 +43,8 @@ var cacheNonBlocking = [
 ];
 
 var cacheUpdating = [
-	APIURI + "/lesson"
+	APIURI + "/lesson",
+	APIURI + "/competence"
 ];
 
 function startsWith(haystack, needle)
