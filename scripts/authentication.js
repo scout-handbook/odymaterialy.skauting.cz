@@ -64,14 +64,17 @@ function logoutRedirect()
 
 function refreshLogin()
 {
-	var allCookies = "; " + document.cookie;
-	var parts = allCookies.split("; skautis_timeout=");
-	if(parts.length === 2)
+	if(LOGINSTATE)
 	{
-		var timeout = parts.pop().split(";").shift();
-		if((timeout - Math.round(new Date().getTime() / 1000)) < 1500)
+		var allCookies = "; " + document.cookie;
+		var parts = allCookies.split("; skautis_timeout=");
+		if(parts.length === 2)
 		{
-			request(APIURI + "/refresh");
+			var timeout = parts.pop().split(";").shift();
+			if((timeout - Math.round(new Date().getTime() / 1000)) < 1500)
+			{
+				request(CONFIG.apiuri + "/refresh");
+			}
 		}
 	}
 }
