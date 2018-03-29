@@ -4,7 +4,7 @@ var metadataEvent = new AfterLoadEvent(3);
 
 function metadataSetup()
 {
-	cacheThenNetworkRequest(APIURI + "/lesson", "", function(response, second)
+	cacheThenNetworkRequest(CONFIG.apiuri + "/lesson", "", function(response, second)
 		{
 			window.FIELDS = response;
 			if(second)
@@ -16,7 +16,7 @@ function metadataSetup()
 				metadataEvent.trigger();
 			}
 		});
-	cacheThenNetworkRequest(APIURI + "/competence", "", function(response, second)
+	cacheThenNetworkRequest(CONFIG.apiuri + "/competence", "", function(response, second)
 		{
 			window.COMPETENCES = response;
 			if(second)
@@ -45,6 +45,6 @@ function metadataSetup()
 				metadataEvent.trigger();
 			}
 		}
-	xhttp.open("GET", APIURI + "/account", true);
+	xhttp.open("GET", CONFIG.apiuri + "/account", true);
 	xhttp.send();
 }

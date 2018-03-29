@@ -52,13 +52,13 @@ function renderLoginForm()
 
 function loginRedirect()
 {
-	window.location = APIURI + "/login?return-uri=" + encodeURIComponent(window.location.href);
+	window.location = CONFIG.apiuri + "/login?return-uri=" + encodeURIComponent(window.location.href);
 	return false;
 }
 
 function logoutRedirect()
 {
-	window.location = APIURI + "/logout";
+	window.location = CONFIG.apiuri + "/logout";
 	return false;
 }
 

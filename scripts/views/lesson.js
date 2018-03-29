@@ -23,7 +23,7 @@ function showLessonView(id, noHistory)
 	{
 		if(window.LOGINSTATE)
 		{
-			window.location = BASEURI + "/error/404.html";
+			window.location = CONFIG.baseuri + "/error/404.html";
 		}
 		else
 		{
@@ -32,7 +32,7 @@ function showLessonView(id, noHistory)
 	}
 	else
 	{
-		cacheThenNetworkRequest(APIURI + "/lesson/" + id, "", function(response, second)
+		cacheThenNetworkRequest(CONFIG.apiuri + "/lesson/" + id, "", function(response, second)
 			{
 				metadataEvent.addCallback(function()
 					{
@@ -83,7 +83,7 @@ function renderLessonView(id, markdown, noHistory, second)
 	}
 	if("serviceWorker" in navigator)
 	{
-		caches.match(APIURI + "/lesson/" + id).then(function(response)
+		caches.match(CONFIG.apiuri + "/lesson/" + id).then(function(response)
 			{
 				if(response === undefined)
 				{

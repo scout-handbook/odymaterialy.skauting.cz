@@ -6,15 +6,15 @@ function toggleLessonOffline()
 	if (window.location.pathname.substring(0, 8) === "/lesson/")
 	{
 		var id = window.location.pathname.substring(8).split("/")[0];
-		caches.open(CACHE).then(function(cache)
+		caches.open(CONFIG.cache).then(function(cache)
 			{
 				if(checked)
 				{
-					cache.add(new Request(APIURI + "/lesson/" + id, {credentials: "same-origin"}));
+					cache.add(new Request(CONFIG.apiuri + "/lesson/" + id, {credentials: "same-origin"}));
 				}
 				else
 				{
-					cache.delete(APIURI + "/lesson/" + id);
+					cache.delete(CONFIG.apiuri + "/lesson/" + id);
 				}
 		});
 	}
