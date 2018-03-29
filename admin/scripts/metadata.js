@@ -47,7 +47,11 @@ function refreshMetadata()
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(APIURI + "/login?return-uri=" + encodeURIComponent(window.location));
+			}
+			else if(response.type === "RoleException")
+			{
+				window.location.replace(BASEURI);
 			}
 			else
 			{
@@ -58,12 +62,19 @@ function refreshMetadata()
 		{
 			if(response.status === 200)
 			{
-				LOGINSTATE = response.response;
-				metadataEvent.trigger();
+				if(["editor", "administrator", "superuser"].indexOf(response.response.role) > -1)
+				{
+					LOGINSTATE = response.response;
+					metadataEvent.trigger();
+				}
+				else
+				{
+					window.location.replace(BASEURI);
+				}
 			}
 			else if(response.status === 401)
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(APIURI + "/login?return-uri=" + encodeURIComponent(window.location));
 			}
 			else
 			{
