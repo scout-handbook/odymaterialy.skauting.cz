@@ -31,7 +31,7 @@ Header always set Content-Security-Policy "upgrade-insecure-requests; default-sr
 Header always set Expect-CT "enforce; max-age=31536000"
 
 # Server push
-<FilesMatch "index.html">
+<FilesMatch "/index.html">
 	Header add Link "</styles/fontello.css>;rel=preload;as=style"
 	Header add Link "</styles/lesson.css>;rel=preload;as=style"
 	Header add Link "</styles/main.css>;rel=preload;as=style"
