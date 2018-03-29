@@ -4,6 +4,11 @@ var metadataEvent = new AfterLoadEvent(3);
 
 function metadataSetup()
 {
+	configEvent.addCallback(refreshMetadata);
+}
+
+function refreshMetadata()
+{
 	cacheThenNetworkRequest(CONFIG.apiuri + "/lesson", "", function(response, second)
 		{
 			window.FIELDS = response;
