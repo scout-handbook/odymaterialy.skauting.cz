@@ -12,7 +12,7 @@ function restoreLesson()
 		{
 			history.back();
 		};
-	request(APIURI + "/deleted-lesson", "GET", {}, function(response)
+	request(CONFIG.apiuri + "/deleted-lesson", "GET", {}, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -20,7 +20,7 @@ function restoreLesson()
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(CONFIG.apiuri + "/login");
 			}
 			else
 			{
@@ -59,7 +59,7 @@ function restoreLessonSelectVersion()
 	{
 		var html = "<div id=\"embeddedSpinner\"></div>";
 		document.getElementById("restoreLessonList").innerHTML = html;
-		request(APIURI + "/deleted-lesson/" + lessonId + "/history", "GET", {}, function(response)
+		request(CONFIG.apiuri + "/deleted-lesson/" + lessonId + "/history", "GET", {}, function(response)
 			{
 				if(response.status === 200)
 				{
@@ -67,7 +67,7 @@ function restoreLessonSelectVersion()
 				}
 				else if(response.type === "AuthenticationException")
 				{
-					window.location.replace(APIURI + "/login");
+					window.location.replace(CONFIG.apiuri + "/login");
 				}
 				else
 				{
@@ -108,7 +108,7 @@ function restoreLessonShowVersion(id, event)
 	var version = event.target.dataset.version;
 	var name = event.target.dataset.name;
 	document.getElementById("restoreLessonPreview").innerHTML = "<div id=\"embeddedSpinner\"></div>";
-	request(APIURI + "/deleted-lesson/" + id + "/history/" + version, "GET", {}, function(response)
+	request(CONFIG.apiuri + "/deleted-lesson/" + id + "/history/" + version, "GET", {}, function(response)
 		{
 			if(response.status === 200)
 			{

@@ -16,7 +16,7 @@ function addGroup()
 			history.back();
 		};
 
-	var aq = new ActionQueue([new Action(APIURI + "/group", "POST", addGroupPayloadBuilder)]);
+	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/group", "POST", addGroupPayloadBuilder)]);
 	document.getElementById("addGroupSave").onclick = aq.closeDispatch;
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/groups");

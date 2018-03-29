@@ -35,7 +35,7 @@ function changeUserRoleOnClick(event)
 			history.back();
 		};
 
-	var aq = new ActionQueue([new Action(APIURI + "/user/" + encodeURIComponent(getAttribute(event, "id")) + "/role", "PUT", changeUserRolePayloadBuilder)]);
+	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/user/" + encodeURIComponent(getAttribute(event, "id")) + "/role", "PUT", changeUserRolePayloadBuilder)]);
 	document.getElementById("changeUserRoleSave").onclick = aq.closeDispatch;
 
 	document.getElementById("roleSelect").onchange = function()

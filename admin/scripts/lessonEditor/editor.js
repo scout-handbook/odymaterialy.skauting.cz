@@ -154,7 +154,7 @@ function populateEditorCache(id)
 		lessonSettingsCacheEvent.trigger();
 		return;
 	}
-	request(APIURI + "/lesson/" + id + "/group", "GET", {}, function(response)
+	request(CONFIG.apiuri + "/lesson/" + id + "/group", "GET", {}, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -163,7 +163,7 @@ function populateEditorCache(id)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(CONFIG.apiuri + "/login");
 			}
 			else
 			{

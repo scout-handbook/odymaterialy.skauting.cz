@@ -14,7 +14,7 @@ function metadataSetup()
 function refreshMetadata()
 {
 	metadataEvent = new AfterLoadEvent(4);
-	request(APIURI + "/lesson?override-group=true", "GET", "", function(response)
+	request(CONFIG.apiuri + "/lesson?override-group=true", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -26,7 +26,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request(APIURI + "/competence", "GET", "", function(response)
+	request(CONFIG.apiuri + "/competence", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -38,7 +38,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request(APIURI + "/group", "GET", "", function(response)
+	request(CONFIG.apiuri + "/group", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -47,7 +47,7 @@ function refreshMetadata()
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace(APIURI + "/login?return-uri=" + encodeURIComponent(window.location));
+				window.location.replace(CONFIG.apiuri + "/login?return-uri=" + encodeURIComponent(window.location));
 			}
 			else if(response.type === "RoleException")
 			{
@@ -58,7 +58,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request(APIURI + "/account", "GET", "", function(response)
+	request(CONFIG.apiuri + "/account", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -74,7 +74,7 @@ function refreshMetadata()
 			}
 			else if(response.status === 401)
 			{
-				window.location.replace(APIURI + "/login?return-uri=" + encodeURIComponent(window.location));
+				window.location.replace(CONFIG.apiuri + "/login?return-uri=" + encodeURIComponent(window.location));
 			}
 			else
 			{

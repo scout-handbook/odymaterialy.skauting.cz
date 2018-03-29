@@ -26,7 +26,7 @@ function importGroupOnClick(event)
 		{
 			history.back();
 		};
-	request(APIURI + "/event", "GET", {}, function(response)
+	request(CONFIG.apiuri + "/event", "GET", {}, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -34,7 +34,7 @@ function importGroupOnClick(event)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(CONFIG.apiuri + "/login");
 			}
 			else
 			{
@@ -74,11 +74,11 @@ function importGroupSelectParticipants(id)
 		var html = "<div id=\"embeddedSpinner\"></div>";
 		document.getElementById("importList").innerHTML = html;
 		participantEvent = new AfterLoadEvent(2);
-		request(APIURI + "/event/" + eventId + "/participant", "GET", {}, function(response)
+		request(CONFIG.apiuri + "/event/" + eventId + "/participant", "GET", {}, function(response)
 			{
 				importGroupGetParticipantsCallback(id, response);
 			});
-		request(APIURI + "/user", "GET", {"page": 1, "per-page": 1000, "group": id}, function(response)
+		request(CONFIG.apiuri + "/user", "GET", {"page": 1, "per-page": 1000, "group": id}, function(response)
 			{
 				importGroupGetGroupCallback(id, response);
 			});
@@ -127,7 +127,7 @@ function importGroupSave(id)
 	addEvent = new AfterLoadEvent(participants.length);
 	for(var j = 0; j < participants.length; j++)
 	{
-		request(APIURI + "/user", "POST", participants[j], importAddUserCallback);
+		request(CONFIG.apiuri + "/user", "POST", participants[j], importAddUserCallback);
 	}
 
 	addEvent.addCallback(function()
@@ -136,7 +136,7 @@ function importGroupSave(id)
 			for(var k = 0; k < participants.length; k++)
 			{
 				var payload = {"group": id};
-				request(APIURI + "/user/" + participants[k].id + "/group", "PUT", payload, importUserGroupCallback);
+				request(CONFIG.apiuri + "/user/" + participants[k].id + "/group", "PUT", payload, importUserGroupCallback);
 			}
 
 			groupEvent.addCallback(function()
@@ -176,7 +176,7 @@ function importGroupGetParticipantsCallback(id, response)
 	}
 	else if(response.type === "AuthenticationException")
 	{
-		window.location.replace(APIURI + "/login");
+		window.location.replace(CONFIG.apiuri + "/login");
 	}
 	else
 	{
@@ -193,7 +193,7 @@ function importGroupGetGroupCallback(id, response)
 	}
 	else if(response.type === "AuthenticationException")
 	{
-		window.location.replace(APIURI + "/login");
+		window.location.replace(CONFIG.apiuri + "/login");
 	}
 	else
 	{

@@ -53,7 +53,7 @@ function changeLessonCompetencesSave(id, actionQueue)
 		{
 			encodedCompetences.push(encodeURIComponent(competences[i]));
 		}
-		actionQueue.actions.push(new Action(APIURI + "/lesson/" + id + "/competence", "PUT", function() {return {"competence": encodedCompetences};}));
+		actionQueue.actions.push(new Action(CONFIG.apiuri + "/lesson/" + id + "/competence", "PUT", function() {return {"competence": encodedCompetences};}));
 		lessonSettingsCache.competences = competences;
 		lessonSettings(id, actionQueue, true);
 	}
