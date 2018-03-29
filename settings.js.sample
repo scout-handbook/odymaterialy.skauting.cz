@@ -1,5 +1,0 @@
-"use strict";
-
-var CACHE = "odymaterialy-v1";
-var BASEURI = "https://odymaterialy.skauting.cz";
-var APIURI = "https://odymaterialy.skauting.cz/API/v0.9";
