@@ -1,3 +1,5 @@
+"use strict";
+
 var converter;
 var worker;
 var running = false;

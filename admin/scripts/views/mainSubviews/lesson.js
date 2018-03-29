@@ -1,3 +1,5 @@
+"use strict";
+
 function showLessonSubview(noHistory)
 {
 	window.mainPageTab = "lessons";

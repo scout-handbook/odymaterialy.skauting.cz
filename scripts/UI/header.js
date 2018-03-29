@@ -1,3 +1,5 @@
+"use strict";
+
 function headerSetup()
 {
 	document.getElementById("lessonsButton").onclick = toggleNavigation;

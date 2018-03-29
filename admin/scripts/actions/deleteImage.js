@@ -1,3 +1,5 @@
+"use strict";
+
 function deleteImageOnClick(event)
 {
 	var aq = new ActionQueue([new Action(APIURI + "/image/" + encodeURIComponent(getAttribute(event, "id")), "DELETE")]);

@@ -1,3 +1,5 @@
+"use strict";
+
 var defaultName = "Nová lekce";
 
 var defaultBody = "# Velký nadpis\n\

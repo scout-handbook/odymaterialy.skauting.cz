@@ -1,3 +1,5 @@
+"use strict";
+
 var metadataEvent = new AfterLoadEvent(3);
 
 function metadataSetup()

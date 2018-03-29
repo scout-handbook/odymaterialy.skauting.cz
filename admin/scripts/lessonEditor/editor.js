@@ -1,3 +1,5 @@
+"use strict";
+
 var changed;
 var lessonSettingsCache = {};
 var lessonSettingsCacheEvent;

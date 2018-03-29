@@ -1,3 +1,5 @@
+"use strict";
+
 var FIELDS;
 var COMPETENCES;
 var LOGINSTATE;

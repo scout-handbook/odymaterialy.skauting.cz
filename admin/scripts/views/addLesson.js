@@ -1,3 +1,5 @@
+"use strict";
+
 function showLessonAddView(field)
 {
 	history.pushState({}, "title", "/admin/lessons");

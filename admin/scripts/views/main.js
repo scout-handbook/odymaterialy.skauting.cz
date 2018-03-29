@@ -1,3 +1,5 @@
+"use strict";
+
 var mainPageTab = "lessons";
 
 function showMainView(noHistory)

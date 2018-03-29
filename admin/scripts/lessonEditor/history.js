@@ -1,3 +1,5 @@
+"use strict";
+
 function lessonHistoryOpen(id, actionQueue)
 {
 	sidePanelDoubleOpen();

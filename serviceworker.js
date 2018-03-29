@@ -1,3 +1,5 @@
+"use strict";
+
 var CACHE = "odymaterialy-v14";
 var APIURI = "https://odymaterialy.skauting.cz/API/v0.9"
 var cacheBlocking = [

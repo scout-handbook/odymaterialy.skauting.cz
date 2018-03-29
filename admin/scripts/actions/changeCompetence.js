@@ -1,3 +1,5 @@
+"use strict";
+
 var competenceChanged = false;
 
 function changeCompetenceOnClick(event)

@@ -1,3 +1,5 @@
+"use strict";
+
 var metadataEvent;
 var FIELDS = [];
 var COMPETENCES = [];

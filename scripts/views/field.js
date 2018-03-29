@@ -1,3 +1,5 @@
+"use strict";
+
 function showFieldView(id, noHistory)
 {
 	if(screen.width < 700)

@@ -1,3 +1,5 @@
+"use strict";
+
 function toggleLessonOffline()
 {
 	var checked = document.getElementById("cacheOffline").checked;

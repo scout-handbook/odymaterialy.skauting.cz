@@ -1,3 +1,5 @@
+"use strict";
+
 var roleChanged = false;
 
 function changeUserRoleOnClick(event)

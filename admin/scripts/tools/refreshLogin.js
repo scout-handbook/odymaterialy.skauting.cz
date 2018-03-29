@@ -1,3 +1,5 @@
+"use strict";
+
 function refreshLogin(forceRelogin)
 {
 	var allCookies = "; " + document.cookie;

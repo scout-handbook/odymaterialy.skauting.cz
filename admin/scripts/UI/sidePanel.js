@@ -1,3 +1,5 @@
+"use strict";
+
 var sidePanelState = false;
 
 function sidePanelOpen()

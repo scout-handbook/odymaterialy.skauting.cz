@@ -1,3 +1,5 @@
+"use strict";
+
 var lessonFieldChanged = false;
 
 function changeLessonFieldOnClick(id, actionQueue)

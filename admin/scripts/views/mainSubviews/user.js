@@ -1,3 +1,5 @@
+"use strict";
+
 function showUserSubview(noHistory)
 {
 	window.mainPageTab = "users";

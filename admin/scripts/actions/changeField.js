@@ -1,3 +1,5 @@
+"use strict";
+
 var fieldChanged = false;
 
 function changeFieldOnClick(event)

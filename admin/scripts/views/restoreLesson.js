@@ -1,3 +1,5 @@
+"use strict";
+
 function showLessonRestoreView(name, body)
 {
 	var aq = new ActionQueue([new Action(APIURI + "/lesson", "POST", restoreLessonPayloadBuilder)])

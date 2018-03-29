@@ -1,3 +1,5 @@
+"use strict";
+
 var lessonGroupsChanged = false;
 
 function changeLessonGroupsOnClick(id, actionQueue)

@@ -1,3 +1,5 @@
+"use strict";
+
 function xssOptions()
 {
 	return {onIgnoreTagAttr: function(tag, name, value, isWhiteAttr)

@@ -1,3 +1,5 @@
+"use strict";
+
 var participantEvent;
 var addEvent;
 var groupEvent;

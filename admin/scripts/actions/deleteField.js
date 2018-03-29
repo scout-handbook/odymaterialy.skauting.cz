@@ -1,3 +1,5 @@
+"use strict";
+
 function deleteFieldOnClick(event)
 {
 	var name = "";

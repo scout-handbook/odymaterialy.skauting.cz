@@ -1,3 +1,5 @@
+"use strict";
+
 function deleteCompetenceOnClick(event)
 {
 	var number = "";

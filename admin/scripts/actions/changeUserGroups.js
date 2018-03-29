@@ -1,3 +1,5 @@
+"use strict";
+
 var groupsChanged = false;
 
 function changeUserGroupsOnClick(event)

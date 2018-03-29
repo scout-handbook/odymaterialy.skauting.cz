@@ -1,3 +1,5 @@
+"use strict";
+
 var imageSelectorOpen = false;
 
 function prepareImageSelector(page, perPage)

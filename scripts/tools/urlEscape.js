@@ -1,3 +1,5 @@
+"use strict";
+
 function urlEscape(str)
 {
 	var lookupTable = [

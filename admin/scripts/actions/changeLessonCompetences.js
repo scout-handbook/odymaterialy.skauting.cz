@@ -1,3 +1,5 @@
+"use strict";
+
 var lessonCompetencesChanged = false;
 
 function changeLessonCompetencesOnClick(id, actionQueue)

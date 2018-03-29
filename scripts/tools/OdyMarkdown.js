@@ -1,3 +1,5 @@
+"use strict";
+
 // Showdown extensions definitions
 var OdyMarkdown = function()
 {
@@ -18,11 +20,11 @@ var OdyMarkdown = function()
 	};
 	var notes = {
 		type: "lang",
-		filter: function(text, c, o) {return filterCommand(text, "linky", notesCommand);}
+		filter: function(text) {return filterCommand(text, "linky", notesCommand);}
 	};
 	var pagebreak = {
 		type: "lang",
-		filter: function(text, c, o) {return filterCommand(text, "novastrana", pagebreakCommand);}
+		filter: function(text) {return filterCommand(text, "novastrana", pagebreakCommand);}
 	};
 	return [responsiveTablesBegin, responsiveTablesEnd, blankLinks, notes, pagebreak];
 }

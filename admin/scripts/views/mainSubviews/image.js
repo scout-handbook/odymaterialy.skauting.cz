@@ -1,3 +1,5 @@
+"use strict";
+
 function showImageSubview(noHistory)
 {
 	window.mainPageTab = "images";

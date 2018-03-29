@@ -1,3 +1,5 @@
+"use strict";
+
 var ActionQueueRetry = false;
 
 function Action(url, method, payloadBuilder, callback)

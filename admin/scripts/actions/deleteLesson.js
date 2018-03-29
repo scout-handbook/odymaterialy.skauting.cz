@@ -1,3 +1,5 @@
+"use strict";
+
 function deleteLessonOnClick(event)
 {
 	var name = "";
