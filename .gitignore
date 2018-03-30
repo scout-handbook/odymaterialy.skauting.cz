@@ -18,7 +18,6 @@ tags
 
 api-config.php
 client-config.json
-settings.php
 
 node_modules/
 API/vendor/
