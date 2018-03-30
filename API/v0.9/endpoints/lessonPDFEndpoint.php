@@ -1,18 +1,18 @@
 <?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
-require_once($BASEPATH . '/vendor/autoload.php');
-require_once($BASEPATH . '/v0.9/internal/Database.php');
-require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
-require_once($BASEPATH . '/v0.9/internal/Helper.php');
-require_once($BASEPATH . '/v0.9/internal/OdyMarkdown/OdyMarkdown.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/api-config.php');
+require_once($CONFIG->basepath . '/vendor/autoload.php');
+require_once($CONFIG->basepath . '/v0.9/internal/Database.php');
+require_once($CONFIG->basepath . '/v0.9/internal/Endpoint.php');
+require_once($CONFIG->basepath . '/v0.9/internal/Helper.php');
+require_once($CONFIG->basepath . '/v0.9/internal/OdyMarkdown/OdyMarkdown.php');
 
 use Ramsey\Uuid\Uuid;
 
 $lessonPDFEndpoint = new HandbookAPI\Endpoint();
 
-$getLessonPDF = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($BASEPATH, $BASEURI) : void
+$getLessonPDF = function(Skautis\Skautis $skautis, array $data, HandbookAPI\Endpoint $endpoint) use ($CONFIG) : void
 {
 	$id = HandbookAPI\Helper::parseUuid($data['parent-id'], 'lesson');
 
@@ -46,7 +46,7 @@ SQL;
 	$html .= '</body>';
 
 	$mpdf = new \Mpdf\Mpdf([
-		'fontDir' => [$BASEPATH . '/v0.9/internal/OdyMarkdown/fonts/'],
+		'fontDir' => [$CONFIG->basepath . '/v0.9/internal/OdyMarkdown/fonts/'],
 		'fontdata' => [
 			'odymarathon' => [
 				'R' => 'OdyMarathon-Regular.ttf'
@@ -76,10 +76,10 @@ SQL;
 	$qrRenderer->setWidth(90);
 	$qrWriter = new \BaconQrCode\Writer($qrRenderer);
 
-	$mpdf->DefHTMLHeaderByName('OddHeaderFirst', '<img class="QRheader" src="data:image/png;base64,' . base64_encode($qrWriter->writeString($BASEURI . '/lesson/' . $id->toString())) . '">');
+	$mpdf->DefHTMLHeaderByName('OddHeaderFirst', '<img class="QRheader" src="data:image/png;base64,' . base64_encode($qrWriter->writeString($CONFIG->baseuri . '/lesson/' . $id->toString())) . '">');
 	$mpdf->DefHTMLHeaderByName('OddHeader', '<div class="oddHeaderRight">' . $name . '</div>');
-	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
-	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $BASEPATH . '/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
+	$mpdf->DefHTMLFooterByName('OddFooter', '<div class="oddFooterLeft">...jsme na jedné lodi</div><img class="oddFooterRight" src="' . $CONFIG->basepath . '/v0.9/internal/OdyMarkdown/images/logo.svg' . '">');
+	$mpdf->DefHTMLFooterByName('EvenFooter', '<div class="evenFooterLeft">Odyssea ' . date('Y') . '</div><img class="evenFooterRight" src="' . $CONFIG->basepath . '/v0.9/internal/OdyMarkdown/images/ovce.svg' . '">');
 
 	if(!isset($data['qr']) || $data['qr'] === 'true')
 	{
@@ -91,7 +91,7 @@ SQL;
 	$mpdf->WriteHTML('', 2);
 	$mpdf->SetHTMLHeaderByName('OddHeader', 'O');
 
-	$mpdf->WriteHTML(file_get_contents($BASEPATH . '/v0.9/internal/OdyMarkdown/main.css'), 1);
+	$mpdf->WriteHTML(file_get_contents($CONFIG->basepath . '/v0.9/internal/OdyMarkdown/main.css'), 1);
 	$mpdf->WriteHTML($html, 2);
 
 	header('content-type:application/pdf; charset=utf-8');

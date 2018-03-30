@@ -3,8 +3,8 @@ namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
-require_once($BASEPATH . '/v0.9/internal/exceptions/Exception.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/api-config.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/Exception.php');
 
 class MissingArgumentException extends Exception
 {
