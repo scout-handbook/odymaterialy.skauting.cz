@@ -1,7 +1,4 @@
 build:
-    dependencies:
-        before:
-            - cd API && composer install
     nodes:
         analysis:
             project_setup:
