@@ -1,3 +1,5 @@
+"use strict";
+
 function addOnClicks(id, onclick)
 {
 	var nodes = document.getElementsByTagName("main")[0].getElementsByClassName(id);

@@ -1,3 +1,5 @@
+"use strict";
+
 function spinner()
 {
 	document.getElementById("overlay").style.display = "inline";

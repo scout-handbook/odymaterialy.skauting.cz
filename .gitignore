@@ -16,10 +16,10 @@ tags
 
 # End of https://www.gitignore.io/api/vim
 
-settings.js
-settings.php
+api-config.php
+api-secrets.php
+client-config.json
 
 node_modules/
 API/vendor/
 images/*
-*.secret.php

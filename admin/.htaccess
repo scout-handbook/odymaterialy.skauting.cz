@@ -1,9 +1,3 @@
-<FilesMatch "^main\.html$">
-	Order Deny,Allow
-	Deny from all
-	Allow from 127.0.0.1
-</FilesMatch>
-
 # Pages rewrite
 RewriteCond %{REQUEST_URI} ^/admin/(lessons|competences|images|users|groups)$
 RewriteRule (.*) /admin/ [QSA,L]
@@ -12,7 +6,7 @@ RewriteRule (.*) /admin/ [QSA,L]
 RewriteRule ^lesson/(.*) lesson.php?id=$1
 
 # Server push
-<FilesMatch "index.php">
+<FilesMatch "index.html">
 	Header add Link "</styles/fontello.css>;rel=preload;as=style"
 	Header add Link "</styles/lesson.css>;rel=preload;as=style"
 	Header add Link "</styles/mainPage.css>;rel=preload;as=style"
@@ -21,8 +15,8 @@ RewriteRule ^lesson/(.*) lesson.php?id=$1
 	Header add Link "</admin/styles/main.css>;rel=preload;as=style"
 	Header add Link "</admin/styles/mainView.css>;rel=preload;as=style"
 	Header add Link "</admin/styles/sidePanel.css>;rel=preload;as=style"
-	Header add Link "</settings.js>;rel=preload;as=script"
 	Header add Link "</scripts/tools/AfterLoadEvent.js>;rel=preload;as=script"
+	Header add Link "</scripts/tools/config.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/lessonEditor/refreshPreview.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/tools/ActionQueue.js>;rel=preload;as=script"
 	Header add Link "</admin/scripts/tools/refreshLogin.js>;rel=preload;as=script"

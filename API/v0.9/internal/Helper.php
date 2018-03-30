@@ -1,9 +1,9 @@
 <?php declare(strict_types = 1);
 namespace HandbookAPI;
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
-require_once($BASEPATH . '/vendor/autoload.php');
-require_once($BASEPATH . '/v0.9/internal/exceptions/NotFoundException.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/api-config.php');
+require_once($CONFIG->basepath . '/vendor/autoload.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/NotFoundException.php');
 
 @_API_EXEC === 1 or die('Restricted access.');
 

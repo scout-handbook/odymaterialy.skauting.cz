@@ -1,3 +1,5 @@
+"use strict";
+
 function parseVersion(version)
 {
 	var d = new Date(version);

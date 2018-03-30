@@ -3,18 +3,19 @@ namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
-require_once($BASEPATH . '/vendor/autoload.php');
-require_once($BASEPATH . '/v0.9/internal/Role.php');
-require_once($BASEPATH . '/v0.9/internal/skautis.secret.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/api-config.php');
+require_once($CONFIG->basepath . '/vendor/autoload.php');
+require_once($CONFIG->basepath . '/v0.9/internal/Role.php');
 
-require_once($BASEPATH . '/v0.9/internal/exceptions/AuthenticationException.php');
-require_once($BASEPATH . '/v0.9/internal/exceptions/RoleException.php');
-require_once($BASEPATH . '/v0.9/internal/exceptions/SkautISException.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/AuthenticationException.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/RoleException.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/SkautISException.php');
 
 function skautisTry(callable $callback, bool $hardCheck = true)
 {
-	$skautis = \Skautis\Skautis::getInstance(SKAUTIS_APP_ID, SKAUTIS_TEST_MODE);
+	$_API_SECRETS_EXEC = 1;
+	$SECRETS = require($_SERVER['DOCUMENT_ROOT'] . '/api-secrets.php');
+	$skautis = \Skautis\Skautis::getInstance($SECRETS->skautis_app_id, $SECRETS->skautis_test_mode);
 	if(isset($_COOKIE['skautis_token']) and isset($_COOKIE['skautis_timeout']))
 	{
 		$reconstructedPost = array(
@@ -41,9 +42,11 @@ function skautisTry(callable $callback, bool $hardCheck = true)
 
 function roleTry(callable $callback, bool $hardCheck, Role $requiredRole)
 {
+	$_API_SECRETS_EXEC = 1;
+	$SECRETS = require($_SERVER['DOCUMENT_ROOT'] . '/api-secrets.php');
 	if(Role_cmp($requiredRole, new Role('guest')) === 0)
 	{
-		return $callback(\Skautis\Skautis::getInstance(SKAUTIS_APP_ID, SKAUTIS_TEST_MODE));
+		return $callback(\Skautis\Skautis::getInstance($SECRETS->skautis_app_id, $SECRETS->skautis_test_mode));
 	}
 	if(Role_cmp($requiredRole, new Role('user')) === 0)
 	{

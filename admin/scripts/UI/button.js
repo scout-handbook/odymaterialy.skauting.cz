@@ -1,3 +1,5 @@
+"use strict";
+
 function getAttribute(event, attribute)
 {
 	var el = event.target;

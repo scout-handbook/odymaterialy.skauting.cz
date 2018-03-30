@@ -1,3 +1,5 @@
+"use strict";
+
 function lessonSettings(id, actionQueue, noHistory)
 {
 	sidePanelOpen();

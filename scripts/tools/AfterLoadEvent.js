@@ -1,3 +1,5 @@
+"use strict";
+
 function AfterLoadEvent(threshold)
 {
 	this.triggered = false;

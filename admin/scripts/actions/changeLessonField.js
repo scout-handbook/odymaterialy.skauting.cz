@@ -1,3 +1,5 @@
+"use strict";
+
 var lessonFieldChanged = false;
 
 function changeLessonFieldOnClick(id, actionQueue)
@@ -66,7 +68,7 @@ function changeLessonFieldSave(id, actionQueue)
 	{
 		id = typeof id !== 'undefined' ? id : "{id}";
 		var fieldId = parseBoolForm()[0];
-		actionQueue.actions.push(new Action(APIURI + "/lesson/" + id + "/field", "PUT", function() {return {"field": encodeURIComponent(fieldId)};}));
+		actionQueue.actions.push(new Action(CONFIG.apiuri + "/lesson/" + id + "/field", "PUT", function() {return {"field": encodeURIComponent(fieldId)};}));
 		lessonSettingsCache.field = fieldId;
 		lessonSettings(id, actionQueue, true);
 	}

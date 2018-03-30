@@ -1,3 +1,5 @@
+"use strict";
+
 function getLessonById(id)
 {
 	for(var i = 0; i < FIELDS.length; i++)

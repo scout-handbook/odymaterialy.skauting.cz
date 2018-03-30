@@ -1,3 +1,5 @@
+"use strict";
+
 var imageSelectorOpen = false;
 
 function prepareImageSelector(page, perPage)
@@ -10,7 +12,7 @@ function prepareImageSelector(page, perPage)
 	{
 		perPage = 15;
 	}
-	request(APIURI + "/image", "GET", "", function(response)
+	request(CONFIG.apiuri + "/image", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -18,7 +20,7 @@ function prepareImageSelector(page, perPage)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(CONFIG.apiuri + "/login");
 			}
 			else
 			{
@@ -34,7 +36,7 @@ function renderImageSelector(list, page, perPage)
 	var start = perPage * (page - 1);
 	for(var i = start; i < Math.min(list.length, start + perPage); i++)
 	{
-		html += "<div class=\"thumbnailContainer\"><div class=\"buttonContainer\"><img src=\"" + APIURI + "/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"></div></div>";
+		html += "<div class=\"thumbnailContainer\"><div class=\"buttonContainer\"><img src=\"" + CONFIG.apiuri + "/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"></div></div>";
 	}
 	if(list.length > perPage)
 	{
@@ -102,7 +104,7 @@ function toggleImageSelector()
 
 function insertImage(event)
 {
-	var markdown = "![Text po najetí kurzorem](" + APIURI + "/image/" + event.target.dataset.id + ")"
+	var markdown = "![Text po najetí kurzorem](" + CONFIG.apiuri + "/image/" + event.target.dataset.id + ")"
 	var doc = editor.codemirror.getDoc();
 	doc.replaceRange(markdown, doc.getCursor());
 	toggleImageSelector();

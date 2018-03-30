@@ -1,3 +1,5 @@
+"use strict";
+
 function showUserSubview(noHistory)
 {
 	window.mainPageTab = "users";
@@ -32,7 +34,7 @@ function downloadUserList(searchName, page, perPage)
 		perPage = 25;
 	}
 	var payload = {"name": searchName, "page": page, "per-page": perPage}
-	request(APIURI + "/user", "GET", payload, function(response)
+	request(CONFIG.apiuri + "/user", "GET", payload, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -40,7 +42,7 @@ function downloadUserList(searchName, page, perPage)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(CONFIG.apiuri + "/login");
 			}
 			else
 			{

@@ -1,3 +1,5 @@
+"use strict";
+
 function deleteGroupOnClick(event)
 {
 	var name = "";
@@ -10,7 +12,7 @@ function deleteGroupOnClick(event)
 		}
 	}
 
-	var aq = new ActionQueue([new Action(APIURI + "/group/" + encodeURIComponent(getAttribute(event, "id")), "DELETE")]);
+	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/group/" + encodeURIComponent(getAttribute(event, "id")), "DELETE")]);
 	dialog("Opravdu si přejete smazat skupinu \"" + name + "\"?", "Ano", aq.closeDispatch, "Ne", function(){history.back();});
 	history.pushState({"sidePanel": "open"}, "title", "/admin/groups");
 	refreshLogin();

@@ -1,3 +1,5 @@
+"use strict";
+
 function historySetup()
 {
 	window.onpopstate = historyPopback;

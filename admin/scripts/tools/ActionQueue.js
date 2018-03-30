@@ -1,3 +1,5 @@
+"use strict";
+
 var ActionQueueRetry = false;
 
 function Action(url, method, payloadBuilder, callback)
@@ -111,7 +113,7 @@ function ActionQueue(actions, retry)
 				if(!ActionQueueRetry && window.sessionStorage)
 				{
 					sessionStorage.setItem("ActionQueue", JSON.stringify(queue.actions.map(serializeAction)));
-					window.location.replace(APIURI + "/login?return-uri=/admin/" + mainPageTab);
+					window.location.replace(CONFIG.apiuri + "/login?return-uri=/admin/" + mainPageTab);
 					return false;
 				}
 				else

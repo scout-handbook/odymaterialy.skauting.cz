@@ -1,3 +1,5 @@
+"use strict";
+
 var groupsChanged = false;
 
 function changeUserGroupsOnClick(event)
@@ -36,7 +38,7 @@ function changeUserGroupsOnClick(event)
 			history.back();
 		};
 
-	var aq = new ActionQueue([new Action(APIURI + "/user/" + encodeURIComponent(getAttribute(event, "id")) + "/group", "PUT", changeUserPayloadBuilder)]);
+	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/user/" + encodeURIComponent(getAttribute(event, "id")) + "/group", "PUT", changeUserPayloadBuilder)]);
 	document.getElementById("changeUserGroupsSave").onclick = aq.closeDispatch;
 
 	var nodes = document.getElementById("sidePanelForm").getElementsByTagName("input");

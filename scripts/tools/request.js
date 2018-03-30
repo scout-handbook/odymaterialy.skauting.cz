@@ -1,3 +1,5 @@
+"use strict";
+
 function request(url, query, headers)
 {
 	var ret = new AfterLoadEvent(1);

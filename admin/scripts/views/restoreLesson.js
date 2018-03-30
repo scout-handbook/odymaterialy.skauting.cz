@@ -1,6 +1,8 @@
+"use strict";
+
 function showLessonRestoreView(name, body)
 {
-	var aq = new ActionQueue([new Action(APIURI + "/lesson", "POST", restoreLessonPayloadBuilder)])
+	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/lesson", "POST", restoreLessonPayloadBuilder)])
 	aq.actions[0].callback = function(response) {aq.fillID(response)}
 	showLessonEditor(name, body, aq);
 

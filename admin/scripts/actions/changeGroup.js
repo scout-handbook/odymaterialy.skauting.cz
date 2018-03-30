@@ -1,3 +1,5 @@
+"use strict";
+
 var groupChanged = false;
 
 function changeGroupOnClick(event)
@@ -24,7 +26,7 @@ function changeGroupOnClick(event)
 			history.back();
 		};
 
-	var aq = new ActionQueue([new Action(APIURI + "/group/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeGrouPayloadBuilder)]);
+	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/group/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeGrouPayloadBuilder)]);
 	document.getElementById("changeGroupSave").onclick = aq.closeDispatch;
 
 	document.getElementById("groupName").oninput = function()

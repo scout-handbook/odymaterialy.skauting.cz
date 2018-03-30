@@ -1,3 +1,5 @@
+"use strict";
+
 var metadataEvent;
 var FIELDS = [];
 var COMPETENCES = [];
@@ -6,13 +8,13 @@ var LOGINSTATE = [];
 
 function metadataSetup()
 {
-	refreshMetadata();
+	configEvent.addCallback(refreshMetadata);
 }
 
 function refreshMetadata()
 {
 	metadataEvent = new AfterLoadEvent(4);
-	request(APIURI + "/lesson?override-group=true", "GET", "", function(response)
+	request(CONFIG.apiuri + "/lesson?override-group=true", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -24,7 +26,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request(APIURI + "/competence", "GET", "", function(response)
+	request(CONFIG.apiuri + "/competence", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -36,7 +38,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request(APIURI + "/group", "GET", "", function(response)
+	request(CONFIG.apiuri + "/group", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -45,23 +47,34 @@ function refreshMetadata()
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(CONFIG.apiuri + "/login?return-uri=" + encodeURIComponent(window.location));
+			}
+			else if(response.type === "RoleException")
+			{
+				window.location.replace(CONFIG.baseuri);
 			}
 			else
 			{
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request(APIURI + "/account", "GET", "", function(response)
+	request(CONFIG.apiuri + "/account", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
-				LOGINSTATE = response.response;
-				metadataEvent.trigger();
+				if(["editor", "administrator", "superuser"].indexOf(response.response.role) > -1)
+				{
+					LOGINSTATE = response.response;
+					metadataEvent.trigger();
+				}
+				else
+				{
+					window.location.replace(CONFIG.baseuri);
+				}
 			}
 			else if(response.status === 401)
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(CONFIG.apiuri + "/login?return-uri=" + encodeURIComponent(window.location));
 			}
 			else
 			{

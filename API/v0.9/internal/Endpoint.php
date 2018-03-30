@@ -3,13 +3,13 @@ namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
-require_once($BASEPATH . '/v0.9/internal/skautisTry.php');
-require_once($BASEPATH . '/v0.9/internal/Role.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/api-config.php');
+require_once($CONFIG->basepath . '/v0.9/internal/skautisTry.php');
+require_once($CONFIG->basepath . '/v0.9/internal/Role.php');
 
-require_once($BASEPATH . '/v0.9/internal/exceptions/Exception.php');
-require_once($BASEPATH . '/v0.9/internal/exceptions/MissingArgumentException.php');
-require_once($BASEPATH . '/v0.9/internal/exceptions/NotImplementedException.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/Exception.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/MissingArgumentException.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/NotImplementedException.php');
 
 class Endpoint
 {

@@ -1,16 +1,16 @@
 <?php declare(strict_types = 1);
 @_API_EXEC === 1 or die('Restricted access.');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
-require_once($BASEPATH . '/vendor/autoload.php');
-require_once($BASEPATH . '/v0.9/internal/Database.php');
-require_once($BASEPATH . '/v0.9/internal/Endpoint.php');
-require_once($BASEPATH . '/v0.9/internal/Helper.php');
-require_once($BASEPATH . '/v0.9/internal/Role.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/api-config.php');
+require_once($CONFIG->basepath . '/vendor/autoload.php');
+require_once($CONFIG->basepath . '/v0.9/internal/Database.php');
+require_once($CONFIG->basepath . '/v0.9/internal/Endpoint.php');
+require_once($CONFIG->basepath . '/v0.9/internal/Helper.php');
+require_once($CONFIG->basepath . '/v0.9/internal/Role.php');
 
-require_once($BASEPATH . '/v0.9/internal/exceptions/Exception.php');
-require_once($BASEPATH . '/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
-require_once($BASEPATH . '/v0.9/internal/exceptions/MissingArgumentException.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/Exception.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/InvalidArgumentTypeException.php');
+require_once($CONFIG->basepath . '/v0.9/internal/exceptions/MissingArgumentException.php');
 
 use Ramsey\Uuid\Uuid;
 
@@ -72,7 +72,7 @@ SQL;
 };
 $imageEndpoint->setListMethod(new HandbookAPI\Role('editor'), $listImages);
 
-$getImage = function(Skautis\Skautis $skautis, array $data) use ($IMAGEPATH) : void
+$getImage = function(Skautis\Skautis $skautis, array $data) use ($CONFIG) : void
 {
 	$id = HandbookAPI\Helper::parseUuid($data['id'], 'image')->toString();
 	$quality = "web";
@@ -81,7 +81,7 @@ $getImage = function(Skautis\Skautis $skautis, array $data) use ($IMAGEPATH) : v
 		$quality = $data['quality'];
 	}
 
-	$file = $IMAGEPATH . '/' . $quality . '/' . $id . '.jpg';
+	$file = $CONFIG->imagepath . '/' . $quality . '/' . $id . '.jpg';
 
 	if(!file_exists($file))
 	{
@@ -107,7 +107,7 @@ $getImage = function(Skautis\Skautis $skautis, array $data) use ($IMAGEPATH) : v
 };
 $imageEndpoint->setGetMethod(new HandbookAPI\Role('guest'), $getImage);
 
-$addImage = function() use ($IMAGEPATH) : array
+$addImage = function() use ($CONFIG) : array
 {
 	$SQL = <<<SQL
 INSERT INTO images (id)
@@ -127,7 +127,7 @@ SQL;
 		throw new HandbookAPI\InvalidArgumentTypeException('image', ['image/jpeg', 'image/png']);
 	}
 	$uuid = Uuid::uuid4();
-	$tmp = $IMAGEPATH . '/tmp/' . $uuid->toString() . '.jpg';
+	$tmp = $CONFIG->imagepath . '/tmp/' . $uuid->toString() . '.jpg';
 	if(!move_uploaded_file($_FILES['image']['tmp_name'], $tmp))
 	{
 		throw new HandbookAPI\Exception('File upload failed.');
@@ -140,9 +140,9 @@ SQL;
 	$db->bindParam(':id', $uuidBin, PDO::PARAM_STR);
 	$db->execute();
 
-	$orig = $IMAGEPATH . '/original/' . $uuid->toString() . '.jpg';
-	$web = $IMAGEPATH . '/web/' . $uuid->toString() . '.jpg';
-	$thumbnail = $IMAGEPATH . '/thumbnail/' . $uuid->toString() . '.jpg';
+	$orig = $CONFIG->imagepath . '/original/' . $uuid->toString() . '.jpg';
+	$web = $CONFIG->imagepath . '/web/' . $uuid->toString() . '.jpg';
+	$thumbnail = $CONFIG->imagepath . '/thumbnail/' . $uuid->toString() . '.jpg';
 
 	$origMagick = new Imagick($tmp);
 	$ICCProfile = $origMagick->getImageProfiles("icc", true);
@@ -175,7 +175,7 @@ SQL;
 };
 $imageEndpoint->setAddMethod(new HandbookAPI\Role('editor'), $addImage);
 
-$deleteImage = function(Skautis\Skautis $skautis, array $data) use ($IMAGEPATH) : array
+$deleteImage = function(Skautis\Skautis $skautis, array $data) use ($CONFIG) : array
 {
 	$SQL = <<<SQL
 DELETE FROM images
@@ -200,9 +200,9 @@ SQL;
 
 	$db->endTransaction();
 
-	unlink($IMAGEPATH . '/original/' . $id->toString() . '.jpg');
-	unlink($IMAGEPATH . '/web/' . $id->toString() . '.jpg');
-	unlink($IMAGEPATH . '/thumbnail/' . $id->toString() . '.jpg');
+	unlink($CONFIG->imagepath . '/original/' . $id->toString() . '.jpg');
+	unlink($CONFIG->imagepath . '/web/' . $id->toString() . '.jpg');
+	unlink($CONFIG->imagepath . '/thumbnail/' . $id->toString() . '.jpg');
 
 	return ['status' => 200];
 };

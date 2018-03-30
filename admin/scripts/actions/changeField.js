@@ -1,3 +1,5 @@
+"use strict";
+
 var fieldChanged = false;
 
 function changeFieldOnClick(event)
@@ -24,7 +26,7 @@ function changeFieldOnClick(event)
 			history.back();
 		};
 
-	var aq = new ActionQueue([new Action(APIURI + "/field/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeFieldPayloadBuilder)]);
+	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/field/" + encodeURIComponent(getAttribute(event, "id")), "PUT", changeFieldPayloadBuilder)]);
 	document.getElementById("changeFieldSave").onclick = aq.closeDispatch;
 
 	document.getElementById("fieldName").oninput = function()

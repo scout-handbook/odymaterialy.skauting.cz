@@ -1,3 +1,5 @@
+"use strict";
+
 function addImage(inEditor)
 {
 	sidePanelOpen();
@@ -45,7 +47,7 @@ function addImageSave()
 		formData.append("image", document.getElementById("addImageFile").files[0])
 		sidePanelClose();
 		spinner();
-		request(APIURI + "/image", "POST", formData, addImageAfter);
+		request(CONFIG.apiuri + "/image", "POST", formData, addImageAfter);
 	}
 }
 

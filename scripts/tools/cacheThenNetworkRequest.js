@@ -1,3 +1,5 @@
+"use strict";
+
 function cacheThenNetworkRequest(url, query, callback)
 {
 	var networkDataReceived = false;

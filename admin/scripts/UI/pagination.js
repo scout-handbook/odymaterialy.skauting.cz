@@ -1,3 +1,5 @@
+"use strict";
+
 function renderPagination(total, current)
 {
 	if(total < 2)

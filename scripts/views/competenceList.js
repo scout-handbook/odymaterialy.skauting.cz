@@ -1,3 +1,5 @@
+"use strict";
+
 function showCompetenceListView(noHistory)
 {
 	if(screen.width < 700)

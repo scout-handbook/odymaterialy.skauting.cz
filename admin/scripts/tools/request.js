@@ -1,3 +1,5 @@
+"use strict";
+
 function request(url, method, payload, callback)
 {
 	var xhr = new XMLHttpRequest();

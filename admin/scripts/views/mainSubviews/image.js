@@ -1,3 +1,5 @@
+"use strict";
+
 function showImageSubview(noHistory)
 {
 	window.mainPageTab = "images";
@@ -31,7 +33,7 @@ function downloadImageList(page, perPage)
 	{
 		perPage = 15;
 	}
-	request(APIURI + "/image", "GET", "", function(response)
+	request(CONFIG.apiuri + "/image", "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -39,7 +41,7 @@ function downloadImageList(page, perPage)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(CONFIG.apiuri + "/login");
 			}
 			else
 			{
@@ -59,7 +61,7 @@ function showImageList(list, page, perPage)
 	var start = perPage * (page - 1);
 	for(var i = start; i < Math.min(list.length, start + perPage); i++)
 	{
-		html += "<div class=\"thumbnailContainer\"><div class=\"buttonContainer\"><img src=\"" + APIURI + "/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"><div class=\"button redButton deleteImage\" data-id=\"" + list[i] + "\"><i class=\"icon-trash-empty\"></i>Smazat</div></div></div>";
+		html += "<div class=\"thumbnailContainer\"><div class=\"buttonContainer\"><img src=\"" + CONFIG.apiuri + "/image/" + list[i] + "?quality=thumbnail\" class=\"thumbnailImage\" data-id=\"" + list[i] + "\"><div class=\"button redButton deleteImage\" data-id=\"" + list[i] + "\"><i class=\"icon-trash-empty\"></i>Smazat</div></div></div>";
 	}
 	html += renderPagination(Math.ceil(list.length / perPage), page);
 	document.getElementById("imageList").innerHTML = html;
@@ -89,7 +91,7 @@ function showImagePreview(event)
 	var overlay = document.getElementById("overlay");
 	overlay.style.display = "inline";
 	overlay.style.cursor = "pointer";
-	var html = "<img src=\"" + APIURI + "/image/" + event.target.dataset.id + "\" class=\"previewImage\">";
+	var html = "<img src=\"" + CONFIG.apiuri + "/image/" + event.target.dataset.id + "\" class=\"previewImage\">";
 	overlay.innerHTML = html;
 	overlay.onclick = function()
 		{

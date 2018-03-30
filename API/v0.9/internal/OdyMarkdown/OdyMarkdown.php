@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
 namespace OdyMarkdown;
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/settings.php');
-require_once($BASEPATH . '/vendor/autoload.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/api-config.php');
+require_once($CONFIG->basepath . '/vendor/autoload.php');
 
 use \cebe\markdown\GithubMarkdown;
 
@@ -33,7 +33,7 @@ class OdyMarkdown extends GithubMarkdown
 	// Image rendering in original quality
 	protected function renderImage($block) : string
 	{
-		global $APIURI;
+		global $CONFIG;
 		if(isset($block['refkey']))
 		{
 			if(($ref = $this->lookupReference($block['refkey'])) !== false)
@@ -46,7 +46,7 @@ class OdyMarkdown extends GithubMarkdown
 			}
 		}
 
-		if(mb_strpos($block['url'], $APIURI . '/image') !== false)
+		if(mb_strpos($block['url'], $CONFIG->apiuri . '/image') !== false)
 		{
 			if(mb_strpos($block['url'], 'quality=') !== false)
 			{
@@ -178,5 +178,21 @@ class OdyMarkdown extends GithubMarkdown
 		{
 			return str_repeat('<br>', $height);
 		}
+	}
+
+	// Pagebreak extension
+	protected function identifyPagebreak(string $line) : bool
+	{
+		return $this->identifyCommand($line, 'novastrana');
+	}
+
+	protected function consumePagebreak(array $lines, int $current) : array
+	{
+		return $this->consumeCommand($lines, $current, 'novastrana');
+	}
+
+	protected function renderNovastrana(array $block) : string
+	{
+		return $block['lastPage'] ? '' : '<pagebreak>';
 	}
 }

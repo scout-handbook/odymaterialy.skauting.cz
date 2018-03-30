@@ -1,3 +1,5 @@
+"use strict";
+
 function authenticationSetup()
 {
 	showAccountInfo();
@@ -50,26 +52,29 @@ function renderLoginForm()
 
 function loginRedirect()
 {
-	window.location = APIURI + "/login?return-uri=" + encodeURIComponent(window.location.href);
+	window.location = CONFIG.apiuri + "/login?return-uri=" + encodeURIComponent(window.location.href);
 	return false;
 }
 
 function logoutRedirect()
 {
-	window.location = APIURI + "/logout";
+	window.location = CONFIG.apiuri + "/logout";
 	return false;
 }
 
 function refreshLogin()
 {
-	var allCookies = "; " + document.cookie;
-	var parts = allCookies.split("; skautis_timeout=");
-	if(parts.length === 2)
+	if(window.LOGINSTATE)
 	{
-		var timeout = parts.pop().split(";").shift();
-		if((timeout - Math.round(new Date().getTime() / 1000)) < 1500)
+		var allCookies = "; " + document.cookie;
+		var parts = allCookies.split("; skautis_timeout=");
+		if(parts.length === 2)
 		{
-			request(APIURI + "/refresh");
+			var timeout = parts.pop().split(";").shift();
+			if((timeout - Math.round(new Date().getTime() / 1000)) < 1500)
+			{
+				request(CONFIG.apiuri + "/refresh");
+			}
 		}
 	}
 }

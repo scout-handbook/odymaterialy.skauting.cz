@@ -1,3 +1,5 @@
+"use strict";
+
 function showCompetenceSubview(noHistory)
 {
 	window.mainPageTab = "competences";

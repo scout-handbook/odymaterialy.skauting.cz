@@ -1,5 +1,8 @@
+"use strict";
+
 function main()
 {
+	configSetup();
 	refreshPreviewSetup();
 	metadataSetup();
 	historySetup();

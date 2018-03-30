@@ -1,3 +1,5 @@
+"use strict";
+
 function showLessonListView(noHistory)
 {
 	if(screen.width < 700)

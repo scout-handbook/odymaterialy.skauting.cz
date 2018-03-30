@@ -1,3 +1,5 @@
+"use strict";
+
 function showGroupSubview(noHistory)
 {
 	window.mainPageTab = "groups";

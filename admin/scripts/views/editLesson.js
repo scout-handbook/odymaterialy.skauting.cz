@@ -1,9 +1,11 @@
+"use strict";
+
 var imageSelectorOpen = false;
 
 function showLessonEditView(id, noHistory)
 {
 	spinner();
-	request(APIURI + "/lesson/" + id, "GET", "", function(response)
+	request(CONFIG.apiuri + "/lesson/" + id, "GET", "", function(response)
 		{
 			if(response.status === 200)
 			{
@@ -14,7 +16,7 @@ function showLessonEditView(id, noHistory)
 			}
 			else if(response.type === "AuthenticationException")
 			{
-				window.location.replace(APIURI + "/login");
+				window.location.replace(CONFIG.apiuri + "/login");
 			}
 			else
 			{
@@ -32,7 +34,7 @@ function renderLessonEditView(id, markdown, noHistory)
 		history.pushState({"id": id}, "title", "/admin/lessons");
 	}
 
-	var aq = new ActionQueue([new Action(APIURI + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder)]);
+	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder)]);
 	showLessonEditor(lesson.name, markdown, aq, id);
 	document.getElementById("save").dataset.id = id;
 }

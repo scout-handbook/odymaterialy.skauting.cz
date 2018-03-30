@@ -1,3 +1,5 @@
+"use strict";
+
 var confirmCallbackWrapped;
 
 function dialog(mainText, confirmText, confirmCallback, dismissText, dismissCallback)

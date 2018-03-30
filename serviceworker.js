@@ -1,4 +1,6 @@
-var CACHE = "odymaterialy-v14";
+"use strict";
+
+var CACHE = "odymaterialy-v17";
 var APIURI = "https://odymaterialy.skauting.cz/API/v0.9"
 var cacheBlocking = [
 	"/index.html",
@@ -12,9 +14,10 @@ var cacheBlocking = [
 	"/styles/topUI.css",
 	"/styles/handheld.css",
 	"/styles/computer.css",
-	"/settings.js",
+	"/client-config.json",
 	"/scripts/tools/AfterLoadEvent.js",
 	"/scripts/tools/cacheThenNetworkRequest.js",
+	"/scripts/tools/config.js",
 	"/scripts/tools/getLessonById.js",
 	"/scripts/tools/OdyMarkdown.js",
 	"/scripts/tools/request.js",
@@ -40,7 +43,8 @@ var cacheNonBlocking = [
 ];
 
 var cacheUpdating = [
-	APIURI + "/lesson"
+	APIURI + "/lesson",
+	APIURI + "/competence"
 ];
 
 function startsWith(haystack, needle)

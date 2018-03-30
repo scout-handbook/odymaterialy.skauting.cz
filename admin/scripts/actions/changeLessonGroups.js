@@ -1,3 +1,5 @@
+"use strict";
+
 var lessonGroupsChanged = false;
 
 function changeLessonGroupsOnClick(id, actionQueue)
@@ -61,7 +63,7 @@ function changeLessonGroupsSave(id, actionQueue)
 		{
 			encodedGroups.push(encodeURIComponent(groups[i]));
 		}
-		actionQueue.actions.push(new Action(APIURI + "/lesson/" + id + "/group", "PUT", function () {return {"group": encodedGroups};}));
+		actionQueue.actions.push(new Action(CONFIG.apiuri + "/lesson/" + id + "/group", "PUT", function () {return {"group": encodedGroups};}));
 		lessonSettingsCache.groups = groups;
 		lessonSettings(id, actionQueue, true);
 	}
