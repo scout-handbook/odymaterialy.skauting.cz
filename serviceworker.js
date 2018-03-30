@@ -1,6 +1,6 @@
 "use strict";
 
-var CACHE = "odymaterialy-v16";
+var CACHE = "odymaterialy-v17";
 var APIURI = "https://odymaterialy.skauting.cz/API/v0.9"
 var cacheBlocking = [
 	"/index.html",
@@ -17,6 +17,7 @@ var cacheBlocking = [
 	"/client-config.json",
 	"/scripts/tools/AfterLoadEvent.js",
 	"/scripts/tools/cacheThenNetworkRequest.js",
+	"/scripts/tools/config.js",
 	"/scripts/tools/getLessonById.js",
 	"/scripts/tools/OdyMarkdown.js",
 	"/scripts/tools/request.js",
@@ -31,7 +32,6 @@ var cacheBlocking = [
 	"/scripts/views/lesson.js",
 	"/scripts/views/lessonList.js",
 	"/scripts/authentication.js",
-	"/scripts/config.js",
 	"/scripts/history.js",
 	"/scripts/main.js",
 	"/scripts/metadata.js"
