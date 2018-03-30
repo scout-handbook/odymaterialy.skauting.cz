@@ -5,7 +5,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/api-config.php');
 require_once($CONFIG->basepath . '/vendor/autoload.php');
 require_once($CONFIG->basepath . '/v0.9/internal/Endpoint.php');
 require_once($CONFIG->basepath . '/v0.9/internal/Role.php');
-require_once($CONFIG->basepath . '/v0.9/internal/skautis.secret.php');
 
 require_once($CONFIG->basepath . '/v0.9/endpoints/accountEndpoint.php');
 
@@ -13,12 +12,14 @@ $loginEndpoint = new HandbookAPI\Endpoint();
 
 $loginUser = function(Skautis\Skautis $skautis, array $data) use ($CONFIG, $accountEndpoint) : void
 {
+	$_API_SECRETS_EXEC = 1;
+	$SECRETS = require($_SERVER['DOCUMENT_ROOT'] . '/api-secrets.php');
 	$startsWith = function(string $haystack, string $needle) : bool
 	{
 		return (mb_substr($haystack, 0, mb_strlen($needle)) === $needle);
 	};
 
-	$ISprefix = HandbookAPI\SKAUTIS_TEST_MODE ? 'https://test-is.skaut.cz/Login' : 'https://is.skaut.cz/Login';
+	$ISprefix = $SECRETS->skautis_test_mode ? 'https://test-is.skaut.cz/Login' : 'https://is.skaut.cz/Login';
 
 	if(isset($data['return-uri']))
 	{

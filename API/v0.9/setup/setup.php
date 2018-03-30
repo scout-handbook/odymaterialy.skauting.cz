@@ -2,13 +2,15 @@
 const _API_EXEC = 1;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/api-config.php');
-require_once($CONFIG->basepath . '/v0.9/internal/database.secret.php');
 
 echo("Please edit this file and comment out line 8.");
 die(); // Comment out this line by putting // at its beginning. Do not delete this line.
 
+$_API_SECRETS_EXEC = 1;
+$SECRETS = require($_SERVER['DOCUMENT_ROOT'] . '/api-secrets.php');
+
 $setupQuery = file_get_contents($CONFIG->basepath . '/v0.9/setup/setupQuery.sql', true);
-$db = new PDO(HandbookAPI\DB_DSN . ';charset=utf8mb4', HandbookAPI\DB_USER, HandbookAPI\DB_PASSWORD);
+$db = new PDO($SECRETS->db_dsn . ';charset=utf8mb4', $SECRETS->db_user, $SECRETS->db_password);
 $db->exec($setupQuery);
 
 mkdir($CONFIG->imagepath, 0750);

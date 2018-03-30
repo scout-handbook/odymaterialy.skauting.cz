@@ -4,7 +4,6 @@ namespace HandbookAPI;
 @_API_EXEC === 1 or die('Restricted access.');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/api-config.php');
-require_once($CONFIG->basepath . '/v0.9/internal/database.secret.php');
 
 require_once($CONFIG->basepath . '/v0.9/internal/exceptions/ConnectionException.php');
 require_once($CONFIG->basepath . '/v0.9/internal/exceptions/ExecutionException.php');
@@ -20,9 +19,11 @@ class Database
 
 	public function __construct()
 	{
+		$_API_SECRETS_EXEC = 1;
+		$SECRETS = require($_SERVER['DOCUMENT_ROOT'] . '/api-secrets.php');
 		try
 		{
-			self::$db = new \PDO(DB_DSN . ';charset=utf8mb4', DB_USER, DB_PASSWORD);
+			self::$db = new \PDO($SECRETS->db_dsn . ';charset=utf8mb4', $SECRETS->db_user, $SECRETS->db_password);
 			self::$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
 		}
 		catch(PDOException $e)
