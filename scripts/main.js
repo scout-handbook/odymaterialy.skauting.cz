@@ -1,6 +1,5 @@
 "use strict";
 
-var CONFIG;
 var FIELDS;
 var COMPETENCES;
 var LOGINSTATE;
