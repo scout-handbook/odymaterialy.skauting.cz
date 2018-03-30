@@ -1,4 +1,7 @@
 build:
+    dependencies:
+        override:
+            - true
     nodes:
         analysis:
             project_setup:
