@@ -64,7 +64,7 @@ function logoutRedirect()
 
 function refreshLogin()
 {
-	if(LOGINSTATE)
+	if(window.LOGINSTATE)
 	{
 		var allCookies = "; " + document.cookie;
 		var parts = allCookies.split("; skautis_timeout=");
