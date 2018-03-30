@@ -17,6 +17,7 @@ tags
 # End of https://www.gitignore.io/api/vim
 
 api-config.php
+api-secrets.php
 client-config.json
 
 node_modules/
