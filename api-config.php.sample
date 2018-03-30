@@ -3,9 +3,9 @@ namespace HandbookAPI;
 
 @_API_EXEC === 1 or die('Restricted access.');
 
-const CONFIG = [
-		'basepath' => __DIR__ . '/API',
-		'imagepath' => __DIR__ . '/images',
+$CONFIG = (object)[
+		'basepath' => $_SERVER['DOCUMENT_ROOT'] . '/API',
+		'imagepath' => $_SERVER['DOCUMENT_ROOT'] . '/images',
 		'cookieuri' => 'odymaterialy.skauting.cz',
 		'baseuri' => 'https://odymaterialy.skauting.cz',
 		'apiuri' => 'https://odymaterialy.skauting.cz/API/v0.9'
