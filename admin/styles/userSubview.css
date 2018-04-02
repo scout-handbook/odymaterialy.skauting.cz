@@ -10,6 +10,11 @@
 	width: 200px;
 }
 
+#roleSearchFilter
+{
+	margin-right: 20px;
+}
+
 #userSearchButton, #userSearchCancel
 {
 	margin-bottom: -11px;
