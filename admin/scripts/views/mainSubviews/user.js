@@ -108,11 +108,7 @@ function showUserList(list, searchName, page, perPage, role)
 			downloadUserList(document.getElementById("userSearchBox").value, 1, perPage, sel.options[sel.selectedIndex].value);
 			return false;
 		}
-	document.getElementById("userSearchButton").onclick = function()
-		{
-			var sel = document.getElementById("roleSearchFilter");
-			downloadUserList(document.getElementById("userSearchBox").value, 1, perPage, sel.options[sel.selectedIndex].value);
-		};
+	document.getElementById("userSearchButton").onclick = document.getElementById("userSearchForm").onsubmit;
 	if(searchName || role !== "all")
 		{
 			document.getElementById("userSearchCancel").onclick = function()
