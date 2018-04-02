@@ -18,7 +18,7 @@ function showUserSubview(noHistory)
 	}
 }
 
-function downloadUserList(searchName, page, perPage, role)
+function downloadUserList(searchName, page, perPage, role, group)
 {
 	document.getElementById("userList").innerHTML = "<div id=\"embeddedSpinner\"></div>";
 	if(!searchName)
@@ -37,16 +37,24 @@ function downloadUserList(searchName, page, perPage, role)
 	{
 		role = "all";
 	}
+	if(!group)
+	{
+		group = "00000000-0000-0000-0000-000000000000";
+	}
 	var payload = {"name": searchName, "page": page, "per-page": perPage}
 	if(role !== "all")
 	{
 		payload["role"] = role;
 	}
+	if(group !== "00000000-0000-0000-0000-000000000000")
+	{
+		payload["group"] = group;
+	}
 	request(CONFIG.apiuri + "/user", "GET", payload, function(response)
 		{
 			if(response.status === 200)
 			{
-				showUserList(response.response, searchName, page, perPage, role);
+				showUserList(response.response, searchName, page, perPage, role, group);
 			}
 			else if(response.type === "AuthenticationException")
 			{
@@ -60,7 +68,7 @@ function downloadUserList(searchName, page, perPage, role)
 	refreshLogin(true);
 }
 
-function showUserList(list, searchName, page, perPage, role)
+function showUserList(list, searchName, page, perPage, role, group)
 {
 	if(mainPageTab !== "users")
 	{
@@ -70,46 +78,51 @@ function showUserList(list, searchName, page, perPage, role)
 	var html = "<form id=\"userSearchForm\"><input type=\"text\" class=\"formText\" id=\"userSearchBox\" placeholder=\"Jméno uživatele\">";
 	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{
-		html += "<select class=\"formSelect\" id=\"roleSearchFilter\"><option id=\"all\" value=\"all\">Všechny role</option><option id=\"user\" value=\"user\">Uživatel</option><option id=\"editor\" value=\"editor\">Editor</option>";
+		html += "<select class=\"formSelect\" id=\"roleSearchFilter\"><option id=\"all\" value=\"all\">Všechny role</option><option id=\"user\" value=\"user\">Uživatel</option><option id=\"editor\" value=\"editor\">Editor</option>"; // TODO: All
 		if(LOGINSTATE.role === "superuser")
 		{
 			html += "<option id=\"administrator\" value=\"administrator\">Administrátor</option><option id=\"superuser\" value=\"superuser\">Superuser</option>";
 		}
 		html += "</select>";
 	}
-	html += "<div class=\"button\" id=\"userSearchButton\"><i class=\"icon-search\"></i>Vyhledat</div>";
-	if(searchName || role !== "all")
+	html += "<select class=\"formSelect\" id=\"groupSearchFilter\">";
+	html += "<option id=\"00000000-0000-0000-0000-000000000000\" value=\"00000000-0000-0000-0000-000000000000\">Všechny skupiny</option>"; //TODO: All
+	for(var i = 0; i < GROUPS.length; i++)
+	{
+		if(GROUPS[i].id !== "00000000-0000-0000-0000-000000000000")
+		{
+			html += "<option id=\"" + GROUPS[i].id + "\" value=\"" + GROUPS[i].id + "\">" + GROUPS[i].name + "</option>";
+		}
+	}
+	html += "</select><div class=\"button\" id=\"userSearchButton\"><i class=\"icon-search\"></i>Vyhledat</div>";
+	if(searchName || role !== "all" || group !== "00000000-0000-0000-0000-000000000000")
 	{
 		html += "<div class=\"button yellowButton\" id=\"userSearchCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
 	}
 	html += "</form>";
 	html += "<table class=\"userTable\"><th>Jméno</th><th>Role</th><th>Skupiny</th>";
 	html += "</tr>";
-	for(var i = 0; i < users.length; i++)
+	for(var j = 0; j < users.length; j++)
 	{
-		html += renderUserRow(users[i]);
+		html += renderUserRow(users[j]);
 	}
 	html += "</table>";
 	html += renderPagination(Math.ceil(list.count / perPage), page);
 	document.getElementById("userList").innerHTML = html;
 
-	if(searchName)
-	{
-		document.getElementById("userSearchBox").value = searchName;
-	}
-	if(role)
-	{
-		document.getElementById("roleSearchFilter").value = role;
-	}
+	document.getElementById("userSearchBox").value = searchName;
+	document.getElementById("roleSearchFilter").value = role;
+	document.getElementById("groupSearchFilter").value = group;
 
 	document.getElementById("userSearchForm").onsubmit = function()
 		{
-			var sel = document.getElementById("roleSearchFilter");
-			downloadUserList(document.getElementById("userSearchBox").value, 1, perPage, sel.options[sel.selectedIndex].value);
+			var roleSel = document.getElementById("roleSearchFilter");
+			var groupSel = document.getElementById("groupSearchFilter");
+			downloadUserList(document.getElementById("userSearchBox").value, 1, perPage, roleSel.options[roleSel.selectedIndex].value, groupSel.options[groupSel.selectedIndex].value);
 			return false;
 		}
 	document.getElementById("userSearchButton").onclick = document.getElementById("userSearchForm").onsubmit;
-	if(searchName || role !== "all")
+	if(searchName || role !== "all" || group !== "00000000-0000-0000-0000-000000000000")
 		{
 			document.getElementById("userSearchCancel").onclick = function()
 				{
@@ -121,8 +134,9 @@ function showUserList(list, searchName, page, perPage, role)
 	{
 		nodes[l].onclick = function(event)
 			{
-				var sel = document.getElementById("roleSearchFilter");
-				downloadUserList(searchName, parseInt(event.target.dataset.page, 10), perPage, sel.options[sel.selectedIndex].value);
+				var roleSel = document.getElementById("roleSearchFilter");
+				var groupSel = document.getElementById("groupSearchFilter");
+				downloadUserList(searchName, parseInt(event.target.dataset.page, 10), perPage, roleSel.options[roleSel.selectedIndex].value, groupSel.options[groupSel.selectedIndex].value);
 			};
 	}
 

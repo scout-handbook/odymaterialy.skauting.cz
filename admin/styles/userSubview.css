@@ -6,13 +6,13 @@
 
 #userSearchBox
 {
-	margin-right: 20px;
-	width: 200px;
+	margin-right: 10px;
+	width: 179px;
 }
 
-#roleSearchFilter
+#roleSearchFilter, #groupSearchFilter
 {
-	margin-right: 20px;
+	margin-right: 10px;
 }
 
 #userSearchButton, #userSearchCancel
