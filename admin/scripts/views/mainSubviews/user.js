@@ -76,25 +76,9 @@ function showUserList(list, searchName, page, perPage, role, group)
 	}
 	var users = list.users;
 	var html = "<form id=\"userSearchForm\"><input type=\"text\" class=\"formText\" id=\"userSearchBox\" placeholder=\"Jméno uživatele\">";
-	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
-	{
-		html += "<select class=\"formSelect\" id=\"roleSearchFilter\"><option id=\"all\" value=\"all\" class=\"selectFilterSpecial\">Všechny role</option><option id=\"user\" value=\"user\">Uživatel</option><option id=\"editor\" value=\"editor\">Editor</option>";
-		if(LOGINSTATE.role === "superuser")
-		{
-			html += "<option id=\"administrator\" value=\"administrator\">Administrátor</option><option id=\"superuser\" value=\"superuser\">Superuser</option>";
-		}
-		html += "</select>";
-	}
-	html += "<select class=\"formSelect\" id=\"groupSearchFilter\">";
-	html += "<option id=\"00000000-0000-0000-0000-000000000000\" value=\"00000000-0000-0000-0000-000000000000\" class=\"selectFilterSpecial\">Všechny skupiny</option>";
-	for(var i = 0; i < GROUPS.length; i++)
-	{
-		if(GROUPS[i].id !== "00000000-0000-0000-0000-000000000000")
-		{
-			html += "<option id=\"" + GROUPS[i].id + "\" value=\"" + GROUPS[i].id + "\">" + GROUPS[i].name + "</option>";
-		}
-	}
-	html += "</select><div class=\"button\" id=\"userSearchButton\"><i class=\"icon-search\"></i>Vyhledat</div>";
+	html += renderRoleSelector();
+	html += renderGroupSelector();
+	html += "<div class=\"button\" id=\"userSearchButton\"><i class=\"icon-search\"></i>Vyhledat</div>";
 	if(searchName || role !== "all" || group !== "00000000-0000-0000-0000-000000000000")
 	{
 		html += "<div class=\"button yellowButton\" id=\"userSearchCancel\"><i class=\"icon-cancel\"></i>Zrušit</div>";
@@ -111,7 +95,10 @@ function showUserList(list, searchName, page, perPage, role, group)
 	document.getElementById("userList").innerHTML = html;
 
 	document.getElementById("userSearchBox").value = searchName;
-	document.getElementById("roleSearchFilter").value = role;
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
+	{
+		document.getElementById("roleSearchFilter").value = role;
+	}
 	document.getElementById("groupSearchFilter").value = group;
 
 	document.getElementById("userSearchForm").onsubmit = function()
@@ -142,6 +129,40 @@ function showUserList(list, searchName, page, perPage, role, group)
 
 	addOnClicks("changeUserRole", changeUserRoleOnClick);
 	addOnClicks("changeUserGroups", changeUserGroupsOnClick);
+}
+
+function renderRoleSelector()
+{
+	var html = "";
+	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
+	{
+		html += "<select class=\"formSelect\" id=\"roleSearchFilter\">";
+		html += "<option id=\"all\" value=\"all\" class=\"selectFilterSpecial\">Všechny role</option>";
+		html += "<option id=\"user\" value=\"user\">Uživatel</option>";
+		html += "<option id=\"editor\" value=\"editor\">Editor</option>";
+		if(LOGINSTATE.role === "superuser")
+		{
+			html += "<option id=\"administrator\" value=\"administrator\">Administrátor</option>";
+			html += "<option id=\"superuser\" value=\"superuser\">Superuser</option>";
+		}
+		html += "</select>";
+	}
+	return html;
+}
+
+function renderGroupSelector()
+{
+	var html = "<select class=\"formSelect\" id=\"groupSearchFilter\">";
+	html += "<option id=\"00000000-0000-0000-0000-000000000000\" value=\"00000000-0000-0000-0000-000000000000\" class=\"selectFilterSpecial\">Všechny skupiny</option>";
+	for(var i = 0; i < GROUPS.length; i++)
+	{
+		if(GROUPS[i].id !== "00000000-0000-0000-0000-000000000000")
+		{
+			html += "<option id=\"" + GROUPS[i].id + "\" value=\"" + GROUPS[i].id + "\">" + GROUPS[i].name + "</option>";
+		}
+	}
+	html += "</select>";
+	return html;
 }
 
 function renderUserRow(user)
