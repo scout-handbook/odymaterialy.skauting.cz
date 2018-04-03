@@ -106,7 +106,12 @@ function showUserList(list, searchName, page, perPage, role, group)
 		{
 			var roleSel = document.getElementById("roleSearchFilter");
 			var groupSel = document.getElementById("groupSearchFilter");
-			downloadUserList(document.getElementById("userSearchBox").value, 1, perPage, roleSel.options[roleSel.selectedIndex].value, groupSel.options[groupSel.selectedIndex].value);
+			var newRole = "all";
+			if(roleSel)
+			{
+				newRole = roleSel.options[roleSel.selectedIndex].value;
+			}
+			downloadUserList(document.getElementById("userSearchBox").value, 1, perPage, newRole, groupSel.options[groupSel.selectedIndex].value);
 			return false;
 		}
 	document.getElementById("userSearchButton").onclick = document.getElementById("userSearchForm").onsubmit;
@@ -124,7 +129,12 @@ function showUserList(list, searchName, page, perPage, role, group)
 			{
 				var roleSel = document.getElementById("roleSearchFilter");
 				var groupSel = document.getElementById("groupSearchFilter");
-				downloadUserList(searchName, parseInt(event.target.dataset.page, 10), perPage, roleSel.options[roleSel.selectedIndex].value, groupSel.options[groupSel.selectedIndex].value);
+				var newRole = "all";
+				if(roleSel)
+				{
+					newRole = roleSel.options[roleSel.selectedIndex].value;
+				}
+				downloadUserList(searchName, parseInt(event.target.dataset.page, 10), perPage, newRole, groupSel.options[groupSel.selectedIndex].value);
 			};
 	}
 
