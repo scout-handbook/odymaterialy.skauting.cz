@@ -16,6 +16,7 @@ function showGroupSubview(noHistory)
 	}
 	html += renderGroupList()
 	document.getElementById("mainPage").innerHTML = html;
+	document.getElementById("mainPageContainer").scrollTop = 0;
 
 	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{

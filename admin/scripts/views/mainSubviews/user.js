@@ -11,6 +11,7 @@ function showUserSubview(noHistory)
 	document.getElementById("userManager").className += " activeTopBarTab";
 	var html = "<h1>OdyMateriály - Uživatelé</h1><div id=\"userList\"></div>";
 	document.getElementById("mainPage").innerHTML = html;
+
 	downloadUserList();
 	if(!noHistory)
 	{
