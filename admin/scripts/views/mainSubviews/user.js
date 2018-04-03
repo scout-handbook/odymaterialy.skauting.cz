@@ -78,7 +78,7 @@ function showUserList(list, searchName, page, perPage, role, group)
 	var html = "<form id=\"userSearchForm\"><input type=\"text\" class=\"formText\" id=\"userSearchBox\" placeholder=\"Jméno uživatele\">";
 	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{
-		html += "<select class=\"formSelect\" id=\"roleSearchFilter\"><option id=\"all\" value=\"all\">Všechny role</option><option id=\"user\" value=\"user\">Uživatel</option><option id=\"editor\" value=\"editor\">Editor</option>"; // TODO: All
+		html += "<select class=\"formSelect\" id=\"roleSearchFilter\"><option id=\"all\" value=\"all\" class=\"selectFilterSpecial\">Všechny role</option><option id=\"user\" value=\"user\">Uživatel</option><option id=\"editor\" value=\"editor\">Editor</option>";
 		if(LOGINSTATE.role === "superuser")
 		{
 			html += "<option id=\"administrator\" value=\"administrator\">Administrátor</option><option id=\"superuser\" value=\"superuser\">Superuser</option>";
@@ -86,7 +86,7 @@ function showUserList(list, searchName, page, perPage, role, group)
 		html += "</select>";
 	}
 	html += "<select class=\"formSelect\" id=\"groupSearchFilter\">";
-	html += "<option id=\"00000000-0000-0000-0000-000000000000\" value=\"00000000-0000-0000-0000-000000000000\">Všechny skupiny</option>"; //TODO: All
+	html += "<option id=\"00000000-0000-0000-0000-000000000000\" value=\"00000000-0000-0000-0000-000000000000\" class=\"selectFilterSpecial\">Všechny skupiny</option>";
 	for(var i = 0; i < GROUPS.length; i++)
 	{
 		if(GROUPS[i].id !== "00000000-0000-0000-0000-000000000000")
