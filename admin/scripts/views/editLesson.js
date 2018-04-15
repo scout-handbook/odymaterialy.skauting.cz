@@ -57,7 +57,9 @@ function renderLessonEditView(id, markdown, noHistory)
 		history.pushState({"id": id}, "title", "/admin/lessons");
 	}
 
-	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder)]);
+	var exceptionHandler = {"NotLockedException": function(){dialog("Kvůli příliš malé aktivitě byla lekce odemknuta a již ji upravil někdo jiný. Zkuste to prosím znovu.", "OK");}}
+
+	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder, function(){}, exceptionHandler)]);
 	showLessonEditor(lesson.name, markdown, aq, id);
 	document.getElementById("save").dataset.id = id;
 }
