@@ -148,7 +148,7 @@ function editorDiscardNow(actionQueue)
 	history.back();
 	if(actionQueue)
 	{
-		actionQueue.dispatch();
+		actionQueue.dispatch(true);
 	}
 }
 
