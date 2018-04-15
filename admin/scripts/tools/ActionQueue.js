@@ -2,12 +2,13 @@
 
 var ActionQueueRetry = false;
 
-function Action(url, method, payloadBuilder, callback)
+function Action(url, method, payloadBuilder, callback, exceptionHandler)
 {
 	this.url = url;
 	this.method = method;
 	this.payloadBuilder = typeof payloadBuilder !== 'undefined' ? payloadBuilder : function(){return {};};
 	this.callback = typeof callback !== 'undefined' ? callback : function(){};
+	this.exceptionHandler = typeof exceptionHandler !== 'undefined' ? exceptionHandler : {};
 
 	this.fillID = function(id)
 		{
@@ -121,9 +122,9 @@ function ActionQueue(actions, retry)
 					dialog("Byl jste odhlášen a akce se nepodařila. Přihlašte se prosím a zkuste to znovu.", "OK");
 				}
 			}
-			else if(response.type === "RoleException")
+			else if(action.exceptionHandler.hasOwnProperty(response.type))
 			{
-				dialog("Nemáte dostatečné oprávnění k této akci.", "OK");
+				action.exceptionHandler[response.type]();
 			}
 			else
 			{
