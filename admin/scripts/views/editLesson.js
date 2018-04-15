@@ -57,10 +57,12 @@ function renderLessonEditView(id, markdown, noHistory)
 		history.pushState({"id": id}, "title", "/admin/lessons");
 	}
 
-	var exceptionHandler = {"NotLockedException": function(){dialog("Kvůli příliš malé aktivitě byla lekce odemknuta a již ji upravil někdo jiný. Zkuste to prosím znovu.", "OK");}}
+	var saveExceptionHandler = {"NotLockedException": function(){dialog("Kvůli příliš malé aktivitě byla lekce odemknuta a již ji upravil někdo jiný. Zkuste to prosím znovu.", "OK");}};
+	var discardExceptionHandler = {"NotFoundException": function(){dismissSpinner();}};
 
-	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder, function(){}, exceptionHandler)]);
-	showLessonEditor(lesson.name, markdown, aq, id);
+	var saveActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder, function(){}, saveExceptionHandler)]);
+	var discardActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "DELETE", function(){}, function(){dismissSpinner();}, discardExceptionHandler)]);
+	showLessonEditor(lesson.name, markdown, saveActionQueue, id, discardActionQueue);
 	document.getElementById("save").dataset.id = id;
 }
 
