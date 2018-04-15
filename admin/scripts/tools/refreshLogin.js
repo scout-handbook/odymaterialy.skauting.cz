@@ -1,6 +1,6 @@
 "use strict";
 
-function refreshLogin(forceRelogin)
+function refreshLogin(forceRelogin, afterAction)
 {
 	var allCookies = "; " + document.cookie;
 	var parts = allCookies.split("; skautis_timeout=");
@@ -11,7 +11,13 @@ function refreshLogin(forceRelogin)
 		{
 			request(CONFIG.apiuri + "/refresh", "GET", undefined, function(response)
 				{
-					if(response.status === 200) { /* Success */ }
+					if(response.status === 200)
+					{
+						if(afterAction)
+						{
+							afterAction();
+						}
+					}
 					else if(response.type === "AuthenticationException")
 					{
 						if(forceRelogin)

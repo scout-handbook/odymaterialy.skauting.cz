@@ -5,7 +5,7 @@ var lessonSettingsCache = {};
 var lessonSettingsCacheEvent;
 var editor;
 
-function showLessonEditor(name, body, saveActionQueue, id, discardActionQueue)
+function showLessonEditor(name, body, saveActionQueue, id, discardActionQueue, refreshAction)
 {
 	populateEditorCache(id);
 	changed = false;
@@ -112,19 +112,19 @@ function showLessonEditor(name, body, saveActionQueue, id, discardActionQueue)
 	});
 	editor.value(body);
 	editor.codemirror.getDoc().clearHistory();
-	editor.codemirror.on("change", editorOnChange);
+	editor.codemirror.on("change", function() {editorOnChange(refreshAction);});
 
-	document.getElementById("name").oninput = editorOnChange;
-	document.getElementById("name").onchange = editorOnChange;
+	document.getElementById("name").oninput = function() {editorOnChange(refreshAction);};
+	document.getElementById("name").onchange = function() {editorOnChange(refreshAction);};
 
 	prepareImageSelector();
 }
 
-function editorOnChange()
+function editorOnChange(afterAction)
 {
 	changed = true;
 	refreshPreview(document.getElementById("name").value, editor.value(), "preview-inner");
-	refreshLogin();
+	refreshLogin(false, afterAction);
 }
 
 function editorDiscard(actionQueue)

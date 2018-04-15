@@ -62,11 +62,18 @@ function renderLessonEditView(id, markdown, noHistory)
 
 	var saveActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder, function(){}, saveExceptionHandler)]);
 	var discardActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "DELETE", function(){}, function(){}, discardExceptionHandler)]);
-	showLessonEditor(lesson.name, markdown, saveActionQueue, id, discardActionQueue);
+	showLessonEditor(lesson.name, markdown, saveActionQueue, id, discardActionQueue, function() {lessonEditMutexExtend(id);});
 	document.getElementById("save").dataset.id = id;
 }
 
 function saveLessonPayloadBuilder()
 {
 	return {"name": encodeURIComponent(document.getElementById("name").value), "body": encodeURIComponent(editor.value())};
+}
+
+function lessonEditMutexExtend(id)
+{
+	var exceptionHandler = {"NotFoundException": function(){}};
+	var actionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "PUT", undefined, function(){}, exceptionHandler)]);
+	actionQueue.dispatch(true);
 }
