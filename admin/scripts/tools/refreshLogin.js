@@ -11,25 +11,30 @@ function refreshLogin(forceRelogin, afterAction)
 		{
 			request(CONFIG.apiuri + "/refresh", "GET", undefined, function(response)
 				{
-					if(response.status === 200)
-					{
-						if(afterAction)
-						{
-							afterAction();
-						}
-					}
-					else if(response.type === "AuthenticationException")
-					{
-						if(forceRelogin)
-						{
-							window.location.replace(CONFIG.apiuri + "/login?return-uri=/admin/" + mainPageTab);
-						}
-					}
-					else
-					{
-						dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-					}
+					refreshLoginAfter(response, forceRelogin, afterAction);
 				});
 		}
+	}
+}
+
+function refreshLoginAfter(response, forceRelogin, afterAction)
+{
+	if(response.status === 200)
+	{
+		if(afterAction)
+		{
+			afterAction();
+		}
+	}
+	else if(response.type === "AuthenticationException")
+	{
+		if(forceRelogin)
+		{
+			window.location.replace(CONFIG.apiuri + "/login?return-uri=/admin/" + mainPageTab);
+		}
+	}
+	else
+	{
+		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 	}
 }
