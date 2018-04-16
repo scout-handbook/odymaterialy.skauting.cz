@@ -3,4 +3,4 @@
 The OdyMaterialy web page
 
 ## API Documentation
-[https://genabitu.github.io/OdyMaterialy/](https://genabitu.github.io/OdyMaterialy/)
+[https://genabitu.github.io/HandbookAPI/](https://genabitu.github.io/HandbookAPI/)

@@ -21,6 +21,7 @@ function showLessonSubview(noHistory)
 	}
 	html += renderLessonList();
 	document.getElementById("mainPage").innerHTML = html;
+	document.getElementById("mainPageContainer").scrollTop = 0;
 
 	if(LOGINSTATE.role === "administrator" || LOGINSTATE.role === "superuser")
 	{

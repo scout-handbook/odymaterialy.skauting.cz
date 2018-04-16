@@ -6,8 +6,18 @@
 
 #userSearchBox
 {
-	margin-right: 20px;
-	width: 200px;
+	margin-right: 10px;
+	width: 179px;
+}
+
+#roleSearchFilter, #groupSearchFilter
+{
+	margin-right: 10px;
+}
+
+.selectFilterSpecial
+{
+	font-style: italic;
 }
 
 #userSearchButton, #userSearchCancel
@@ -41,54 +51,6 @@
 .userTable tr:nth-child(2n+1)
 {
 	background-color: #ffffff;
-}
-
-.thumbnailContainer
-{
-	display: inline-block;
-	margin-top: 50px;
-	position: relative;
-	text-align: center;
-	width: 256px;
-}
-
-.buttonContainer
-{
-	display: inline-block;
-	position: relative;
-	width: fit-content;
-}
-
-.thumbnailImage
-{
-	cursor: pointer;
-	transform: scale(0.9);
-	transition: transform ease 0.15s;
-	vertical-align: middle;
-}
-
-.thumbnailImage:hover
-{
-	transform: scale(1.0);
-}
-
-.deleteImage
-{
-	bottom: 5%;
-	margin-bottom: 6px;
-	margin-right: 8px;
-	position: absolute;
-	right: 5%;
-}
-
-.previewImage
-{
-	bottom: 0;
-	left: 0;
-	margin: auto;
-	position: absolute;
-	right: 0;
-	top: 0;
 }
 
 #roleSelect

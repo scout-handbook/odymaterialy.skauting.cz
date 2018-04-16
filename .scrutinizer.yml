@@ -1,7 +1,7 @@
 build:
     dependencies:
-        before:
-            - cd API && composer install
+        override:
+            - true
     nodes:
         analysis:
             project_setup:

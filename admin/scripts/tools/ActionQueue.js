@@ -2,12 +2,13 @@
 
 var ActionQueueRetry = false;
 
-function Action(url, method, payloadBuilder, callback)
+function Action(url, method, payloadBuilder, callback, exceptionHandler)
 {
 	this.url = url;
 	this.method = method;
 	this.payloadBuilder = typeof payloadBuilder !== 'undefined' ? payloadBuilder : function(){return {};};
 	this.callback = typeof callback !== 'undefined' ? callback : function(){};
+	this.exceptionHandler = typeof exceptionHandler !== 'undefined' ? exceptionHandler : {};
 
 	this.fillID = function(id)
 		{
@@ -70,30 +71,33 @@ function ActionQueue(actions, retry)
 				};
 		};
 
-	this.pop = function(propagate)
+	this.pop = function(propagate, background)
 		{
 			if(queue.actions.length <= 1)
 			{
 				propagate = false;
 			}
-			spinner();
+			if(!background)
+			{
+				spinner();
+			}
 			request(queue.actions[0].url, queue.actions[0].method, queue.actions[0].payloadBuilder(), function(response)
 				{
 					if(queue.after(response, queue.actions[0]) && propagate)
 					{
-						queue.pop(true);
+						queue.pop(true, background);
 					}
 				});
 		};
 
-	this.dispatch = function()
+	this.dispatch = function(background)
 		{
-			queue.pop(true);
+			queue.pop(true, background);
 		};
-	this.defaultDispatch = function()
+	this.defaultDispatch = function(background)
 		{
 			queue.addDefaultCallback();
-			queue.dispatch();
+			queue.dispatch(background);
 		};
 	this.closeDispatch = function()
 		{
@@ -121,9 +125,9 @@ function ActionQueue(actions, retry)
 					dialog("Byl jste odhlášen a akce se nepodařila. Přihlašte se prosím a zkuste to znovu.", "OK");
 				}
 			}
-			else if(response.type === "RoleException")
+			else if(action.exceptionHandler.hasOwnProperty(response.type))
 			{
-				dialog("Nemáte dostatečné oprávnění k této akci.", "OK");
+				action.exceptionHandler[response.type]();
 			}
 			else
 			{

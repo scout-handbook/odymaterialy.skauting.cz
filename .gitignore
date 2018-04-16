@@ -21,5 +21,4 @@ api-secrets.php
 client-config.json
 
 node_modules/
-API/vendor/
 images/*

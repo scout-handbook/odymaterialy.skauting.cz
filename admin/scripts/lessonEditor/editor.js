@@ -5,7 +5,7 @@ var lessonSettingsCache = {};
 var lessonSettingsCacheEvent;
 var editor;
 
-function showLessonEditor(name, body, actionQueue, id)
+function showLessonEditor(name, body, saveActionQueue, id, discardActionQueue, refreshAction)
 {
 	populateEditorCache(id);
 	changed = false;
@@ -41,9 +41,9 @@ function showLessonEditor(name, body, actionQueue, id)
 	document.getElementsByTagName("main")[0].innerHTML = html;
 	refreshPreview(name, body, "preview-inner");
 
-	document.getElementById("discard").onclick = editorDiscard;
-	document.getElementById("save").onclick = actionQueue.defaultDispatch;
-	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id, actionQueue);};
+	document.getElementById("discard").onclick = function() {editorDiscard(discardActionQueue);};
+	document.getElementById("save").onclick = saveActionQueue.defaultDispatch;
+	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id, saveActionQueue);};
 	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
 	document.getElementById("imageSelectorAdd").onclick = function() {addImage(true);};
 
@@ -112,35 +112,44 @@ function showLessonEditor(name, body, actionQueue, id)
 	});
 	editor.value(body);
 	editor.codemirror.getDoc().clearHistory();
-	editor.codemirror.on("change", editorOnChange);
+	editor.codemirror.on("change", function() {editorOnChange(refreshAction);});
 
-	document.getElementById("name").oninput = editorOnChange;
-	document.getElementById("name").onchange = editorOnChange;
+	document.getElementById("name").oninput = function() {editorOnChange(refreshAction);};
+	document.getElementById("name").onchange = function() {editorOnChange(refreshAction);};
 
 	prepareImageSelector();
 }
 
-function editorOnChange()
+function editorOnChange(afterAction)
 {
 	changed = true;
 	refreshPreview(document.getElementById("name").value, editor.value(), "preview-inner");
-	refreshLogin();
+	refreshLogin(false, afterAction);
 }
 
-function editorDiscard()
+function editorDiscard(actionQueue)
 {
 	if(!changed)
 	{
-		history.back();
+		editorDiscardNow(actionQueue);
 	}
 	else
 	{
 		dialog("Opravdu si přejete zahodit všechny změny?", "Ano", function()
 			{
-				history.back();
+				editorDiscardNow(actionQueue);
 			}, "Ne");
 	}
 	refreshLogin();
+}
+
+function editorDiscardNow(actionQueue)
+{
+	history.back();
+	if(actionQueue)
+	{
+		actionQueue.dispatch(true);
+	}
 }
 
 function populateEditorCache(id)

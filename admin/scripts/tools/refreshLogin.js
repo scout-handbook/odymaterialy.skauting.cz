@@ -1,6 +1,6 @@
 "use strict";
 
-function refreshLogin(forceRelogin)
+function refreshLogin(forceRelogin, afterAction)
 {
 	var allCookies = "; " + document.cookie;
 	var parts = allCookies.split("; skautis_timeout=");
@@ -11,19 +11,30 @@ function refreshLogin(forceRelogin)
 		{
 			request(CONFIG.apiuri + "/refresh", "GET", undefined, function(response)
 				{
-					if(response.status === 200) { /* Success */ }
-					else if(response.type === "AuthenticationException")
-					{
-						if(forceRelogin)
-						{
-							window.location.replace(CONFIG.apiuri + "/login?return-uri=/admin/" + mainPageTab);
-						}
-					}
-					else
-					{
-						dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-					}
+					refreshLoginAfter(response, forceRelogin, afterAction);
 				});
 		}
+	}
+}
+
+function refreshLoginAfter(response, forceRelogin, afterAction)
+{
+	if(response.status === 200)
+	{
+		if(afterAction)
+		{
+			afterAction();
+		}
+	}
+	else if(response.type === "AuthenticationException")
+	{
+		if(forceRelogin)
+		{
+			window.location.replace(CONFIG.apiuri + "/login?return-uri=/admin/" + mainPageTab);
+		}
+	}
+	else
+	{
+		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 	}
 }
