@@ -83,16 +83,19 @@ function renderLessonView(id, markdown, noHistory, second)
 	}
 	if("serviceWorker" in navigator)
 	{
-		caches.match(CONFIG.apiuri + "/lesson/" + id).then(function(response)
+		caches.open(CONFIG.cache).then(function(cache)
 			{
-				if(response === undefined)
-				{
-					document.getElementById("cacheOffline").checked = false;
-				}
-				else
-				{
-					document.getElementById("cacheOffline").checked = true;
-				}
+				cache.match(CONFIG.apiuri + "/lesson/" + id).then(function(response)
+					{
+						if(response === undefined)
+						{
+							document.getElementById("cacheOffline").checked = false;
+						}
+						else
+						{
+							document.getElementById("cacheOffline").checked = true;
+						}
+					});
 			});
 		document.getElementById("offlineSwitch").style.display = "block";
 	}

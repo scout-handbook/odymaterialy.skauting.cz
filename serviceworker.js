@@ -1,6 +1,6 @@
 "use strict";
 
-var CACHE = "odymaterialy-v17";
+var CACHE = "odymaterialy-v18";
 var APIURI = "https://odymaterialy.skauting.cz/API/v0.9"
 var cacheBlocking = [
 	"/index.html",
@@ -111,19 +111,25 @@ function cacheOnDemandResponse(request)
 {
 	if(request.headers.get("Accept") === "x-cache/only")
 	{
-		return caches.match(request);
+		return caches.open(CACHE).then(function(cache)
+			{
+				return cache.match(request);
+			});
 	}
 	else
 	{
 		return fetch(request).then(function(response)
 			{
-				return caches.match(request).then(function(cachedResponse)
+				return caches.open(CACHE).then(function(cache)
 					{
-						if(cachedResponse === undefined)
-						{
-							return response
-						}
-						return cacheClone(request, response);
+						return cache.match(request).then(function(cachedResponse)
+							{
+								if(cachedResponse === undefined)
+								{
+									return response
+								}
+								return cacheClone(request, response);
+							});
 					});
 			});
 	}
@@ -131,14 +137,17 @@ function cacheOnDemandResponse(request)
 
 function genericResponse(request)
 {
-	return caches.match(request).then(function(response)
+	return caches.open(CACHE).then(function(cache)
 		{
-			if(response)
-			{
-				return response;
-			}
-			return fetch(request);
-		})
+			return cache.match(request).then(function(response)
+				{
+					if(response)
+					{
+						return response;
+					}
+					return fetch(request);
+				})
+		});
 }
 
 function cacheClone(request, response)
