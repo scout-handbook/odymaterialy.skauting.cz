@@ -13,7 +13,7 @@ function showLessonEditView(id, noHistory)
 			}
 			else if(response.status === 409)
 			{
-				dialog("Nelze upravovat lekci, protože ji právě upravuje " + response.response.holder + ".", "OK");
+				dialog("Nelze upravovat lekci, protože ji právě upravuje " + response.holder + ".", "OK");
 			}
 			else if(response.type === "AuthenticationException")
 			{
