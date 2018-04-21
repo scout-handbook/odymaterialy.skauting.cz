@@ -4,7 +4,7 @@ function cacheThenNetworkRequest(url, query, callback)
 {
 	var networkDataReceived = false;
 	var cacheDataReceived = false;
-	request(url, query, {}).addCallback(function(response)
+	request(url, query, undefined).addCallback(function(response)
 		{
 			networkDataReceived = true;
 			callback(response, cacheDataReceived);

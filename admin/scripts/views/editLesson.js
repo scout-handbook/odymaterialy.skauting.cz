@@ -5,7 +5,7 @@ var imageSelectorOpen = false;
 function showLessonEditView(id, noHistory)
 {
 	spinner();
-	request(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", {}, function(response)
+	request(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", undefined, function(response)
 		{
 			if(response.status === 201)
 			{
@@ -28,7 +28,7 @@ function showLessonEditView(id, noHistory)
 
 function getLessonEditView(id, noHistory)
 {
-	request(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id), "GET", {}, function(response)
+	request(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id), "GET", undefined, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -60,8 +60,8 @@ function renderLessonEditView(id, markdown, noHistory)
 	var saveExceptionHandler = {"NotLockedException": function(){dialog("Kvůli příliš malé aktivitě byla lekce odemknuta a již ji upravil někdo jiný. Zkuste to prosím znovu.", "OK");}};
 	var discardExceptionHandler = {"NotFoundException": function(){}};
 
-	var saveActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder, function(){}, saveExceptionHandler)]);
-	var discardActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "DELETE", function(){}, function(){}, discardExceptionHandler)]);
+	var saveActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder, undefined, saveExceptionHandler)]);
+	var discardActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "DELETE", undefined, undefined, discardExceptionHandler)]);
 	showLessonEditor(lesson.name, markdown, saveActionQueue, id, discardActionQueue, function() {lessonEditMutexExtend(id);});
 	document.getElementById("save").dataset.id = id;
 }
@@ -74,6 +74,6 @@ function saveLessonPayloadBuilder()
 function lessonEditMutexExtend(id)
 {
 	var exceptionHandler = {"NotFoundException": function(){}};
-	var actionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "PUT", undefined, function(){}, exceptionHandler)]);
+	var actionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "PUT", undefined, undefined, exceptionHandler)]);
 	actionQueue.dispatch(true);
 }

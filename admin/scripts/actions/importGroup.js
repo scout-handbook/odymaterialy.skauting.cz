@@ -26,7 +26,7 @@ function importGroupOnClick(event)
 		{
 			history.back();
 		};
-	request(CONFIG.apiuri + "/event", "GET", {}, function(response)
+	request(CONFIG.apiuri + "/event", "GET", undefined, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -74,7 +74,7 @@ function importGroupSelectParticipants(id)
 		var html = "<div id=\"embeddedSpinner\"></div>";
 		document.getElementById("importList").innerHTML = html;
 		participantEvent = new AfterLoadEvent(2);
-		request(CONFIG.apiuri + "/event/" + eventId + "/participant", "GET", {}, function(response)
+		request(CONFIG.apiuri + "/event/" + eventId + "/participant", "GET", undefined, function(response)
 			{
 				importGroupGetParticipantsCallback(id, response);
 			});
@@ -83,7 +83,7 @@ function importGroupSelectParticipants(id)
 				importGroupGetGroupCallback(id, response);
 			});
 		participantEvent.addCallback(importGroupSelectParticipantsRender);
-		document.getElementById("importGroupNext").onclick = function() {};
+		document.getElementById("importGroupNext").onclick = function(){};
 	}
 }
 

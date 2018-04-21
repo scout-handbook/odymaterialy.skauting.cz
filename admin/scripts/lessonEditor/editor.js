@@ -163,7 +163,7 @@ function populateEditorCache(id)
 		lessonSettingsCacheEvent.trigger();
 		return;
 	}
-	request(CONFIG.apiuri + "/lesson/" + id + "/group", "GET", {}, function(response)
+	request(CONFIG.apiuri + "/lesson/" + id + "/group", "GET", undefined, function(response)
 		{
 			if(response.status === 200)
 			{

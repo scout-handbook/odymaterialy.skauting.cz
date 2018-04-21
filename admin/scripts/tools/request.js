@@ -2,6 +2,7 @@
 
 function request(url, method, payload, callback)
 {
+	payload = typeof payload !== 'undefined' ? payload : {};
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function()
 		{
