@@ -14,7 +14,7 @@ function metadataSetup()
 function refreshMetadata()
 {
 	metadataEvent = new AfterLoadEvent(4);
-	request(CONFIG.apiuri + "/lesson?override-group=true", "GET", "", function(response)
+	request(CONFIG.apiuri + "/lesson?override-group=true", "GET", undefined, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -26,7 +26,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request(CONFIG.apiuri + "/competence", "GET", "", function(response)
+	request(CONFIG.apiuri + "/competence", "GET", undefined, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -38,7 +38,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request(CONFIG.apiuri + "/group", "GET", "", function(response)
+	request(CONFIG.apiuri + "/group", "GET", undefined, function(response)
 		{
 			if(response.status === 200)
 			{
@@ -58,7 +58,7 @@ function refreshMetadata()
 				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
 			}
 		});
-	request(CONFIG.apiuri + "/account", "GET", "", function(response)
+	request(CONFIG.apiuri + "/account", "GET", undefined, function(response)
 		{
 			if(response.status === 200)
 			{

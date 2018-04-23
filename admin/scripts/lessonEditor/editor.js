@@ -157,7 +157,7 @@ function populateEditorCache(id)
 	lessonSettingsCacheEvent = new AfterLoadEvent(1);
 	if(!id)
 	{
-		lessonSettingsCache["field"] = "";
+		lessonSettingsCache["field"] = undefined;
 		lessonSettingsCache["competences"] = [];
 		lessonSettingsCache["groups"] = [];
 		lessonSettingsCacheEvent.trigger();
@@ -192,7 +192,7 @@ function populateEditorCache(id)
 				}
 				else
 				{
-					lessonSettingsCache["field"] = "";
+					lessonSettingsCache["field"] = undefined;
 				}
 				lessonSettingsCache["competences"] = FIELDS[i].lessons[j].competences;
 				break outer;

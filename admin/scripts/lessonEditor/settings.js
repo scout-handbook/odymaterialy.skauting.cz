@@ -30,7 +30,7 @@ function renderField()
 {
 	var html = "<br><h3 class=\"sidePanelTitle noNewline\">Oblast</h3>"
 	html += "<div class=\"button cyanButton\" id=\"changeField\"><i class=\"icon-pencil\"></i>Upravit</div><br>";
-	if(lessonSettingsCache.field === "")
+	if(!lessonSettingsCache.field)
 	{
 		html += "<span class=\"anonymousField\">Nezařazeno</span>"
 	}

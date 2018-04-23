@@ -12,7 +12,7 @@ function prepareImageSelector(page, perPage)
 	{
 		perPage = 15;
 	}
-	request(CONFIG.apiuri + "/image", "GET", "", function(response)
+	request(CONFIG.apiuri + "/image", "GET", undefined, function(response)
 		{
 			if(response.status === 200)
 			{

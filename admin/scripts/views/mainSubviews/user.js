@@ -119,7 +119,7 @@ function showUserList(list, searchName, page, perPage, role, group)
 		{
 			document.getElementById("userSearchCancel").onclick = function()
 				{
-					downloadUserList("", 1, perPage);
+					downloadUserList(undefined, 1, perPage);
 				};
 		}
 	var nodes = document.getElementsByClassName("paginationButton");
