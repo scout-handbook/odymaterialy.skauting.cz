@@ -56,10 +56,15 @@ function ActionQueue(actions, retry)
 
 	this.addDefaultCallback = function()
 		{
-			queue.actions[queue.actions.length - 1].callback = function()
+			var origCallback = queue.actions[queue.actions.length - 1].callback;
+			queue.actions[queue.actions.length - 1].callback = function(response)
 				{
 					dialog("Akce byla úspěšná.", "OK");
 					refreshMetadata();
+					if(origCallback)
+					{
+						origCallback(response);
+					}
 					if(ActionQueueRetry)
 					{
 						showMainView();
