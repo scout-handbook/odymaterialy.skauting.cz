@@ -60,10 +60,12 @@ function renderLessonEditView(id, markdown, noHistory)
 	var saveExceptionHandler = {"NotLockedException": function(){dialog("Kvůli příliš malé aktivitě byla lekce odemknuta a již ji upravil někdo jiný. Zkuste to prosím znovu.", "OK");}};
 	var discardExceptionHandler = {"NotFoundException": function(){}};
 
-	var saveActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder, undefined, saveExceptionHandler)]);
-	var discardActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "DELETE", undefined, undefined, discardExceptionHandler)]);
+	var saveActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder, removeBeacon, saveExceptionHandler)]);
+	var discardActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "DELETE", undefined, removeBeacon, discardExceptionHandler)]);
 	showLessonEditor(lesson.name, markdown, saveActionQueue, id, discardActionQueue, function() {lessonEditMutexExtend(id);});
 	document.getElementById("save").dataset.id = id;
+
+	window.onbeforeunload = function() {sendBeacon(id);};
 }
 
 function saveLessonPayloadBuilder()
@@ -76,4 +78,17 @@ function lessonEditMutexExtend(id)
 	var exceptionHandler = {"NotFoundException": function(){}};
 	var actionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "PUT", undefined, undefined, exceptionHandler)]);
 	actionQueue.dispatch(true);
+}
+
+function sendBeacon(id)
+{
+	if(navigator.sendBeacon)
+	{
+		navigator.sendBeacon(CONFIG.apiuri + "/mutex-beacon/" + encodeURIComponent(id));
+	}
+}
+
+function removeBeacon()
+{
+	window.onbeforeunload = undefined;
 }
