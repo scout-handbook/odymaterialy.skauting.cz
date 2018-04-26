@@ -32,7 +32,7 @@ function showLessonView(id, noHistory)
 	}
 	else
 	{
-		cacheThenNetworkRequest(CONFIG.apiuri + "/lesson/" + id, "", function(response, second)
+		cacheThenNetworkRequest(CONFIG.apiuri + "/lesson/" + id, undefined, function(response, second)
 			{
 				metadataEvent.addCallback(function()
 					{

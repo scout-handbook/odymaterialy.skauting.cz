@@ -5,47 +5,26 @@ var imageSelectorOpen = false;
 function showLessonEditView(id, noHistory)
 {
 	spinner();
-	request(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", {}, function(response)
+	var exceptionHandler = reAuthHandler;
+	exceptionHandler["LockedException"] = function(response)
 		{
-			if(response.status === 201)
-			{
-				getLessonEditView(id, noHistory);
-			}
-			else if(response.status === 409)
-			{
-				dialog("Nelze upravovat lekci, protože ji právě upravuje " + response.holder + ".", "OK");
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			dialog("Nelze upravovat lekci, protože ji právě upravuje " + response.holder + ".", "OK");
+		};
+	request(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", undefined, function()
+		{
+			getLessonEditView(id, noHistory);
+		}, exceptionHandler);
 }
 
 function getLessonEditView(id, noHistory)
 {
-	request(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id), "GET", {}, function(response)
+	request(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id), "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				metadataEvent.addCallback(function()
-					{
-						renderLessonEditView(id, response.response, noHistory);
-					});
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			metadataEvent.addCallback(function()
+				{
+					renderLessonEditView(id, response, noHistory);
+				});
+		}, reAuthHandler);
 }
 
 function renderLessonEditView(id, markdown, noHistory)
@@ -60,10 +39,12 @@ function renderLessonEditView(id, markdown, noHistory)
 	var saveExceptionHandler = {"NotLockedException": function(){dialog("Kvůli příliš malé aktivitě byla lekce odemknuta a již ji upravil někdo jiný. Zkuste to prosím znovu.", "OK");}};
 	var discardExceptionHandler = {"NotFoundException": function(){}};
 
-	var saveActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder, function(){}, saveExceptionHandler)]);
-	var discardActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "DELETE", function(){}, function(){}, discardExceptionHandler)]);
+	var saveActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id) , "PUT", saveLessonPayloadBuilder, removeBeacon, saveExceptionHandler)]);
+	var discardActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "DELETE", undefined, removeBeacon, discardExceptionHandler)]);
 	showLessonEditor(lesson.name, markdown, saveActionQueue, id, discardActionQueue, function() {lessonEditMutexExtend(id);});
 	document.getElementById("save").dataset.id = id;
+
+	window.onbeforeunload = function() {sendBeacon(id);};
 }
 
 function saveLessonPayloadBuilder()
@@ -74,6 +55,19 @@ function saveLessonPayloadBuilder()
 function lessonEditMutexExtend(id)
 {
 	var exceptionHandler = {"NotFoundException": function(){}};
-	var actionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "PUT", undefined, function(){}, exceptionHandler)]);
+	var actionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "PUT", undefined, undefined, exceptionHandler)]);
 	actionQueue.dispatch(true);
+}
+
+function sendBeacon(id)
+{
+	if(navigator.sendBeacon)
+	{
+		navigator.sendBeacon(CONFIG.apiuri + "/mutex-beacon/" + encodeURIComponent(id));
+	}
+}
+
+function removeBeacon()
+{
+	window.onbeforeunload = undefined;
 }

@@ -6,27 +6,29 @@ function AfterLoadEvent(threshold)
 	this.threshold = threshold;
 	this.count = 0;
 	this.callbacks = [];
+
+	var ALE = this;
 	this.addCallback = function(callback)
 		{
-			this.callbacks.push(callback);
-			if(this.triggered)
+			ALE.callbacks.push(callback);
+			if(ALE.triggered)
 			{
 				callback();
 			}
 		};
 	this.trigger = function()
 		{
-			this.count++;
-			this.retrigger.apply(this, arguments);
+			ALE.count++;
+			ALE.retrigger.apply(ALE, arguments);
 		};
 	this.retrigger = function()
 		{
-			if(this.count >= this.threshold)
+			if(ALE.count >= ALE.threshold)
 			{
-				this.triggered = true;
-				for(var i = 0; i < this.callbacks.length; i++)
+				ALE.triggered = true;
+				for(var i = 0; i < ALE.callbacks.length; i++)
 				{
-					this.callbacks[i].apply(null, arguments);
+					ALE.callbacks[i].apply(null, arguments);
 				}
 			}
 		};

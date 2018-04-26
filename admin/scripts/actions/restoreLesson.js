@@ -12,21 +12,10 @@ function restoreLesson()
 		{
 			history.back();
 		};
-	request(CONFIG.apiuri + "/deleted-lesson", "GET", {}, function(response)
+	request(CONFIG.apiuri + "/deleted-lesson", "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				restoreLessonRenderLessonList(response.response);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			restoreLessonRenderLessonList(response);
+		}, reAuthHandler);
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 	refreshLogin();
@@ -59,22 +48,11 @@ function restoreLessonSelectVersion()
 	{
 		var html = "<div id=\"embeddedSpinner\"></div>";
 		document.getElementById("restoreLessonList").innerHTML = html;
-		request(CONFIG.apiuri + "/deleted-lesson/" + lessonId + "/history", "GET", {}, function(response)
+		request(CONFIG.apiuri + "/deleted-lesson/" + lessonId + "/history", "GET", undefined, function(response)
 			{
-				if(response.status === 200)
-				{
-					restoreLessonRenderVersionList(lessonId, response.response);
-				}
-				else if(response.type === "AuthenticationException")
-				{
-					window.location.replace(CONFIG.apiuri + "/login");
-				}
-				else
-				{
-					dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-				}
-			});
-		document.getElementById("restoreLessonNext").onclick = function() {};
+				restoreLessonRenderVersionList(lessonId, response);
+			}, reAuthHandler);
+		document.getElementById("restoreLessonNext").onclick = function(){};
 	}
 }
 
@@ -108,21 +86,10 @@ function restoreLessonShowVersion(id, event)
 	var version = event.target.dataset.version;
 	var name = event.target.dataset.name;
 	document.getElementById("restoreLessonPreview").innerHTML = "<div id=\"embeddedSpinner\"></div>";
-	request(CONFIG.apiuri + "/deleted-lesson/" + id + "/history/" + version, "GET", {}, function(response)
+	request(CONFIG.apiuri + "/deleted-lesson/" + id + "/history/" + version, "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				restoreLessonRenderVersion(name, response.response);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				dialog("Proběhlo automatické odhlášení. Přihlašte se a zkuste to znovu.");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			restoreLessonRenderVersion(name, response);
+		}, authFailHandler);
 	document.getElementById("restoreLessonListHeader").innerHTML = "";
 
 	refreshLogin();

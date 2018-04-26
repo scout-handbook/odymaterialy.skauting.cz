@@ -38,7 +38,6 @@ function showLessonSubview(noHistory)
 	addOnClicks("addLessonInField", addLessonInFieldOnClick);
 	addOnClicks("changeLesson", changeLessonOnClick);
 	addOnClicks("deleteLesson", deleteLessonOnClick);
-	addOnClicks("exportLesson", exportLessonOnClick);
 	if(!noHistory)
 	{
 		history.pushState({"page": "lessons"}, "title", "/admin/lessons");
@@ -79,7 +78,7 @@ function renderLessonListLesson(lesson, secondLevel)
 	{
 		html += "<div class=\"button redButton deleteLesson\" data-id=\"" + lesson.id + "\"><i class=\"icon-trash-empty\"></i>Smazat</div>";
 	}
-	html += "<div class=\"button exportLesson\" data-id=\"" + lesson.id + "\"><i class=\"icon-file-pdf\"></i>PDF</div>";
+	html += "<a href=\"" + CONFIG.baseuri + "/admin/lesson/" + lesson.id + "\" target=\"_blank\" class=\"button exportLesson\"><i class=\"icon-file-pdf\"></i>PDF</a>";
 	html += "<br><span class=\"mainPage" + secondLevel + "\">Kompetence: ";
 	if(lesson.competences.length > 0)
 	{
@@ -104,11 +103,5 @@ function renderLessonListLesson(lesson, secondLevel)
 function changeLessonOnClick(event)
 {
 	showLessonEditView(getAttribute(event, "id"));
-	return false;
-}
-
-function exportLessonOnClick(event)
-{
-	window.open(CONFIG.baseuri + "/admin/lesson/" + getAttribute(event, "id"))
 	return false;
 }

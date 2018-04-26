@@ -42,7 +42,7 @@ function showLessonEditor(name, body, saveActionQueue, id, discardActionQueue, r
 	refreshPreview(name, body, "preview-inner");
 
 	document.getElementById("discard").onclick = function() {editorDiscard(discardActionQueue);};
-	document.getElementById("save").onclick = saveActionQueue.defaultDispatch;
+	document.getElementById("save").onclick = function() {saveActionQueue.defaultDispatch();};
 	document.getElementById("lessonSettings").onclick = function() {lessonSettings(id, saveActionQueue);};
 	document.getElementById("closeImageSelector").onclick = toggleImageSelector;
 	document.getElementById("imageSelectorAdd").onclick = function() {addImage(true);};
@@ -157,28 +157,17 @@ function populateEditorCache(id)
 	lessonSettingsCacheEvent = new AfterLoadEvent(1);
 	if(!id)
 	{
-		lessonSettingsCache["field"] = "";
+		lessonSettingsCache["field"] = undefined;
 		lessonSettingsCache["competences"] = [];
 		lessonSettingsCache["groups"] = [];
 		lessonSettingsCacheEvent.trigger();
 		return;
 	}
-	request(CONFIG.apiuri + "/lesson/" + id + "/group", "GET", {}, function(response)
+	request(CONFIG.apiuri + "/lesson/" + id + "/group", "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				lessonSettingsCache["groups"] = response.response;
-				lessonSettingsCacheEvent.trigger();
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			lessonSettingsCache["groups"] = response;
+			lessonSettingsCacheEvent.trigger();
+		}, reAuthHandler);
 	outer:
 	for(var i = 0; i < FIELDS.length; i++)
 	{
@@ -192,7 +181,7 @@ function populateEditorCache(id)
 				}
 				else
 				{
-					lessonSettingsCache["field"] = "";
+					lessonSettingsCache["field"] = undefined;
 				}
 				lessonSettingsCache["competences"] = FIELDS[i].lessons[j].competences;
 				break outer;

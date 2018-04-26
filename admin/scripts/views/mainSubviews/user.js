@@ -53,19 +53,8 @@ function downloadUserList(searchName, page, perPage, role, group)
 	}
 	request(CONFIG.apiuri + "/user", "GET", payload, function(response)
 		{
-			if(response.status === 200)
-			{
-				showUserList(response.response, searchName, page, perPage, role, group);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			showUserList(response, searchName, page, perPage, role, group);
+		}, reAuthHandler);
 	refreshLogin(true);
 }
 
@@ -119,7 +108,7 @@ function showUserList(list, searchName, page, perPage, role, group)
 		{
 			document.getElementById("userSearchCancel").onclick = function()
 				{
-					downloadUserList("", 1, perPage);
+					downloadUserList(undefined, 1, perPage);
 				};
 		}
 	var nodes = document.getElementsByClassName("paginationButton");

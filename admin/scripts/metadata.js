@@ -14,51 +14,29 @@ function metadataSetup()
 function refreshMetadata()
 {
 	metadataEvent = new AfterLoadEvent(4);
-	request(CONFIG.apiuri + "/lesson?override-group=true", "GET", "", function(response)
+	request(CONFIG.apiuri + "/lesson?override-group=true", "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				FIELDS = response.response;
-				metadataEvent.trigger();
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
+			FIELDS = response;
+			metadataEvent.trigger();
 		});
-	request(CONFIG.apiuri + "/competence", "GET", "", function(response)
+	request(CONFIG.apiuri + "/competence", "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				COMPETENCES = response.response;
-				metadataEvent.trigger();
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
+			COMPETENCES = response;
+			metadataEvent.trigger();
 		});
-	request(CONFIG.apiuri + "/group", "GET", "", function(response)
+	var groupExceptionHandler = {"AuthenticationException": function()
 		{
-			if(response.status === 200)
-			{
-				GROUPS = response.response;
-				metadataEvent.trigger();
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login?return-uri=" + encodeURIComponent(window.location));
-			}
-			else if(response.type === "RoleException")
-			{
-				window.location.replace(CONFIG.baseuri);
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
-	request(CONFIG.apiuri + "/account", "GET", "", function(response)
+			window.location.replace(CONFIG.apiuri + "/login?return-uri=" + encodeURIComponent(window.location));
+		}, "RoleException": function()
+		{
+			window.location.replace(CONFIG.baseuri);
+		}};
+	request(CONFIG.apiuri + "/group", "GET", undefined, function(response)
+		{
+			GROUPS = response;
+			metadataEvent.trigger();
+		}, groupExceptionHandler);
+	rawRequest(CONFIG.apiuri + "/account", "GET", undefined, function(response)
 		{
 			if(response.status === 200)
 			{

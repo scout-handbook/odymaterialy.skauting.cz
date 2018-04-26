@@ -1,7 +1,36 @@
 "use strict";
+var reAuthHandler = {"AuthenticationException": function()
+	{
+		window.location.replace(CONFIG.apiuri + "/login");
+	}};
+var authFailHandler = {"AuthenticationException": function()
+	{
+		dialog("Proběhlo automatické odhlášení. Přihlašte se prosím a zkuste to znovu.", "OK");
+	}};
 
-function request(url, method, payload, callback)
+function request(url, method, payload, callback, exceptionHandler)
 {
+	exceptionHandler = typeof exceptionHandler !== 'undefined' ? exceptionHandler : {};
+	rawRequest(url, method, payload, function(response)
+		{
+			if(Math.floor(response.status / 100) === 2)
+			{
+				callback(response.response);
+			}
+			else if(exceptionHandler.hasOwnProperty(response.type))
+			{
+				exceptionHandler[response.type](response);
+			}
+			else
+			{
+				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
+			}
+		});
+}
+
+function rawRequest(url, method, payload, callback)
+{
+	payload = typeof payload !== 'undefined' ? payload : {};
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function()
 		{
