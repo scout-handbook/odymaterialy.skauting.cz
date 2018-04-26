@@ -21,6 +21,10 @@ function prepareImageSelector(page, perPage)
 
 function renderImageSelector(list, page, perPage)
 {
+	if(!document.getElementById("imageWrapper"))
+	{
+		return;
+	}
 	var html = "";
 	var start = perPage * (page - 1);
 	for(var i = start; i < Math.min(list.length, start + perPage); i++)
@@ -33,8 +37,7 @@ function renderImageSelector(list, page, perPage)
 		html += "<div id=\"pagination\">";
 		if(page > 3)
 		{
-			html += "<div class=\"paginationButton\" data-page=\"1\">1</div>";
-			html += " ... ";
+			html += "<div class=\"paginationButton\" data-page=\"1\">1</div> ... ";
 		}
 		if(page > 2)
 		{
@@ -55,8 +58,7 @@ function renderImageSelector(list, page, perPage)
 		}
 		if(page < maxPage - 2)
 		{
-			html += " ... ";
-			html += "<div class=\"paginationButton\" data-page=\"" + maxPage + "\">" + maxPage + "</div>";
+			html += " ... <div class=\"paginationButton\" data-page=\"" + maxPage + "\">" + maxPage + "</div>";
 		}
 		html += "</div>";
 	}
