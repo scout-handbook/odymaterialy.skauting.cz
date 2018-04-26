@@ -2,8 +2,21 @@
 
 function deleteLessonOnClick(event)
 {
-	var name = "";
 	var id = getAttribute(event, "id");
+	spinner();
+	var exceptionHandler = reAuthHandler;
+	exceptionHandler["LockedException"] = function()
+		{
+			dialog("Nelze smazat lekci, protože ji právě upravuje " + response.response.holder + ".", "OK");
+		};
+	request(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", undefined, function()
+		{
+			deleteLessonDialog(id);
+		}, exceptionHandler);
+}
+function deleteLessonDialog(id)
+{
+	var name = "";
 	outer:
 	for(var i = 0; i < FIELDS.length; i++)
 	{
@@ -17,8 +30,15 @@ function deleteLessonOnClick(event)
 		}
 	}
 
-	var aq = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id), "DELETE")]);
-	dialog("Opravdu si přejete smazat lekci \"" + name + "\"?", "Ano", aq.closeDispatch, "Ne", function(){history.back();});
+	var saveExceptionHandler = {"NotLockedException": function(){dialog("Kvůli příliš malé aktivitě byla lekce odemknuta a již ji upravil někdo jiný. Zkuste to prosím znovu.", "OK");}};
+	var discardExceptionHandler = {"NotFoundException": function(){}};
+	var saveActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id), "DELETE", undefined, undefined, saveExceptionHandler)]);
+	var discardActionQueue = new ActionQueue([new Action(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id) , "DELETE", undefined, undefined, discardExceptionHandler)]);
+	dialog("Opravdu si přejete smazat lekci \"" + name + "\"?", "Ano", saveActionQueue.closeDispatch, "Ne", function()
+		{
+			discardActionQueue.dispatch(true);
+			history.back();
+		});
 	history.pushState({"sidePanel": "open"}, "title", "/admin/lessons");
 	refreshLogin();
 }

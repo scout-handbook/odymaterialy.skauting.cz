@@ -33,21 +33,10 @@ function downloadImageList(page, perPage)
 	{
 		perPage = 15;
 	}
-	request(CONFIG.apiuri + "/image", "GET", "", function(response)
+	request(CONFIG.apiuri + "/image", "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				showImageList(response.response, page, perPage);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			showImageList(response, page, perPage);
+		}, reAuthHandler);
 	refreshLogin(true);
 }
 

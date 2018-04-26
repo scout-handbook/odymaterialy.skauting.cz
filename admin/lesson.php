@@ -21,6 +21,18 @@ if(isset($loginState['status']))
 			if($role == 'editor' or $role == 'administrator' or $role == 'superuser')
 			{
 				$file = fopen($CONFIG->apiuri . '/lesson/' . $_GET['id'] . '/pdf', 'rb');
+				foreach($http_response_header as $header)
+				{
+					if(strtolower(substr($header, 0, 20)) === "content-disposition:")
+					{
+						header($header);
+					}
+					if(strtolower(substr($header, 0, 22)) === "http/1.1 404 not found")
+					{
+						header('Location: ' . $CONFIG->baseuri . '/error/404.html');
+						die();
+					}
+				}
 				if($file !== false)
 				{
 					header('content-type:application/pdf; charset=utf-8');

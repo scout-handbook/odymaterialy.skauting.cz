@@ -9,7 +9,7 @@ function metadataSetup()
 
 function refreshMetadata()
 {
-	cacheThenNetworkRequest(CONFIG.apiuri + "/lesson", "", function(response, second)
+	cacheThenNetworkRequest(CONFIG.apiuri + "/lesson", undefined, function(response, second)
 		{
 			window.FIELDS = response;
 			if(second)
@@ -21,7 +21,7 @@ function refreshMetadata()
 				metadataEvent.trigger();
 			}
 		});
-	cacheThenNetworkRequest(CONFIG.apiuri + "/competence", "", function(response, second)
+	cacheThenNetworkRequest(CONFIG.apiuri + "/competence", undefined, function(response, second)
 		{
 			window.COMPETENCES = response;
 			if(second)
