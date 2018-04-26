@@ -10,7 +10,7 @@ function showLessonEditView(id, noHistory)
 		{
 			dialog("Nelze upravovat lekci, protože ji právě upravuje " + response.holder + ".", "OK");
 		};
-	request(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", undefined, function(response)
+	request(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", undefined, function()
 		{
 			getLessonEditView(id, noHistory);
 		}, exceptionHandler);
