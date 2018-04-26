@@ -86,13 +86,16 @@ function ActionQueue(actions, retry)
 			{
 				spinner();
 			}
-			request(queue.actions[0].url, queue.actions[0].method, queue.actions[0].payloadBuilder(), function(response)
+			queue.actions[0].exceptionHandler["AuthenticationException"] = queue.authException;
+			newRequest(queue.actions[0].url, queue.actions[0].method, queue.actions[0].payloadBuilder(), function(response)
 				{
-					if(queue.after(response, queue.actions[0]) && propagate)
+					queue.actions[0].callback(response);
+					queue.actions.shift();
+					if(propagate)
 					{
 						queue.pop(true, background);
 					}
-				});
+				}, queue.actions[0].exceptionHandler);
 		};
 
 	this.dispatch = function(background)
@@ -110,34 +113,16 @@ function ActionQueue(actions, retry)
 			queue.defaultDispatch();
 		};
 
-	this.after = function(response, action)
+	this.authException = function()
 		{
-			if(Math.floor(response.status / 100) === 2)
+			if(!ActionQueueRetry && window.sessionStorage)
 			{
-				queue.actions.shift();
-				action.callback(response.response);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				if(!ActionQueueRetry && window.sessionStorage)
-				{
-					sessionStorage.setItem("ActionQueue", JSON.stringify(queue.actions.map(serializeAction)));
-					window.location.replace(CONFIG.apiuri + "/login?return-uri=/admin/" + mainPageTab);
-					return false;
-				}
-				else
-				{
-					dialog("Byl jste odhlášen a akce se nepodařila. Přihlašte se prosím a zkuste to znovu.", "OK");
-				}
-			}
-			else if(action.exceptionHandler.hasOwnProperty(response.type))
-			{
-				action.exceptionHandler[response.type]();
+				sessionStorage.setItem("ActionQueue", JSON.stringify(queue.actions.map(serializeAction)));
+				window.location.replace(CONFIG.apiuri + "/login?return-uri=/admin/" + mainPageTab);
 			}
 			else
 			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
+				dialog("Byl jste odhlášen a akce se nepodařila. Přihlašte se prosím a zkuste to znovu.", "OK");
 			}
-			return true;
-		};
+		}
 }
