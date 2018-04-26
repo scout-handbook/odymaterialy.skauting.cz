@@ -47,7 +47,7 @@ function addImageSave()
 		formData.append("image", document.getElementById("addImageFile").files[0])
 		sidePanelClose();
 		spinner();
-		newRequest(CONFIG.apiuri + "/image", "POST", formData, function()
+		request(CONFIG.apiuri + "/image", "POST", formData, function()
 			{
 				dialog("Akce byla úspěšná.", "OK");
 				refreshMetadata();

@@ -33,7 +33,7 @@ function downloadImageList(page, perPage)
 	{
 		perPage = 15;
 	}
-	newRequest(CONFIG.apiuri + "/image", "GET", undefined, function(response)
+	request(CONFIG.apiuri + "/image", "GET", undefined, function(response)
 		{
 			showImageList(response, page, perPage);
 		}, reAuthHandler);

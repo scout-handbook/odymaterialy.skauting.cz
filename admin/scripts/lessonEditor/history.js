@@ -11,7 +11,7 @@ function lessonHistoryOpen(id, actionQueue)
 			lessonSettings(id, actionQueue, true);
 		};
 
-	newRequest(CONFIG.apiuri + "/lesson/" + id + "/history", "GET", undefined, function(response)
+	request(CONFIG.apiuri + "/lesson/" + id + "/history", "GET", undefined, function(response)
 		{
 			lessonHistoryListRender(id, actionQueue, response);
 		}, authFailHandler);
@@ -64,7 +64,7 @@ function lessonHistoryPreviewShowCurrent()
 function lessonHistoryPreviewShowVersion(id, actionQueue, event)
 {
 	document.getElementById("lessonHistoryPreview").innerHTML = "<div id=\"embeddedSpinner\"></div>";
-	newRequest(CONFIG.apiuri + "/lesson/" + id + "/history/" + event.target.dataset.version, "GET", undefined, function(response)
+	request(CONFIG.apiuri + "/lesson/" + id + "/history/" + event.target.dataset.version, "GET", undefined, function(response)
 		{
 			lessonHistoryPreviewRenderVersion(id, event.target.dataset.name, response, actionQueue);
 		}, authFailHandler);

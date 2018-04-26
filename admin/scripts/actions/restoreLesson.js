@@ -12,7 +12,7 @@ function restoreLesson()
 		{
 			history.back();
 		};
-	newRequest(CONFIG.apiuri + "/deleted-lesson", "GET", undefined, function(response)
+	request(CONFIG.apiuri + "/deleted-lesson", "GET", undefined, function(response)
 		{
 			restoreLessonRenderLessonList(response);
 		}, reAuthHandler);
@@ -48,7 +48,7 @@ function restoreLessonSelectVersion()
 	{
 		var html = "<div id=\"embeddedSpinner\"></div>";
 		document.getElementById("restoreLessonList").innerHTML = html;
-		newRequest(CONFIG.apiuri + "/deleted-lesson/" + lessonId + "/history", "GET", undefined, function(response)
+		request(CONFIG.apiuri + "/deleted-lesson/" + lessonId + "/history", "GET", undefined, function(response)
 			{
 				restoreLessonRenderVersionList(lessonId, response);
 			}, reAuthHandler);
@@ -86,7 +86,7 @@ function restoreLessonShowVersion(id, event)
 	var version = event.target.dataset.version;
 	var name = event.target.dataset.name;
 	document.getElementById("restoreLessonPreview").innerHTML = "<div id=\"embeddedSpinner\"></div>";
-	newRequest(CONFIG.apiuri + "/deleted-lesson/" + id + "/history/" + version, "GET", undefined, function(response)
+	request(CONFIG.apiuri + "/deleted-lesson/" + id + "/history/" + version, "GET", undefined, function(response)
 		{
 			restoreLessonRenderVersion(name, response);
 		}, authFailHandler);

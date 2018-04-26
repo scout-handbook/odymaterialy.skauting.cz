@@ -14,12 +14,12 @@ function metadataSetup()
 function refreshMetadata()
 {
 	metadataEvent = new AfterLoadEvent(4);
-	newRequest(CONFIG.apiuri + "/lesson?override-group=true", "GET", undefined, function(response)
+	request(CONFIG.apiuri + "/lesson?override-group=true", "GET", undefined, function(response)
 		{
 			FIELDS = response;
 			metadataEvent.trigger();
 		});
-	newRequest(CONFIG.apiuri + "/competence", "GET", undefined, function(response)
+	request(CONFIG.apiuri + "/competence", "GET", undefined, function(response)
 		{
 			COMPETENCES = response;
 			metadataEvent.trigger();
@@ -31,12 +31,12 @@ function refreshMetadata()
 		{
 			window.location.replace(CONFIG.baseuri);
 		}};
-	newRequest(CONFIG.apiuri + "/group", "GET", undefined, function(response)
+	request(CONFIG.apiuri + "/group", "GET", undefined, function(response)
 		{
 			GROUPS = response;
 			metadataEvent.trigger();
 		}, groupExceptionHandler);
-	request(CONFIG.apiuri + "/account", "GET", undefined, function(response)
+	rawRequest(CONFIG.apiuri + "/account", "GET", undefined, function(response)
 		{
 			if(response.status === 200)
 			{

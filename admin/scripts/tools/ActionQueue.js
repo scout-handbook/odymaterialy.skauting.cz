@@ -87,7 +87,7 @@ function ActionQueue(actions, retry)
 				spinner();
 			}
 			queue.actions[0].exceptionHandler["AuthenticationException"] = queue.authException;
-			newRequest(queue.actions[0].url, queue.actions[0].method, queue.actions[0].payloadBuilder(), function(response)
+			request(queue.actions[0].url, queue.actions[0].method, queue.actions[0].payloadBuilder(), function(response)
 				{
 					queue.actions[0].callback(response);
 					queue.actions.shift();

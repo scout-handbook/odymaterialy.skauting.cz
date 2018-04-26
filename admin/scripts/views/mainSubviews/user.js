@@ -51,7 +51,7 @@ function downloadUserList(searchName, page, perPage, role, group)
 	{
 		payload["group"] = group;
 	}
-	newRequest(CONFIG.apiuri + "/user", "GET", payload, function(response)
+	request(CONFIG.apiuri + "/user", "GET", payload, function(response)
 		{
 			showUserList(response, searchName, page, perPage, role, group);
 		}, reAuthHandler);

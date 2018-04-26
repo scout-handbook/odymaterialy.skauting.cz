@@ -8,10 +8,10 @@ var authFailHandler = {"AuthenticationException": function()
 		dialog("Proběhlo automatické odhlášení. Přihlašte se prosím a zkuste to znovu.", "OK");
 	}};
 
-function newRequest(url, method, payload, callback, exceptionHandler)
+function request(url, method, payload, callback, exceptionHandler)
 {
 	exceptionHandler = typeof exceptionHandler !== 'undefined' ? exceptionHandler : {};
-	request(url, method, payload, function(response)
+	rawRequest(url, method, payload, function(response)
 		{
 			if(Math.floor(response.status / 100) === 2)
 			{
@@ -28,7 +28,7 @@ function newRequest(url, method, payload, callback, exceptionHandler)
 		});
 }
 
-function request(url, method, payload, callback)
+function rawRequest(url, method, payload, callback)
 {
 	payload = typeof payload !== 'undefined' ? payload : {};
 	var xhr = new XMLHttpRequest();

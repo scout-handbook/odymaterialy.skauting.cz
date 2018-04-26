@@ -16,7 +16,7 @@ function refreshLogin(forceRelogin, afterAction)
 						window.location.replace(CONFIG.apiuri + "/login?return-uri=/admin/" + mainPageTab);
 					}
 				}};
-			newRequest(CONFIG.apiuri + "/refresh", "GET", undefined, function(response)
+			request(CONFIG.apiuri + "/refresh", "GET", undefined, function(response)
 				{
 					if(afterAction)
 					{

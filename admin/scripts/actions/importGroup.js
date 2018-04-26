@@ -26,7 +26,7 @@ function importGroupOnClick(event)
 		{
 			history.back();
 		};
-	newRequest(CONFIG.apiuri + "/event", "GET", undefined, function(response)
+	request(CONFIG.apiuri + "/event", "GET", undefined, function(response)
 		{
 			importGroupSelectEventRender(getAttribute(event, "id"), response);
 		}, reAuthHandler);
@@ -64,12 +64,12 @@ function importGroupSelectParticipants(id)
 		document.getElementById("importList").innerHTML = html;
 		participantEvent = new AfterLoadEvent(2);
 		participantEvent.addCallback(importGroupSelectParticipantsRender);
-		newRequest(CONFIG.apiuri + "/event/" + eventId + "/participant", "GET", undefined, function(response)
+		request(CONFIG.apiuri + "/event/" + eventId + "/participant", "GET", undefined, function(response)
 			{
 				participants = response;
 				participantEvent.trigger(id);
 			}, reAuthHandler);
-		newRequest(CONFIG.apiuri + "/user", "GET", {"page": 1, "per-page": 1000, "group": id}, function(response)
+		request(CONFIG.apiuri + "/user", "GET", {"page": 1, "per-page": 1000, "group": id}, function(response)
 			{
 				users = response.users;
 				participantEvent.trigger(id);
@@ -118,7 +118,7 @@ function importGroupSave(id)
 	addEvent = new AfterLoadEvent(participants.length);
 	for(var j = 0; j < participants.length; j++)
 	{
-		newRequest(CONFIG.apiuri + "/user", "POST", participants[j], addEvent.trigger, authFailHandler);
+		request(CONFIG.apiuri + "/user", "POST", participants[j], addEvent.trigger, authFailHandler);
 	}
 
 	addEvent.addCallback(function()
@@ -127,7 +127,7 @@ function importGroupSave(id)
 			for(var k = 0; k < participants.length; k++)
 			{
 				var payload = {"group": id};
-				newRequest(CONFIG.apiuri + "/user/" + participants[k].id + "/group", "PUT", payload, groupEvent.trigger, authFailHandler);
+				request(CONFIG.apiuri + "/user/" + participants[k].id + "/group", "PUT", payload, groupEvent.trigger, authFailHandler);
 			}
 
 			groupEvent.addCallback(function()
