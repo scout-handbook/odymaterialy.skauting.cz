@@ -112,6 +112,11 @@ function importGroupSave(id)
 		}
 	}
 
+	if(participants.length === 0)
+	{
+		return;
+	}
+
 	var html = "<div id=\"embeddedSpinner\"></div>";
 	document.getElementById("importList").innerHTML = html;
 
