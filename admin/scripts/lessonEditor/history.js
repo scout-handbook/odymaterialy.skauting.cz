@@ -11,21 +11,10 @@ function lessonHistoryOpen(id, actionQueue)
 			lessonSettings(id, actionQueue, true);
 		};
 
-	request(CONFIG.apiuri + "/lesson/" + id + "/history", "GET", undefined, function(response)
+	newRequest(CONFIG.apiuri + "/lesson/" + id + "/history", "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				lessonHistoryListRender(id, actionQueue, response.response);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				dialog("Proběhlo automatické odhlášení. Přihlašte se a zkuste to znovu.");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			lessonHistoryListRender(id, actionQueue, response);
+		}, authFailHandler);
 	lessonHistoryPreviewShowCurrent();
 }
 
@@ -75,21 +64,10 @@ function lessonHistoryPreviewShowCurrent()
 function lessonHistoryPreviewShowVersion(id, actionQueue, event)
 {
 	document.getElementById("lessonHistoryPreview").innerHTML = "<div id=\"embeddedSpinner\"></div>";
-	request(CONFIG.apiuri + "/lesson/" + id + "/history/" + event.target.dataset.version, "GET", undefined, function(response)
+	newRequest(CONFIG.apiuri + "/lesson/" + id + "/history/" + event.target.dataset.version, "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				lessonHistoryPreviewRenderVersion(id, event.target.dataset.name, response.response, actionQueue);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				dialog("Proběhlo automatické odhlášení. Přihlašte se a zkuste to znovu.");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			lessonHistoryPreviewRenderVersion(id, event.target.dataset.name, response, actionQueue);
+		}, authFailHandler);
 
 	document.getElementById("lessonHistoryListHeader").innerHTML = "";
 

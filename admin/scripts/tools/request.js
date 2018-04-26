@@ -1,4 +1,12 @@
 "use strict";
+var reAuthHandler = {"AuthenticationException": function()
+	{
+		window.location.replace(CONFIG.apiuri + "/login");
+	}};
+var authFailHandler = {"AuthenticationException": function()
+	{
+		dialog("Proběhlo automatické odhlášení. Přihlašte se prosím a zkuste to znovu.", "OK");
+	}};
 
 function newRequest(url, method, payload, callback, exceptionHandler)
 {
@@ -16,7 +24,7 @@ function newRequest(url, method, payload, callback, exceptionHandler)
 				}
 				else if(exceptionHandler.hasOwnProperty(response.type))
 				{
-					exceptionHandler[response.type]();
+					exceptionHandler[response.type](response);
 				}
 				else
 				{

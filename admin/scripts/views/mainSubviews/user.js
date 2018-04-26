@@ -51,21 +51,10 @@ function downloadUserList(searchName, page, perPage, role, group)
 	{
 		payload["group"] = group;
 	}
-	request(CONFIG.apiuri + "/user", "GET", payload, function(response)
+	newRequest(CONFIG.apiuri + "/user", "GET", payload, function(response)
 		{
-			if(response.status === 200)
-			{
-				showUserList(response.response, searchName, page, perPage, role, group);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			showUserList(response, searchName, page, perPage, role, group);
+		}, reAuthHandler);
 	refreshLogin(true);
 }
 

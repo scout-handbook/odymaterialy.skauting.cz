@@ -163,22 +163,11 @@ function populateEditorCache(id)
 		lessonSettingsCacheEvent.trigger();
 		return;
 	}
-	request(CONFIG.apiuri + "/lesson/" + id + "/group", "GET", undefined, function(response)
+	newRequest(CONFIG.apiuri + "/lesson/" + id + "/group", "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				lessonSettingsCache["groups"] = response.response;
-				lessonSettingsCacheEvent.trigger();
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			lessonSettingsCache["groups"] = response;
+			lessonSettingsCacheEvent.trigger();
+		}, reAuthHandler);
 	outer:
 	for(var i = 0; i < FIELDS.length; i++)
 	{

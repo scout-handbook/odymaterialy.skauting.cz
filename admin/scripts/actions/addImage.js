@@ -47,28 +47,11 @@ function addImageSave()
 		formData.append("image", document.getElementById("addImageFile").files[0])
 		sidePanelClose();
 		spinner();
-		request(CONFIG.apiuri + "/image", "POST", formData, addImageAfter);
-	}
-}
-
-function addImageAfter(response)
-{
-	if(Math.floor(response.status / 100) === 2)
-	{
-		dialog("Akce byla úspěšná.", "OK");
-		refreshMetadata();
-		history.back();
-	}
-	else if(response.type === "AuthenticationException")
-	{
-		dialog("Byl jste odhlášen a akce se nepodařila. Přihlašte se prosím a zkuste to znovu.", "OK");
-	}
-	else if(response.type === "RoleException")
-	{
-		dialog("Nemáte dostatečné oprávnění k této akci.", "OK");
-	}
-	else
-	{
-		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
+		newRequest(CONFIG.apiuri + "/image", "POST", formData, function()
+			{
+				dialog("Akce byla úspěšná.", "OK");
+				refreshMetadata();
+				history.back();
+			}, authFailHandler);
 	}
 }

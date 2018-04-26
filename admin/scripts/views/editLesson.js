@@ -5,47 +5,26 @@ var imageSelectorOpen = false;
 function showLessonEditView(id, noHistory)
 {
 	spinner();
-	request(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", undefined, function(response)
+	var exceptionHandler = reAuthHandler;
+	exceptionHandler["LockedException"] = function(response)
 		{
-			if(response.status === 201)
-			{
-				getLessonEditView(id, noHistory);
-			}
-			else if(response.status === 409)
-			{
-				dialog("Nelze upravovat lekci, protože ji právě upravuje " + response.holder + ".", "OK");
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			dialog("Nelze upravovat lekci, protože ji právě upravuje " + response.holder + ".", "OK");
+		};
+	newRequest(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", undefined, function(response)
+		{
+			getLessonEditView(id, noHistory);
+		}, exceptionHandler);
 }
 
 function getLessonEditView(id, noHistory)
 {
-	request(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id), "GET", undefined, function(response)
+	newRequest(CONFIG.apiuri + "/lesson/" + encodeURIComponent(id), "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				metadataEvent.addCallback(function()
-					{
-						renderLessonEditView(id, response.response, noHistory);
-					});
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			metadataEvent.addCallback(function()
+				{
+					renderLessonEditView(id, response, noHistory);
+				});
+		}, reAuthHandler);
 }
 
 function renderLessonEditView(id, markdown, noHistory)

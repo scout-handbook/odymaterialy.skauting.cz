@@ -26,21 +26,10 @@ function importGroupOnClick(event)
 		{
 			history.back();
 		};
-	request(CONFIG.apiuri + "/event", "GET", undefined, function(response)
+	newRequest(CONFIG.apiuri + "/event", "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				importGroupSelectEventRender(getAttribute(event, "id"), response.response);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			importGroupSelectEventRender(getAttribute(event, "id"), response);
+		}, reAuthHandler);
 
 	history.pushState({"sidePanel": "open"}, "title", "/admin/groups");
 	refreshLogin();
@@ -74,15 +63,17 @@ function importGroupSelectParticipants(id)
 		var html = "<div id=\"embeddedSpinner\"></div>";
 		document.getElementById("importList").innerHTML = html;
 		participantEvent = new AfterLoadEvent(2);
-		request(CONFIG.apiuri + "/event/" + eventId + "/participant", "GET", undefined, function(response)
-			{
-				importGroupGetParticipantsCallback(id, response);
-			});
-		request(CONFIG.apiuri + "/user", "GET", {"page": 1, "per-page": 1000, "group": id}, function(response)
-			{
-				importGroupGetGroupCallback(id, response);
-			});
 		participantEvent.addCallback(importGroupSelectParticipantsRender);
+		newRequest(CONFIG.apiuri + "/event/" + eventId + "/participant", "GET", undefined, function(response)
+			{
+				participants = response;
+				participantEvent.trigger(id);
+			}, reAuthHandler);
+		newRequest(CONFIG.apiuri + "/user", "GET", {"page": 1, "per-page": 1000, "group": id}, function(response)
+			{
+				users = response.users;
+				participantEvent.trigger(id);
+			}, reAuthHandler);
 		document.getElementById("importGroupNext").onclick = function(){};
 	}
 }
@@ -127,7 +118,7 @@ function importGroupSave(id)
 	addEvent = new AfterLoadEvent(participants.length);
 	for(var j = 0; j < participants.length; j++)
 	{
-		request(CONFIG.apiuri + "/user", "POST", participants[j], importAddUserCallback);
+		newRequest(CONFIG.apiuri + "/user", "POST", participants[j], addEvent.trigger, authFailHandler);
 	}
 
 	addEvent.addCallback(function()
@@ -136,7 +127,7 @@ function importGroupSave(id)
 			for(var k = 0; k < participants.length; k++)
 			{
 				var payload = {"group": id};
-				request(CONFIG.apiuri + "/user/" + participants[k].id + "/group", "PUT", payload, importUserGroupCallback);
+				newRequest(CONFIG.apiuri + "/user/" + participants[k].id + "/group", "PUT", payload, groupEvent.trigger, authFailHandler);
 			}
 
 			groupEvent.addCallback(function()
@@ -165,70 +156,4 @@ function setdiff(a, b)
 		}
 	}
 	return result;
-}
-
-function importGroupGetParticipantsCallback(id, response)
-{
-	if(response.status === 200)
-	{
-		participants = response.response;
-		participantEvent.trigger(id);
-	}
-	else if(response.type === "AuthenticationException")
-	{
-		window.location.replace(CONFIG.apiuri + "/login");
-	}
-	else
-	{
-		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-	}
-}
-
-function importGroupGetGroupCallback(id, response)
-{
-	if(response.status === 200)
-	{
-		users = response.response.users;
-		participantEvent.trigger(id);
-	}
-	else if(response.type === "AuthenticationException")
-	{
-		window.location.replace(CONFIG.apiuri + "/login");
-	}
-	else
-	{
-		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-	}
-}
-
-function importAddUserCallback(response)
-{
-	if(response.status === 200)
-	{
-		addEvent.trigger();
-	}
-	else if(response.type === "AuthenticationException")
-	{
-		dialog("Import nebylo možné dokončit z důvodu automatického odhlášení. Přihlašte se prosím a zkuste to znovu.", "OK");
-	}
-	else
-	{
-		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-	}
-}
-
-function importUserGroupCallback(response)
-{
-	if(response.status === 200)
-	{
-		groupEvent.trigger();
-	}
-	else if(response.type === "AuthenticationException")
-	{
-		dialog("Import nebylo možné dokončit z důvodu automatického odhlášení. Přihlašte se prosím a zkuste to znovu.", "OK");
-	}
-	else
-	{
-		dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-	}
 }

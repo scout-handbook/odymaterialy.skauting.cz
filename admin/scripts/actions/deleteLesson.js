@@ -4,25 +4,15 @@ function deleteLessonOnClick(event)
 {
 	var id = getAttribute(event, "id");
 	spinner();
-	request(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", undefined, function(response)
+	var exceptionHandler = reAuthHandler;
+	exceptionHandler["LockedException"] = function()
 		{
-			if(response.status === 201)
-			{
-				deleteLessonDialog(id);
-			}
-			else if(response.status === 409)
-			{
-				dialog("Nelze smazat lekci, protože ji právě upravuje " + response.response.holder + ".", "OK");
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			dialog("Nelze smazat lekci, protože ji právě upravuje " + response.response.holder + ".", "OK");
+		};
+	newRequest(CONFIG.apiuri + "/mutex/" + encodeURIComponent(id), "POST", undefined, function(response)
+		{
+			deleteLessonDialog(id);
+		}, exceptionHandler);
 }
 function deleteLessonDialog(id)
 {

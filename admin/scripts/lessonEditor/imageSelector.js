@@ -12,21 +12,10 @@ function prepareImageSelector(page, perPage)
 	{
 		perPage = 15;
 	}
-	request(CONFIG.apiuri + "/image", "GET", undefined, function(response)
+	newRequest(CONFIG.apiuri + "/image", "GET", undefined, function(response)
 		{
-			if(response.status === 200)
-			{
-				renderImageSelector(response.response, page, perPage);
-			}
-			else if(response.type === "AuthenticationException")
-			{
-				window.location.replace(CONFIG.apiuri + "/login");
-			}
-			else
-			{
-				dialog("Nastala neznámá chyba. Chybová hláška:<br>" + response.message, "OK");
-			}
-		});
+			renderImageSelector(response, page, perPage);
+		}, reAuthHandler);
 	refreshLogin();
 }
 
