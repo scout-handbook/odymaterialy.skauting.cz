@@ -61,7 +61,7 @@ function ActionQueue(actions, retry)
 				{
 					dialog("Akce byla úspěšná.", "OK");
 					refreshMetadata();
-					if(origCallback)
+					if(!ActionQueueRetry && origCallback)
 					{
 						origCallback(response);
 					}
