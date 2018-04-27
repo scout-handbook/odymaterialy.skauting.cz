@@ -38,7 +38,11 @@ function refreshMetadata()
 		{
 			if(this.readyState === 4)
 			{
-				var response = JSON.parse(this.responseText);
+				var response = {};
+				if(this.responseText)
+				{
+					response = JSON.parse(this.responseText);
+				}
 				if(response.status === 200)
 				{
 					window.LOGINSTATE = response.response;
@@ -50,6 +54,7 @@ function refreshMetadata()
 				metadataEvent.trigger();
 			}
 		}
+	xhttp.timeout = 5000;
 	xhttp.open("GET", CONFIG.apiuri + "/account", true);
 	xhttp.send();
 }
