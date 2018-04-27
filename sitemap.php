@@ -1,4 +1,4 @@
-<?php declare(strict_types=);
+<?php declare(strict_types=1);
 
 $CONFIG = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/client-config.json'));
 
