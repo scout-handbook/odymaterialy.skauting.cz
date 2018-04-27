@@ -1,6 +1,7 @@
 "use strict";
 
-var metadataEvent = new AfterLoadEvent(3);
+var metadataEvent = new AfterLoadEvent(2);
+var loginstateEvent = new AfterLoadEvent(1);
 
 function metadataSetup()
 {
@@ -38,16 +39,21 @@ function refreshMetadata()
 		{
 			if(this.readyState === 4)
 			{
-				var response = JSON.parse(this.responseText);
+				var response = {};
+				if(this.responseText)
+				{
+					response = JSON.parse(this.responseText);
+				}
 				if(response.status === 200)
 				{
 					window.LOGINSTATE = response.response;
+					loginstateEvent.trigger();
 				}
-				else
+				else if(response.status === 401)
 				{
 					window.LOGINSTATE = undefined;
+					loginstateEvent.trigger();
 				}
-				metadataEvent.trigger();
 			}
 		}
 	xhttp.open("GET", CONFIG.apiuri + "/account", true);
