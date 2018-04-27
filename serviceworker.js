@@ -1,7 +1,7 @@
 "use strict";
 
 var CACHE = "odymaterialy-v20";
-var APIURI = "https://odymaterialy.skauting.cz/API/v0.9"
+var APIPATH = "/API/v0.9"
 var cacheBlocking = [
 	"/index.html",
 	"/styles/fontello.css",
@@ -43,8 +43,8 @@ var cacheNonBlocking = [
 ];
 
 var cacheUpdating = [
-	APIURI + "/lesson",
-	APIURI + "/competence"
+	APIPATH + "/lesson",
+	APIPATH + "/competence"
 ];
 
 function startsWith(haystack, needle)
@@ -70,7 +70,7 @@ self.addEventListener("fetch", function(event)
 		{
 			event.respondWith(cacheUpdatingResponse(event.request));
 		}
-		else if(startsWith(url.pathname, APIURI + "/lesson"))
+		else if(startsWith(url.pathname, APIPATH + "/lesson"))
 		{
 			event.respondWith(cacheOnDemandResponse(event.request));
 		}
