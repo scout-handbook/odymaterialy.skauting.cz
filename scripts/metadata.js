@@ -1,6 +1,7 @@
 "use strict";
 
-var metadataEvent = new AfterLoadEvent(3);
+var metadataEvent = new AfterLoadEvent(2);
+var loginstateEvent = new AfterLoadEvent(1);
 
 function metadataSetup()
 {
@@ -46,15 +47,15 @@ function refreshMetadata()
 				if(response.status === 200)
 				{
 					window.LOGINSTATE = response.response;
+					loginstateEvent.trigger();
 				}
-				else
+				else if(response.status === 401)
 				{
 					window.LOGINSTATE = undefined;
+					loginstateEvent.trigger();
 				}
-				metadataEvent.trigger();
 			}
 		}
-	xhttp.timeout = 5000;
 	xhttp.open("GET", CONFIG.apiuri + "/account", true);
 	xhttp.send();
 }

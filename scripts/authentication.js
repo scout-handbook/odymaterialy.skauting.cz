@@ -7,7 +7,7 @@ function authenticationSetup()
 
 function showAccountInfo()
 {
-	metadataEvent.addCallback(function()
+	loginstateEvent.addCallback(function()
 		{
 			if(window.LOGINSTATE)
 			{

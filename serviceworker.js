@@ -1,6 +1,6 @@
 "use strict";
 
-var CACHE = "odymaterialy-v21";
+var CACHE = "odymaterialy-v22";
 var APIPATH = "/API/v0.9"
 var cacheBlocking = [
 	"/index.html",

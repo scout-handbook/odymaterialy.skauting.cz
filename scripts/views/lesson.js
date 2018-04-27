@@ -21,14 +21,17 @@ function showLessonView(id, noHistory)
 	}
 	if(!getLessonById(id))
 	{
-		if(window.LOGINSTATE)
-		{
-			window.location = CONFIG.baseuri + "/error/404.html";
-		}
-		else
-		{
-			loginRedirect();
-		}
+		loginstateEvent.addCallback(function()
+			{
+				if(window.LOGINSTATE)
+				{
+					window.location = CONFIG.baseuri + "/error/404.html";
+				}
+				else
+				{
+					loginRedirect();
+				}
+			});
 	}
 	else
 	{
