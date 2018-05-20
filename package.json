@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/GenaBitu/OdyMaterialy#readme",
   "dependencies": {
-    "showdown": "github:GenaBitu/showdown#nbsp",
+    "showdown": "github:showdownjs/showdown",
     "simplemde": "^1.11.2",
     "xss": "^0.3.8"
   }
