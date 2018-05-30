@@ -12,7 +12,7 @@ function refreshPreviewSetup()
 		worker = new Worker("scripts/lessonEditor/previewWorker.js");
 		worker.onmessage = function(payload)
 		{
-			document.getElementById(payload.data.id).innerHTML = filterXSS(payload.data.body, xssOptions());
+			document.getElementById(payload.data.id).innerHTML = payload.data.body;
 			if(queue)
 			{
 				worker.postMessage(queue);
