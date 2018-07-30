@@ -19,6 +19,6 @@
   "dependencies": {
     "showdown": "github:GenaBitu/showdown#nbsp-backport",
     "simplemde": "^1.11.2",
-    "xss": "^1.0.1"
+    "xss": "^1.0.3"
   }
 }
