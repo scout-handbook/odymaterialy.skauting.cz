@@ -13,6 +13,11 @@ var OdyMarkdown = function()
 		regex: "</table>",
 		replace: "</table></div>"
 	};
+	var fullLinks = {
+		type: "output",
+		regex: "<a href=\"(?!http:\/\/|https:\/\/)",
+		replace: "<a href=\"http://"
+	};
 	var blankLinks = {
 		type: "output",
 		regex: "<a href",
@@ -26,7 +31,7 @@ var OdyMarkdown = function()
 		type: "lang",
 		filter: function(text) {return filterCommand(text, "novastrana", pagebreakCommand);}
 	};
-	return [responsiveTablesBegin, responsiveTablesEnd, blankLinks, notes, pagebreak];
+	return [responsiveTablesBegin, responsiveTablesEnd, fullLinks, blankLinks, notes, pagebreak];
 }
 
 //Register extensions
