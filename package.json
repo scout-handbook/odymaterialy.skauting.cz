@@ -24,7 +24,8 @@
     "xss": "^1.0.3"
   },
   "devDependencies": {
-    "gulp": "^4.0.0"
+    "gulp": "^4.0.0",
+    "gulp-shell": "^0.6.5"
   },
   "browserslist": [
     "cover 99.9%",
