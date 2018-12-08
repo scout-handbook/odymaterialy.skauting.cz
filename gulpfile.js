@@ -14,7 +14,7 @@ gulp.task('eslint', function() {
 gulp.task('npm-check-updates', shell.task(['npm outdated'], {ignoreErrors: true}) );
 
 gulp.task('uglify', function() {
-	return gulp.src(['serviceworker.js'])
+	return gulp.src(['src/*.js'])
 		.pipe(uglify())
 		.pipe(rename(function(path) {
 			path.extname = '.min' + path.extname;

@@ -16,7 +16,7 @@ function main()
 	TOCSetup();
 	if("serviceWorker" in navigator)
 	{
-		navigator.serviceWorker.register("/serviceworker.js");
+		navigator.serviceWorker.register("/dist/serviceworker.min.js");
 	}
 	WebFont.load({
 		google: {
