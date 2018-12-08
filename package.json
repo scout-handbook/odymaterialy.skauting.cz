@@ -28,7 +28,8 @@
     "eslint-plugin-compat": "^2.6.3",
     "gulp": "^4.0.0",
     "gulp-eslint": "^5.0.0",
-    "gulp-shell": "^0.6.5"
+    "gulp-shell": "^0.6.5",
+    "gulp-uglify": "^3.0.1"
   },
   "browserslist": [
     "cover 99.9%",
