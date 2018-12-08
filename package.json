@@ -1,21 +1,23 @@
 {
   "name": "OdyMaterialy",
   "version": "0.1.0",
-  "description": "Web interface for OdyMaterialy",
-  "main": "script.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "A web interface for OdyMaterialy",
+  "keywords": [
+    "education",
+    "skaut",
+    "odymaterialy",
+    "education"
+  ],
+  "homepage": "https://github.com/GenaBitu/OdyMaterialy#readme",
+  "bugs": {
+    "url": "https://github.com/GenaBitu/OdyMaterialy/issues"
   },
+  "license": "MIT",
+  "author": "GenaBitu",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GenaBitu/OdyMaterialy.git"
   },
-  "author": "GenaBitu",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/GenaBitu/OdyMaterialy/issues"
-  },
-  "homepage": "https://github.com/GenaBitu/OdyMaterialy#readme",
   "dependencies": {
     "showdown": "^1.9.0",
     "simplemde": "^1.11.2",
@@ -23,5 +25,11 @@
   },
   "devDependencies": {
     "gulp": "^4.0.0"
-  }
+  },
+  "browserslist": [
+    "cover 99.9%",
+    "cover 99.9% in CZ",
+    "last 4 versions",
+    "Firefox ESR"
+  ]
 }
