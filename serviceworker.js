@@ -85,7 +85,7 @@ function cacheUpdatingResponse(request)
 {
 	if(request.headers.get("Accept") === "x-cache/only")
 	{
-		return new Promise((resolve) => {
+		return new Promise(function(resolve) {
 				caches.match(request).then(function(response)
 					{
 						if(response)
