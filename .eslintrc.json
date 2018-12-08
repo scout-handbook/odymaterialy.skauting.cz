@@ -1,0 +1,10 @@
+{
+	"env": {
+		"browser": true
+	},
+	"plugins": ["compat"],
+	"extends": "eslint:recommended",
+	"rules": {
+		"compat/compat": "error"
+	}
+}
