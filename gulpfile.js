@@ -151,6 +151,11 @@ gulp.task('build:css', function() {
 		]),
 		bundle('shared', [
 			'src/shared/fontello-ie7.css'
+		]),
+		bundle('frontend-pushed', [
+			'src/frontend/main.css',
+			'src/frontend/nav.css',
+			'src/frontend/topUI.css'
 		])
 	);
 });
