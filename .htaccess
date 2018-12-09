@@ -35,8 +35,8 @@ Header always set Expect-CT "enforce; max-age=31536000; report-uri=https://genab
 <FilesMatch "/index.html">
 	Header add Link "</dist/shared-pushed.min.css>;rel=preload;as=style"
 	Header add Link "</dist/frontend-pushed.min.css>;rel=preload;as=style"
-	Header add Link "</styles/computer.css>;rel=preload;as=style"
-	Header add Link "</styles/handheld.css>;rel=preload;as=style"
+	Header add Link "</dist/frontend-computer.min.css>;rel=preload;as=style"
+	Header add Link "</dist/frontend-handheld.min.css>;rel=preload;as=style"
 	Header add Link "</dist/shared-pushed.min.js>;rel=preload;as=script"
 	Header add Link "</dist/frontend-pushed.min.js>;rel=preload;as=script"
 </FilesMatch>

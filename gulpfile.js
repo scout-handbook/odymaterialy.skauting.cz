@@ -157,6 +157,12 @@ gulp.task('build:css', function() {
 			'src/frontend/nav.css',
 			'src/frontend/topUI.css'
 		]),
+		bundle('frontend-computer', [
+			'src/frontend/computer.css'
+		]),
+		bundle('frontend-handheld', [
+			'src/frontend/handheld.css'
+		]),
 		bundle('frontend', [
 			'src/frontend/competenceBubble.css',
 			'src/frontend/offlineSwitch.css'
