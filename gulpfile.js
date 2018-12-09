@@ -156,6 +156,10 @@ gulp.task('build:css', function() {
 			'src/frontend/main.css',
 			'src/frontend/nav.css',
 			'src/frontend/topUI.css'
+		]),
+		bundle('frontend', [
+			'src/frontend/competenceBubble.css',
+			'src/frontend/offlineSwitch.css'
 		])
 	);
 });
