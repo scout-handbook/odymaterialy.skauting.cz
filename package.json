@@ -27,6 +27,7 @@
     "eslint": "^5.10.0",
     "eslint-plugin-compat": "^2.6.3",
     "gulp": "^4.0.0",
+    "gulp-clean-css": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^5.0.0",
     "gulp-shell": "^0.6.5",

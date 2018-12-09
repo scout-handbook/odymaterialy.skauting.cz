@@ -7,6 +7,7 @@ var stylelint = require('gulp-stylelint');
 var merge = require('merge-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
+var cleanCSS = require('gulp-clean-css');
 
 var minify = composer(uglify, console);
 
@@ -131,3 +132,24 @@ gulp.task('build:js', function() {
 		])
 	);
 });
+
+gulp.task('build:css', function() {
+	function bundle(name, sources) {
+		return gulp.src(sources)
+			.pipe(sourcemaps.init())
+			.pipe(concat(name + '.min.css'))
+			//.pipe(gulp.dest('dist/'));
+			.pipe(cleanCSS({compatibility: 'ie8'}))
+			.pipe(sourcemaps.write('./'))
+			.pipe(gulp.dest('dist/'));
+	}
+	return merge(
+		bundle('shared-pushed', [
+			'src/shared/fontello.css',
+			'src/shared/lesson.css',
+			'src/shared/mainPage.css'
+		])
+	);
+});
+
+gulp.task('build', gulp.parallel('build:css', 'build:js'));

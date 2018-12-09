@@ -33,8 +33,7 @@ Header always set Expect-CT "enforce; max-age=31536000; report-uri=https://genab
 
 # Server push
 <FilesMatch "/index.html">
-	Header add Link "</styles/fontello.css>;rel=preload;as=style"
-	Header add Link "</styles/lesson.css>;rel=preload;as=style"
+	Header add Link "</dist/shared-pushed.min.css>;rel=preload;as=style"
 	Header add Link "</styles/main.css>;rel=preload;as=style"
 	Header add Link "</styles/nav.css>;rel=preload;as=style"
 	Header add Link "</styles/topUI.css>;rel=preload;as=style"
