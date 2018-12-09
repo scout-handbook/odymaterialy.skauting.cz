@@ -35,7 +35,7 @@ gulp.task('uglify', function() {
 			.pipe(sourcemaps.init())
 			.pipe(concat(name + '.min.js'))
 			.pipe(minify({ie8: true}))
-			.pipe(sourcemaps.write())
+			.pipe(sourcemaps.write('./'))
 			.pipe(gulp.dest('dist/'));
 	}
 	return merge(bundle('serviceworker', ['src/serviceworker.js']));
