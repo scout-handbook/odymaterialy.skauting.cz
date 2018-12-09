@@ -29,7 +29,7 @@ gulp.task('stylelint', function() {
 
 gulp.task('npm-check-updates', shell.task(['npm outdated'], {ignoreErrors: true}));
 
-gulp.task('uglify', function() {
+gulp.task('build:js', function() {
 	function bundle(name, sources) {
 		return gulp.src(sources)
 			.pipe(sourcemaps.init())
