@@ -41,7 +41,8 @@ gulp.task('uglify', function() {
 	return merge(
 		bundle('serviceworker', ['src/serviceworker.js']),
 		bundle('shared-pushed', ['src/shared/config.js', 'src/shared/AfterLoadEvent.js']),
-		bundle('shared', ['src/shared/getLessonById.js', 'src/shared/OdyMarkdown.js', 'src/shared/xssOptions.js']),
+		bundle('shared-worker', ['src/shared/OdyMarkdown.js', 'src/shared/xssOptions.js']),
+		bundle('shared', ['src/shared/getLessonById.js']),
 		bundle('frontend-pushed', ['src/frontend/tools/cacheThenNetworkRequest.js', 'src/frontend/tools/request.js', 'src/frontend/UI/header.js', 'src/frontend/UI/navigation.js', 'src/frontend/UI/TOC.js', 'src/frontend/views/lesson.js', 'src/frontend/authentication.js', 'src/frontend/history.js', 'src/frontend/main.js', 'src/frontend/metadata.js']),
 		bundle('frontend', ['src/frontend/tools/urlEscape.js', 'src/frontend/UI/lessonView.js', 'src/frontend/views/competence.js', 'src/frontend/views/competenceList.js', 'src/frontend/views/field.js', 'src/frontend/views/lessonList.js']),
 		bundle('admin-pushed', ['src/admin/lessonEditor/refreshPreview.js', 'src/admin/tools/ActionQueue.js', 'src/admin/tools/refreshLogin.js', 'src/admin/tools/request.js', 'src/admin/views/main.js', 'src/admin/history.js', 'src/admin/main.js', 'src/admin/metadata.js'])

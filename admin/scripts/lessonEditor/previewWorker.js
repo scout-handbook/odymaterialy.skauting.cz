@@ -7,8 +7,7 @@ function main()
 	self.onmessage = process;
 	importScripts('/node_modules/showdown/dist/showdown.min.js');
 	importScripts('/node_modules/xss/dist/xss.min.js');
-	importScripts('/scripts/tools/OdyMarkdown.js');
-	importScripts('/scripts/tools/xssOptions.js');
+	importScripts('/dist/shared-worker.min.js');
 	converter = new showdown.Converter({extensions: ["OdyMarkdown"]});
 	converter.setOption("noHeaderId", "true");
 	converter.setOption("tables", "true");
