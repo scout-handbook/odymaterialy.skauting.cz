@@ -34,6 +34,7 @@ gulp.task('uglify', function() {
 		return gulp.src(sources)
 			.pipe(sourcemaps.init())
 			.pipe(concat(name + '.min.js'))
+			//.pipe(gulp.dest('dist/'));
 			.pipe(minify({ie8: true}))
 			.pipe(sourcemaps.write('./'))
 			.pipe(gulp.dest('dist/'));

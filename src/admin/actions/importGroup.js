@@ -151,7 +151,9 @@ function importGroupSave(id)
 
 function setdiff(a, b)
 {
-	var bArr = b.map(x => x.id);
+	var bArr = b.map(function(x) {
+		return x.id;
+	});
 	var result = [];
 	for(var j = 0; j < a.length; j++)
 	{
