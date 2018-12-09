@@ -148,6 +148,9 @@ gulp.task('build:css', function() {
 			'src/shared/fontello.css',
 			'src/shared/lesson.css',
 			'src/shared/mainPage.css'
+		]),
+		bundle('shared', [
+			'src/shared/fontello-ie7.css'
 		])
 	);
 });
