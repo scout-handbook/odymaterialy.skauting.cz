@@ -84,6 +84,9 @@ gulp.task('uglify', function() {
 			'src/admin/main.js',
 			'src/admin/metadata.js'
 		]),
+		bundle('admin-worker', [
+			'src/admin/lessonEditor/previewWorker.js',
+		]),
 		bundle('admin', [
 			'src/admin/actions/addCompetence.js',
 			'src/admin/actions/addField.js',

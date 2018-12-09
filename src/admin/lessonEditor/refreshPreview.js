@@ -9,7 +9,7 @@ function refreshPreviewSetup()
 {
 	if(window.Worker)
 	{
-		worker = new Worker("scripts/lessonEditor/previewWorker.js");
+		worker = new Worker("../dist/admin-worker.min.js");
 		worker.onmessage = function(payload)
 		{
 			document.getElementById(payload.data.id).innerHTML = payload.data.body;
