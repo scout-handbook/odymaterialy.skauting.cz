@@ -40,6 +40,7 @@ gulp.task('uglify', function() {
 	}
 	return merge(
 		bundle('serviceworker', ['src/serviceworker.js']),
-		bundle('shared-pushed', ['src/shared/config.js', 'src/shared/AfterLoadEvent.js'])
+		bundle('shared-pushed', ['src/shared/config.js', 'src/shared/AfterLoadEvent.js']),
+		bundle('shared', ['src/shared/getLessonById.js', 'src/shared/OdyMarkdown.js', 'src/shared/xssOptions.js'])
 	);
 });
