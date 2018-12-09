@@ -41,16 +41,7 @@ Header always set Expect-CT "enforce; max-age=31536000; report-uri=https://genab
 	Header add Link "</styles/computer.css>;rel=preload;as=style"
 	Header add Link "</styles/handheld.css>;rel=preload;as=style"
 	Header add Link "</dist/shared-pushed.min.js>;rel=preload;as=script"
-	Header add Link "</scripts/tools/cacheThenNetworkRequest.js>;rel=preload;as=script"
-	Header add Link "</scripts/tools/request.js>;rel=preload;as=script"
-	Header add Link "</scripts/UI/header.js>;rel=preload;as=script"
-	Header add Link "</scripts/UI/navigation.js>;rel=preload;as=script"
-	Header add Link "</scripts/UI/TOC.js>;rel=preload;as=script"
-	Header add Link "</scripts/views/lesson.js>;rel=preload;as=script"
-	Header add Link "</scripts/authentication.js>;rel=preload;as=script"
-	Header add Link "</scripts/history.js>;rel=preload;as=script"
-	Header add Link "</scripts/main.js>;rel=preload;as=script"
-	Header add Link "</scripts/metadata.js>;rel=preload;as=script"
+	Header add Link "</dist/frontend-pushed.min.js>;rel=preload;as=script"
 </FilesMatch>
 
 # Compression

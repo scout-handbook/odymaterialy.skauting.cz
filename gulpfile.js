@@ -41,6 +41,7 @@ gulp.task('uglify', function() {
 	return merge(
 		bundle('serviceworker', ['src/serviceworker.js']),
 		bundle('shared-pushed', ['src/shared/config.js', 'src/shared/AfterLoadEvent.js']),
-		bundle('shared', ['src/shared/getLessonById.js', 'src/shared/OdyMarkdown.js', 'src/shared/xssOptions.js'])
+		bundle('shared', ['src/shared/getLessonById.js', 'src/shared/OdyMarkdown.js', 'src/shared/xssOptions.js']),
+		bundle('frontend-pushed', ['src/frontend/tools/cacheThenNetworkRequest.js', 'src/frontend/tools/request.js', 'src/frontend/UI/header.js', 'src/frontend/UI/navigation.js', 'src/frontend/UI/TOC.js', 'src/frontend/views/lesson.js', 'src/frontend/authentication.js', 'src/frontend/history.js', 'src/frontend/main.js', 'src/frontend/metadata.js'])
 	);
 });
