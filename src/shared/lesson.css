@@ -1,58 +1,48 @@
-main a
-{
-	color: #6534AD;
+main a {
+	color: #6534ad;
 	text-decoration: none;
 }
 
-main a:hover
-{
+main a:hover {
 	text-decoration: underline;
 }
 
-main h1
-{
+main h1 {
 	line-height: 140%;
 }
 
-main img
-{
+main img {
 	max-width: 100%;
 }
 
-main .tableContainer
-{
+main .tableContainer {
 	overflow-x: auto;
 }
 
-main table
-{
-	border: 1px solid #dddddd;
+main table {
+	border: 1px solid #ddd;
 	border-collapse: collapse;
 }
 
-main td, main th
-{
-	border: 1px solid #dddddd;
+main td,
+main th {
+	border: 1px solid #ddd;
 	padding: 8px 20px;
 }
 
-main th
-{
+main th {
 	border-bottom-width: 2px;
 }
 
-main tbody tr:nth-child(2n+1)
-{
+main tbody tr:nth-child(2n+1) {
 	background-color: #f9f9f9;
 }
 
-main .notes
-{
+main .notes {
 	display: block;
 }
 
-#embeddedSpinner
-{
+#embeddedSpinner {
 	animation: spin 2s linear infinite;
 	border: 16px solid #bfbfbf;
 	border-radius: 50%;
@@ -65,8 +55,7 @@ main .notes
 	width: 120px;
 }
 
-@keyframes spin
-{
+@keyframes spin {
 	0% { transform: translate(-50%, -50%) rotate(0deg); }
 	100% { transform: translate(-50%, -50%) rotate(360deg); }
-} 
+}

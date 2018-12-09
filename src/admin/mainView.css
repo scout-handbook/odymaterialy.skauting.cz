@@ -1,18 +1,17 @@
-#mainPage
-{
+#mainPage {
 	margin: 0 auto;
 	max-width: 770px;
 	padding: 20px;
 }
 
-h2.mainPage, h3.mainPage, .noNewline
-{
+h2.mainPage,
+h3.mainPage,
+.noNewline {
 	display: inline-block;
 	margin-right: 15px;
 }
 
-#mainPageContainer
-{
+#mainPageContainer {
 	bottom: 0;
 	left: 0;
 	overflow-y: auto;
@@ -21,15 +20,13 @@ h2.mainPage, h3.mainPage, .noNewline
 	top: 81px;
 }
 
-#topBar
-{
+#topBar {
 	background-color: #fafafa;
 	border-bottom: 1px solid #bfbfbf;
 	height: 80px;
 }
 
-.topBarTab
-{
+.topBarTab {
 	border-left: 1px solid #bfbfbf;
 	border-right: 1px solid #bfbfbf;
 	cursor: pointer;
@@ -45,77 +42,68 @@ h2.mainPage, h3.mainPage, .noNewline
 	width: 140px;
 }
 
-.topBarTab:hover, .activeTopBarTab
-{
+.topBarTab:hover,
+.activeTopBarTab {
 	background-color: #f5f5f5;
 	border-color: #6534ad;
 	color: #6534ad;
 	z-index: 1;
 }
 
-#lessonManager
-{
+#lessonManager {
 	left: 301px;
 }
 
-#competenceManager
-{
+#competenceManager {
 	left: 442px;
 }
 
-#imageManager
-{
+#imageManager {
 	left: 583px;
 }
 
-#userManager
-{
+#userManager {
 	left: 724px;
 }
 
-#groupManager
-{
+#groupManager {
 	left: 865px;
 	padding-bottom: 11px;
 	padding-top: 17px;
 }
 
-#userAccount
-{
+#userAccount {
 	border-right: 1px solid #bfbfbf;
 	display: inline-block;
 	height: 80px;
 	width: 300px;
 }
 
-#userAvatar
-{
+#userAvatar {
 	border: 5px solid #e0e0e0;
-	border-radius:50%;
+	border-radius: 50%;
 	float: left;
 	height: 60px;
 	margin: 5px 15px;
-	overflow:hidden;
+	overflow: hidden;
 	width: 60px;
 }
 
-#userName
-{
+#userName {
 	padding-top: 12px;
 }
 
-#logLink
-{
+#logLink {
 	margin-top: 5px;
 }
 
-#frontendLink
-{
+#frontendLink {
 	float: right;
 	margin-right: 20px;
 }
 
-#addField, #addLesson, #restoreLesson
-{
+#addField,
+#addLesson,
+#restoreLesson {
 	margin-bottom: -19px;
 }

@@ -19,7 +19,7 @@ gulp.task('eslint', function() {
 });
 
 gulp.task('stylelint', function() {
-	return gulp.src(['**/*.css', '!node_modules/**', '!API/**'])
+	return gulp.src(['**/*.css', '!node_modules/**', '!API/**', '!dist/**', '!src/shared/fontello?(-ie7).css'])
 		.pipe(stylelint({
 			failAfterError: true,
 			reporters: [

@@ -1,16 +1,12 @@
-main
-{
+main {
 	margin-left: 300px;
 	padding-left: 40px;
 }
 
-#navCloseButton
-{
+#navCloseButton {
 	display: none;
 }
 
-
-#overlay
-{
+#overlay {
 	display: none;
 }

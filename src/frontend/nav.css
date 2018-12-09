@@ -1,5 +1,4 @@
-nav
-{
+nav {
 	background: #fafafa;
 	border-right: 1px solid #bfbfbf;
 	height: 100%;
@@ -9,90 +8,76 @@ nav
 	z-index: 2;
 }
 
-nav a
-{
-	color: #6534AD;
+nav a {
+	color: #6534ad;
 	text-decoration: none;
 }
 
-nav a:hover
-{
+nav a:hover {
 	text-decoration: underline;
 }
 
-#userAccount
-{
+#userAccount {
 	border-bottom: 1px solid #bfbfbf;
 	height: 80px;
 }
 
-#userAvatar
-{
+#userAvatar {
 	border: 5px solid #e0e0e0;
-	border-radius:50%;
+	border-radius: 50%;
 	float: left;
 	height: 60px;
 	margin: 5px 15px;
-	overflow:hidden;
+	overflow: hidden;
 	width: 60px;
 }
 
-#userName
-{
+#userName {
 	padding-top: 12px;
 }
 
-#logLink
-{
+#logLink {
 	margin-top: 5px;
 }
 
-#adminLink
-{
+#adminLink {
 	float: right;
 	margin-right: 20px;
 }
 
-#navContainer
-{
+#navContainer {
 	padding-bottom: 20px;
 	padding-top: 20px;
 }
 
-#navContainer h1
-{
+#navContainer h1 {
 	color: #364149;
 	font-size: large;
 	margin-left: 20px;
 	margin-right: 20px;
 }
 
-#navContainer a
-{
+#navContainer a {
 	display: inline-block;
 	margin: 10px 20px 10px 20px;
 }
 
-#navContainer h1 a
-{
+#navContainer h1 a {
 	color: #364149;
 	margin: 0;
 }
 
-#navContainer .secondLevel
-{
+#navContainer .secondLevel {
 	margin-left: 40px;
 }
 
-#navCloseButton
-{
+#navCloseButton {
 	float: right;
 	margin-right: 20px;
 }
 
-#overlay
-{
-	background-color: #999999;
+#overlay {
+	background-color: #999;
 	background-color: rgba(0, 0, 0, 0.4);
 	height: 100%;
 	position: fixed;

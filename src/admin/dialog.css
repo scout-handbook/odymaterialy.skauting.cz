@@ -1,7 +1,6 @@
-#overlay
-{
-	background-color: #999999;
-	background-color: rgba(0, 0, 0, 0.4);
+#overlay {
+	background-color: #999;
+	background-color: rgba(0, 0, 0, 0.4); /* stylelint-disable-line plugin/no-unsupported-browser-features */
 	display: none;
 	height: 100%;
 	position: fixed;
@@ -9,9 +8,8 @@
 	z-index: 9;
 }
 
-#dialog
-{
-	background-color: #ffffff;
+#dialog {
+	background-color: #fff;
 	border-radius: 5px;
 	display: none;
 	height: 150px;
@@ -24,21 +22,19 @@
 	z-index: 9;
 }
 
-#dismissText, #confirmText
-{
+#dismissText,
+#confirmText {
 	bottom: 30px;
 	position: absolute;
 	right: 10px;
 }
 
-#dismissText
-{
+#dismissText {
 	display: none;
 	right: 100px;
 }
 
-#spinner
-{
+#spinner {
 	animation: spin 2s linear infinite;
 	border: 16px solid #fafafa;
 	border-radius: 50%;

@@ -1,5 +1,4 @@
-#restoreLessonVersionList
-{
+#restoreLessonVersionList {
 	bottom: 0;
 	overflow-y: auto;
 	padding-bottom: 30px;
@@ -9,8 +8,7 @@
 	width: 400px;
 }
 
-#restoreLessonPreview
-{
+#restoreLessonPreview {
 	border-left: solid 1px #bfbfbf;
 	bottom: 0;
 	left: 430px;
@@ -21,7 +19,6 @@
 	width: 528px;
 }
 
-.restoreLessonVersion
-{
+.restoreLessonVersion {
 	font-weight: bold;
 }

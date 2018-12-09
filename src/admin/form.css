@@ -1,24 +1,20 @@
-#sidePanelForm legend
-{
-	font-size: 1.1em;	
+#sidePanelForm legend {
+	font-size: 1.1em;
 	font-style: italic;
 	margin-bottom: 5px;
 	margin-left: 5px;
 }
 
-.heading
-{
+.heading {
 	font-size: 1.5em;
 	font-weight: bold;
 }
 
-.formRow
-{
+.formRow {
 	margin-top: 30px;
 }
 
-.formText
-{
+.formText {
 	border: 1px solid #bfbfbf;
 	border-radius: 3px;
 	font-family: "Open Sans", sans-serif;
@@ -27,38 +23,34 @@
 	width: 90%;
 }
 
-.formName
-{
+.formName {
 	font-size: 1.5em;
 	font-weight: bold;
 	padding: 10px 16px;
 }
 
-.formText:focus, .formSelect:focus
-{
+.formSelect {
+	background-color: #fafafa;
+	border: 1px solid #bfbfbf;
+	border-radius: 3px;
+	font-family: "Open Sans", sans-serif;
+	font-size: 1em;
+	padding: 2px 10px;
+	transition: border-color ease 0.15s, background-color ease 0.15s;
+}
+
+.formText:focus,
+.formSelect:focus {
 	background-color: #f5f5f5;
 	border-color: #6534ad;
 	outline: none;
 }
 
-.formSelect
-{
-	background-color: #fafafa;
-	border: 1px solid #bfbfbf;
-	border-radius: 3px;
-	font-family: "Open Sans", sans-serif;
-	font-size: 1.0em;
-	padding: 2px 10px;
-	transition: border-color ease 0.15s, background-color ease 0.15s;
-}
-
-.formSwitch input
-{
+.formSwitch input {
 	display: none;
 }
 
-.formCustom
-{
+.formCustom {
 	background-color: #fafafa;
 	border: 1px solid #bfbfbf;
 	cursor: pointer;
@@ -70,31 +62,26 @@
 	width: 15px;
 }
 
-.formCustom:before
-{
+.formCustom::before {
 	content: "";
 	position: absolute;
 }
 
-.formCustom:hover
-{
+.formCustom:hover {
 	background-color: #f5f5f5;
 	border-color: #6534ad;
 }
 
-input:checked + .formCustom
-{
+input:checked + .formCustom {
 	background-color: #f5f5f5;
 	border-color: #6534ad;
 }
 
-.formRadio
-{
+.formRadio {
 	border-radius: 8px;
 }
 
-.formRadio:before
-{
+.formRadio::before {
 	background-color: #bfbfbf;
 	border-radius: 4px;
 	height: 7px;
@@ -104,23 +91,19 @@ input:checked + .formCustom
 	width: 7px;
 }
 
-.formRadio:hover:before
-{
+.formRadio:hover::before {
 	background-color: #6534ad;
 }
 
-input:checked + .formRadio:before
-{
+input:checked + .formRadio::before {
 	background-color: #6534ad;
 }
 
-.formCheckbox
-{
+.formCheckbox {
 	border-radius: 3px;
 }
 
-.formCheckbox:before
-{
+.formCheckbox::before {
 	border: 3px solid #bfbfbf;
 	border-right: none;
 	border-top: none;
@@ -132,18 +115,15 @@ input:checked + .formRadio:before
 	width: 8px;
 }
 
-.formCheckbox:hover:before
-{
+.formCheckbox:hover::before {
 	border-color: #6534ad;
 }
 
-input:checked + .formCheckbox:before
-{
+input:checked + .formCheckbox::before {
 	border-color: #6534ad;
 }
 
-.formFile input
-{
+.formFile input {
 	height: 0.1px;
 	opacity: 0;
 	overflow: hidden;

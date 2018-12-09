@@ -1,11 +1,10 @@
-.button
-{
+.button {
 	background-clip: padding-box;
 	background-color: #0078e7;
-	border: 1px solid #ffffff;
-	border: 1px solid rgba(255, 255, 255, 0);
+	border: 1px solid #fff;
+	border: 1px solid rgba(255, 255, 255, 0); /* stylelint-disable-line plugin/no-unsupported-browser-features */
 	border-radius: 5px;
-	color: #ffffff;
+	color: #fff;
 	cursor: pointer;
 	display: inline-block;
 	height: 35px;
@@ -20,48 +19,39 @@
 	transition: box-shadow ease 0.15s, border-color ease 0.15s;
 }
 
-.button:hover
-{
+.button:hover {
 	border-color: #0078e7;
 	box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 4px 1px;
 }
 
-.greenButton
-{
+.greenButton {
 	background-color: #1cb841;
 }
 
-.greenButton:hover
-{
+.greenButton:hover {
 	border-color: #1cb841;
 }
 
-.cyanButton
-{
+.cyanButton {
 	background-color: #42b8dd;
 }
 
-.cyanButton:hover
-{
+.cyanButton:hover {
 	border-color: #42b8dd;
 }
 
-.yellowButton
-{
+.yellowButton {
 	background-color: #df7514;
 }
 
-.yellowButton:hover
-{
+.yellowButton:hover {
 	border-color: #df7514;
 }
 
-.redButton
-{
+.redButton {
 	background-color: #ca3c3c;
 }
 
-.redButton:hover
-{
+.redButton:hover {
 	border-color: #ca3c3c;
 }

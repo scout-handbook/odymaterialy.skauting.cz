@@ -1,74 +1,64 @@
-#userSearchForm
-{
+#userSearchForm {
 	margin-bottom: 50px;
 	margin-top: 20px;
 }
 
-#userSearchBox
-{
+#userSearchBox {
 	margin-right: 10px;
 	width: 179px;
 }
 
-#roleSearchFilter, #groupSearchFilter
-{
+#roleSearchFilter,
+#groupSearchFilter {
 	margin-right: 10px;
 }
 
-.selectFilterSpecial
-{
+.selectFilterSpecial {
 	font-style: italic;
 }
 
-#userSearchButton, #userSearchCancel
-{
+#userSearchButton,
+#userSearchCancel {
 	margin-bottom: -11px;
 }
 
-.userTable
-{
+.userTable {
 	border: none;
 }
 
-.userTable th
-{
+.userTable th {
 	border: none;
 	border-bottom: 1px solid #bfbfbf;
 	text-align: left;
 }
 
-.userTable td
-{
+.userTable td {
 	border: none;
 	padding: 15px 20px;
 }
 
-.userTable td + td, .userTable th + th
-{
+.userTable td + td,
+.userTable th + th {
 	padding-left: 50px;
 }
 
-.userTable tr:nth-child(2n+1)
-{
-	background-color: #ffffff;
+.userTable tr:nth-child(2n+1) {
+	background-color: #fff;
 }
 
-#roleSelect
-{
+#roleSelect {
 	margin-bottom: 60px;
 }
 
-.roleText
-{
+.roleText {
 	font-weight: bold;
 }
 
-.roleHelp, .groupHelp
-{
+.roleHelp,
+.groupHelp {
 	margin-top: 20px;
 }
 
-.roleHelpName
-{
+.roleHelpName {
 	font-weight: bold;
 }

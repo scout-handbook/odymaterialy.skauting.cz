@@ -1,14 +1,12 @@
-header
-{
-	background-color: #ffffff;
+header {
+	background-color: #fff;
 	border-bottom: 1px solid #bfbfbf;
 	height: 75px;
 	position: relative;
 	z-index: 8;
 }
 
-#editor-bar
-{
+#editor-bar {
 	border-bottom: 1px solid #bfbfbf;
 	height: 56px;
 	position: absolute;
@@ -16,21 +14,19 @@ header
 	width: 50%;
 }
 
-#editor, #preview
-{
+#editor,
+#preview {
 	bottom: 0;
 	position: absolute;
 	top: 76px;
 	width: 50%;
 }
 
-.editor-toolbar
-{
+.editor-toolbar {
 	border: none;
 }
 
-.CodeMirror
-{
+.CodeMirror {
 	bottom: 0;
 	left: 0;
 	padding-top: 0;
@@ -39,52 +35,48 @@ header
 	top: 50px;
 }
 
-#preview
-{
+#preview {
 	border-left: 1px solid #bfbfbf;
 	overflow-y: auto;
 	right: 0;
 }
 
-#preview-inner
-{
+#preview-inner {
 	margin: 0 20px 20px 20px;
 }
 
-#discard, #save, #lessonSettings, #closeImageSelector
-{
+#discard,
+#save,
+#lessonSettings,
+#closeImageSelector {
 	margin-top: 19px;
 }
 
-#discard
-{
+#discard {
 	float: left;
 	margin-left: 19px;
 	margin-right: 0;
 }
 
-#save, #lessonSettings
-{
+#save,
+#lessonSettings {
 	float: right;
 	margin-right: 19px;
 }
 
-#closeImageSelector
-{
+#closeImageSelector {
 	margin-left: 19px;
 }
 
-#name
-{
+#name {
 	float: left;
 	margin-left: 22px;
 	margin-top: 10px;
 	width: 50%;
 }
 
-#imageSelector
-{
-	background-color: #ffffff;
+#imageSelector {
+	background-color: #fff;
 	height: 100%;
 	position: relative;
 	top: -100%;
@@ -92,8 +84,7 @@ header
 	z-index: 7;
 }
 
-#imageScroller
-{
+#imageScroller {
 	bottom: 0;
 	left: 0;
 	overflow-y: auto;
@@ -103,14 +94,12 @@ header
 	top: 76px;
 }
 
-#imageWrapper
-{
+#imageWrapper {
 	margin: 0 auto;
 	max-width: 770px;
 }
 
-#lessonHistoryList
-{
+#lessonHistoryList {
 	bottom: 0;
 	overflow-y: auto;
 	padding-bottom: 30px;
@@ -120,8 +109,7 @@ header
 	width: 400px;
 }
 
-#lessonHistoryPreview
-{
+#lessonHistoryPreview {
 	border-left: solid 1px #bfbfbf;
 	bottom: 0;
 	left: 430px;
@@ -132,13 +120,11 @@ header
 	width: 528px;
 }
 
-.lessonHistoryCurrent
-{
+.lessonHistoryCurrent {
 	font-style: italic;
 	font-weight: bold;
 }
 
-.lessonHistoryVersion
-{
+.lessonHistoryVersion {
 	font-weight: bold;
 }

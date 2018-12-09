@@ -1,5 +1,4 @@
-#sidePanel
-{
+#sidePanel {
 	background: white;
 	border-left: solid 1px #bfbfbf;
 	bottom: 0;
@@ -8,27 +7,24 @@
 	padding: 30px;
 	position: absolute;
 	right: -600px;
-	top:0;
+	top: 0;
 	transition: right ease 0.3s, width ease 0.3s;
 	width: 539px;
 	z-index: 10;
 }
 
-.sidePanelTitle
-{
+.sidePanelTitle {
 	font-size: 2em;
 	line-height: 150%;
 }
 
-#sidePanelCancel
-{
+#sidePanelCancel {
 	margin-right: 20px;
 }
 
-#sidePanelOverlay
-{
-	background-color: #999999;
-	background-color: rgba(0, 0, 0, 0.4);
+#sidePanelOverlay {
+	background-color: #999;
+	background-color: rgba(0, 0, 0, 0.4); /* stylelint-disable-line plugin/no-unsupported-browser-features */
 	display: none;
 	height: 100%;
 	position: fixed;
