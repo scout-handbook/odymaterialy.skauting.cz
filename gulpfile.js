@@ -173,6 +173,17 @@ gulp.task('build:css', function() {
 			'src/admin/main.css',
 			'src/admin/mainView.css',
 			'src/admin/sidePanel.css'
+		]),
+		bundle('admin', [
+			'src/admin/competenceSubview.css',
+			'src/admin/editor.css',
+			'src/admin/fieldSubview.css',
+			'src/admin/form.css',
+			'src/admin/groupSubview.css',
+			'src/admin/imageSubview.css',
+			'src/admin/lessonSubview.css',
+			'src/admin/pagination.css',
+			'src/admin/userSubview.css'
 		])
 	);
 });
