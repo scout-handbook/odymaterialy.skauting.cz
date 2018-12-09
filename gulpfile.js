@@ -42,7 +42,7 @@ gulp.task('build:js', function() {
 	}
 	return merge(
 		bundle('serviceworker', [
-			'src/serviceworker.js'
+			'src/frontend/serviceworker.js'
 		]),
 		bundle('shared-pushed', [
 			'src/shared/config.js',
