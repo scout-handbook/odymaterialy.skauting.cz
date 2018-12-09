@@ -5,6 +5,7 @@ var uglify = require('uglify-js');
 var composer = require('gulp-uglify/composer');
 var rename = require('gulp-rename');
 var stylelint = require('gulp-stylelint');
+var merge = require('merge-stream');
 
 var minify = composer(uglify, console);
 
@@ -28,10 +29,11 @@ gulp.task('stylelint', function() {
 gulp.task('npm-check-updates', shell.task(['npm outdated'], {ignoreErrors: true}));
 
 gulp.task('uglify', function() {
-	return gulp.src(['src/*.js'])
-		.pipe(minify({ie8: true}))
-		.pipe(rename(function(path) {
-			path.extname = '.min' + path.extname;
-		}))
-		.pipe(gulp.dest('dist/'));
+	function bundle(name, sources) {
+		return gulp.src(sources)
+			.pipe(minify({ie8: true}))
+			.pipe(rename(name + '.min.js'))
+			.pipe(gulp.dest('dist/'));
+	}
+	return merge(bundle('serviceworker', ['src/serviceworker.js']));
 });
