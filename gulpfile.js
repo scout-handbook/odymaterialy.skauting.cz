@@ -38,5 +38,8 @@ gulp.task('uglify', function() {
 			.pipe(sourcemaps.write('./'))
 			.pipe(gulp.dest('dist/'));
 	}
-	return merge(bundle('serviceworker', ['src/serviceworker.js']));
+	return merge(
+		bundle('serviceworker', ['src/serviceworker.js']),
+		bundle('shared-pushed', ['src/shared/config.js', 'src/shared/AfterLoadEvent.js'])
+	);
 });
