@@ -3,9 +3,10 @@ var shell = require('gulp-shell');
 var eslint = require('gulp-eslint');
 var uglify = require('uglify-js');
 var composer = require('gulp-uglify/composer');
-var rename = require('gulp-rename');
 var stylelint = require('gulp-stylelint');
 var merge = require('merge-stream');
+var sourcemaps = require('gulp-sourcemaps');
+var concat = require('gulp-concat');
 
 var minify = composer(uglify, console);
 
@@ -31,8 +32,10 @@ gulp.task('npm-check-updates', shell.task(['npm outdated'], {ignoreErrors: true}
 gulp.task('uglify', function() {
 	function bundle(name, sources) {
 		return gulp.src(sources)
+			.pipe(sourcemaps.init())
+			.pipe(concat(name + '.min.js'))
 			.pipe(minify({ie8: true}))
-			.pipe(rename(name + '.min.js'))
+			.pipe(sourcemaps.write())
 			.pipe(gulp.dest('dist/'));
 	}
 	return merge(bundle('serviceworker', ['src/serviceworker.js']));
