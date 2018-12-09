@@ -166,6 +166,13 @@ gulp.task('build:css', function() {
 		bundle('frontend', [
 			'src/frontend/competenceBubble.css',
 			'src/frontend/offlineSwitch.css'
+		]),
+		bundle('admin-pushed', [
+			'src/admin/button.css',
+			'src/admin/dialog.css',
+			'src/admin/main.css',
+			'src/admin/mainView.css',
+			'src/admin/sidePanel.css'
 		])
 	);
 });
