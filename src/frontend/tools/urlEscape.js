@@ -96,5 +96,5 @@ function urlEscape(str)
 	{
 		str = str.replace(lookupTable[i].letters, lookupTable[i].base);
 	}
-	return str.replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/_/g, "-").replace(/\-\-+/g, "-");
+	return str.replace(/\s+/g, "-").replace(/[^\w-]+/g, "").replace(/_/g, "-").replace(/--+/g, "-");
 }

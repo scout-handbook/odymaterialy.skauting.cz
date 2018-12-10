@@ -205,7 +205,7 @@ function renderUserRow(user)
 	{
 		html += "<br>";
 	}
-	html += "<div class=\"button cyanButton changeUserGroups\" data-id=\"" + user.id + "\" data-groups=\'" + JSON.stringify(user.groups) + "\' data-name=\"" + user.name + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
+	html += "<div class=\"button cyanButton changeUserGroups\" data-id=\"" + user.id + "\" data-groups='" + JSON.stringify(user.groups) + "' data-name=\"" + user.name + "\"><i class=\"icon-pencil\"></i>Upravit</div>";
 	html += "</td></tr>";
 	return html;
 }
