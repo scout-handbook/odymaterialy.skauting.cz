@@ -10,6 +10,8 @@ var merge = require('merge-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var cleanCSS = require('gulp-clean-css');
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
 
 var minify = composer(uglify, console);
 
@@ -140,6 +142,7 @@ gulp.task('build:css', function() {
 		return gulp.src(sources)
 			.pipe(sourcemaps.init())
 			.pipe(concat(name + '.min.css'))
+			.pipe(postcss([autoprefixer()]))
 			//.pipe(gulp.dest('dist/'));
 			.pipe(cleanCSS({compatibility: 'ie8'}))
 			.pipe(sourcemaps.write('./'))

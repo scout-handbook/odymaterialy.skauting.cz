@@ -25,12 +25,7 @@
 	font-weight: bold;
 	height: 2.9em;
 	text-align: center;
-	-webkit-touch-callout: none;
 	transition: color ease 0.15s;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-webkit-user-select: none;
 	user-select: none;
 	width: 3em;
 }

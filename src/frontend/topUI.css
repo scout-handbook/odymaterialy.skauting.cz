@@ -1,12 +1,7 @@
 .topButton {
 	color: #67767a;
 	cursor: pointer;
-	-webkit-touch-callout: none;
 	transition: color ease 0.15s;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-webkit-user-select: none;
 	user-select: none;
 }
 
