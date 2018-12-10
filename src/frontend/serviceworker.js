@@ -67,7 +67,7 @@ self.addEventListener("install", function(event)
 
 self.addEventListener("fetch", function(event)
 	{
-		var url = new URL(event.request.url);
+		var url = new URL(event.request.url); // eslint-disable-line compat/compat
 		if(cacheUpdating.indexOf(url.pathname) !== -1)
 		{
 			event.respondWith(cacheUpdatingResponse(event.request));
@@ -86,7 +86,7 @@ function cacheUpdatingResponse(request)
 {
 	if(request.headers.get("Accept") === "x-cache/only")
 	{
-		return new Promise(function(resolve) {
+		return new Promise(function(resolve) { // eslint-disable-line no-undef, compat/compat
 				caches.match(request).then(function(response)
 					{
 						if(response)
@@ -102,7 +102,7 @@ function cacheUpdatingResponse(request)
 	}
 	else
 	{
-		return fetch(request).then(function(response)
+		return fetch(request).then(function(response) // eslint-disable-line compat/compat
 			{
 				return cacheClone(request, response);
 			});
@@ -120,7 +120,7 @@ function cacheOnDemandResponse(request)
 	}
 	else
 	{
-		return fetch(request).then(function(response)
+		return fetch(request).then(function(response) // eslint-disable-line compat/compat
 			{
 				return caches.open(CACHE).then(function(cache)
 					{
@@ -147,7 +147,7 @@ function genericResponse(request)
 					{
 						return response;
 					}
-					return fetch(request);
+					return fetch(request); // eslint-disable-line compat/compat
 				})
 		});
 }
