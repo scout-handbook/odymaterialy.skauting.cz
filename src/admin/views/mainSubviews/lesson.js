@@ -1,4 +1,5 @@
 "use strict";
+/* exported showLessonSubview */
 
 function showLessonSubview(noHistory)
 {

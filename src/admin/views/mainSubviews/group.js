@@ -1,4 +1,5 @@
 "use strict";
+/* exported showGroupSubview */
 
 function showGroupSubview(noHistory)
 {

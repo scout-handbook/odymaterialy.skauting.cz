@@ -1,4 +1,5 @@
 "use strict";
+/* exported showCompetenceSubview */
 
 function showCompetenceSubview(noHistory)
 {

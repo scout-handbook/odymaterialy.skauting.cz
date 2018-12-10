@@ -1,4 +1,5 @@
 "use strict";
+/* exported showImageSubview */
 
 function showImageSubview(noHistory)
 {

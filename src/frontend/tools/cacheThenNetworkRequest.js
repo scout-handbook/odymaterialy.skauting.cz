@@ -1,4 +1,5 @@
 "use strict";
+/* exported cacheThenNetworkRequest */
 
 function cacheThenNetworkRequest(url, query, callback)
 {

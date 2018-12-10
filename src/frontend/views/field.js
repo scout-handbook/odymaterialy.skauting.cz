@@ -1,4 +1,5 @@
 "use strict";
+/* exported showFieldView */
 
 function showFieldView(id, noHistory)
 {

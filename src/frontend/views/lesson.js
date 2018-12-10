@@ -1,4 +1,5 @@
 "use strict";
+/* exported lessonViewSetup, showLessonView */
 
 var converter;
 var activeCompetence = null;

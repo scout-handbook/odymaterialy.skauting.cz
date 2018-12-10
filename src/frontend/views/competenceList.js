@@ -1,4 +1,5 @@
 "use strict";
+/* exported showCompetenceListView */
 
 function showCompetenceListView(noHistory)
 {

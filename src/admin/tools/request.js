@@ -1,4 +1,6 @@
 "use strict";
+/* exported reAuthHandler, authFailHandler, request */
+
 var reAuthHandler = {"AuthenticationException": function()
 	{
 		window.location.replace(CONFIG.apiuri + "/login");

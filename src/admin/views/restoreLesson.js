@@ -1,4 +1,5 @@
 "use strict";
+/* exported showLessonRestoreView */
 
 function showLessonRestoreView(name, body)
 {

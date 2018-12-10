@@ -1,4 +1,5 @@
 "use strict";
+/* exported showLessonEditView */
 
 var imageSelectorOpen = false;
 

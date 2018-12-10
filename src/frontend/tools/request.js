@@ -1,4 +1,5 @@
 "use strict";
+/* exported request */
 
 function request(url, query, headers)
 {

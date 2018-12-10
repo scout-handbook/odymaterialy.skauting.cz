@@ -1,4 +1,5 @@
 "use strict";
+/* exported showLessonListView */
 
 function showLessonListView(noHistory)
 {

@@ -1,4 +1,5 @@
 "use strict";
+/* exported refreshLogin */
 
 function refreshLogin(forceRelogin, afterAction)
 {

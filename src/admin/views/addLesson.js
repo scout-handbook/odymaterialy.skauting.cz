@@ -1,4 +1,5 @@
 "use strict";
+/* exported addLessonInFieldOnClick */
 
 function showLessonAddView(field)
 {

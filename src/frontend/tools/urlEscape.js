@@ -1,4 +1,5 @@
 "use strict";
+/* exported urlEscape */
 
 function urlEscape(str)
 {
