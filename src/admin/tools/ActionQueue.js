@@ -1,4 +1,5 @@
 "use strict";
+/* exported ActionQueueSetup */
 
 var ActionQueueRetry = false;
 

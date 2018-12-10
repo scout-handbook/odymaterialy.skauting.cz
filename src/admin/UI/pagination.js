@@ -1,4 +1,5 @@
 "use strict";
+/* exported renderPagination */
 
 function renderPagination(total, current)
 {

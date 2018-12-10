@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-env serviceworker */
 
 var CACHE = "odymaterialy-v29";
 var APIPATH = "/API/v0.9"

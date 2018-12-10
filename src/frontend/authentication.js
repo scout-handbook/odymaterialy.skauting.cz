@@ -1,4 +1,5 @@
 "use strict";
+/* exported authenticationSetup, refreshLogin */
 
 function authenticationSetup()
 {

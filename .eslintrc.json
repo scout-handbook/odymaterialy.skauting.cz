@@ -1,4 +1,10 @@
 {
+	"parserOptions": {
+		"ecmaVersion": 3,
+		"ecmaFeatures": {
+			"impliedStrict": true
+		}
+	},
 	"env": {
 		"browser": true
 	},
@@ -15,6 +21,7 @@
 		"LOGINSTATE": false,
 		"Action": false,
 		"ActionQueue": false,
+		"ActionQueueSetup": false,
 		"activeCompetence": false,
 		"addCompetence": false,
 		"addField": false,
@@ -23,6 +30,7 @@
 		"addLessonInFieldOnClick": false,
 		"addOnClicks": false,
 		"AfterLoadEvent": false,
+		"authenticationSetup": false,
 		"authFailHandler": false,
 		"cacheThenNetworkRequest": false,
 		"changeCompetenceOnClick": false,
@@ -35,6 +43,7 @@
 		"changeUserGroupsOnClick": false,
 		"competenceBubbleDetailOnClick": false,
 		"configEvent": false,
+		"configSetup": false,
 		"defaultBody": false,
 		"defaultName": false,
 		"deleteCompetenceOnClick": false,
@@ -48,6 +57,8 @@
 		"filterXSS": false,
 		"getAttribute": false,
 		"getLessonById": false,
+		"headerSetup": false,
+		"historySetup": false,
 		"importGroupOnClick": false,
 		"lessonHistoryOpen": false,
 		"lessonViewSetup": false,
@@ -58,15 +69,19 @@
 		"loginstateEvent": false,
 		"mainPageTab": false,
 		"metadataEvent": false,
+		"metadataSetup": false,
+		"navigationSetup": false,
 		"parseBoolForm": false,
 		"parseVersion": false,
 		"prepareImageSelector": false,
+		"rawRequest": false,
 		"reAuthHandler": false,
 		"reflowCompetenceBubbles": false,
 		"reflowNavigation": false,
 		"refreshLogin": false,
 		"refreshMetadata": false,
 		"refreshPreview": false,
+		"refreshPreviewSetup": false,
 		"renderPagination": false,
 		"restoreLesson": false,
 		"request": false,
@@ -94,11 +109,13 @@
 		"spinner": false,
 		"TOCFieldOnClick": false,
 		"TOCLessonOnClick": false,
+		"TOCSetup": false,
 		"toggleCompetenceBubble": false,
 		"toggleImageSelector": false,
 		"toggleNavigation": false,
 		"toggleLessonOffline": false,
 		"urlEscape": false,
+		"WebFont": false,
 		"xssOptions": false
 	}
 }

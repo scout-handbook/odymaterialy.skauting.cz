@@ -1,4 +1,6 @@
 "use strict";
+/* global FIELDS:true, COMPETENCES:true, GROUPS:true, LOGINSTATE:true, metadataEvent:true */
+/* exported FIELDS, COMPETENCES, GROUPS, LOGINSTATE, metadataSetup */
 
 var metadataEvent;
 var FIELDS = [];

@@ -15,7 +15,7 @@ var OdyMarkdown = function()
 	};
 	var fullLinks = {
 		type: "output",
-		regex: "<a href=\"(?!http:\/\/|https:\/\/)",
+		regex: "<a href=\"(?!http://|https://)",
 		replace: "<a href=\"http://"
 	};
 	var blankLinks = {

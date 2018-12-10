@@ -1,4 +1,5 @@
 "use strict";
+/* exported restoreLesson */
 
 function restoreLesson()
 {

@@ -1,4 +1,5 @@
 "use strict";
+/* exported sidePanelState, sidePanelOpen, sidePanelDoubleOpen, sidePanelClose */
 
 var sidePanelState = false;
 

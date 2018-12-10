@@ -1,4 +1,5 @@
 "use strict";
+/* exported xssOptions */
 
 function xssOptions()
 {

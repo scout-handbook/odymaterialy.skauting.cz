@@ -1,4 +1,6 @@
 "use strict";
+/* global editor:true, lessonSettingsCacheEvent:true */
+/* exported showLessonEditor */
 
 var changed;
 var lessonSettingsCache = {};
@@ -10,7 +12,7 @@ function showLessonEditor(name, body, saveActionQueue, id, discardActionQueue, r
 	populateEditorCache(id);
 	changed = false;
 	var html = '\
-<div id=\"sidePanel\"></div><div id=\"sidePanelOverlay\"></div>\
+<div id="sidePanel"></div><div id="sidePanelOverlay"></div>\
 <header>\
 	<div class="button yellowButton" id="discard">\
 		<i class="icon-cancel"></i>Zrušit\
@@ -28,10 +30,10 @@ function showLessonEditor(name, body, saveActionQueue, id, discardActionQueue, r
 <div id="imageSelector">\
 	<div id="imageScroller">\
 		<div class="button yellowButton" id="closeImageSelector">\
-			<i class=\"icon-up-open"></i> Zavřít\
+			<i class="icon-up-open"></i> Zavřít\
 		</div>\
 		<div class="button greenButton" id="imageSelectorAdd">\
-			<i class=\"icon-plus"></i> Nahrát\
+			<i class="icon-plus"></i> Nahrát\
 		</div>\
 		<div id="imageWrapper"></div>\
 	</div>\

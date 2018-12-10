@@ -1,4 +1,5 @@
 "use strict";
+/* exported lessonSettings */
 
 function lessonSettings(id, actionQueue, noHistory)
 {

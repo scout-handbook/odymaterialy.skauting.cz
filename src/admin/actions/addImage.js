@@ -1,4 +1,5 @@
 "use strict";
+/* exported addImage */
 
 function addImage(inEditor)
 {

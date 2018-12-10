@@ -1,4 +1,5 @@
 "use strict";
+/* exported AfterLoadEvent */
 
 function AfterLoadEvent(threshold)
 {

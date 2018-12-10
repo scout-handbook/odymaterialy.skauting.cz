@@ -1,4 +1,5 @@
 "use strict";
+/* exported deleteGroupOnClick */
 
 function deleteGroupOnClick(event)
 {

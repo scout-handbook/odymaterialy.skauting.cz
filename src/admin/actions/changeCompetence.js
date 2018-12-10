@@ -1,4 +1,5 @@
 "use strict";
+/* exported changeCompetenceOnClick */
 
 var competenceChanged = false;
 

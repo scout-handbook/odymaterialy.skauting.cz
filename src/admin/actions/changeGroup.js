@@ -1,4 +1,5 @@
 "use strict";
+/* exported changeGroupOnClick */
 
 var groupChanged = false;
 

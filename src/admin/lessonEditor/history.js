@@ -1,4 +1,5 @@
 "use strict";
+/* exported lessonHistoryOpen */
 
 function lessonHistoryOpen(id, actionQueue)
 {

@@ -1,4 +1,5 @@
 "use strict";
+/* exported addGroup */
 
 function addGroup()
 {

@@ -1,4 +1,5 @@
 "use strict";
+/* exported metadataSetup */
 
 var metadataEvent = new AfterLoadEvent(2);
 var loginstateEvent = new AfterLoadEvent(1);

@@ -1,4 +1,5 @@
 "use strict";
+/* exported refreshPreviewSetup, refreshPreview */
 
 var converter;
 var worker;

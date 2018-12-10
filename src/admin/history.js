@@ -1,4 +1,5 @@
 "use strict";
+/* exported historySetup */
 
 function historySetup()
 {

@@ -1,4 +1,5 @@
 "use strict";
+/* exported dialog */
 
 var confirmCallbackWrapped;
 

@@ -1,4 +1,6 @@
 "use strict";
+/* global CONFIG:true */
+/* exported CONFIG, configSetup */
 
 var CONFIG;
 var configEvent = new AfterLoadEvent(1);

@@ -1,4 +1,6 @@
 "use strict";
+/* global defaultBody:true */
+/* exported defaultName, defaultBody */
 
 var defaultName = "Nová lekce";
 

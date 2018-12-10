@@ -1,4 +1,5 @@
 "use strict";
+/* exported addOnClicks */
 
 function addOnClicks(id, onclick)
 {

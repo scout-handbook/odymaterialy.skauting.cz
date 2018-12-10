@@ -1,4 +1,5 @@
 "use strict";
+/* exported FIELDS, COMPETENCES, LOGINSTATE */
 
 var FIELDS;
 var COMPETENCES;

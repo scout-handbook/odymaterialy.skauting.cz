@@ -1,4 +1,5 @@
 "use strict";
+/* exported deleteLessonOnClick */
 
 function deleteLessonOnClick(event)
 {

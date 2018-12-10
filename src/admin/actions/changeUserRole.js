@@ -1,4 +1,5 @@
 "use strict";
+/* exported changeUserRoleOnClick */
 
 var roleChanged = false;
 

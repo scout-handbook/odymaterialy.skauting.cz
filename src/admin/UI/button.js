@@ -1,4 +1,5 @@
 "use strict";
+/* exported getAttribute */
 
 function getAttribute(event, attribute)
 {

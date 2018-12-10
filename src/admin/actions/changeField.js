@@ -1,4 +1,5 @@
 "use strict";
+/* exported changeFieldOnClick */
 
 var fieldChanged = false;
 

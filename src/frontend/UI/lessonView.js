@@ -1,4 +1,5 @@
 "use strict";
+/* exported toggleLessonOffline, toggleCompetenceBubble, competenceBubbleDetailOnClick */
 
 function toggleLessonOffline()
 {

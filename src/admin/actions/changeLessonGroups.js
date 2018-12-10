@@ -1,4 +1,5 @@
 "use strict";
+/* exported changeLessonGroupsOnClick */
 
 var lessonGroupsChanged = false;
 

@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 var gulp = require('gulp');
 var shell = require('gulp-shell');
 var eslint = require('gulp-eslint');
