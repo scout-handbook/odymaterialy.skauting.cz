@@ -11,7 +11,8 @@
 	"plugins": ["compat"],
 	"extends": "eslint:recommended",
 	"rules": {
-		"compat/compat": "error"
+		"compat/compat": "error",
+		"no-warning-comments": "warn"
 	},
 	"globals": {
 		"COMPETENCES": false,

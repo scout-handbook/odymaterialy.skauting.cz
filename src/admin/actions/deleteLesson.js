@@ -6,7 +6,7 @@ function deleteLessonOnClick(event)
 	var id = getAttribute(event, "id");
 	spinner();
 	var exceptionHandler = reAuthHandler;
-	exceptionHandler["LockedException"] = function()
+	exceptionHandler["LockedException"] = function(response)
 		{
 			dialog("Nelze smazat lekci, protože ji právě upravuje " + response.response.holder + ".", "OK");
 		};
