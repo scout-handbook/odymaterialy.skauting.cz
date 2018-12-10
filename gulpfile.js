@@ -12,7 +12,7 @@ var cleanCSS = require('gulp-clean-css');
 var minify = composer(uglify, console);
 
 gulp.task('eslint', function() {
-	return gulp.src(['**/*.js', '!node_modules/**', '!API/**'])
+	return gulp.src(['**/*.js', '!node_modules/**', '!API/**', '!dist/**'])
 		.pipe(eslint())
 		.pipe(eslint.format())
 		.pipe(eslint.failAfterError());
