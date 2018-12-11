@@ -6,17 +6,17 @@ var APIPATH = "/API/v0.9"
 var cacheBlocking = [
 	"/",
 	"/index.html",
-	"dist/frontend-computer.min.css",
-	"dist/frontend-handheld.min.css",
-	"dist/frontend.min.css",
-	"dist/frontend.min.js",
-	"dist/frontend-pushed.min.css",
-	"dist/frontend-pushed.min.js",
-	"dist/shared.min.css",
-	"dist/shared.min.js",
-	"dist/shared-pushed.min.css",
-	"dist/shared-pushed.min.js",
-	"dist/shared-worker.min.js"
+	"/dist/frontend-computer.min.css",
+	"/dist/frontend-handheld.min.css",
+	"/dist/frontend.min.css",
+	"/dist/frontend.min.js",
+	"/dist/frontend-pushed.min.css",
+	"/dist/frontend-pushed.min.js",
+	"/dist/shared.min.css",
+	"/dist/shared.min.js",
+	"/dist/shared-pushed.min.css",
+	"/dist/shared-pushed.min.js",
+	"/dist/shared-worker.min.js"
 ];
 var cacheNonBlocking = [
 	"/node_modules/showdown/dist/showdown.min.js",
