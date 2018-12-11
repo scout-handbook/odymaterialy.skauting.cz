@@ -1,0 +1,130 @@
+header {
+	background-color: #fff;
+	border-bottom: 1px solid #bfbfbf;
+	height: 75px;
+	position: relative;
+	z-index: 8;
+}
+
+#editor-bar {
+	border-bottom: 1px solid #bfbfbf;
+	height: 56px;
+	position: absolute;
+	top: 90px;
+	width: 50%;
+}
+
+#editor,
+#preview {
+	bottom: 0;
+	position: absolute;
+	top: 76px;
+	width: 50%;
+}
+
+.editor-toolbar {
+	border: none;
+}
+
+.CodeMirror {
+	bottom: 0;
+	left: 0;
+	padding-top: 0;
+	position: absolute;
+	right: 0;
+	top: 50px;
+}
+
+#preview {
+	border-left: 1px solid #bfbfbf;
+	overflow-y: auto;
+	right: 0;
+}
+
+#preview-inner {
+	margin: 0 20px 20px 20px;
+}
+
+#discard,
+#save,
+#lessonSettings,
+#closeImageSelector {
+	margin-top: 19px;
+}
+
+#discard {
+	float: left;
+	margin-left: 19px;
+	margin-right: 0;
+}
+
+#save,
+#lessonSettings {
+	float: right;
+	margin-right: 19px;
+}
+
+#closeImageSelector {
+	margin-left: 19px;
+}
+
+#name {
+	float: left;
+	margin-left: 22px;
+	margin-top: 10px;
+	width: 50%;
+}
+
+#imageSelector {
+	background-color: #fff;
+	height: 100%;
+	position: relative;
+	top: -100%;
+	transition: top 0.4s ease;
+	z-index: 7;
+}
+
+#imageScroller {
+	bottom: 0;
+	left: 0;
+	overflow-y: auto;
+	padding-bottom: 30px;
+	position: absolute;
+	right: 0;
+	top: 76px;
+}
+
+#imageWrapper {
+	margin: 0 auto;
+	max-width: 770px;
+}
+
+#lessonHistoryList {
+	bottom: 0;
+	overflow-y: auto;
+	padding-bottom: 30px;
+	padding-top: 30px;
+	position: absolute;
+	top: 0;
+	width: 400px;
+}
+
+#lessonHistoryPreview {
+	border-left: solid 1px #bfbfbf;
+	bottom: 0;
+	left: 430px;
+	overflow-y: auto;
+	padding: 0 20px 20px 20px;
+	position: absolute;
+	top: 0;
+	width: 528px;
+}
+
+.lessonHistoryCurrent {
+	font-style: italic;
+	font-weight: bold;
+}
+
+.lessonHistoryVersion {
+	font-weight: bold;
+}
