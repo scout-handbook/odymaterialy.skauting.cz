@@ -14,6 +14,8 @@ var cleanCSS = require('gulp-clean-css');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var inject = require('gulp-inject-string');
+var htmlmin = require('gulp-htmlmin');
+
 var pkg = require('./package.json');
 
 var minify = composer(uglify, console);
@@ -36,6 +38,26 @@ gulp.task('stylelint', function() {
 });
 
 gulp.task('npm-check-updates', shell.task(['npm outdated'], {ignoreErrors: true}));
+
+gulp.task('build:html', function() {
+	function bundle(name, sources) {
+		return gulp.src(sources)
+			.pipe(sourcemaps.init())
+			.pipe(concat(name + '.min.html'))
+			//.pipe(gulp.dest('dist/'));
+			.pipe(htmlmin({collapseWhitespace: true}))
+			.pipe(sourcemaps.write('./'))
+			.pipe(gulp.dest('dist/'));
+	}
+	return merge(
+		bundle('frontend', [
+			'src/frontend/html/index.html'
+		]),
+		bundle('admin', [
+			'src/admin/html/index.html'
+		])
+	);
+});
 
 gulp.task('build:js', function() {
 	function bundle(name, sources) {
