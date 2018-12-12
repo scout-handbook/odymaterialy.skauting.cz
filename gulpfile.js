@@ -50,93 +50,93 @@ gulp.task('build:js', function() {
 	}
 	return merge(
 		bundle('serviceworker', [
-			'src/frontend/serviceworker.js'
+			'src/frontend/js/serviceworker.js'
 		]),
 		bundle('shared-pushed', [
-			'src/shared/config.js',
-			'src/shared/AfterLoadEvent.js'
+			'src/shared/js/config.js',
+			'src/shared/js/AfterLoadEvent.js'
 		]),
 		bundle('shared-worker', [
-			'src/shared/OdyMarkdown.js',
-			'src/shared/xssOptions.js'
+			'src/shared/js/OdyMarkdown.js',
+			'src/shared/js/xssOptions.js'
 		]),
 		bundle('shared', [
-			'src/shared/getLessonById.js'
+			'src/shared/js/getLessonById.js'
 		]),
 		bundle('frontend-pushed', [
-			'src/frontend/tools/cacheThenNetworkRequest.js',
-			'src/frontend/tools/request.js',
-			'src/frontend/UI/header.js',
-			'src/frontend/UI/navigation.js',
-			'src/frontend/UI/TOC.js',
-			'src/frontend/views/lesson.js',
-			'src/frontend/authentication.js',
-			'src/frontend/history.js',
-			'src/frontend/main.js',
-			'src/frontend/metadata.js'
+			'src/frontend/js/tools/cacheThenNetworkRequest.js',
+			'src/frontend/js/tools/request.js',
+			'src/frontend/js/UI/header.js',
+			'src/frontend/js/UI/navigation.js',
+			'src/frontend/js/UI/TOC.js',
+			'src/frontend/js/views/lesson.js',
+			'src/frontend/js/authentication.js',
+			'src/frontend/js/history.js',
+			'src/frontend/js/main.js',
+			'src/frontend/js/metadata.js'
 		]),
 		bundle('frontend', [
-			'src/frontend/tools/urlEscape.js',
-			'src/frontend/UI/lessonView.js',
-			'src/frontend/views/competence.js',
-			'src/frontend/views/competenceList.js',
-			'src/frontend/views/field.js',
-			'src/frontend/views/lessonList.js'
+			'src/frontend/js/tools/urlEscape.js',
+			'src/frontend/js/UI/lessonView.js',
+			'src/frontend/js/views/competence.js',
+			'src/frontend/js/views/competenceList.js',
+			'src/frontend/js/views/field.js',
+			'src/frontend/js/views/lessonList.js'
 		]),
 		bundle('admin-pushed', [
-			'src/admin/lessonEditor/refreshPreview.js',
-			'src/admin/tools/ActionQueue.js',
-			'src/admin/tools/refreshLogin.js',
-			'src/admin/tools/request.js',
-			'src/admin/views/main.js',
-			'src/admin/history.js',
-			'src/admin/main.js',
-			'src/admin/metadata.js'
+			'src/admin/js/lessonEditor/refreshPreview.js',
+			'src/admin/js/tools/ActionQueue.js',
+			'src/admin/js/tools/refreshLogin.js',
+			'src/admin/js/tools/request.js',
+			'src/admin/js/views/main.js',
+			'src/admin/js/history.js',
+			'src/admin/js/main.js',
+			'src/admin/js/metadata.js'
 		]),
 		bundle('admin-worker', [
-			'src/admin/lessonEditor/previewWorker.js',
+			'src/admin/js/lessonEditor/previewWorker.js',
 		]),
 		bundle('admin', [
-			'src/admin/actions/addCompetence.js',
-			'src/admin/actions/addField.js',
-			'src/admin/actions/addGroup.js',
-			'src/admin/actions/addImage.js',
-			'src/admin/actions/changeCompetence.js',
-			'src/admin/actions/changeField.js',
-			'src/admin/actions/changeGroup.js',
-			'src/admin/actions/changeLessonCompetences.js',
-			'src/admin/actions/changeLessonField.js',
-			'src/admin/actions/changeLessonGroups.js',
-			'src/admin/actions/changeUserGroups.js',
-			'src/admin/actions/changeUserRole.js',
-			'src/admin/actions/deleteCompetence.js',
-			'src/admin/actions/deleteField.js',
-			'src/admin/actions/deleteGroup.js',
-			'src/admin/actions/deleteImage.js',
-			'src/admin/actions/deleteLesson.js',
-			'src/admin/actions/importGroup.js',
-			'src/admin/actions/restoreLesson.js',
-			'src/admin/lessonEditor/defaultContent.js',
-			'src/admin/lessonEditor/editor.js',
-			'src/admin/lessonEditor/history.js',
-			'src/admin/lessonEditor/imageSelector.js',
-			'src/admin/lessonEditor/settings.js',
-			'src/admin/tools/addOnClicks.js',
-			'src/admin/tools/parseBoolForm.js',
-			'src/admin/tools/parseVersion.js',
-			'src/admin/UI/button.js',
-			'src/admin/UI/dialog.js',
-			'src/admin/UI/pagination.js',
-			'src/admin/UI/sidePanel.js',
-			'src/admin/UI/spinner.js',
-			'src/admin/views/mainSubviews/competence.js',
-			'src/admin/views/mainSubviews/group.js',
-			'src/admin/views/mainSubviews/image.js',
-			'src/admin/views/mainSubviews/lesson.js',
-			'src/admin/views/mainSubviews/user.js',
-			'src/admin/views/addLesson.js',
-			'src/admin/views/editLesson.js',
-			'src/admin/views/restoreLesson.js'
+			'src/admin/js/actions/addCompetence.js',
+			'src/admin/js/actions/addField.js',
+			'src/admin/js/actions/addGroup.js',
+			'src/admin/js/actions/addImage.js',
+			'src/admin/js/actions/changeCompetence.js',
+			'src/admin/js/actions/changeField.js',
+			'src/admin/js/actions/changeGroup.js',
+			'src/admin/js/actions/changeLessonCompetences.js',
+			'src/admin/js/actions/changeLessonField.js',
+			'src/admin/js/actions/changeLessonGroups.js',
+			'src/admin/js/actions/changeUserGroups.js',
+			'src/admin/js/actions/changeUserRole.js',
+			'src/admin/js/actions/deleteCompetence.js',
+			'src/admin/js/actions/deleteField.js',
+			'src/admin/js/actions/deleteGroup.js',
+			'src/admin/js/actions/deleteImage.js',
+			'src/admin/js/actions/deleteLesson.js',
+			'src/admin/js/actions/importGroup.js',
+			'src/admin/js/actions/restoreLesson.js',
+			'src/admin/js/lessonEditor/defaultContent.js',
+			'src/admin/js/lessonEditor/editor.js',
+			'src/admin/js/lessonEditor/history.js',
+			'src/admin/js/lessonEditor/imageSelector.js',
+			'src/admin/js/lessonEditor/settings.js',
+			'src/admin/js/tools/addOnClicks.js',
+			'src/admin/js/tools/parseBoolForm.js',
+			'src/admin/js/tools/parseVersion.js',
+			'src/admin/js/UI/button.js',
+			'src/admin/js/UI/dialog.js',
+			'src/admin/js/UI/pagination.js',
+			'src/admin/js/UI/sidePanel.js',
+			'src/admin/js/UI/spinner.js',
+			'src/admin/js/views/mainSubviews/competence.js',
+			'src/admin/js/views/mainSubviews/group.js',
+			'src/admin/js/views/mainSubviews/image.js',
+			'src/admin/js/views/mainSubviews/lesson.js',
+			'src/admin/js/views/mainSubviews/user.js',
+			'src/admin/js/views/addLesson.js',
+			'src/admin/js/views/editLesson.js',
+			'src/admin/js/views/restoreLesson.js'
 		])
 	);
 });
@@ -154,45 +154,45 @@ gulp.task('build:css', function() {
 	}
 	return merge(
 		bundle('shared-pushed', [
-			'src/shared/fontello.css',
-			'src/shared/lesson.css',
-			'src/shared/mainPage.css'
+			'src/shared/css/fontello.css',
+			'src/shared/css/lesson.css',
+			'src/shared/css/mainPage.css'
 		]),
 		bundle('shared', [
-			'src/shared/fontello-ie7.css'
+			'src/shared/css/fontello-ie7.css'
 		]),
 		bundle('frontend-pushed', [
-			'src/frontend/main.css',
-			'src/frontend/nav.css',
-			'src/frontend/topUI.css'
+			'src/frontend/css/main.css',
+			'src/frontend/css/nav.css',
+			'src/frontend/css/topUI.css'
 		]),
 		bundle('frontend-computer', [
-			'src/frontend/computer.css'
+			'src/frontend/css/computer.css'
 		]),
 		bundle('frontend-handheld', [
-			'src/frontend/handheld.css'
+			'src/frontend/css/handheld.css'
 		]),
 		bundle('frontend', [
-			'src/frontend/competenceBubble.css',
-			'src/frontend/offlineSwitch.css'
+			'src/frontend/css/competenceBubble.css',
+			'src/frontend/css/offlineSwitch.css'
 		]),
 		bundle('admin-pushed', [
-			'src/admin/button.css',
-			'src/admin/dialog.css',
-			'src/admin/main.css',
-			'src/admin/mainView.css',
-			'src/admin/sidePanel.css'
+			'src/admin/css/button.css',
+			'src/admin/css/dialog.css',
+			'src/admin/css/main.css',
+			'src/admin/css/mainView.css',
+			'src/admin/css/sidePanel.css'
 		]),
 		bundle('admin', [
-			'src/admin/competenceSubview.css',
-			'src/admin/editor.css',
-			'src/admin/fieldSubview.css',
-			'src/admin/form.css',
-			'src/admin/groupSubview.css',
-			'src/admin/imageSubview.css',
-			'src/admin/lessonSubview.css',
-			'src/admin/pagination.css',
-			'src/admin/userSubview.css'
+			'src/admin/css/competenceSubview.css',
+			'src/admin/css/editor.css',
+			'src/admin/css/fieldSubview.css',
+			'src/admin/css/form.css',
+			'src/admin/css/groupSubview.css',
+			'src/admin/css/imageSubview.css',
+			'src/admin/css/lessonSubview.css',
+			'src/admin/css/pagination.css',
+			'src/admin/css/userSubview.css'
 		])
 	);
 });
