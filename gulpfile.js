@@ -1,3 +1,4 @@
+"use strict";
 /* eslint-env node */
 
 var gulp = require('gulp');
@@ -13,7 +14,7 @@ var cleanCSS = require('gulp-clean-css');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var inject = require('gulp-inject-string');
-var package = require('./package.json');
+var pkg = require('./package.json');
 
 var minify = composer(uglify, console);
 
@@ -41,7 +42,7 @@ gulp.task('build:js', function() {
 		return gulp.src(sources)
 			.pipe(sourcemaps.init())
 			.pipe(concat(name + '.min.js'))
-			.pipe(inject.replace('\\"\\"\\/\\*INJECTED\\-VERSION\\*\\/', '"' + package.version + '"'))
+			.pipe(inject.replace('\\"\\"\\/\\*INJECTED\\-VERSION\\*\\/', '"' + pkg.version + '"'))
 			//.pipe(gulp.dest('dist/'));
 			.pipe(minify({ie8: true}))
 			.pipe(sourcemaps.write('./'))

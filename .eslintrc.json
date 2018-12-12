@@ -1,9 +1,6 @@
 {
 	"parserOptions": {
-		"ecmaVersion": 3,
-		"ecmaFeatures": {
-			"impliedStrict": true
-		}
+		"ecmaVersion": 3
 	},
 	"env": {
 		"browser": true
@@ -11,8 +8,9 @@
 	"plugins": ["compat"],
 	"extends": "eslint:recommended",
 	"rules": {
-		"compat/compat": "error",
-		"no-warning-comments": "warn"
+		"compat/compat": "warn",
+		"no-warning-comments": "warn",
+		"strict": ["error", "global"]
 	},
 	"globals": {
 		"COMPETENCES": false,
