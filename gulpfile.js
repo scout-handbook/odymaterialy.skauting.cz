@@ -177,14 +177,14 @@ gulp.task('build:css', function() {
 	return merge(
 		bundle('shared-pushed', [
 			'src/shared/css/fontello.css',
-			'src/shared/css/lesson.css',
-			'src/shared/css/mainPage.css'
 		]),
 		bundle('shared', [
 			'src/shared/css/fontello-ie7.css'
 		]),
 		bundle('frontend-pushed', [
+			'src/frontend/css/lesson.css',
 			'src/frontend/css/main.css',
+			'src/frontend/css/mainPage.css',
 			'src/frontend/css/nav.css',
 			'src/frontend/css/topUI.css'
 		]),
@@ -201,7 +201,9 @@ gulp.task('build:css', function() {
 		bundle('admin-pushed', [
 			'src/admin/css/button.css',
 			'src/admin/css/dialog.css',
+			'src/admin/css/lesson.css',
 			'src/admin/css/main.css',
+			'src/admin/css/mainPage.css',
 			'src/admin/css/mainView.css',
 			'src/admin/css/sidePanel.css'
 		]),
