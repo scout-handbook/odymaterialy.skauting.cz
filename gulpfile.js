@@ -219,4 +219,11 @@ gulp.task('build:css', function() {
 	);
 });
 
-gulp.task('build', gulp.parallel('build:css', 'build:js'));
+gulp.task('build:php', function() {
+	return merge(
+		gulp.src('src/admin/php/*')
+			.pipe(gulp.dest('dist/'))
+	);
+});
+
+gulp.task('build', gulp.parallel('build:html', 'build:css', 'build:js', 'build:php'));
