@@ -7,7 +7,6 @@ RewriteRule ^lesson/(.*) lesson.php?id=$1
 
 # Server push
 <FilesMatch "index.html">
-	Header add Link "</dist/shared-pushed.min.css>;rel=preload;as=style"
 	Header add Link "</dist/admin-pushed.min.css>;rel=preload;as=style"
 	Header add Link "</dist/admin-pushed.min.js>;rel=preload;as=script"
 </FilesMatch>

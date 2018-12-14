@@ -202,6 +202,7 @@ gulp.task('build:css', function() {
 		bundle('admin-pushed', [
 			'src/admin/css/button.css',
 			'src/admin/css/dialog.css',
+			'src/admin/css/fontello.css',
 			'src/admin/css/lesson.css',
 			'src/admin/css/main.css',
 			'src/admin/css/mainPage.css',
