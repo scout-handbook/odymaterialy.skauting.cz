@@ -74,17 +74,6 @@ gulp.task('build:js', function() {
 		bundle('serviceworker', [
 			'src/frontend/js/serviceworker.js'
 		]),
-		bundle('shared-pushed', [
-			'src/shared/js/config.js',
-			'src/shared/js/AfterLoadEvent.js'
-		]),
-		bundle('shared-worker', [
-			'src/shared/js/OdyMarkdown.js',
-			'src/shared/js/xssOptions.js'
-		]),
-		bundle('shared', [
-			'src/shared/js/getLessonById.js'
-		]),
 		bundle('frontend-pushed', [
 			'src/frontend/js/tools/cacheThenNetworkRequest.js',
 			'src/frontend/js/tools/request.js',
@@ -92,7 +81,9 @@ gulp.task('build:js', function() {
 			'src/frontend/js/UI/navigation.js',
 			'src/frontend/js/UI/TOC.js',
 			'src/frontend/js/views/lesson.js',
+			'src/frontend/js/AfterLoadEvent.js',
 			'src/frontend/js/authentication.js',
+			'src/frontend/js/config.js',
 			'src/frontend/js/history.js',
 			'src/frontend/js/main.js',
 			'src/frontend/js/metadata.js'
@@ -103,7 +94,10 @@ gulp.task('build:js', function() {
 			'src/frontend/js/views/competence.js',
 			'src/frontend/js/views/competenceList.js',
 			'src/frontend/js/views/field.js',
-			'src/frontend/js/views/lessonList.js'
+			'src/frontend/js/views/lessonList.js',
+			'src/frontend/js/getLessonById.js',
+			'src/frontend/js/OdyMarkdown.js',
+			'src/frontend/js/xssOptions.js'
 		]),
 		bundle('admin-pushed', [
 			'src/admin/js/lessonEditor/refreshPreview.js',
@@ -111,12 +105,18 @@ gulp.task('build:js', function() {
 			'src/admin/js/tools/refreshLogin.js',
 			'src/admin/js/tools/request.js',
 			'src/admin/js/views/main.js',
+			'src/admin/js/AfterLoadEvent.js',
+			'src/admin/js/config.js',
 			'src/admin/js/history.js',
 			'src/admin/js/main.js',
 			'src/admin/js/metadata.js'
 		]),
 		bundle('admin-worker', [
 			'src/admin/js/lessonEditor/previewWorker.js',
+		]),
+		bundle('admin-worker-deps', [
+			'src/admin/js/OdyMarkdown.js',
+			'src/admin/js/xssOptions.js'
 		]),
 		bundle('admin', [
 			'src/admin/js/actions/addCompetence.js',
@@ -158,7 +158,8 @@ gulp.task('build:js', function() {
 			'src/admin/js/views/mainSubviews/user.js',
 			'src/admin/js/views/addLesson.js',
 			'src/admin/js/views/editLesson.js',
-			'src/admin/js/views/restoreLesson.js'
+			'src/admin/js/views/restoreLesson.js',
+			'src/admin/js/getLessonById.js'
 		])
 	);
 });

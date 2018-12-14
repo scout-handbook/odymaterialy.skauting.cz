@@ -13,10 +13,7 @@ var cacheBlocking = [
 	"/dist/frontend-pushed.min.css",
 	"/dist/frontend-pushed.min.js",
 	"/dist/shared.min.css",
-	"/dist/shared.min.js",
 	"/dist/shared-pushed.min.css",
-	"/dist/shared-pushed.min.js",
-	"/dist/shared-worker.min.js"
 ];
 var cacheNonBlocking = [
 	"/node_modules/showdown/dist/showdown.min.js",
