@@ -176,13 +176,8 @@ gulp.task('build:css', function() {
 			.pipe(gulp.dest('dist/'));
 	}
 	return merge(
-		bundle('shared-pushed', [
-			'src/shared/css/fontello.css',
-		]),
-		bundle('shared', [
-			'src/shared/css/fontello-ie7.css'
-		]),
 		bundle('frontend-pushed', [
+			'src/frontend/css/fontello.css',
 			'src/frontend/css/lesson.css',
 			'src/frontend/css/main.css',
 			'src/frontend/css/mainPage.css',
