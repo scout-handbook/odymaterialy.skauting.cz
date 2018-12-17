@@ -18,24 +18,14 @@
     "type": "git",
     "url": "git+https://github.com/GenaBitu/OdyMaterialy.git"
   },
-  "dependencies": {
-    "gulp-htmlmin": "^5.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^5.10.0",
     "gulp": "^4.0.0",
-    "gulp-clean-css": "^4.0.0",
-    "gulp-concat": "^2.6.1",
     "gulp-eslint": "^5.0.0",
     "gulp-inject-string": "^1.1.2",
-    "gulp-postcss": "^8.0.0",
     "gulp-shell": "^0.6.5",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.1",
-    "merge-stream": "^1.0.1",
-    "stylelint-config-standard": "^18.2.0",
-    "stylelint-no-unsupported-browser-features": "^3.0.2",
-    "uglify-js": "^3.4.9"
+    "merge-stream": "^1.0.1"
   },
   "browserslist": [
     "cover 99%",
