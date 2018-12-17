@@ -19,10 +19,7 @@
     "url": "git+https://github.com/GenaBitu/OdyMaterialy.git"
   },
   "dependencies": {
-    "gulp-htmlmin": "^5.0.1",
-    "showdown": "^1.9.0",
-    "simplemde": "^1.11.2",
-    "xss": "^1.0.3"
+    "gulp-htmlmin": "^5.0.1"
   },
   "devDependencies": {
     "eslint": "^5.10.0",
