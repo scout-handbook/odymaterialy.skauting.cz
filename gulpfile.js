@@ -29,8 +29,12 @@ gulp.task('copy:admin', gulp.series('build:admin', function() {
 }));
 
 gulp.task('copy:API', gulp.series('install:API', function() {
-	return gulp.src(['API/vendor', 'API/v*.*']) // TODO
-		.pipe(gulp.dest('dist/API/'));
+	return merge(
+		gulp.src('API/vendor/**/*')
+			.pipe(gulp.dest('dist/API/vendor/')),
+		gulp.src(['API/v*.*/**/*']) // TODO
+			.pipe(gulp.dest('dist/API/'))
+	);
 }));
 
 gulp.task('copy:frontend', gulp.series('build:frontend', function() {
