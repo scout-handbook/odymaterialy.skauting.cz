@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var shell = require('gulp-shell');
 var eslint = require('gulp-eslint');
 var merge = require('merge-stream');
-var inject = require('gulp-inject-string');
+var rename = require("gulp-rename");
 
 gulp.task('eslint', function() {
 	return gulp.src(['**/*.js', '!node_modules/**', '!admin/**', '!API/**', '!frontend/**', '!dist/**'])
@@ -39,8 +39,16 @@ gulp.task('copy:frontend', gulp.series('build:frontend', function() {
 }));
 
 gulp.task('copy:local', function() {
-	return gulp.src('src/*')
-		.pipe(gulp.dest('dist/'));
+	return merge(
+		gulp.src(['src/google8cbe14e41a3d2e27.html', 'src/robots.txt'])
+			.pipe(gulp.dest('dist/')),
+		gulp.src('src/admin-htaccess')
+			.pipe(rename('.htaccess'))
+			.pipe(gulp.dest('dist/admin/')),
+		gulp.src('src/frontend-htaccess')
+			.pipe(rename('.htaccess'))
+			.pipe(gulp.dest('dist/'))
+	);
 });
 
 gulp.task('build', gulp.parallel('copy:admin', 'copy:API', 'copy:frontend', 'copy:local'));
