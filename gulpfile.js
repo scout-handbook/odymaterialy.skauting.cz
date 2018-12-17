@@ -1,5 +1,4 @@
 "use strict";
-/* eslint-env node */
 
 var gulp = require('gulp');
 var shell = require('gulp-shell');
