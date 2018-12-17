@@ -1,3 +1,9 @@
 [submodule "API"]
 	path = API
-	url = https://github.com/GenaBitu/HandbookAPI.git
+	url = https://gitlab.com/skaut-handbook/handbook-api.git
+[submodule "admin"]
+	path = admin
+	url = https://gitlab.com/skaut-handbook/handbook-web-admin.git
+[submodule "frontend"]
+	path = frontend
+	url = https://gitlab.com/skaut-handbook/handbook-web-frontend
