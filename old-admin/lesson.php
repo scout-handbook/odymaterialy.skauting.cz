@@ -1,1 +1,0 @@
-../dist/lesson.php
