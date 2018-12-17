@@ -6,7 +6,6 @@ var shell = require('gulp-shell');
 var eslint = require('gulp-eslint');
 var uglify = require('uglify-js');
 var composer = require('gulp-uglify/composer');
-var stylelint = require('gulp-stylelint');
 var merge = require('merge-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
@@ -25,16 +24,6 @@ gulp.task('eslint', function() {
 		.pipe(eslint())
 		.pipe(eslint.format())
 		.pipe(eslint.failAfterError());
-});
-
-gulp.task('stylelint', function() {
-	return gulp.src(['**/*.css', '!node_modules/**', '!API/**', '!dist/**', '!src/shared/fontello?(-ie7).css'])
-		.pipe(stylelint({
-			failAfterError: true,
-			reporters: [
-				{formatter: 'string', console: true}
-			]
-		}));
 });
 
 gulp.task('npm-check-updates', shell.task(['npm outdated'], {ignoreErrors: true}));
