@@ -32,7 +32,7 @@ gulp.task('copy:API', gulp.series('install:API', function() {
 	return merge(
 		gulp.src('API/vendor/**/*')
 			.pipe(gulp.dest('dist/API/vendor/')),
-		gulp.src(['API/v*.*/**/*']) // TODO
+		gulp.src('API/v*.*/**/*', {dot: true}) // TODO
 			.pipe(gulp.dest('dist/API/'))
 	);
 }));
