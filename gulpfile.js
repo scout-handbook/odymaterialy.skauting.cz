@@ -15,7 +15,7 @@ gulp.task('eslint', function() {
 
 gulp.task('install:admin', shell.task('npm install', {cwd: 'admin'}));
 
-gulp.task('install:API', shell.task('composer install --ignore-platform-reqs', {cwd: 'API'})); // TODO
+gulp.task('install:API', shell.task('composer install', {cwd: 'API'}));
 
 gulp.task('install:frontend', shell.task('npm install', {cwd: 'frontend'}));
 
@@ -32,7 +32,7 @@ gulp.task('copy:API', gulp.series('install:API', function() {
 	return merge(
 		gulp.src('API/vendor/**/*')
 			.pipe(gulp.dest('dist/API/vendor/')),
-		gulp.src('API/v*.*/**/*', {dot: true}) // TODO
+		gulp.src('API/v*.*/**/*', {dot: true})
 			.pipe(gulp.dest('dist/API/'))
 	);
 }));
