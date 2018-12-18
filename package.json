@@ -1,22 +1,23 @@
 {
-  "name": "OdyMaterialy",
-  "version": "0.1.0",
-  "description": "A web interface for OdyMaterialy",
+  "name": "odymaterialy",
+  "version": "0.2.0",
+  "description": "odymaterialy.skauting.cz configuration",
   "keywords": [
     "education",
-    "skaut",
+    "handbook",
     "odymaterialy",
-    "education"
+    "scout",
+    "skaut"
   ],
-  "homepage": "https://github.com/GenaBitu/OdyMaterialy#readme",
+  "homepage": "https://gitlab.com/skaut-handbook/odymaterialy.skauting.cz",
   "bugs": {
-    "url": "https://github.com/GenaBitu/OdyMaterialy/issues"
+    "url": "https://gitlab.com/skaut-handbook/odymaterialy.skauting.cz/issues"
   },
   "license": "MIT",
   "author": "GenaBitu",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GenaBitu/OdyMaterialy.git"
+    "url": "git+https://gitlab.com/skaut-handbook/odymaterialy.skauting.cz.git"
   },
   "dependencies": {},
   "devDependencies": {
@@ -28,8 +29,8 @@
     "merge-stream": "^1.0.1"
   },
   "browserslist": [
-    "cover 99%",
-    "cover 99% in CZ",
+    "cover 95%",
+    "cover 95% in CZ",
     "not < 0.1%"
   ]
 }
