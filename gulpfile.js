@@ -21,7 +21,7 @@ gulp.task('install:frontend', shell.task('npm install', {cwd: 'frontend'}));
 
 gulp.task('build:admin', gulp.series('install:admin', shell.task('gulp build', {cwd: 'admin'})));
 
-gulp.task('build:frontend', gulp.series('install:frontend', shell.task('gulp build', {cwd: 'frontend'})));
+gulp.task('build:frontend', gulp.series('install:frontend', shell.task('gulp build --config ../src/client-config.json', {cwd: 'frontend'})));
 
 gulp.task('copy:admin', gulp.series('build:admin', function() {
 	return gulp.src('admin/dist/**')
