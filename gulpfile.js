@@ -46,10 +46,10 @@ gulp.task('copy:local', function() {
 	return merge(
 		gulp.src(['src/api-config.php', 'src/api-secrets.php', 'src/client-config.json', 'src/google8cbe14e41a3d2e27.html', 'src/robots.txt'])
 			.pipe(gulp.dest('dist/')),
-		gulp.src('src/admin-htaccess')
+		gulp.src('src/admin-htaccess.txt')
 			.pipe(rename('.htaccess'))
 			.pipe(gulp.dest('dist/admin/')),
-		gulp.src('src/frontend-htaccess')
+		gulp.src('src/frontend-htaccess.txt')
 			.pipe(rename('.htaccess'))
 			.pipe(gulp.dest('dist/'))
 	);
