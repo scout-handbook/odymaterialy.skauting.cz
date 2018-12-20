@@ -1,4 +1,8 @@
 {
 	"baseuri": "https://odymaterialy.skauting.cz",
-	"apiuri": "https://odymaterialy.skauting.cz/API/v0.9"
+	"apiuri": "https://odymaterialy.skauting.cz/API/v0.9",
+	"custom-properties": {
+		"--background-darker": "#fafafa",
+		"--border-color": "#bfbfbf"
+	}
 }
