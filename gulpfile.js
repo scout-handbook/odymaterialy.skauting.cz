@@ -15,7 +15,7 @@ gulp.task('eslint', function() {
 
 gulp.task('install:admin', shell.task('npm install', {cwd: 'admin'}));
 
-gulp.task('install:API', shell.task('composer install --no-dev', {cwd: 'API'}));
+gulp.task('install:API', shell.task('composer install --no-dev --optimize-autoloader', {cwd: 'API'}));
 
 gulp.task('install:frontend', shell.task('npm install', {cwd: 'frontend'}));
 
