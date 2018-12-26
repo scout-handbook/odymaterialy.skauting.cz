@@ -1,9 +1,9 @@
 Options -Indexes
 
 # Pretty error pages
-ErrorDocument 403 /error/403.html 
-ErrorDocument 404 /error/404.html 
-ErrorDocument 500 /error/500.html 
+ErrorDocument 403 403.html
+ErrorDocument 404 404.html
+ErrorDocument 500 500.html
 
 RewriteEngine On
 
@@ -33,10 +33,10 @@ Header always set Expect-CT "enforce; max-age=31536000; report-uri=https://genab
 
 # Server push
 <FilesMatch "/index.html">
-	Header add Link "</dist/frontend-pushed.min.css>;rel=preload;as=style"
-	Header add Link "</dist/frontend-computer.min.css>;rel=preload;as=style"
-	Header add Link "</dist/frontend-handheld.min.css>;rel=preload;as=style"
-	Header add Link "</dist/frontend-pushed.min.js>;rel=preload;as=script"
+	Header add Link "</frontend-pushed.min.css>;rel=preload;as=style"
+	Header add Link "</frontend-computer.min.css>;rel=preload;as=style"
+	Header add Link "</frontend-handheld.min.css>;rel=preload;as=style"
+	Header add Link "</frontend-pushed.min.js>;rel=preload;as=script"
 </FilesMatch>
 
 # Compression
