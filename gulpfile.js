@@ -55,4 +55,6 @@ gulp.task('copy:local', function() {
 	);
 });
 
+gulp.task('lint', gulp.series('eslint'));
+
 gulp.task('build', gulp.parallel('copy:admin', 'copy:API', 'copy:frontend', 'copy:local'));
