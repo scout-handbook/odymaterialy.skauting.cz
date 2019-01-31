@@ -30,8 +30,8 @@ Header always set Expect-CT "enforce; max-age=31536000; report-uri=https://genab
 
 # Server push
 <FilesMatch "index.html">
-	Header add Link "</admin-pushed.min.css>;rel=preload;as=style"
-	Header add Link "</admin-pushed.min.js>;rel=preload;as=script"
+	Header add Link "<admin-pushed.min.css>;rel=preload;as=style"
+	Header add Link "<admin-pushed.min.js>;rel=preload;as=script"
 </FilesMatch>
 
 # Compression
