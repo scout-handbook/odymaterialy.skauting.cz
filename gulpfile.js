@@ -46,6 +46,8 @@ gulp.task('copy:local', function() {
 	return merge(
 		gulp.src(['src/api-config.php', 'src/api-secrets.php', 'src/client-config.json', 'src/google8cbe14e41a3d2e27.html', 'src/robots.txt'])
 			.pipe(gulp.dest('dist/')),
+		gulp.src('src/assetlinks.json')
+			.pipe(gulp.dest('dist/.well-known/')),
 		gulp.src('src/admin-htaccess.txt')
 			.pipe(rename('.htaccess'))
 			.pipe(gulp.dest('dist/admin/')),

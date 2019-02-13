@@ -1,0 +1,14 @@
+[
+	{
+		"relation": [
+			"delegate_permission/common.handle_all_urls"
+		],
+		"target": {
+			"namespace": "android_app",
+			"package_name": "cz.skaut.odyssea.odymaterialy",
+			"sha256_cert_fingerprints": [
+				"77:AE:D7:9D:D1:7F:6D:BE:33:2F:A6:A8:A8:59:B4:B6:8A:3C:D0:2F:ED:DC:BB:6F:78:DB:2D:FD:1C:25:4A:B6"
+			]
+		}
+	}
+]
