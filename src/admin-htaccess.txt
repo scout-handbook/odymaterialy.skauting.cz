@@ -16,7 +16,7 @@ RewriteCond %{REQUEST_URI} ^/admin/(lessons|competences|images|users|groups)$
 RewriteRule (.*) /admin/ [QSA,L]
 
 # PDF rewrite
-RewriteRule ^lesson/(.*) lesson.php?id=$1
+RewriteRule ^lesson/(.*) lesson.php?id=$1 [QSA]
 
 # Security headers
 Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
