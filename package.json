@@ -21,7 +21,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "eslint": "^5.12.1",
+    "eslint": "^5.14.1",
     "gulp": "^4.0.0",
     "gulp-eslint": "^5.0.0",
     "gulp-rename": "^1.4.0",
