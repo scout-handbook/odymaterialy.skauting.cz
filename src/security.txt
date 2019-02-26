@@ -1,0 +1,4 @@
+Contact: mailto:odymaterialy@skaut.cz
+Encryption: https://odymaterialy.skauting.cz/pgp-key.asc
+Preferred-Languages: cs, en, de, it
+Canonical: https://odymaterialy.skauting.cz/.well-known/security.txt
