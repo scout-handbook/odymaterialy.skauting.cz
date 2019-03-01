@@ -32,8 +32,8 @@ gulp.task('copy:API', gulp.series('install:API', function() {
 	return merge(
 		gulp.src('API/vendor/**/*')
 			.pipe(gulp.dest('dist/API/vendor/')),
-		gulp.src('API/HandbookAPI/**/*')
-			.pipe(gulp.dest('dist/API/HandbookAPI/')),
+		gulp.src('API/Skaut/**/*')
+			.pipe(gulp.dest('dist/API/Skaut/')),
 		gulp.src('API/v*.*/**/*', {dot: true})
 			.pipe(gulp.dest('dist/API/'))
 	);
