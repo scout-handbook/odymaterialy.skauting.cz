@@ -30,10 +30,12 @@ gulp.task('copy:admin', gulp.series('build:admin', function() {
 
 gulp.task('copy:API', gulp.series('install:API', function() {
 	return merge(
-		gulp.src('API/vendor/**/*')
-			.pipe(gulp.dest('dist/API/vendor/')),
+		gulp.src('API/setup/**/*')
+			.pipe(gulp.dest('dist/API/setup/')),
 		gulp.src('API/Skaut/**/*')
 			.pipe(gulp.dest('dist/API/Skaut/')),
+		gulp.src('API/vendor/**/*')
+			.pipe(gulp.dest('dist/API/vendor/')),
 		gulp.src('API/v*.*/**/*', {dot: true})
 			.pipe(gulp.dest('dist/API/'))
 	);
