@@ -21,11 +21,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "eslint": "^5.14.1",
+    "eslint": "^5.15.1",
     "gulp": "^4.0.0",
     "gulp-eslint": "^5.0.0",
     "gulp-rename": "^1.4.0",
-    "gulp-shell": "^0.6.5",
+    "gulp-shell": "^0.7.0",
     "merge-stream": "^1.0.1"
   },
   "browserslist": [
