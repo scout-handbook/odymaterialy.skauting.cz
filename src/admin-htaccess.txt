@@ -24,7 +24,7 @@ Header always set X-Frame-Options "DENY"
 Header always set X-Content-Type-Options "nosniff"
 Header always set X-Xss-Protection "1; mode=block; report=https://genabitu.report-uri.com/r/d/xss/enforce"
 Header always set Referrer-Policy "same-origin"
-Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-eval' https://ajax.googleapis.com/ajax/libs/webfont/; connect-src 'self' https://fonts.gstatic.com/ https://ajax.googleapis.com/ajax/libs/webfont/ https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; report-uri https://genabitu.report-uri.com/r/d/csp/enforce"
+Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'self'; script-src 'self' https://ajax.googleapis.com/ajax/libs/webfont/; connect-src 'self' https://fonts.gstatic.com/ https://ajax.googleapis.com/ajax/libs/webfont/ https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; report-uri https://genabitu.report-uri.com/r/d/csp/enforce"
 Header always set Feature-Policy "geolocation 'none'; midi 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; fullscreen 'self'; accelerometer 'none'; ambient-light-sensor 'none'; encrypted-media 'none'; payment 'none'; usb 'none'; vr 'none'"
 Header always set Expect-CT "enforce; max-age=31536000; report-uri=https://genabitu.report-uri.com/r/d/ct/enforce"
 
