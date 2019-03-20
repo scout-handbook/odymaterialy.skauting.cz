@@ -39,7 +39,7 @@ gulp.task('copy:API', gulp.series('install:API', function() {
 		gulp.src('API/v*.*/**/*', {dot: true})
 			.pipe(gulp.dest('dist/API/'))
 	);
-}));
+}, shell.task('chmod 777 dist/API/vendor/mpdf/mpdf/tmp')));
 
 gulp.task('copy:frontend', gulp.series('build:frontend', function() {
 	return gulp.src('frontend/dist/**')
