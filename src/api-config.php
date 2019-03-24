@@ -7,5 +7,5 @@ $CONFIG = (object)[
 		'imagepath' => $_SERVER['DOCUMENT_ROOT'] . '/images',
 		'cookieuri' => 'odymaterialy.skauting.cz',
 		'baseuri' => 'https://odymaterialy.skauting.cz',
-		'apiuri' => 'https://odymaterialy.skauting.cz/API/v0.9'
+		'apiuri' => 'https://odymaterialy.skauting.cz/API'
 	];
