@@ -19,18 +19,10 @@
     "type": "git",
     "url": "git+https://gitlab.com/skaut-handbook/odymaterialy.skauting.cz.git"
   },
-  "dependencies": {},
   "devDependencies": {
-    "eslint": "^6.4.0",
     "gulp": "^4.0.2",
-    "gulp-eslint": "^6.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-shell": "^0.7.1",
     "merge-stream": "^2.0.0"
-  },
-  "browserslist": [
-    "cover 95%",
-    "cover 95% in CZ",
-    "not < 0.1%"
-  ]
+  }
 }

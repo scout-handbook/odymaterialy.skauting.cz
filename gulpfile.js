@@ -2,16 +2,8 @@
 
 var gulp = require('gulp');
 var shell = require('gulp-shell');
-var eslint = require('gulp-eslint');
 var merge = require('merge-stream');
 var rename = require("gulp-rename");
-
-gulp.task('eslint', function() {
-	return gulp.src(['**/*.js', '!node_modules/**', '!admin/**', '!API/**', '!frontend/**', '!dist/**'])
-		.pipe(eslint())
-		.pipe(eslint.format())
-		.pipe(eslint.failAfterError());
-});
 
 gulp.task('install:admin', shell.task('npm install', {cwd: 'admin'}));
 
@@ -60,7 +52,5 @@ gulp.task('copy:local', function() {
 			.pipe(gulp.dest('dist/'))
 	);
 });
-
-gulp.task('lint', gulp.series('eslint'));
 
 gulp.task('build', gulp.parallel('copy:admin', 'copy:API', 'copy:frontend', 'copy:local'));
