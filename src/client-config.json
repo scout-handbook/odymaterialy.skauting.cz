@@ -2,5 +2,6 @@
 	"admin-uri": "https://odymaterialy.skauting.cz/admin",
 	"api-uri": "https://odymaterialy.skauting.cz/API",
 	"frontend-uri": "https://odymaterialy.skauting.cz",
+	"frontend-resources-path": "frontend",
 	"site-name": "OdyMateriály"
 }

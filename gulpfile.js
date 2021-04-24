@@ -35,7 +35,7 @@ gulp.task('copy:API', gulp.series('install:API', function() {
 
 gulp.task('copy:frontend', gulp.series('build:frontend', function() {
 	return gulp.src('frontend/dist/**')
-		.pipe(gulp.dest('dist/'));
+		.pipe(gulp.dest('dist/frontend/'));
 }));
 
 gulp.task('copy:local', function() {
