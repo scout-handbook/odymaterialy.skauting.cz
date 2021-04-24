@@ -1,9 +1,9 @@
 Options -Indexes
 
 # Pretty error pages
-ErrorDocument 403 403.html
-ErrorDocument 404 404.html
-ErrorDocument 500 500.html
+ErrorDocument 403 /frontend/403.html
+ErrorDocument 404 /frontend/404.html
+ErrorDocument 500 /frontend/500.html
 
 RewriteEngine On
 
@@ -15,11 +15,15 @@ RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
 RewriteCond %{REQUEST_URI} ^/(competence|field|lesson)/?
 RewriteRule (.*) / [QSA]
 
+# Frontend in a subdir
+RewriteCond %{REQUEST_URI} ^/(index.html)?$
+RewriteRule (.*) /frontend/index.html [QSA]
+
 # Login & logout redirect uri
 RewriteRule ^log(in|out)$ /API/v1.0/log$1
 
 # Sitemap rewrite
-RewriteRule ^sitemap$ sitemap.php
+RewriteRule ^sitemap$ frontend/sitemap.php
 
 # Security headers
 Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
@@ -33,10 +37,10 @@ Header always set Expect-CT "enforce; max-age=31536000; report-uri=https://genab
 
 # Server push
 <FilesMatch "/index.html">
-	Header add Link "<frontend-pushed.min.css>;rel=preload;as=style"
-	Header add Link "<frontend-computer.min.css>;rel=preload;as=style"
-	Header add Link "<frontend-handheld.min.css>;rel=preload;as=style"
-	Header add Link "<frontend-pushed.min.js>;rel=preload;as=script"
+	Header add Link "<frontend/frontend-pushed.min.css>;rel=preload;as=style"
+	Header add Link "<frontend/frontend-computer.min.css>;rel=preload;as=style"
+	Header add Link "<frontend/frontend-handheld.min.css>;rel=preload;as=style"
+	Header add Link "<frontend/frontend-pushed.min.js>;rel=preload;as=script"
 </FilesMatch>
 
 # Compression
