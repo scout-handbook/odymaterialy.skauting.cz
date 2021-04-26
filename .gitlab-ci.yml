@@ -1,0 +1,43 @@
+# GitLab CI configuration for Dependabot
+#
+# Usage:
+# * Set the required global variables required for dependabot-gitlab
+#   https://docs.gitlab.com/ee/ci/variables/#variables
+#
+#    SETTINGS__GITLAB_ACCESS_TOKEN = gitlab personal access token with api scope
+#    SETTINGS__GITHUB_ACCESS_TOKEN = github personal access token with repository read scope
+#
+# * Create a pipeline schedule for each managed repository, package manager and directory
+#   https://docs.gitlab.com/ee/user/project/pipelines/schedules.html
+#
+# * Set in the schedule required variables
+#
+#     PROJECT_PATH = group/repository
+#     PACKAGE_MANAGER_SET = bundler,composer,npm
+#     DIRECTORY = /
+#
+# https://gitlab.com/dependabot-gitlab/dependabot
+# https://docs.gitlab.com/ee/ci/yaml/
+
+.dependabot-gitlab:
+  image:
+    name: docker.io/andrcuns/dependabot-gitlab:0.3.10
+    entrypoint: [""]
+  variables:
+    GIT_STRATEGY: none
+    PACKAGE_MANAGER: $CI_JOB_NAME
+    RAILS_ENV: production
+    SETTINGS__STANDALONE: "true"
+    SETTINGS__GITLAB_URL: https://gitlab.com
+  before_script:
+    - cd /home/dependabot/app
+  script:
+    - bundle exec rake "dependabot:update[$PROJECT_PATH,$PACKAGE_MANAGER,$DIRECTORY]"
+  only:
+    - schedules
+
+npm:
+  extends: .dependabot-gitlab
+  only:
+    variables:
+      - $PACKAGE_MANAGER_SET =~ /(\bnpm|yarn\b)/
