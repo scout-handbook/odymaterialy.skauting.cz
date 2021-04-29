@@ -38,19 +38,30 @@ gulp.task('copy:frontend', gulp.series('build:frontend', function() {
 		.pipe(gulp.dest('dist/frontend/'));
 }));
 
-gulp.task('copy:local', function() {
-	return merge(
-		gulp.src(['src/api-config.php', 'src/api-secrets.php', 'src/client-config.json', 'src/google8cbe14e41a3d2e27.html', 'src/pgp-key.asc', 'src/robots.txt'])
-			.pipe(gulp.dest('dist/')),
-		gulp.src(['src/assetlinks.json', 'src/security.txt'])
-			.pipe(gulp.dest('dist/.well-known/')),
-		gulp.src('src/admin-htaccess.txt')
-			.pipe(rename('.htaccess'))
-			.pipe(gulp.dest('dist/admin/')),
-		gulp.src('src/frontend-htaccess.txt')
-			.pipe(rename('.htaccess'))
-			.pipe(gulp.dest('dist/'))
-	);
-});
+gulp.task('copy:local', gulp.parallel(
+	function() {
+		return merge(
+			gulp.src(['src/api-config.php', 'src/api-secrets.php', 'src/client-config.json', 'src/google8cbe14e41a3d2e27.html', 'src/pgp-key.asc', 'src/robots.txt'])
+				.pipe(gulp.dest('dist/')),
+			gulp.src(['src/assetlinks.json', 'src/security.txt'])
+				.pipe(gulp.dest('dist/.well-known/')),
+			gulp.src('src/admin-htaccess.txt')
+				.pipe(rename('.htaccess'))
+				.pipe(gulp.dest('dist/admin/')),
+			gulp.src('src/frontend-htaccess.txt')
+				.pipe(rename('.htaccess'))
+				.pipe(gulp.dest('dist/')),
+		);
+	},
+	gulp.series(
+		gulp.parallel(
+			shell.task('mkdir -p dist/images/tmp'),
+			shell.task('mkdir -p dist/images/original'),
+			shell.task('mkdir -p dist/images/web'),
+			shell.task('mkdir -p dist/images/thumbnail')
+		),
+		shell.task('chmod -R 777 dist/images')
+	)
+));
 
 gulp.task('build', gulp.parallel('copy:admin', 'copy:API', 'copy:frontend', 'copy:local'));
