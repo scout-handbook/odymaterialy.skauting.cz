@@ -5,11 +5,11 @@ var shell = require('gulp-shell');
 var merge = require('merge-stream');
 var rename = require("gulp-rename");
 
-gulp.task('install:admin', shell.task('npm install', {cwd: 'admin'}));
+gulp.task('install:admin', shell.task('npm ci', {cwd: 'admin'}));
 
 gulp.task('install:API', shell.task('composer install --no-dev --optimize-autoloader', {cwd: 'API'}));
 
-gulp.task('install:frontend', shell.task('npm install', {cwd: 'frontend'}));
+gulp.task('install:frontend', shell.task('npm ci', {cwd: 'frontend'}));
 
 gulp.task('build:admin', gulp.series('install:admin', shell.task('gulp build --config ../src/client-config.json', {cwd: 'admin'})));
 
