@@ -35,14 +35,6 @@ Header always set Content-Security-Policy "upgrade-insecure-requests; default-sr
 Header always set Feature-Policy "geolocation 'none'; midi 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; fullscreen 'self'; accelerometer 'none'; ambient-light-sensor 'none'; encrypted-media 'none'; payment 'none'; usb 'none'; vr 'none'"
 Header always set Expect-CT "enforce; max-age=31536000; report-uri=https://genabitu.report-uri.com/r/d/ct/enforce"
 
-# Server push
-<FilesMatch "/index.html">
-	Header add Link "<frontend/frontend-pushed.min.css>;rel=preload;as=style"
-	Header add Link "<frontend/frontend-computer.min.css>;rel=preload;as=style"
-	Header add Link "<frontend/frontend-handheld.min.css>;rel=preload;as=style"
-	Header add Link "<frontend/frontend-pushed.min.js>;rel=preload;as=script"
-</FilesMatch>
-
 # Compression
 AddOutputFilterByType DEFLATE text/plain
 AddOutputFilterByType DEFLATE text/html
