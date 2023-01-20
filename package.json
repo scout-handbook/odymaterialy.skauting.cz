@@ -1,7 +1,7 @@
 {
   "name": "odymaterialy",
   "version": "1.0.0",
-  "description": "odymaterialy.skauting.cz configuration",
+  "description": "Configuration for odymaterialy.skauting.cz",
   "keywords": [
     "education",
     "handbook",
@@ -9,15 +9,15 @@
     "scout",
     "skaut"
   ],
-  "homepage": "https://gitlab.com/skaut-handbook/odymaterialy.skauting.cz",
+  "homepage": "https://odymaterialy.skauting.cz",
   "bugs": {
-    "url": "https://gitlab.com/skaut-handbook/odymaterialy.skauting.cz/issues"
+    "url": "https://github.com/scout-handbook/odymaterialy.skauting.cz/issues"
   },
   "license": "MIT",
-  "author": "GenaBitu",
+  "author": "Marek Dědič",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/skaut-handbook/odymaterialy.skauting.cz.git"
+    "url": "git+https://github.com/scout-handbook/odymaterialy.skauting.cz.git"
   },
   "scripts": {
     "build": "gulp build"
