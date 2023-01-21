@@ -1,9 +1,9 @@
 [submodule "API"]
 	path = API
-	url = https://gitlab.com/skaut-handbook/handbook-api.git
+	url = https://github.com/scout-handbook/handbook-api.git
 [submodule "admin"]
 	path = admin
-	url = https://gitlab.com/skaut-handbook/handbook-web-admin.git
+	url = https://github.com/scout-handbook/handbook-web-admin.git
 [submodule "frontend"]
 	path = frontend
-	url = https://gitlab.com/skaut-handbook/handbook-web-frontend
+	url = https://github.com/scout-handbook/handbook-web-frontend.git
