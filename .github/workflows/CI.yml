@@ -30,6 +30,10 @@ jobs:
         run: |
           npm ci
 
+      - name: "Add sample secrets file"
+        run: |
+          cp src/api-secrets.php.sample src/api-secrets.php
+
       - name: "Build"
         run: |
           npm run build
