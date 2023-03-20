@@ -18,6 +18,9 @@ RewriteRule ^enableJS.html$ /frontend/enableJS.html [QSA]
 # Login & logout redirect uri
 RewriteRule ^log(in|out)$ /API/v1.0/log$1
 
+# API redirect
+RewriteRule ^API(.*)$ /API/public/index.php [L]
+
 # Sitemap rewrite
 RewriteRule ^sitemap$ frontend/sitemap.php
 
