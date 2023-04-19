@@ -18,6 +18,8 @@ RewriteRule (.*) / [QSA]
 # Frontend in a subdir
 RewriteCond %{REQUEST_URI} ^/(index.html)?$
 RewriteRule (.*) /frontend/index.html [QSA]
+RewriteCond %{REQUEST_URI} ^/(enableJS.html)?$
+RewriteRule (.*) /frontend/enableJS.html [QSA]
 
 # Login & logout redirect uri
 RewriteRule ^log(in|out)$ /API/v1.0/log$1
