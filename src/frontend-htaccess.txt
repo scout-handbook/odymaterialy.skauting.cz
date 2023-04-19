@@ -11,15 +11,9 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
 
-# Competences, fields and lessons rewrite
-RewriteCond %{REQUEST_URI} ^/(competence|field|lesson)/?
-RewriteRule (.*) / [QSA]
-
 # Frontend in a subdir
-RewriteCond %{REQUEST_URI} ^/(index.html)?$
-RewriteRule (.*) /frontend/index.html [QSA]
-RewriteCond %{REQUEST_URI} ^/(enableJS.html)?$
-RewriteRule (.*) /frontend/enableJS.html [QSA]
+RewriteRule ^($|competence|field|lesson) /frontend/index.html [QSA]
+RewriteRule ^enableJS.html$ /frontend/enableJS.html [QSA]
 
 # Login & logout redirect uri
 RewriteRule ^log(in|out)$ /API/v1.0/log$1
