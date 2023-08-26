@@ -21,6 +21,9 @@ RewriteRule ^log(in|out)$ /API/v1.0/log$1
 # Sitemap rewrite
 RewriteRule ^sitemap$ frontend/sitemap.php
 
+# Privacy policy rewrite
+RewriteRule ^privacy$ privacy.html
+
 # Security headers
 Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 Header always set X-Frame-Options "DENY"

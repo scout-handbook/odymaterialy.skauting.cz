@@ -41,7 +41,7 @@ gulp.task('copy:frontend', gulp.series('build:frontend', function() {
 gulp.task('copy:local', gulp.parallel(
 	function() {
 		return merge(
-			gulp.src(['src/api-config.php', 'src/api-secrets.php', 'src/client-config.json', 'src/google8cbe14e41a3d2e27.html', 'src/pgp-key.asc', 'src/robots.txt'])
+			gulp.src(['src/api-config.php', 'src/api-secrets.php', 'src/client-config.json', 'src/google8cbe14e41a3d2e27.html', 'src/pgp-key.asc', 'src/privacy.html', 'src/robots.txt'])
 				.pipe(gulp.dest('dist/')),
 			gulp.src(['src/assetlinks.json', 'src/security.txt'])
 				.pipe(gulp.dest('dist/.well-known/')),
