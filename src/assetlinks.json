@@ -7,7 +7,8 @@
 			"namespace": "android_app",
 			"package_name": "cz.skaut.odyssea.odymaterialy",
 			"sha256_cert_fingerprints": [
-				"03:DC:A3:A5:31:92:74:43:FD:89:67:30:9A:4C:10:BD:A0:C3:55:33:E6:AB:E4:C3:E6:17:01:19:6F:2C:B1:C2"
+				"03:DC:A3:A5:31:92:74:43:FD:89:67:30:9A:4C:10:BD:A0:C3:55:33:E6:AB:E4:C3:E6:17:01:19:6F:2C:B1:C2",
+				"52:35:37:4B:1B:E3:22:20:10:54:86:84:CE:80:24:FA:2D:43:86:6A:18:40:5E:E8:B1:66:D3:6B:26:87:17:EB"
 			]
 		}
 	}
