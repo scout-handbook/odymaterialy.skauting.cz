@@ -24,7 +24,7 @@ Header always set X-Frame-Options "DENY"
 Header always set X-Content-Type-Options "nosniff"
 Header always set X-Xss-Protection "1; mode=block; report=https://marekdedic.report-uri.com/r/d/xss/enforce"
 Header always set Referrer-Policy "same-origin"
-Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'self'; script-src 'self' https://ajax.googleapis.com/ajax/libs/webfont/; connect-src 'self' https://fonts.gstatic.com/ https://ajax.googleapis.com/ajax/libs/webfont/ https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; object-src 'none'; report-uri https://marekdedic.report-uri.com/r/d/csp/enforce"
+Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'self'; script-src 'self' https://ajax.googleapis.com/ajax/libs/webfont/ 'sha256-MS6/3FCg4WjP9gwgaBGwLpRCY6fZBgwmhVCdrPrNf3E=' 'sha256-tQjf8gvb2ROOMapIxFvFAYBeUJ0v1HCbOcSmDNXGtDo=' 'sha256-4y/gEB2/KIwZFTfNqwXJq4olzvmQ0S214m9jwKgNXoc=' 'sha256-+5XkZFazzJo8n0iOP4ti/cLCMUudTf//Mzkb7xNPXIc='; connect-src 'self' https://fonts.gstatic.com/ https://ajax.googleapis.com/ajax/libs/webfont/ https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; object-src 'none'; report-uri https://marekdedic.report-uri.com/r/d/csp/enforce"
 Header always set Permissions-Policy "camera=(), display-capture=(), fullscreen=(self), geolocation=(), microphone=(), web-share=()"
 
 # Compression
