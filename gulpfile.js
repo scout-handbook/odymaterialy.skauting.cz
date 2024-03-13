@@ -11,7 +11,7 @@ gulp.task('install:API', shell.task('composer install --no-dev --optimize-autolo
 
 gulp.task('install:frontend', shell.task('npm ci', {cwd: 'frontend'}));
 
-gulp.task('build:admin', gulp.series('install:admin', shell.task('gulp build --config ../src/client-config.json --theme ../src/client-theme.css', {cwd: 'admin'})));
+gulp.task('build:admin', gulp.series('install:admin', shell.task('npm run build -- --config="../src/client-config.json" --theme="../src/client-theme.css"', {cwd: 'admin'})));
 
 gulp.task('build:frontend', gulp.series('install:frontend', shell.task('gulp build --config ../src/client-config.json --theme ../src/client-theme.css', {cwd: 'frontend'})));
 
