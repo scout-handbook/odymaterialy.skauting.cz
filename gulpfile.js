@@ -1,9 +1,7 @@
-"use strict";
-
-var gulp = require('gulp');
-var shell = require('gulp-shell');
-var merge = require('merge-stream');
-var rename = require("gulp-rename");
+import gulp from 'gulp';
+import rename from "gulp-rename";
+import shell from 'gulp-shell';
+import merge from 'merge-stream';
 
 gulp.task('install:admin', shell.task('npm ci', {cwd: 'admin'}));
 
