@@ -1,7 +1,7 @@
 import gulp from 'gulp';
 import rename from "gulp-rename";
 import shell from 'gulp-shell';
-import merge from 'merge-stream';
+import ordered from 'ordered-read-streams';
 
 gulp.task('install:admin', shell.task('npm ci', {cwd: 'admin'}));
 
@@ -19,7 +19,7 @@ gulp.task('copy:admin', gulp.series('build:admin', function() {
 }));
 
 gulp.task('copy:API', gulp.series('install:API', function() {
-	return merge(
+	return ordered([
 		gulp.src('API/setup/**/*')
 			.pipe(gulp.dest('dist/API/setup/')),
 		gulp.src('API/Skaut/**/*')
@@ -28,7 +28,7 @@ gulp.task('copy:API', gulp.series('install:API', function() {
 			.pipe(gulp.dest('dist/API/vendor/')),
 		gulp.src('API/v*.*/**/*', {dot: true})
 			.pipe(gulp.dest('dist/API/'))
-	);
+	]);
 }, shell.task('chmod 777 dist/API/vendor/mpdf/mpdf/tmp')));
 
 gulp.task('copy:frontend', gulp.series('build:frontend', function() {
@@ -38,7 +38,7 @@ gulp.task('copy:frontend', gulp.series('build:frontend', function() {
 
 gulp.task('copy:local', gulp.parallel(
 	function() {
-		return merge(
+		return ordered([
 			gulp.src(['src/api-config.php', 'src/api-secrets.php', 'src/client-config.json', 'src/google8cbe14e41a3d2e27.html', 'src/pgp-key.asc', 'src/privacy.html', 'src/robots.txt'])
 				.pipe(gulp.dest('dist/')),
 			gulp.src(['src/assetlinks.json', 'src/security.txt'])
@@ -49,7 +49,7 @@ gulp.task('copy:local', gulp.parallel(
 			gulp.src('src/frontend-htaccess.txt')
 				.pipe(rename('.htaccess'))
 				.pipe(gulp.dest('dist/')),
-		);
+		]);
 	},
 	gulp.series(
 		gulp.parallel(
