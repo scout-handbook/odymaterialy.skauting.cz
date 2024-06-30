@@ -3,5 +3,6 @@
 	"api-uri": "https://odymaterialy.skauting.cz/API",
 	"frontend-uri": "https://odymaterialy.skauting.cz",
 	"frontend-resources-path": "frontend",
-	"site-name": "OdyMateriály"
+	"site-name": "OdyMateriály",
+	"csp-report-uri": "https://marekdedic.report-uri.com/r/d/csp/enforce"
 }
