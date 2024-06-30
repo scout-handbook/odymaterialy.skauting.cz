@@ -14,7 +14,7 @@ gulp.task('build:admin', gulp.series('install:admin', shell.task('npm run build 
 gulp.task('build:frontend', gulp.series('install:frontend', shell.task('npm run build -- --config="../src/client-config.json" --theme="../src/client-theme.css"', {cwd: 'frontend'})));
 
 gulp.task('copy:admin', gulp.series('build:admin', function() {
-	return gulp.src('admin/dist/**')
+	return gulp.src(['admin/dist/**', 'admin/dist/**/.*'])
 		.pipe(gulp.dest('dist/admin/'));
 }));
 
@@ -43,9 +43,6 @@ gulp.task('copy:local', gulp.parallel(
 				.pipe(gulp.dest('dist/')),
 			gulp.src(['src/assetlinks.json', 'src/security.txt'])
 				.pipe(gulp.dest('dist/.well-known/')),
-			gulp.src('src/admin-htaccess.txt')
-				.pipe(rename('.htaccess'))
-				.pipe(gulp.dest('dist/admin/')),
 			gulp.src('src/frontend-htaccess.txt')
 				.pipe(rename('.htaccess'))
 				.pipe(gulp.dest('dist/')),
