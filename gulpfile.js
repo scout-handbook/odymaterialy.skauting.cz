@@ -14,7 +14,7 @@ gulp.task('build:admin', gulp.series('install:admin', shell.task('VITE_CONFIG=".
 gulp.task('build:frontend', gulp.series('install:frontend', shell.task('npm run build -- --config="../src/client-config.json" --theme="../src/client-theme.css"', {cwd: 'frontend'})));
 
 gulp.task('copy:admin', gulp.series('build:admin', function() {
-	return gulp.src(['admin/dist/**', 'admin/dist/**/.*'], { encoding: false })
+	return gulp.src(['admin/dist/**'], { dot: true, encoding: false })
 		.pipe(gulp.dest('dist/admin/'));
 }));
 
