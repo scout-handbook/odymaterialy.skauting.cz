@@ -14,36 +14,36 @@ gulp.task('build:admin', gulp.series('install:admin', shell.task('npm run build 
 gulp.task('build:frontend', gulp.series('install:frontend', shell.task('npm run build -- --config="../src/client-config.json" --theme="../src/client-theme.css"', {cwd: 'frontend'})));
 
 gulp.task('copy:admin', gulp.series('build:admin', function() {
-	return gulp.src(['admin/dist/**', 'admin/dist/**/.*'])
+	return gulp.src(['admin/dist/**', 'admin/dist/**/.*'], { encoding: false })
 		.pipe(gulp.dest('dist/admin/'));
 }));
 
 gulp.task('copy:API', gulp.series('install:API', function() {
 	return ordered([
-		gulp.src('API/setup/**/*')
+		gulp.src('API/setup/**/*', { encoding: false })
 			.pipe(gulp.dest('dist/API/setup/')),
-		gulp.src('API/Skaut/**/*')
+		gulp.src('API/Skaut/**/*', { encoding: false })
 			.pipe(gulp.dest('dist/API/Skaut/')),
-		gulp.src('API/vendor/**/*')
+		gulp.src('API/vendor/**/*', { encoding: false })
 			.pipe(gulp.dest('dist/API/vendor/')),
-		gulp.src('API/v*.*/**/*', {dot: true})
+		gulp.src('API/v*.*/**/*', { dot: true, encoding: false })
 			.pipe(gulp.dest('dist/API/'))
 	]);
 }, shell.task('chmod 777 dist/API/vendor/mpdf/mpdf/tmp')));
 
 gulp.task('copy:frontend', gulp.series('build:frontend', function() {
-	return gulp.src('frontend/dist/**')
+	return gulp.src('frontend/dist/**', { encoding: false })
 		.pipe(gulp.dest('dist/frontend/'));
 }));
 
 gulp.task('copy:local', gulp.parallel(
 	function() {
 		return ordered([
-			gulp.src(['src/api-config.php', 'src/api-secrets.php', 'src/client-config.json', 'src/google8cbe14e41a3d2e27.html', 'src/pgp-key.asc', 'src/privacy.html', 'src/robots.txt'])
+			gulp.src(['src/api-config.php', 'src/api-secrets.php', 'src/client-config.json', 'src/google8cbe14e41a3d2e27.html', 'src/pgp-key.asc', 'src/privacy.html', 'src/robots.txt'], { encoding: false })
 				.pipe(gulp.dest('dist/')),
-			gulp.src(['src/assetlinks.json', 'src/security.txt'])
+			gulp.src(['src/assetlinks.json', 'src/security.txt'], { encoding: false })
 				.pipe(gulp.dest('dist/.well-known/')),
-			gulp.src('src/frontend-htaccess.txt')
+			gulp.src('src/frontend-htaccess.txt', { encoding: false })
 				.pipe(rename('.htaccess'))
 				.pipe(gulp.dest('dist/')),
 		]);
