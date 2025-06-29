@@ -3,20 +3,11 @@ import rename from "gulp-rename";
 import shell from 'gulp-shell';
 import ordered from 'ordered-read-streams';
 
-gulp.task('install:admin', shell.task('npm ci', {cwd: 'admin'}));
-
 gulp.task('install:API', shell.task('composer install --no-dev --optimize-autoloader', {cwd: 'API'}));
 
 gulp.task('install:frontend', shell.task('npm ci', {cwd: 'frontend'}));
 
-gulp.task('build:admin', gulp.series('install:admin', shell.task('VITE_CONFIG="../src/client-config.json" VITE_THEME="../src/client-theme.css" npm run build', {cwd: 'admin'})));
-
 gulp.task('build:frontend', gulp.series('install:frontend', shell.task('npm run build -- --config="../src/client-config.json" --theme="../src/client-theme.css"', {cwd: 'frontend'})));
-
-gulp.task('copy:admin', gulp.series('build:admin', function() {
-	return gulp.src(['admin/dist/**'], { dot: true, encoding: false })
-		.pipe(gulp.dest('dist/admin/'));
-}));
 
 gulp.task('copy:API', gulp.series('install:API', function() {
 	return ordered([
@@ -59,4 +50,4 @@ gulp.task('copy:local', gulp.parallel(
 	)
 ));
 
-gulp.task('build', gulp.parallel('copy:admin', 'copy:API', 'copy:frontend', 'copy:local'));
+gulp.task('build', gulp.parallel('copy:API', 'copy:frontend', 'copy:local'));
