@@ -3,24 +3,9 @@ import rename from "gulp-rename";
 import shell from 'gulp-shell';
 import ordered from 'ordered-read-streams';
 
-gulp.task('install:API', shell.task('composer install --no-dev --optimize-autoloader', {cwd: 'API'}));
-
 gulp.task('install:frontend', shell.task('npm ci', {cwd: 'frontend'}));
 
 gulp.task('build:frontend', gulp.series('install:frontend', shell.task('npm run build -- --config="../src/client-config.json" --theme="../src/client-theme.css"', {cwd: 'frontend'})));
-
-gulp.task('copy:API', gulp.series('install:API', function() {
-	return ordered([
-		gulp.src('API/setup/**/*', { encoding: false })
-			.pipe(gulp.dest('dist/API/setup/')),
-		gulp.src('API/Skaut/**/*', { encoding: false })
-			.pipe(gulp.dest('dist/API/Skaut/')),
-		gulp.src('API/vendor/**/*', { encoding: false })
-			.pipe(gulp.dest('dist/API/vendor/')),
-		gulp.src('API/v*.*/**/*', { dot: true, encoding: false })
-			.pipe(gulp.dest('dist/API/'))
-	]);
-}, shell.task('chmod 777 dist/API/vendor/mpdf/mpdf/tmp')));
 
 gulp.task('copy:frontend', gulp.series('build:frontend', function() {
 	return gulp.src('frontend/dist/**', { encoding: false })
@@ -50,4 +35,4 @@ gulp.task('copy:local', gulp.parallel(
 	)
 ));
 
-gulp.task('build', gulp.parallel('copy:API', 'copy:frontend', 'copy:local'));
+gulp.task('build', gulp.parallel('copy:frontend', 'copy:local'));
