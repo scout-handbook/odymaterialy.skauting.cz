@@ -3,16 +3,7 @@ import rename from "gulp-rename";
 import shell from 'gulp-shell';
 import ordered from 'ordered-read-streams';
 
-gulp.task('install:frontend', shell.task('npm ci', {cwd: 'frontend'}));
-
-gulp.task('build:frontend', gulp.series('install:frontend', shell.task('npm run build', {cwd: 'frontend'})));
-
-gulp.task('copy:frontend', gulp.series('build:frontend', function() {
-	return gulp.src('frontend/dist/**', { encoding: false })
-		.pipe(gulp.dest('dist/frontend/'));
-}));
-
-gulp.task('copy:local', gulp.parallel(
+gulp.task('build', gulp.parallel(
 	function() {
 		return ordered([
 			gulp.src([
@@ -43,5 +34,3 @@ gulp.task('copy:local', gulp.parallel(
 		shell.task('chmod -R 777 dist/images')
 	)
 ));
-
-gulp.task('build', gulp.parallel('copy:frontend', 'copy:local'));
