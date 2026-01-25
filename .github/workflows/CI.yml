@@ -28,8 +28,9 @@ jobs:
         run: |
           npm ci
 
-      - name: "Add sample secrets file"
+      - name: "Add sample secrets files"
         run: |
+          cp src/.env.sample src/.env
           cp src/api-secrets.php.sample src/api-secrets.php
 
       - name: "Build"
