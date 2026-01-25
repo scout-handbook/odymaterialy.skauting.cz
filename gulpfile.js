@@ -17,6 +17,8 @@ gulp.task('build', gulp.parallel(
 				'src/robots.txt'
 			], { encoding: false })
 				.pipe(gulp.dest('dist/')),
+			gulp.src(['src/.env'], { encoding: false })
+				.pipe(gulp.dest('dist/API/')),
 			gulp.src(['src/assetlinks.json', 'src/security.txt'], { encoding: false })
 				.pipe(gulp.dest('dist/.well-known/')),
 			gulp.src('src/frontend-htaccess.txt', { encoding: false })
